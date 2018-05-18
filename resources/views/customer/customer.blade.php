@@ -40,7 +40,7 @@
                                 <div class="btn-group">
 
                                         <!--ADD BUTTON-->
-                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" href="/addcustomer">
+                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive"  href="#addcustomer">
                                         <i class="fa fa-plus"></i>&nbsp;  Add Customer                                   
                                         </a>
                                 </div>
@@ -96,6 +96,118 @@
                                     </div>
                                 </div>
                                 <!-- END EXAMPLE TABLE PORTLET-->
+
+<!-- ADD CUSTOMER MODAL -->
+<div class="modal fade in " id="addcustomer" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                        &nbsp;&nbsp;Add Customer</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                    <div class="modal-body">
+                        <div class="row" >
+
+                            <!-- first name -->
+                            <div class="col-md-4">
+                            <br>
+                            <h5 for="First Name" class="form-group-horizontal">
+                                First Name
+                            </h5>
+                            <p>
+                            <input id="name" name="firstname" type="text" placeholder="First Name"
+                            class="form-control"></p>
+                            </div>
+                            <!-- middle name -->
+                            <div class="col-md-4">
+                            <br>
+                            <h5 for="Middle Name" class="form-group-horizontal">
+                            Middle Name
+                            </h5>
+                            <p>
+                            <input id="name" name="middlename" type="text" placeholder="Middle Name"
+                            class="form-control"></p>
+                        </div>
+                                    <!-- last name -->
+                                    <div class="col-md-4">
+                                    <br>
+                                    <h5 for="Last Name" class="form-group-horizontal">
+                                        Last Name
+                                    </h5>
+                                    <p>
+                                        <input id="name" name="lastname" type="text" placeholder="Last Name"
+                                        class="form-control"></p>
+                                    </div>
+                                    <!-- contact number -->
+                                    <div class="col-lg-4 form_input_fields">
+                                    <h5>Contact No.</h5>
+                                        <div class="input-group">
+                                            <input id="phones" class="form-control" type="text" name="contactnumber" data-inputmask='"mask": "(639) 999999999"' data-mask>
+                                        </div>
+                                    </div>
+                                    <!-- email -->
+                                    <div class="col-lg-4">
+                                    <h5 for="email" class="form-group-horizontal">
+                                        Email
+                                    </h5>
+                                    <p>
+                                        <input id="name" name="email" type="text" placeholder="Email"
+                                        class="form-control"></p>
+                                    </div>
+                                    <!-- Senior Citizen/PWD ID -->
+                                    <div class="col-lg-4">
+                                    <h5 for="sc/pwd" class="form-group-horizontal">
+                                        Senior Citizen/PWD ID
+                                    </h5>
+                                    <p>
+                                        <input id="name" name="sc/pwd" type="text" placeholder="Senior Citizen/PWD ID"
+                                        class="form-control"></p>
+                                    </div>
+                                    <!-- Street -->
+                                    <div class="col-lg-4">
+                                    <h5 for="street" class="form-group-horizontal">
+                                        No. & St./Bldg.
+                                    </h5>
+                                    <p>
+                                        <input id="name" name="street" type="text" placeholder="No. & St./Bldg."
+                                        class="form-control"></p>
+                                    </div>
+                                    <!-- Barangay -->
+                                    <div class="col-lg-4">
+                                    <h5 for="brgy" class="form-group-horizontal">
+                                        Brgy./Subd.
+                                    </h5>
+                                    <p>
+                                        <input id="name" name="brgy" type="text" placeholder="Brgy./Subd."
+                                        class="form-control"></p>
+                                    </div>
+                                    <!-- City -->
+                                    <div class="col-lg-4">
+                                    <h5 for="city" class="form-group-horizontal">
+                                        City/Municipality
+                                    </h5>
+                                    <p>
+                                        <input id="name" name="city" type="text" placeholder="City/Municipality"
+                                        class="form-control"></p>
+                                    </div>
+                                    <div class="col-md-8">
+                                    </div>
+
+                        <!-- START OF MODAL FOOTER -->
+                        <div class="modal-footer">
+                              <div class="examples transitions m-t-5">
+                                <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Back</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    </button>
+                                </div>
+                        </div>
+                        <!-- END OF MODAL FOOTER -->
+    <!-- END OF ADD JOB DESCRIPTION MODAL -->
+
+
                                     </div>
                                 </div>
                             </div>
