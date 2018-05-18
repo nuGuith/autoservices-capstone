@@ -29,6 +29,16 @@ Route::get('/addcustomer', 'AddCustomerController@addcustomer');
 Route::get('/viewcustomer', 'ViewCustomerController@viewcustomer');
 Route::get('/addpersonnel', 'AddPersonnelController@addpersonnel');
 
+//MaintenanceServices
+//ServiceCategory
+Route::get('/servicecategory','ServiceController@servicecategory');
+Route::get('/addservicecategory','ServiceController@addservicecategory');
+//Services
+Route::get('/service','ServiceController@service');
+//ServiceBay
+Route::get('/servicebay','ServiceController@servicebay');
+//InspectionChecklist
+Route::get('/inspectionchecklist','ServiceController@inspectionchecklist');
 
 // Route::get('/service', function () {
 //     return view('maintenance.service');

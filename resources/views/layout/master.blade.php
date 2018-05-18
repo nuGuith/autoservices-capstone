@@ -170,22 +170,22 @@ z-index: 999999">
                     </a>
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="/servicecategory">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Category
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/service">
                                 <i class="fa fa-angle-right"></i> &nbsp; Services
                             </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="fa fa-angle-right"></i> &nbsp; Bay
+                            <a href="/servicebay">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
                         <li>
-                            <a href="form_editors.html">
+                            <a href="/inspectionchecklist">
                                 <i class="fa fa-angle-right"></i> &nbsp; Inspection
                             </a>
                         </li>
