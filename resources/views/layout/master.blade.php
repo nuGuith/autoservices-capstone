@@ -137,25 +137,25 @@ z-index: 999999">
                     </a>
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="/producttype">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Type
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/productbrand">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Brand
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="productvariance">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Variance
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="product">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product
                             </a>
@@ -196,7 +196,7 @@ z-index: 999999">
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fa fa-angle-right"></i> &nbsp; Work force
+                                <i class="fa fa-angle-right"></i> &nbsp; Work Force
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="sub-menu sub-submenu">
@@ -252,13 +252,13 @@ z-index: 999999">
                 <li>
                     <a href="javascript:;">
                         <i class="fa fa fa-wpforms"></i>
-                        <span class="link-title">&nbsp; Back Job</span>
+                        <span class="link-title">&nbsp; Warranty</span>
                     </a>
                 </li>
                 <li>
                     <a href="/warranty">
                         <i class="fa fa-tags"></i>
-                        <span class="link-title">&nbsp; Warranty</span>
+                        <span class="link-title">&nbsp; Back Job</span>
                     </a>
                 </li>
 
