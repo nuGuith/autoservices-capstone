@@ -38,6 +38,14 @@ Route::get('/jobdescription', 'JobDescriptionController@jobdescription');
 Route::get('/addcustomer', 'AddCustomerController@addcustomer');
 Route::get('/viewcustomer', 'ViewCustomerController@viewcustomer');
 Route::get('/addpersonnel', 'AddPersonnelController@addpersonnel');
+Route::get('/discount','DiscountController@discount');
+Route::get('/adddiscount','AddDiscountController@adddiscount');
+Route::get('/promo','PromoController@promo');
+Route::get('/addpromo','AddPromoController@addpromo');
+Route::get('/editpromo','EditPromoController@editpromo');
+Route::get('/package','packageController@package');
+Route::get('/addpackage','AddPackageController@addpackage');
+Route::get('/editpackage','EditPackageController@editpackage');
 
 //MaintenanceServices
 //ServiceCategory

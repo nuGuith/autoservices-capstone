@@ -23,13 +23,26 @@
 
             <header class="head">
                 <div class="main-bar">
-                    <div class="row">
+                    <div class="row" style = "height: 47px;">
                     <div class="col-6">
-                        <h4 class="m-t-5">
+                        <h4 class="m-t-15">
                             <i class="fa fa-truck"></i>
-                            Vehicle Type 
+                            Vehicle Type
                         </h4>
                     </div>
+
+                    <div class="col-sm-6 col-12"  >
+                        <ol  class="breadcrumb float-right   ">
+                            <li class="breadcrumb-item " >
+                                <a href="/vehicletype">
+                                    <i class="fa fa-truck" data-pack="default" data-tags=""></i>
+                                    Vehicle Type
+                                </a>
+                            </li>
+                            <li class="active breadcrumb-item">&nbsp;Add Vehicle Type</li>
+                        </ol>
+                    </div>
+
                     </div>
                 </div>
             </header>
@@ -42,7 +55,7 @@
                             <div class="card" >
 
                                     
-                                    <div class="card-header bg-primary disabled text-white" ><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Vehicle Type</div>
+                                    <div class="card-header bg-primary disabled text-white" ><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add Vehicle Type</div>
                                                 <div class="card-block " >
                                                     
 
@@ -102,7 +115,8 @@
 
                             <div class="card-footer bg-black disabled">
                                <div class="examples transitions m-t-5 pull-right">
-                                    <button onclick="window.location='{{ url("/vehicletype") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn"  href="/vehicletype">Back</button>                
+                                    <button onclick="window.location='{{ url("/vehicletype") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn"  href="/vehicletype"><i class="fa fa-arrow-left" >
+                                    </i>&nbsp;Back</button>                
                                     <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                 </div>
                             </div>
@@ -128,8 +142,6 @@
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
 <script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
 <!-- end of plugin scripts -->
@@ -139,8 +151,6 @@
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
 
@@ -191,7 +201,6 @@ function calculateGrandTotal() {
 </script>
 
 <!--end script of table add brand-->
-
 
 
 @stop

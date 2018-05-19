@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Vehicle Type') <!-- Page Title -->
+@section('Title','Discount') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -12,6 +12,7 @@
     <link type="text/css" rel="stylesheet" href="vendors/modal/css/component.css"/>
     <link type="text/css" rel="stylesheet" href="vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css"/>
     <link rel="stylesheet" type="text/css" href="vendors/animate/css/animate.min.css" />
+
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
 
@@ -26,17 +27,17 @@
                     <div class="row" style = "height: 47px;">
                     <div class="col-6">
                         <h4 class="m-t-15">
-                            <i class="fa fa-truck"></i>
-                            Vehicle Type
+                            <i class="fa fa-ticket"></i>
+                            Discount
                         </h4>
                     </div>
 
                     <div class="col-sm-6 col-12"  >
-                        <ol  class="breadcrumb float-right   ">
+                        <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/vehicletype">
-                                    <i class="fa fa-truck" data-pack="default" data-tags=""></i>
-                                    Vehicle Type
+                                <a href="/discount">
+                                    <i class="fa fa-ticket" data-pack="default" data-tags=""></i>
+                                    Discount
                                 </a>
                             </li>
                             <!-- <li class="active breadcrumb-item">Calendar</li> -->
@@ -54,9 +55,9 @@
 
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
-                                                    href="/addvehicletype">
+                                                    href="/adddiscount">
                                         <i class="fa fa-plus-square"></i>
-                                            &nbsp;  Add Vehicle Type                                   
+                                            &nbsp;  Add Discount                                   
                                          </a>
                                     </div>
                              </div>
@@ -75,8 +76,9 @@
                                             <thead>
                                                 <tr role="row">
                                                     
-                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Vehicle Make</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Model</b></th>
+                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Discount</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Items</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Rate</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
@@ -84,17 +86,26 @@
                                                 <tr role="row" class="even">
                                                     
                                                     <td>
-                                                        Honda
+                                                     Senior
                                                     </td>
                                                     <td class="center">
+                                                        <b>Products:</b>
                                                         <ul>
-                                                            <li>City 2015 - AT/MT</li>
-                                                            <li>City 2005 - MT</li>
+                                                            <li>Petron - Ultron (500mL)</li>
+                                                        </ul>
+
+                                                        <b>Services:</b>
+                                                        <ul>
+                                                            <li>Change Oil - Sedan</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        5 %                                                        
                                                     </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
                                                         <div class="examples transitions m-t-5">
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#editvehicle"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#editdiscount"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
                                                         </button>
                                                
                                                         <!--DELETE BUTTON-->
@@ -112,69 +123,62 @@
                                 </div>
                                 <!-- END EXAMPLE TABLE PORTLET-->
 
-            <div class="modal fade in " id="editvehicle" tabindex="-1" role="dialog" aria-hidden="false">
+            <div class="modal fade in " id="editdiscount" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Vehicle Type</h4>
-                                
-                                
+                               
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>   
+                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                            &nbsp;&nbsp;Edit Discount</h4>         
                             </div>
+
                             <div class="modal-body">
                                 <div class="row">
-                                    
-                                    
-                                    <div class="col-md-4">
-                                        <h4>Vehicle Make</h4>
-                                        <p>
-                                            <input id="name" name="make" type="text" placeholder="Make"
-                                                   class="form-control"></p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <table id="myTable" class=" table order-list" >
-                                            <thead>
-                                                <tr>
-                                                <td><h5>Brand</h5></td>
-                                                <td><h5>Transmission</h5></td>
-                                                 <td></td>
-                                                 <td></td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                            <td>
-                                                <input type="text" name="name" placeholder="Brand" class="form-control"/>
-                                                
-                                            </td>
-                                            <td>
 
-                                                <input id="automatic" name="automatic" type="checkbox" value="automatic" class="input-small custom-checkbox custom-control">
-                                                 <label for="automatic">Automatic</label>
-                                            </td>
-                                            <td>
-                                                <input id="manual" name="manual" type="checkbox" value="manual" class="input-small custom-checkbox custom-control">
-                                                <label for="manual">Manual</label>
-                                            </td>
-                                            <td><i class="deleteRow "></i>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    <tfoot>
-                                        <tr role= "row">
-                                        <td colspan="5" style="text-align: right;">
-                                            <div class="examples transitions m-t-5">
-                                                <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp; Add Row </button>
-                                             </div>
-                                        </td>
-                                        </tr>
-                                     </tfoot>
-                                    </table>
+
+
+                                    <div class="col-md-4">
+                                        <h5>Discount:</h5>
+                                        <p>
+                                            <input id="name" name="make" type="text" placeholder="Make" class="form-control m-t-10">
+                                        </p>
+                                    </div>
+
+                                <div class="input-group">
+                                    <div class="col-md-4">
+                                        
+                                        <h5>Discount Rate:</h5>
+                                            <div class="input-group">
+                                             <input class="form-control m-t-10" type="text" id="percent" data-mask placeholder="%">
+                                             <span class="input-group-addon m-t-10">%</span>
+                                            </div>
+                                    </div>
                                 </div>
 
-                             </div>
-                        </div>
+                                
+                                
+                                    <div class="col-md-5 m-t-15">
+                                                <h5 style = "padding-bottom: 10px;">Product:</h5>
+                                                <select size="3" multiple class="form-control chzn-select" id="test_me_paddington"
+                                                        name="test_me_form" tabindex="8">
+                                                    <div >
+                                                    <option selected>Petron - Ultron (500mL)</option>
+                                                </div>
+                                                </select>
+                                            </div>
+                                       
+
+                                       <div class="col-md-5 m-t-15">
+                                                <h5 style = "padding-bottom: 10px;">Service:</h5>
+                                                <select size="3" multiple class="form-control chzn-select m-t-10" id="test_me_paddington"
+                                                        name="test_me_form" tabindex="8">
+                                                    <option selected>Change Oil - Sedan</option>
+                                                </select>
+                                            </div>
+                                   
+                                </div>
+                            </div>
 
 
 
@@ -217,56 +221,10 @@
 </script>
 
 
+
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
 
-
-<!--script for table edit brand-->
-<script> 
-$(document).ready(function () {
-    var counter = 0;
-
-    $("#addrow").on("click", function () {
-        var newRow = $("<tr>");
-        var cols = "";
-
-        cols += '<td><input type="text" class="form-control" name="brand" placeholder="Brand"' + counter + '"/></td>';
-        cols += '<td><input type="checkbox" class="form-control" name="automatic"' + counter + '"/><label for="automatic">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Automatic</label></td>';
-        cols += '<td><input type="checkbox" class="form-control" name="manual"' + counter + '"/><label for="manual">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual</label></td>';
-        cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md" value ="X"></td>';
-
-        newRow.append(cols);
-        $("table.order-list").append(newRow);
-        counter++;
-    });
-
-
-
-    $("table.order-list").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();       
-        counter -= 1
-    });
-
-
-});
-
-
-
-function calculateRow(row) {
-    var price = +row.find('input[name^="price"]').val();
-
-}
-
-function calculateGrandTotal() {
-    var grandTotal = 0;
-    $("table.order-list").find('input[name^="price"]').each(function () {
-        grandTotal += +$(this).val();
-    });
-    $("#grandtotal").text(grandTotal.toFixed(2));
-}
-</script>
-
-<!--end script of table edit brand-->
 
 @stop

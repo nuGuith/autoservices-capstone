@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="img/icon.png"/>
 
+
+
     <!--global styles-->
     <link type="text/css" rel="stylesheet" href="css/components.css"/>
     <link type="text/css" rel="stylesheet" href="css/custom.css"/>
@@ -16,6 +18,25 @@
     <link type="text/css" rel="stylesheet" href="vendors/select2/css/select2.min.css" />
     <link type="text/css" rel="stylesheet" href="css/pages/dataTables.bootstrap.css" />
     <!--End of plugin styles-->
+
+    <!--Plugin styles-->
+    <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/chosen/css/chosen.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendors/fileinput/css/fileinput.min.css"/>
+
+        <link type="text/css" rel="stylesheet" href="css/pages/colorpicker_hack.css" />
+
+    <!--End of plugin styles-->
+    <!--Page level styles-->
+    <link type="text/css" rel="stylesheet" href="css/pages/form_elements.css"/>
+
     <!--Page level styles-->
     <link type="text/css" rel="stylesheet" href="css/pages/tables.css" />
     <link type="text/css" rel="stylesheet" href="#" id="skin_change" />
@@ -130,7 +151,7 @@ z-index: 999999">
                     
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="#">
                         <i class="fa fa-pencil-square-o"></i>
                         <span class="link-title">&nbsp; Product Listing</span>
                         <span class="fa arrow"></span>
@@ -149,13 +170,13 @@ z-index: 999999">
                             </a>
                         </li>
                         <li>
-                            <a href="productvariance">
+                            <a href="/productcategory">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Variance
                             </a>
                         </li>
                         <li>
-                            <a href="product">
+                            <a href="/product">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product
                             </a>
@@ -163,7 +184,7 @@ z-index: 999999">
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="#">
                         <i class="fa fa-wrench"></i>
                         <span class="link-title">&nbsp; Service</span>
                         <span class="fa arrow"></span>
@@ -186,43 +207,55 @@ z-index: 999999">
                         </li>
                         <li>
                             <a href="/inspectionchecklist">
-                                <i class="fa fa-angle-right"></i> &nbsp; Inspection
+                                <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
                             </a>
                         </li>
                         <li>
-                            <a href="radio_checkbox.html">
-                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance
+                            <a href="/maintenancechecklist">
+                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
                             </a>
                         </li>
+                    <ul class="sub-menu">
                         <li>
                             <a href="#">
-                                <i class="fa fa-angle-right"></i> &nbsp; Work Force
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp;Personnel
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="sub-menu sub-submenu">
-                                        <li>
-                                            <a href="/jobdescription">
-                                                <i class="fa fa-angle-right"></i> &nbsp; Job Description
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/personnel">
-                                                <i class="fa fa-angle-right"></i> &nbsp; Personnel
-                                            </a>
-                                        </li>
+                                <li>
+                                    <a href="/jobdescription">
+                                        <i class="fa fa-angle-right"></i>
+                                        &nbsp;Job Description
+                                    </a>
+                                </li>  
+                                <li>
+                                    <a href="/personnel">
+                                        <i class="fa fa-angle-right"></i>
+                                        &nbsp;Personnel
+                                    </a>
+                                </li>   
                             </ul>
                         </li>
                     </ul>
+                    </li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa  fa-shopping-cart"></i>
-                        <span class="link-title">&nbsp; Promos and Packages</span>
+             <li>
+                    <a href="/package">
+                        <i class="fa  fa-gift"></i>
+                        <span class="link-title">&nbsp; Package</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="fa  fa-money"></i>
+                    <a href="/promo">
+                        <i class="fa  fa-bookmark"></i>
+                        <span class="link-title">&nbsp; Promo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/discount">
+                        <i class="fa fa-ticket"></i>
                         <span class="link-title">&nbsp; Discount</span>
                     </a>
                 </li>
@@ -236,6 +269,7 @@ z-index: 999999">
                         <i class="fa fa-users"></i>
                         <span class="link-title">&nbsp; Customer</span>
                     </a>
+                    
                 </li>
                 <li>
                     <a href="/estimates">
@@ -244,21 +278,21 @@ z-index: 999999">
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="/joborder">
                         <i class="fa fa fa-wpforms"></i>
                         <span class="link-title">&nbsp; Job Order</span>
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;">
-                        <i class="fa fa fa-wpforms"></i>
-                        <span class="link-title">&nbsp; Warranty</span>
+                    <a href="/backjob">
+                        <i class="fa fa-file-text"></i>
+                        <span class="link-title">&nbsp; Back Job</span>
                     </a>
                 </li>
                 <li>
                     <a href="/warranty">
                         <i class="fa fa-tags"></i>
-                        <span class="link-title">&nbsp; Back Job</span>
+                        <span class="link-title">&nbsp; Warranty</span>
                     </a>
                 </li>
 
@@ -266,14 +300,14 @@ z-index: 999999">
                     <span class="link-title">&nbsp;&nbsp; QUERIES AND REPORTS</span>
                 
                 <li>
-                    <a href="javascript:;">
+                    <a href="/queries">
                         <i class="fa fa-database"></i>
                         <span class="link-title">&nbsp; Queries</span>
                     </a>
                     
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="/reports">
                         <i class="fa fa-bar-chart-o"></i>
                         <span class="link-title">&nbsp; Reports</span>
                     </a>
@@ -284,14 +318,14 @@ z-index: 999999">
                 
 
                 <li>
-                    <a href="javascript:;">
+                    <a href="/managesettings">
                         <i class="fa fa-cogs"></i>
                         <span class="link-title">&nbsp; Manage Settings</span>
                     </a>
                     
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="/users">
                         <i class="fa fa fa-user"></i>
                         <span class="link-title">&nbsp; Users</span>
                     </a>
@@ -374,11 +408,6 @@ z-index: 999999">
     <!-- # right side -->
 </div>
 <!-- /#wrap -->
-<!-- global scripts-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
-<!-- global scripts end-->
-
 
 <!--Plugin scripts-->
 <script type="text/javascript" src="vendors/select2/js/select2.js"></script>
@@ -394,6 +423,33 @@ z-index: 999999">
 <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
 
 <!--End of plugin scripts-->
+<!-- global scripts-->
+
+<!-- plugin level scripts -->
+<script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
+<script type="text/javascript" src="vendors/inputlimiter/js/jquery.inputlimiter.js"></script>
+<script type="text/javascript" src="vendors/chosen/js/chosen.jquery.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script type="text/javascript" src="vendors/jquery-tagsinput/js/jquery.tagsinput.js"></script>
+<script type="text/javascript" src="vendors/validval/js/jquery.validVal.min.js"></script>
+<script type="text/javascript" src="vendors/moment/js/moment.min.js"></script>
+<script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script>
+<script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script>
+<script type="text/javascript" src="vendors/inputmask/js/inputmask.js"></script>
+<script type="text/javascript" src="vendors/inputmask/js/jquery.inputmask.js"></script>
+<script type="text/javascript" src="vendors/inputmask/js/inputmask.date.extensions.js"></script>
+<script type="text/javascript" src="vendors/inputmask/js/inputmask.extensions.js"></script>
+<script type="text/javascript" src="vendors/fileinput/js/fileinput.min.js"></script>
+<script type="text/javascript" src="vendors/fileinput/js/theme.js"></script>
+
+
+<!--end of plugin scripts-->
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/pages/form_elements.js"></script>
+
 
 
 <!--end of plugin scripts-->
