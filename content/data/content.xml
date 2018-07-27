@@ -1,0 +1,281 @@
+<zuiprezi><version>7</version><zui-table><settings>
+									<autoplay>
+										<delay>4000</delay>
+									</autoplay>
+								<bounds x="-14061.62106298986" y="-12076.73330981246" width="28674.542125979722" height="20252.673264431116"/><aspectratio>off</aspectratio><languages><language>en</language></languages><mode type="normal"/></settings><object id="1_24309637" type="button" x="275.65000000000146" y="-1966.7499999999982" r="0" s="23.99141744141543" class="invisible"><type>invisible</type><size><w>1197.448853773701</w><h>845.0501608960076</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="OVERVIEW"/></layout></object><object id="0_24309637" type="button" x="-6040.297815024328" y="-5527.867794039463" r="0" s="2.79024755479382" class="circle"><type>circle</type><size><w>800</w><h>800</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="SECTION"/></layout></object><object id="9_24309637" type="button" x="-1968.159197945322" y="-9101.518027762097" r="0" s="3.8839206248446625" class="circle"><type>circle</type><size><w>800</w><h>800</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="SECTION"/></layout></object><object id="14_24309637" type="button" x="4980.391644452289" y="-7543.634382085018" r="0" s="5.095548869197022" class="bracket"><type>bracket</type><size><w>690.1875038146973</w><h>800</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="SECTION"/></layout></object><object id="25_4" type="text" x="-5905.090233563365" y="-5526.616601232543" r="0" s="3.991729019073082" class="body"><height>261.46875</height><width>441.8817858610559</width><p><text><![CDATA[The car care management system allows you to:]]></text></p><p listType="bullet" indent="1"><text><![CDATA[Process automobile services]]></text></p><p listType="bullet" indent="1"><text><![CDATA[Manage sales]]></text></p><p listType="bullet" indent="1"><text><![CDATA[Monitor payments & collections]]></text></p><p listType="bullet" indent="1"><text><![CDATA[Manage inventory]]></text></p><p listType="bullet" indent="1"><text><![CDATA[Generate needed reports]]></text></p><p listType="bullet" indent="1"><text><![CDATA[Set-up settings for the system]]></text></p><meta><notModifiedByUser>from-frame-layout-switcher</notModifiedByUser></meta><layout><layout-element role="body" parent-id="0_24309637"/></layout></object><object id="50_24309637" type="text" x="-1904.5717731704121" y="-9028.863274634685" r="0" s="13.789807524368586" class="strong"><style font-family="Roboto" fontFamily="custom-roboto"/><style font-family="Roboto" fontFamily="custom-roboto"/><height>56.25</height><width>220.4993900181616</width><p align="center"><text><![CDATA[Implementation ]]></text></p><p align="center"><text><![CDATA[Plan]]></text></p><layout><layout-element role="title" parent-id="9_24309637"/></layout></object><object id="8_24309637" type="shape" x="1422.407428003308" y="-9348.69221658677" r="11.021057259886677" s="9.854133050362968" class="line5"><geom type="arrow"><sp>-148.17383245329964 4.570456067541614</sp><ep>148.17383245329964 4.570456067541614</ep><b>-9.140912135083228</b><t>10</t></geom><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout/></object><object id="20" type="image" x="5005.259476680269" y="-7308.03293750205" r="0" s="5.797234621682379"><source w="545" h="550">4853575449<url>4853575449.png</url></source><resource><id>4853575449</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/a/a/a/d4e62d7858a92c78f60cc6fca7685eeb4e44e.png</url></resource><sourceUrl>IPO.png</sourceUrl><layout/></object><object id="7_24309637" type="text" x="5005.051715265286" y="-9183.235528723158" r="0" s="10.212280119030853" class="strong"><style font-family="Roboto" fontFamily="custom-roboto"/><style font-family="Roboto" fontFamily="custom-roboto"/><height>56.25</height><width>295.1766361083398</width><p align="center"><text><![CDATA[Information System Architecture]]></text></p><layout><layout-element role="title" parent-id="14_24309637"/></layout></object><object id="8" type="button" x="248.06308076451657" y="1719.1452630921221" r="0" s="7.472822696035223" class="bracket"><type>bracket</type><size><w>602.7583599061004</w><h>800</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="SECTION"/></layout></object><object id="23" type="image" x="237.3699592906426" y="1933.2183866715484" r="0" s="8.367428732708426"><source w="482" h="599">4853578036<url>4853578036.png</url></source><resource><id>4853578036</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/7/e/e/116590d021ae48fb8455f204dfffb5fe0caf8.png</url></resource><sourceUrl>Untitled.png</sourceUrl><layout/></object><object id="4_24309637" type="text" x="234.2739665892476" y="6652.594211682168" r="0" s="54.16340419329739" class="head"><style font-family="Roboto" fontFamily="custom-roboto"/><style font-family="Roboto" fontFamily="custom-roboto"/><height>56.25</height><width>490.65722573217215</width><p align="center"><text color="0"><![CDATA[Car Care Sales with Service Management Application]]></text></p><layout/></object><object id="1" type="button" x="7622.301394972126" y="-1146.325186812636" r="0" s="6.22677559205809" class="bracket"><type>bracket</type><size><w>800</w><h>800</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="SECTION"/></layout></object><object id="21" type="image" x="7622.664977448333" y="-1231.7670687215839" r="0" s="8.596589549352961"><source w="543" h="304">4853576288<url>4853576288.png</url></source><resource><id>4853576288</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/2/8/b/a725b7a11cc29d385284992e40f2557b4f66a.png</url></resource><sourceUrl>cs.png</sourceUrl><layout/></object><object id="2" type="text" x="7621.366468604736" y="-3082.507061641173" r="0" s="16.474381204427132" class="strong"><style font-family="Roboto" fontFamily="custom-roboto"/><style font-family="Roboto" fontFamily="custom-roboto"/><height>56.25</height><width>220.4993900181616</width><p align="center"><text><![CDATA[Client Server Architecture]]></text></p><layout><layout-element role="title" parent-id="1"/></layout></object><object id="3" type="button" x="-6412.605470912662" y="-1145.3383200915" r="0" s="2.79024755479382" class="circle"><type>circle</type><size><w>800</w><h>800</h></size><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout><frametype value="SECTION"/></layout></object><object id="6" type="shape" x="7890.08778953461" y="-5333.4182174069465" r="75.00000000000006" s="9.854133050362979" class="line5"><geom type="arrow"><sp>-128.81011595548208 4.570456067541614</sp><ep>128.81011595548208 4.570456067541614</ep><b>-9.140912135083228</b><t>10</t></geom><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout/></object><object id="9" type="text" x="236.48697327699392" y="-882.2610825338938" r="0" s="16.47438120442713" class="strong"><style font-family="Roboto" fontFamily="custom-roboto"/><style font-family="Roboto" fontFamily="custom-roboto"/><height>28.125</height><width>220.4993900181616</width><p align="center"><text><![CDATA[Quality Plan]]></text></p><layout><layout-element role="title" parent-id="8"/></layout></object><object id="13" type="shape" x="4246.461658383027" y="1075.79556718595" r="154.08721890517108" s="6.910772190609495" class="line5"><geom type="arrow"><sp>-139.34323854136366 16.463259559654148</sp><ep>139.3432385413637 16.463259559654148</ep><b>-32.926519119308296</b><t>10</t></geom><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout/></object><object id="14" type="text" x="-6417.415535695544" y="-1094.0051416709139" r="0" s="9.963342820870364" class="strong"><style font-family="Roboto" fontFamily="custom-roboto"/><style font-family="Roboto" fontFamily="custom-roboto"/><height>56.25</height><width>193.4493900181616</width><p align="center"><text><![CDATA[Overview of the System]]></text></p><layout><layout-element role="title" parent-id="9_24309637"/></layout></object><object id="16" type="shape" x="-5122.5604355480245" y="-7905.409549283322" r="125.82418366967565" s="9.854133050362961" class="line5"><geom type="arrow"><sp>115.38986344666432 -16.119239745425073</sp><ep>-115.3898634466643 -16.119239745425116</ep><b>-32.23847949085019</b><t>10</t></geom><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout/></object><object id="18" type="shape" x="-6755.571699398669" y="-3409.3375884648312" r="95.63888942270698" s="9.854133050362961" class="line5"><geom type="arrow"><sp>109.17504232333528 -18.055340243893284</sp><ep>-109.17504232333528 -18.055340243893347</ep><b>-36.11068048778663</b><t>10</t></geom><meta><notModifiedByUser>from-template</notModifiedByUser></meta><layout/></object><object id="22" type="text" x="7634.403497394488" y="781.1712883648279" r="0" s="6.986745832957973" class="body"><height>163.41796875</height><width>650</width><p><text color="1530686"><![CDATA[The system’s users are the admin officer and the technicians. As presented above, the workstation is directly connected to the server and the technicians use router. The server will process data from the database as well as display views to each user.]]></text></p><layout/></object></zui-table><background><layer depth="16.59730434678823" fadescale="1.0565913633948891"><object id="background932974213" type="image" x="-617.8241336319135" y="-1748.9718628485903" r="0" s="29.93798014348998"><source w="2000" h="2000">932974213<url>932974213.png</url></source><resource><id>932974213</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/4/a/c/e9dc14b170a8e484eb9ccef656c4b2234ed01.png</url></resource><sourceUrl>gauge2dark%20(1).png</sourceUrl><layout/></object></layer></background><path><s><eagle o="1_24309637"/></s><s><eagle o="3"/></s><s><eagle o="0_24309637"/></s><s><eagle o="9_24309637"/></s><s><eagle o="14_24309637"/></s><s><eagle o="1"/></s><s><eagle o="8"/></s><s><eagle o="1_24309637"/></s></path><style type="text/css"><![CDATA[
+@font-face
+{
+	src: url('NotoSans-Regular.keg');
+	fontFamily: body;
+}
+
+@font-face
+{
+	src: url('NotoSans-BoldItalic.keg');
+	fontFamily: notosans-bolditalic.keg;
+}
+
+@font-face
+{
+	src: url('Roboto-Regular2.keg');
+	fontFamily: custom-roboto;
+}
+
+@font-face
+{
+	src: url('LeagueGothic-Italic.keg');
+	fontFamily: leaguegothic-italic.keg;
+}
+
+@font-face
+{
+	src: url('NotoSans-Italic.keg');
+	fontFamily: notosans-italic.keg;
+}
+
+@font-face
+{
+	src: url('Roboto-Bold2.keg');
+	fontFamily: roboto-bold2.keg;
+}
+
+@font-face
+{
+	src: url('Roboto-Italic.keg');
+	fontFamily: roboto-italic.keg;
+}
+
+@font-face
+{
+	src: url('NotoSans-Bold.keg');
+	fontFamily: strong;
+}
+
+@font-face
+{
+	src: url('Roboto-BoldItalic.keg');
+	fontFamily: roboto-bolditalic.keg;
+}
+
+@font-face
+{
+	src: url('LeagueGothic-Regular.keg');
+	fontFamily: head;
+}
+
+.line1
+{
+	gradStartColor: #e6e6e6;
+	color: #e6e6e6;
+	gradEndColor: #e6e6e6;
+}
+
+.line2
+{
+	gradStartColor: #ccc;
+	color: #ccc;
+	gradEndColor: #ccc;
+}
+
+.line3
+{
+	color: #50e3c2;
+	gradEndColor: #50e3c2;
+	gradEndAlpha: 1;
+	gradStartAlpha: 1;
+	gradStartColor: #50e3c2;
+}
+
+.line4
+{
+	gradStartColor: #999;
+	color: #999;
+	gradEndColor: #999;
+}
+
+.line5
+{
+	gradStartColor: #737373;
+	color: #737373;
+	gradEndColor: #737373;
+}
+
+.poly1
+{
+	color: #f2f2f2;
+	gradEndColor: #e6e6e6;
+	gradStartColor: #e6e6e6;
+	borderColor: #e6e6e6;
+}
+
+.poly2
+{
+	color: #f2f2f2;
+	gradEndColor: #ccc;
+	gradStartColor: #ccc;
+	borderColor: #ccc;
+}
+
+.poly3
+{
+	color: #f2f2f2;
+	gradEndColor: #50e3c2;
+	gradStartColor: #50e3c2;
+	borderColor: #50e3c2;
+}
+
+.poly4
+{
+	gradStartColor: #999;
+	gradEndColor: #999;
+	borderColor: #999;
+}
+
+.poly5
+{
+	gradStartColor: #737373;
+	gradEndColor: #737373;
+	borderColor: #737373;
+}
+
+Background
+{
+	gradEnd: #f2f2f2;
+	gradStart: #f2f2f2;
+}
+
+Grid
+{
+	color: #b2b2b2;
+}
+
+ZArrow
+{
+	gradStartColor: #000;
+	gradEndColor: #000;
+	lockTintAlpha: 0;
+	borderThickness: 0;
+	thickness: 7;
+	borderColor: #fff;
+}
+
+ZCircle
+{
+	gradEndAlpha: 1;
+	gradStartAlpha: 1;
+	lockTintAlpha: 0;
+	radius: 0;
+	borderAlpha: 1;
+	thickness: 100;
+}
+
+ZCurveLine
+{
+	color: #000;
+}
+
+ZFrame.bracket
+{
+	gradStartColor: #737373;
+	gradEndColor: #737373;
+	gradEndAlpha: 0.9;
+	gradStartAlpha: 0.9;
+	borderColor: #737373;
+	borderThickness: 0;
+	thickness: 8;
+	padding: 1.03;
+}
+
+ZFrame.circle
+{
+	gradStartColor: #a6a6a6;
+	gradEndColor: #a6a6a6;
+	padding: 1.03;
+	borderThickness: 0;
+	thickness: 8;
+	borderColor: #a6a6a6;
+}
+
+ZFrame.roundrect
+{
+	gradStartColor: #e6e6e6;
+	gradEndColor: #e6e6e6;
+	gradEndAlpha: 0.7;
+	gradStartAlpha: 0.7;
+	borderColor: #737373;
+	borderThickness: 20;
+	radius: 3;
+	padding: 1.03;
+}
+
+ZLabel
+{
+	lockTintAlpha: 0.15;
+	padding: 1.2;
+}
+
+ZLabel.body
+{
+	color: #333;
+	fontFamily: body;
+}
+
+ZLabel.body-background
+{
+	background-color: #e6e6e6;
+	background-alpha: 0.9;
+	background-padding: 5;
+}
+
+ZLabel.head
+{
+	color: #333;
+	fontFamily: head;
+}
+
+ZLabel.head-background
+{
+	background-color: #a6a6a6;
+	background-alpha: 0.9;
+	background-padding: 5;
+}
+
+ZLabel.strong
+{
+	color: #333;
+	fontFamily: strong;
+}
+
+ZLabel.strong-background
+{
+	background-color: #e6e6e6;
+	background-alpha: 0.9;
+	background-padding: 5;
+}
+
+ZLine
+{
+	color: #000;
+	alpha: 1;
+	gradEndAlpha: 1;
+	gradStartAlpha: 1;
+	lockTintAlpha: 0;
+}
+
+ZMarker
+{
+	alpha: 0.5;
+	color: #318bff;
+}
+
+ZPoly
+{
+	gradEndAlpha: 1;
+	gradStartAlpha: 1;
+	lockTintAlpha: 0;
+	radius: 0;
+	borderAlpha: 1;
+	thickness: 100;
+}
+
+]]></style><hash>12479cbe</hash><sync><oid>UNKNOWN</oid><hash>-52b22cf0</hash></sync><config>08Iymrh73LY4QAAbC6UBe7dvXXvTo7362g==</config></zuiprezi>
