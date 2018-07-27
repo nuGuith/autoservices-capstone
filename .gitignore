@@ -1,0 +1,8 @@
+/public/hot
+/storage/*.key
+/.vscode
+/.vagrant
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env
