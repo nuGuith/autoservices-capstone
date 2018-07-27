@@ -81,15 +81,20 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr role="row" class="even">
-                                                    
+                                                <?php $__currentLoopData = $makes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $make): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr role="row">
                                                     <td>
-                                                        Honda
+                                                        <?php echo $make->Make; ?>
+
                                                     </td>
                                                     <td class="center">
                                                         <ul>
-                                                            <li>City 2015 - AT/MT</li>
-                                                            <li>City 2005 - MT</li>
+                                                            <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <!--if (<?php echo e($model->MakeID); ?> == <?php echo e($make->MakeID); ?>)-->
+                                                                <li><?php echo $model->Model; ?></li>
+                                                                <!--endif-->
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        </ul>
                                                     </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
@@ -104,7 +109,7 @@
                                                     </div>
                                                     </td>
                                                 </tr>
-
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                
                                             </tbody>
                                         </table>

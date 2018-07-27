@@ -81,15 +81,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr role="row" class="even">
-                                                    
+                                                @foreach ($makes as $make)
+                                                <tr role="row">
                                                     <td>
-                                                        Honda
+                                                        {!!$make->Make!!}
                                                     </td>
                                                     <td class="center">
                                                         <ul>
-                                                            <li>City 2015 - AT/MT</li>
-                                                            <li>City 2005 - MT</li>
+                                                            @foreach ($models as $model)
+                                                                <!--if ({{$model->MakeID}} == {{$make->MakeID}})-->
+                                                                <li>{!!$model->Model!!}</li>
+                                                                <!--endif-->
+                                                            @endforeach
+                                                        </ul>
                                                     </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
@@ -104,7 +108,7 @@
                                                     </div>
                                                     </td>
                                                 </tr>
-
+                                                @endforeach
                                                
                                             </tbody>
                                         </table>

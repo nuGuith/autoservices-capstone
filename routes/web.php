@@ -18,24 +18,12 @@
 
 //Dashboard
 Route::get('/','DashboardIndexController@index');
-Route::get('/vehicletype','VehicleTypeController@vehicletype');
-Route::get('/addvehicletype','AddVehicleTypeController@addvehicletype');
 Route::get('/personnel','PersonnelController@personnel');
-Route::get('/productcategory','ProductCategoryController@productcategory');
-Route::get('/addproductcategory','AddProductCategoryController@addproductcategory');
-Route::get('/producttype','ProductTypeController@producttype');
-Route::get('/addproducttype','AddProductTypeController@addproducttype');
-Route::get('/productbrand','ProductBrandController@productbrand');
-Route::get('/addproductbrand','AddProductBrandController@addproductbrand');
-Route::get('/productvariance','ProductVarianceController@productvariance');
-Route::get('/addproductvariance','AddProductVarianceController@addproductvariance');
-Route::get('/product','ProductController@product');
-Route::get('/addproduct','AddProductController@addproduct');
+
 Route::get('/customer','CustomerController@customer');
 Route::get('/estimates', 'EstimatesController@estimates');
 Route::get('/warranty', 'WarrantyController@warranty');
 Route::get('/jobdescription', 'JobDescriptionController@jobdescription');
-Route::get('/addcustomer', 'AddCustomerController@addcustomer');
 Route::get('/viewcustomer', 'ViewCustomerController@viewcustomer');
 Route::get('/addpersonnel', 'AddPersonnelController@addpersonnel');
 Route::get('/discount','DiscountController@discount');
@@ -47,16 +35,54 @@ Route::get('/package','packageController@package');
 Route::get('/addpackage','AddPackageController@addpackage');
 Route::get('/editpackage','EditPackageController@editpackage');
 
+//MaintenanceVehicle
+Route::resource('vehicletype','VehicleTypeController');
+Route::put('/vehicletype', 'VehicleTypeController@update');
+Route::patch('/vehicletype', 'VehicleTypeController@delete');
+
+Route::resource('addvehicletype','AddVehicleTypeController');
+Route::post('/addvehicletype', 'AddVehicleTypeController@store');
+
+//MaintenanceProducts
+Route::resource('productcategory', 'ProductCategoryController');
+Route::post('/productcategory', 'ProductCategoryController@store');
+Route::put('/productcategory', 'ProductCategoryController@update');
+Route::patch('/productcategory', 'ProductCategoryController@delete');
+
+Route::resource('productbrand', 'ProductBrandController');
+Route::post('/productbrand', 'ProductBrandController@store');
+Route::put('/productbrand', 'ProductBrandController@update');
+Route::patch('/productbrand', 'ProductBrandController@delete');
+
+Route::resource('producttype', 'ProductTypeController');
+Route::post('/producttype', 'ProductTypeController@store');
+Route::put('/producttype', 'ProductTypeController@update');
+Route::patch('/producttype', 'ProductTypeController@delete');
+
+Route::resource('productunittype', 'ProductUnitTypeController');
+Route::post('/productunittype', 'ProductUnitTypeController@store');
+Route::put('/productunittype', 'ProductUnitTypeController@update');
+Route::patch('/productunittype', 'ProductUnitTypeController@delete');
+
 //MaintenanceServices
-//ServiceCategory
-Route::get('/servicecategory','ServiceController@servicecategory');
-Route::get('/addservicecategory','ServiceController@addservicecategory');
-//Services
-Route::get('/service','ServiceController@service');
-//ServiceBay
-Route::get('/servicebay','ServiceController@servicebay');
-//InspectionChecklist
-Route::get('/inspectionchecklist','ServiceController@inspectionchecklist');
+Route::resource('servicecategory','ServiceCategoryController');
+Route::post('/servicecategory', 'ServiceCategoryController@store');
+Route::put('/servicecategory', 'ServiceCategoryController@update');
+Route::patch('/servicecategory', 'ServiceCategoryController@delete');
+
+Route::resource('servicebay','ServiceBayController');
+Route::post('/servicebay', 'ServiceBayController@store');
+Route::put('/servicebay', 'ServiceBayController@update');
+Route::patch('/servicebay', 'ServiceBayController@delete');
+
+Route::resource('service','ServiceController');
+Route::post('/service', 'ServiceController@store');
+Route::put('/service', 'ServiceController@update');
+Route::patch('/service', 'ServiceController@delete');
+
+Route::resource('inspectionchecklist','InspectionChecklistController');
+Route::get('/maintenancechecklist','ServiceController@maintenancechecklist');
+Route::resource('transact','TransactionController');
 
 // Route::get('/service', function () {
 //     return view('maintenance.service');

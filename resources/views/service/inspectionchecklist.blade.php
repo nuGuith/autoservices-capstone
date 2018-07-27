@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Inspection Checklist') <!-- Page Title -->
 @section('content')
 
@@ -16,26 +16,40 @@
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
 
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <!--<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
 
         <!-- CONTENT -->
         <div id="content" class="bg-container">
 
             <header class="head">
                 <div class="main-bar">
-                    <div class="row">
+                    <div class="row" style="height: 47px;">
                     <div class="col-6">
-                        <h4 class="m-t-5">
+                        <h4 class="m-t-5" style="margin-top: 2.5%;">
                             <i class="fa fa-wrench"></i>
                             Inspection Checklist
                         </h4>
+                    </div>
+                    <div class="col-sm-6 col-12"  >
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item">
+                                <a href="/">
+                                    <i class="fa fa-home"></i>
+                                        Dashboard
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <i class="fa fa-wrench"></i>
+                                        Services
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="inspectionchecklist">
+                                        Inspection Checklist
+                                </a>
+                            </li>
+                        </ol>
                     </div>
                     </div>
                 </div>
@@ -47,169 +61,287 @@
                                 <div class="btn-group">
 
                                         <!--ADD BUTTON MODAL-->
-                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
-                                                    href="#">
+                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                         <i class="fa fa-plus"></i>
-                                            &nbsp;  Add Inspection Item                                   
+                                            &nbsp;  Add Inspection Items                                  
                                          </a>
                                     </div>
                              </div>
 
 
                             <div class="card-block m-t-35" id="user_body">
-                                <!-- <div class="table-toolbar">
+                                <div class="table-toolbar">
                                     <div class="btn-group">
                                     <div class="btn-group float-right users_grid_tools">
                                         <div class="tools"></div>
                                     </div>
                                     </div>
-                                </div> -->
-                                
-                            </div>
-                                <!-- END EXAMPLE TABLE PORTLET-->
-                                <!-- Content Section START -->
-                                <div>
-                                    <div class="panel-group" id="accordion">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#item1">
-                                                    OPEN DOOR
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="item1" class="panel-collapse collapse in">
-                                                <div class="panel-body">
-                                                    <div class="card m-t-35">
-                                                        <div class="card-header bg-white">
-                                                            These are the inspection items for this group of Inspection Checklist
-                                                        </div>
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item">A. Weather Strip</li>
-                                                            <li class="list-group-item">B. Door Lining - FR LH</li>
-                                                            <li class="list-group-item">C. Control Switch</li>
-                                                            <li class="list-group-item">D. Step Garnish</li>
-                                                            <li class="list-group-item">E. Seat - FR LH</li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#item2">
-                                                    INSTRUMENT PANEL</a>
-                                                </h4>
-                                            </div>
-                                            <div id="item2" class="panel-collapse collapse">
-                                                <div class="panel-body">
-                                                    <div class="card m-t-35">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item">A. Horn</li>
-                                                            <li class="list-group-item">B. Console Box</li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#item3">
-                                                    CLOSE DOOR THEN OPEN NEXT DOOR</a>
-                                                </h4>
-                                            </div>
-                                            <div id="item3" class="panel-collapse collapse">
-                                                <div class="panel-body">
-                                                    <div class="card m-t-35">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item">A. Door Panel</li>
-                                                            <li class="list-group-item">B. Dashboard</li>
-                                                            <li class="list-group-item">C. Stereo Unit</li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>    
                                 </div>
-                                <!-- Content Section END -->
-            <div class="modal fade in " id="editservice" tabindex="-1" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Service</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h4>Service Name</h4>
-                                        <p>
-                                            <input id="name" name="service" type="text" placeholder="Service Name"
-                                                   class="form-control"></p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <table id="myTable" class=" table order-list" >
+                            <div>
+                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" style="border-radius: 10px;" id="editable_table" role="grid">
                                             <thead>
-                                                <tr>
-                                                <td><h5>Service Type</h5></td>
-                                                <td><h5>Estimated Time</h5></td>
-                                                <td><h5>Initial Price</h5></td>
-                                            </tr>
+                                                <tr role="row">
+                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Inspection</b></th>
+                                                    <th class="sorting wid-20" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Inspection Items</b></th>
+                                                    <th class="sorting wid-15" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Actions</b></th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                            <td>
-                                                <input type="text" name="servicetype" placeholder="Service Type" class="form-control"/>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="estimatedtime" placeholder="Estimated Time" class="form-control"/>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="initialprice" placeholder="Initial Price" class="form-control"/>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    <!-- <tfoot>
-                                        <tr role= "row">
-                                        <td colspan="5" style="text-align: right;">
-                                            <div class="examples transitions m-t-5">
-                                                <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp; Add Row </button>
-                                             </div>
-                                        </td>
-                                        </tr>
-                                     </tfoot> -->
-                                    </table>
-                                </div>
 
-                             </div>
-                        </div>
+                                                
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <!--EDIT BUTTON-->
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" onclick="editModal()" data-toggle="modal" data-href="#responsive" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        </button>
+                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal()" type="button" style="width:70px"><i class="fa fa-trash text-white"></i> &nbsp; Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- END TABLE -->
+            <!-- START EDIT MODAL -->
+            {!! Form::open(array('id' => 'editForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@update', 'method' => 'PUT')) !!}
+                <!-- {!! csrf_field() !!} -->
+                <div class="modal fade in" id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                            &nbsp;&nbsp;Edit Inspection Checklist</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col">
+                                    <div class="col-xl-12" style="padding-right:25px;">
+                                        <br>
+                                        <h4>Inspection Name</h4>
+                                        <div>
+                                            {!!
+                                                Form::input ('name','text', Input::old('inspectionname'), [
+                                                'id'=>'inspectionname',
+                                                'name'=>'inspectionname',
+                                                'type'=>'text',
+                                                'placeholder'=>'Inspection Name',
+                                                'class'=>'form-control',
+                                                'maxlength'=>'100',
+                                                'required'
+                                                ])
+                                            !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <table id="myTable" class="table" >
+                                            <tbody>
+                                                <tr>
+                                                    <td><h5>Inspection Item(s):</h5></td>
+                                                </tr>
+                                                <!-- for here -->
+                                                <tr role= "row">
+                                                    <td>
+                                                        <input type="text" name="item" placeholder="Item" class="form-control"/>
+                                                    </td>
+                                                    <td>
+                                                        <i class="deleteRow "></i>
+                                                    </td>
+                                                </tr>
+                                                <!-- endfor here -->
+                                                <tr role= "row">
+                                                    <td>
+                                                        <input type="text" name="item" placeholder="Item" class="form-control"/>
+                                                    </td>
+                                                    <td>
+                                                        <i class="deleteRow "></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <div id="show-errors">
+                                        @if ($errors->update->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->update->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <br>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
 
 
 
                             <div class="modal-footer">
-                              <div class="examples transitions m-t-5">
-                                <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
-                              </div>
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
-                                    </button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    {!!  Form::button('<i class="fa fa-save text-white"></i>&nbsp; Save Changes', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source cancel_edit m-l-10 hvr-float-shadow adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal'
+                                    ])
+                                    !!}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- END modal-->
+                {!! Form::close() !!}
+                <!-- END EDIT MODAL -->
+
+                <!-- START ADD MODAL -->
+                {!! Form::open(array('id' => 'addForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@store', 'method' => 'POST')) !!}
+                <!-- {!! csrf_field() !!} -->
+                <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                            &nbsp;&nbsp;Add Inspection Items</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col">
+                                    <div class="col-xl-12" style="padding-right:25px;">
+                                        <br>
+                                        <h4>Inspection Name</h4>
+                                        <p>
+                                            {!!
+                                                Form::input ('name','text', Input::old('inspectionname'), [
+                                                'id'=>'inspectionname',
+                                                'name'=>'inspectionname',
+                                                'type'=>'text',
+                                                'placeholder'=>'Inspection Name',
+                                                'class'=>'form-control',
+                                                'maxlength'=>'100',
+                                                'required'
+                                                ])
+                                            !!}
+                                        </p>
+                                    </div>
+                                    <div class="col-xl-12" style="padding-right:-10px;">
+                                        <table id="myTable" class="table order-list" >
+                                            <tbody>
+                                                <tr>
+                                                    <td><h5>Inspection Item(s):</h5></td>
+                                                    <td>
+                                                        <input type="text" name="item" placeholder="Item" class="form-control"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr role= "row">
+                                                <td colspan="5" style="text-align: right;">
+                                                    <div class="examples transitions m-t-5">
+                                                        <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp; Add Row </button>
+                                                     </div>
+                                                </td>
+                                                <td><i class="deleteRow "></i>
+                                                </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <div id="show-errors">
+                                        @if ($errors->add->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->add->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <br>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="modal-footer">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal',
+                                    ]) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {!! Form::close() !!}
+                <!-- END ADD MODAL -->
+
+                <!-- START DELETE MODAL -->
+                {!! Form::open(array('id' => 'deleteForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@delete', 'method' => 'PATCH')) !!}
+                <!-- {!! csrf_field() !!} -->
+                <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                            &nbsp;&nbsp;Delete this record?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col">
+                                    <div class="col-xl-12" style="padding-right:25px;">
+                                        <br>
+                                        <p>
+                                            Are you sure you want to delete this record?
+                                        </p>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <table id="myTable" class="table order-list" >
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="modal-footer">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;OK', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source confirm m-l-10 adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal',
+                                    ]) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {!! Form::close() !!}
+                <!-- END DELETE MODAL -->
+                <!-- END MODAL-->
 
                             </div>
                         </div>
@@ -220,13 +352,9 @@
         <!--END CONTENT -->
 
 
-<!--scripts for collapsible group
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<!--End of scripts for collapsible group -->
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="vendors/datatables/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/components.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
@@ -234,23 +362,42 @@
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
 <script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
-
+<script>
+    $(window).on('load',function(){
+        @if($errors->add->any())
+            $('#addModal').modal('show');
+        @endif
+        @if($errors->update->any())
+            $('#editModal').modal('show');
+        @endif
+    });
+</script>
+<script>
+     function editModal(id){
+            $.ajax({
+                type: "GET",
+                url: "/inspectionchecklist/"+id+"/edit",
+                dataType: "JSON",
+                success:function(data){
+                }
+            });
+            $('#editModal').modal('show');
+        }
+    function deleteModal(id){
+            document.getElementById("deleteId").value = id;
+            $('#deleteModal').modal('show');
+        }
+</script>
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
-
-<!--script for table edit brand-->
 <script> 
 $(document).ready(function () {
     var counter = 0;
@@ -258,10 +405,8 @@ $(document).ready(function () {
     $("#addrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
-
-        cols += '<td><input type="text" class="form-control" name="brand" placeholder="Brand"' + counter + '"/></td>';
-        cols += '<td><input type="checkbox" class="form-control" name="automatic"' + counter + '"/><label for="automatic">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Automatic</label></td>';
-        cols += '<td><input type="checkbox" class="form-control" name="manual"' + counter + '"/><label for="manual">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual</label></td>';
+        cols += '<td> </td>';
+        cols += '<td><input type="text" class="form-control" name="item" placeholder="Item"' + counter + '"/></td>';
         cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md" value ="X"></td>';
 
         newRow.append(cols);
@@ -276,25 +421,8 @@ $(document).ready(function () {
         counter -= 1
     });
 
-
 });
 
-
-
-function calculateRow(row) {
-    var price = +row.find('input[name^="price"]').val();
-
-}
-
-function calculateGrandTotal() {
-    var grandTotal = 0;
-    $("table.order-list").find('input[name^="price"]').each(function () {
-        grandTotal += +$(this).val();
-    });
-    $("#grandtotal").text(grandTotal.toFixed(2));
-}
 </script>
-
-<!--end script of table edit brand-->
 
 @stop
