@@ -18,7 +18,10 @@
 
 //Dashboard
 Route::get('/','DashboardIndexController@index');
+<<<<<<< HEAD
 Route::get('/addvehicletype','AddVehicleTypeController@addvehicletype');
+=======
+>>>>>>> 5b57bef76ad1db50de6cba3bb23cfb1850351e64
 Route::get('/personnel','PersonnelController@personnel');
 
 Route::get('/customer','CustomerController@customer');
@@ -37,10 +40,19 @@ Route::get('/addpackage','AddPackageController@addpackage');
 Route::get('/editpackage','EditPackageController@editpackage');
 
 //MaintenanceVehicle
+<<<<<<< HEAD
 Route::resource('vehicletype','AddVehicleTypeController');
 Route::post('/vehicletype', 'AddVehicleTypeController@store');
 Route::put('/vehicletype', 'AddVehicleTypeController@update');
 Route::patch('/vehicletype', 'AddVehicleTypeController@delete');
+=======
+Route::resource('vehicletype','VehicleTypeController');
+Route::put('/vehicletype', 'VehicleTypeController@update');
+Route::patch('/vehicletype', 'VehicleTypeController@delete');
+
+Route::resource('addvehicletype','AddVehicleTypeController');
+Route::post('/addvehicletype', 'AddVehicleTypeController@store');
+>>>>>>> 5b57bef76ad1db50de6cba3bb23cfb1850351e64
 
 //MaintenanceProducts
 Route::resource('productcategory', 'ProductCategoryController');

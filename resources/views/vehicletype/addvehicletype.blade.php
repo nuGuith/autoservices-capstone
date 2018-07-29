@@ -50,10 +50,10 @@
                     <div class="inner bg-container">
                         <div class="row">
                             <div class="col-lg-12">
+                                {!! Form::open(array('id' => 'addForm', 'method' => 'POST', 'url' => '\addvehicletype', 'action' => 'AddVehicleTypeController@store')) !!}
                                 <div class="card" >
                                     <div class="card-header bg-primary disabled text-white" ><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add Vehicle Type</div>
                                     <div class="card-block ">
-                                        {!! Form::open(array('id' => 'addForm', 'method' => 'POST', 'url' => '\vehicletype', 'action' => 'AddVehicleTypeController@store')) !!}
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <br>
@@ -76,7 +76,7 @@
                                                     <tbody>
                                                         <tr>
                                                         <td>
-                                                            <input type="text" name="name" placeholder="Model" class="form-control"/>
+                                                            <input type="text" name="model" placeholder="Model" class="form-control"/>
                                                             
                                                         </td>
                                                         <td>
@@ -104,19 +104,19 @@
                                             </table>
                                         </div>
                                     </div>
-                                    {!! Form::close() !!}
+                                    
                                 </div>
 
 
-                                <div class="card-footer bg-black disabled">
+                                <div class="card-footer">
                                    <div class="examples transitions m-t-5 pull-right">
                                         <button onclick="window.location='{{ url("/vehicletype") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn"  href="/vehicletype"><i class="fa fa-arrow-left" >
                                         </i>&nbsp;Back</button>                
                                         <button class="btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn" style ="width: 80px;" type="submit" data-dismiss="modal"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                     </div>
                                 </div>
-
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -157,7 +157,7 @@ $(document).ready(function () {
         var newRow = $("<tr>");
         var cols = "";
 
-        cols += '<td><input type="text" class="form-control" name="brand" placeholder="Brand"' + counter + '"/></td>';
+        cols += '<td><input type="text" class="form-control" name="model" placeholder="Model"' + counter + '"/></td>';
         cols += '<td><input type="checkbox" class="form-control" name="automatic"' + counter + '"/><label for="automatic">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Automatic</label></td>';
         cols += '<td><input type="checkbox" class="form-control" name="manual"' + counter + '"/><label for="manual">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual</label></td>';
         cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md" value ="X"></td>';
@@ -176,7 +176,6 @@ $(document).ready(function () {
 
 
 });
-
 
 
 function calculateRow(row) {
