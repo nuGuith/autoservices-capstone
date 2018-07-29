@@ -64,7 +64,7 @@
   left: 48%;
   top: 48%;
   background-position: center;
-z-index: 999999">
+  z-index: 999999">
         <img src="img/loader.gif" style=" width: 40px;" alt="loading...">
     </div>
 </div>
@@ -148,14 +148,14 @@ z-index: 999999">
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%;">&nbsp;&nbsp;MAINTENANCE</span>
 
                 <li style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/vehicletype" style="padding-left:10%; padding-right: 2%;"">
+                    <a href="/vehicletype" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-truck"></i>
                         <span class="link-title">&nbsp; Vehicle Type</span>
                     </a>
                     
                 </li>
                 <li style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                    <a href="#" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-pencil-square-o"></i>
                         <span class="link-title">&nbsp; Product Listing</span>
                         <span class="fa arrow"></span>
@@ -225,30 +225,29 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
                             </a>
                         </li>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="javascript:;" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                &nbsp;Personnel
-                                <span class="fa arrow"></span>
-                            </a>
-                            <ul class="sub-menu sub-submenu">
-                                <li>
-                                    <a href="/jobdescription" style="padding-left:15%; padding-right: 15%;">
-                                        <i class="fa fa-angle-right"></i>
-                                        &nbsp;Job Description
-                                    </a>
-                                </li>  
-                                <li>
-                                    <a href="/personnel" style="padding-left:15%; padding-right: 15%;">
-                                        <i class="fa fa-angle-right"></i>
-                                        &nbsp;Personnel
-                                    </a>
-                                </li>   
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="javascript:;" style="padding-left:10%; padding-right: 10%;">
+                                    <i class="fa fa-angle-right"></i>
+                                    &nbsp;Personnel
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="sub-menu sub-submenu">
+                                    <li>
+                                        <a href="/jobdescription" style="padding-left:15%; padding-right: 15%;">
+                                            <i class="fa fa-angle-right"></i>
+                                            &nbsp;Job Description
+                                        </a>
+                                    </li>  
+                                    <li>
+                                        <a href="/personnel" style="padding-left:15%; padding-right: 15%;">
+                                            <i class="fa fa-angle-right"></i>
+                                            &nbsp;Personnel
+                                        </a>
+                                    </li>   
+                                </ul>
+                            </li>
+                        </ul>
                     </ul>
                 </li>
                 <li style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -270,7 +269,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
 
@@ -313,7 +312,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; QUERIES AND REPORTS</span>
                 
                 <li style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -330,7 +329,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                </br>
+                <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; UTILITIES</span>
                 
 
