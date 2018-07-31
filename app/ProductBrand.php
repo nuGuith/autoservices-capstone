@@ -6,15 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductBrand extends Model
 {
-    public $timestamps = false;
     protected $table = 'product_brand';
-    protected $primaryKey = 'productbrandid';
+    protected $primarykey = 'productbrandid';
+    public $timestamps = true;
     protected $fillable = [
-        'brandname'
+        'productbrandid',
+        'brandname',
+        'isActive'
     ];
 
     public function product()
     {
-        return $this->hasMany('App/Product','ProductID');
+        return $this->hasMany('App/Product','productid');
     }
 }

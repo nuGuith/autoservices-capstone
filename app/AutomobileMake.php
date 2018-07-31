@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class AutomobileMake extends Model
 {
-    public $timestamps = false;
+    public $timestamp = true;
     protected $table = 'automobile_make';
-    protected $primaryKey = 'makeid';
+    protected $primarykey = 'makeid';
     protected $fillable = [
-        'make'
+        'makeid',
+        'make',
+        'isActive'
     ];
 
     public function automobilemodel(){
-        return $this->hasMany('App\AutomobileModel', 'ModelID');
+        return $this->hasMany('App\AutomobileModel', 'modelid');
     }
 }

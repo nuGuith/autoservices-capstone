@@ -7,18 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class ProductType extends Model
 {
     public $timestamp = true;
-    protected $table = 'product_type';
-    protected $primarykey = 'producttypeid';
+    protected $table = 'product_application';
+    protected $primarykey = 'false';
     protected $fillable = [
-        'producttypeid',
-        'producttypename',
+        'productid',
+        'make',
+        'model',
+        'year',
         'isActive'
     ];
-    
-    public function productcategory()
-    {
-        return $this->hasMany('App/ProductCategory','productcategoryid');
-    }
 
     public function product()
     {

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model {
 
-    public $timestamps = false;
+    public $timestamps = true;
     protected $table = 'service';
     protected $primaryKey = 'serviceid';
     protected $fillable = [
