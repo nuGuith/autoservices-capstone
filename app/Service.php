@@ -23,6 +23,10 @@ class Service extends Model {
         return $this->belongsTo('App\ServiceCategory','ServiceCategoryID');
     }
 
+    public function productservice()
+    {
+        return $this->hasMany('App\ProductService', '');
+    }
     public function serviceperformed()
     {
         return $this->hasMany('App\ServicePerformed','ServiceID');

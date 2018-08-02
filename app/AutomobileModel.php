@@ -11,6 +11,7 @@ class AutomobileModel extends Model
     protected $primarykey = 'modelid';
     protected $fillable = [
         'modelid',
+        'makeid',
         'model',
         'isActive'
     ];
@@ -18,4 +19,9 @@ class AutomobileModel extends Model
     public function automobilemake(){
         return $this->belongsTo('App\AutomobileMake', 'makeid');
     }
+
+    public function productvehicle(){
+        return $this->hasMany('App\ProductVehicle', '');
+    }
 }
+

@@ -35,9 +35,14 @@ class Product extends Model
         return $this->belongsTo('App/ProductUnitType','productunittypeid');
     }
 
-    public function productapplication()
+    public function productvehicle()
     {
-        return $this->belongsTo('App/ProductApplication','');
+        return $this->hasMany('App/ProductVehicle','');
+    }
+
+    public function productservice()
+    {
+        return $this->hasMany('App/ProductService','');
     }
 
     public function productdamaged(){
