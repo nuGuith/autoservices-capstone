@@ -54,7 +54,7 @@ class TransactionController extends Controller
             ];
             /** This is an array of custom messages you could set so aside from the default ones by laravel. */
         $validation = Validator::make($request->all(), [
-            'servicecategoryname' => ['bail','required','max:100', 'unique:service_category', 'regex:/^[^~`!@#*_={}|\;<>,.?]+$/'],
+            'servicecategoryname' => ['bail','required','max:100', 'unique:service_category', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
             'description' => ['nullable','max:255']
         ], $customMessages);
             /** The $validation variable using the 'Validator' facade takes the arguments $request->all() getting all the data sent over the Request

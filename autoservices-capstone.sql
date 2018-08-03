@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `autoservices-capstone`
 --
-
+-- 1HGBH41JXMN109186
 -- --------------------------------------------------------
 
 --
@@ -718,7 +718,7 @@ CREATE TABLE `service_performed` (
   `ServiceID` int(10) NOT NULL,
   `JobOrderID` int(10) NOT NULL,
   `ServiceWarrantyID` int(10) NOT NULL,
-  `LaborCost` decimal(14,2) NOT NULL,
+  `LaborCost` decimal(14,2) NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

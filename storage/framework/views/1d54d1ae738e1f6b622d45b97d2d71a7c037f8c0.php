@@ -155,7 +155,7 @@
                     
                 </li>
                 <li style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="#" style="padding-left:10%; padding-right: 2%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-pencil-square-o"></i>
                         <span class="link-title">&nbsp; Product Listing</span>
                         <span class="fa arrow"></span>

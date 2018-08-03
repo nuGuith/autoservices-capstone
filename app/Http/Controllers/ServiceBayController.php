@@ -52,7 +52,7 @@ class ServiceBayController extends Controller
                 'servicebayname.unique' => 'The :attribute you entered is already taken.',
             ];
         $validation = Validator::make($request->all(), [
-            'servicebayname' => ['bail','required','max:100', 'unique:service_bay', 'regex:/$^[^~`!@#*_={}|\;<>,.?]+/'],
+            'servicebayname' => ['bail','required','max:100', 'unique:service_bay', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
             'description' => ['nullable','max:255']
         ], $customMessages);
         

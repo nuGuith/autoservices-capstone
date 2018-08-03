@@ -56,14 +56,14 @@ class ProductCategoryController extends Controller
             'categoryname' => 'Category Name'
         ];
         $messages = [
-            'required' => 'The :attribute is required',
-            'unique' => 'The :attribute is already taken',
-            'max' => 'The :attribute has over the required maximum length.',
-            'regex' => 'You cannot input special characters' 
+            'categoryname.required' => 'The :attribute is required',
+            'categoryname.unique' => 'The :attribute is already taken',
+            'categoryname.max' => 'The :attribute has over the required maximum length.',
+            'categoryname.regex' => 'You cannot input special characters' 
         ];
 
         $validation = Validator::make($request->all(), [
-            'categoryname' => ['bail', 'required', 'unique:product_category', 'max:50', 'regex:/$^[^~`!@#*_={}|\;<>,.?]+/'],
+            'categoryname' => ['bail', 'required', 'unique:product_category', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
             ], $niceNames);
         
         $validation->setAttributeNames($niceNames);
@@ -181,9 +181,9 @@ class ProductCategoryController extends Controller
          }
          catch(\Illuminate\Database\QueryException $e){
              $err = $e->getMessage();
-                 return redirect('productlisting.category')
+                 return redirect('product.productcategory')
                      ->withErrors($err, 'delete');
          }
-         return redirect('produccategory');
+         return redirect('productcategory');
      }
 }

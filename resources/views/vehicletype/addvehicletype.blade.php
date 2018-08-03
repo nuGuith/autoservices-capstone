@@ -59,7 +59,7 @@
                                                 <br>
                                                 <h4>Vehicle Make</h4>
                                                 <p>
-                                                    <input id="name" name="make" type="text" placeholder="Make"
+                                                    <input id="make" name="make" type="text" placeholder="Make"
                                                            class="form-control"></p>
                                             </div>
                                             <div class="col-md-8">
@@ -76,7 +76,7 @@
                                                     <tbody>
                                                         <tr>
                                                         <td>
-                                                            <input type="text" name="model" placeholder="Model" class="form-control"/>
+                                                            <input type="text" id="model" name="model" placeholder="Model" class="form-control"/>
                                                             
                                                         </td>
                                                         <td>
@@ -112,7 +112,11 @@
                                    <div class="examples transitions m-t-5 pull-right">
                                         <button onclick="window.location='{{ url("/vehicletype") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn"  href="/vehicletype"><i class="fa fa-arrow-left" >
                                         </i>&nbsp;Back</button>                
-                                        <button class="btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn" style ="width: 80px;" type="submit" data-dismiss="modal"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                        {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal',
+                                    ]) !!}
                                     </div>
                                 </div>
                             </div>

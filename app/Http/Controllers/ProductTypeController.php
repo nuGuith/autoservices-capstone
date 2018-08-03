@@ -65,7 +65,7 @@ class ProductTypeController extends Controller
         ];
 
         $validation = Validator::make($request->all(), [
-            'producttypename' => ['bail', 'required', 'unique:product_type', 'max:50', 'regex:/$^[^~`!@#*_={}|\;<>,.?]+/'],
+            'producttypename' => ['bail', 'required', 'unique:product_type', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
             'productcategoryid' => 'required'
             ], $niceNames);
         

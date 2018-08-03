@@ -51,14 +51,17 @@
                         <div class="card">
                             <div class="card-header bg-dark">
                                 <div class="btn-group">
-
                                         <!--ADD BUTTON MODAL-->
-                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
+                                        <!-- <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
                                                     href="/addvehicletype">
                                         <i class="fa fa-plus-square"></i>
                                             &nbsp;  Add Vehicle Type                                   
-                                         </a>
-                                    </div>
+                                        </a> -->
+                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
+                                        <i class="fa fa-plus"></i>
+                                            &nbsp;  Add Vehicle Type                                  
+                                        </a>
+                                </div>
                              </div>
 
 
@@ -97,15 +100,13 @@
                                                     </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <div class="examples transitions m-t-5">
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#editvehicle"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" onclick="editModal({!!$model->ModelID!!})" data-toggle="modal" data-href="#responsive" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
                                                         </button>
                                                
                                                         <!--DELETE BUTTON-->
-                                                       <button class="btn btn-danger source warning confirm hvr-float-shadow" style = "width: 70px "><i class="fa fa-trash text-white"></i> &nbsp; Delete
+                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal({!!$model->ModelID!!})" type="button" style="width:70px"><i class="fa fa-trash text-white"></i> &nbsp; Delete
                                                         </button>
-                                                       
-                                                    </div>
+
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -116,20 +117,17 @@
                                 </div>
                                 <!-- END EXAMPLE TABLE PORTLET-->
 
-            <div class="modal fade in " id="editvehicle" tabindex="-1" role="dialog" aria-hidden="false">
+            <!-- START EDIT MODAL -->
+            <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
                                             &nbsp;&nbsp;Edit Vehicle Type</h4>
-                                
-                                
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    
-                                    
                                     <div class="col-md-4">
                                         <h4>Vehicle Make</h4>
                                         <p>
@@ -176,12 +174,8 @@
                                      </tfoot>
                                     </table>
                                 </div>
-
                              </div>
                         </div>
-
-
-
                             <div class="modal-footer">
                               <div class="examples transitions m-t-5">
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
@@ -194,6 +188,87 @@
                         </div>
                     </div>
                 </div>
+                <!-- END EDIT MODAL -->
+
+                <!-- START ADD MODAL -->
+                {!! Form::open(array('id' => 'addForm', 'url' => 'servicebay', 'action' => 'VehicleTypeController@store', 'method' => 'POST')) !!}
+                <!-- {!! csrf_field() !!} -->
+                <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                                &nbsp;&nbsp;Add Vehicle Type</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h4>Vehicle Make</h4>
+                                            <p>
+                                                <input id="make" name="make" type="text" placeholder="Make"
+                                                       class="form-control"></p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <table id="myTable" class=" table order-list" >
+                                                <thead>
+                                                    <tr>
+                                                    <td><h5>Brand</h5></td>
+                                                    <td><h5>Transmission</h5></td>
+                                                     <td></td>
+                                                     <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                <td>
+                                                    <input type="model" name="model" placeholder="Model" class="form-control"/>
+                                                    
+                                                </td>
+                                                <td>
+
+                                                    <input id="automatic" name="automatic" type="checkbox" value="automatic" class="input-small custom-checkbox custom-control">
+                                                     <label for="automatic">Automatic</label>
+                                                </td>
+                                                <td>
+                                                    <input id="manual" name="manual" type="checkbox" value="manual" class="input-small custom-checkbox custom-control">
+                                                    <label for="manual">Manual</label>
+                                                </td>
+                                                <td><i class="deleteRow "></i>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        <tfoot>
+                                            <tr role= "row">
+                                            <td colspan="5" style="text-align: right;">
+                                                <div class="examples transitions m-t-5">
+                                                    <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp; Add Row </button>
+                                                 </div>
+                                            </td>
+                                            </tr>
+                                         </tfoot>
+                                        </table>
+                                    </div>
+                                 </div>
+                            </div>
+                                <div class="modal-footer">
+                                    <div class="examples transitions m-t-5">
+                                        <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                    </div>
+                                    <div class="examples transitions m-t-5">
+                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal',
+                                    ]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END ADD MODAL -->
+
+
                 <!-- END modal-->
 
                             </div>
@@ -206,6 +281,8 @@
 
 
 <!-- global scripts sweet alerts-->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="vendors/datatables/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/components.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
@@ -269,6 +346,25 @@ function calculateGrandTotal() {
     });
     $("#grandtotal").text(grandTotal.toFixed(2));
 }
+</script>
+<script>
+     function editModal(id){
+            $.ajax({
+                type: "GET",
+                url: "/servicebay/"+id+"/edit",
+                dataType: "JSON",
+                success:function(data){
+                    $("#servicebayname").val(data.bay.ServiceBayName);
+                    $("#description").val(data.bay.Description);
+                    $("#servicebayid").val(data.bay.ServiceBayID);
+                }
+            });
+            $('#editModal').modal('show');
+        }
+    function deleteModal(id){
+            document.getElementById("deleteId").value = id;
+            $('#deleteModal').modal('show');
+        }
 </script>
 
 <!--end script of table edit brand-->

@@ -58,7 +58,7 @@ class ProductBrandController extends Controller
         ];
 
         $validation = Validator::make($request->all(), [
-            'brandname' => ['bail', 'required', 'unique:product_brand', 'max:50', 'regex:/$^[^~`!@#*_={}|\;<>,.?]+/']
+            'brandname' => ['bail', 'required', 'unique:product_brand', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/']
             ], $niceNames);
         
         $validation->setAttributeNames($niceNames);
