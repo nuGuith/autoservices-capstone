@@ -171,31 +171,31 @@ z-index: 999999">
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!}  >
                             <a href="{{url('/productcategory')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Category
                             </a>
                         </li>
-                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} >
                             <a href="{{url('/producttype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Type
                             </a>
                         </li>
-                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} >
                             <a href="{{url('/productbrand')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Brand
                             </a>
                         </li>
-                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} >
                             <a href="{{url('/productunittype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Unit Type
                             </a>
                         </li>
-                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!}  style="border-radius: 4px;">
+                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!} >
                             <a href="{{url('/product')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product
