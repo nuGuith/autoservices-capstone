@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductType extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'product_type';
     protected $primarykey = 'producttypeid';
     protected $fillable = [
-        'producttypeid',
+        'productcategoryid',
         'producttypename',
         'isActive'
     ];
