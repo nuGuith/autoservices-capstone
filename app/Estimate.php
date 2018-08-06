@@ -7,22 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class Estimate extends Model
 {
     public $timestamp = true;
-    protected $primarykey = 'estimateid';
+    protected $primaryKey = 'estimateid';
     protected $table = 'estimate';
     protected $fillable = [
         'estimateid',
+        'customerid',
+        'plateno',
+        'inspectionid',
         'isActive'
     ];
     
-    public function customer(){
+    /*public function customers(){
         return $this->belongsTo('App\Customer', 'customerid');
     }
 
-    public function automobile(){
-        return $this->belongsTo('App\Automobile', 'automobileid');
+    public function automobiles(){
+        return $this->belongsTo(Automobile::class);
     }
 
-    public function inspection(){
+    public function inspections(){
         return $this->belongsTo('App\Inspection', 'inspectionid');
-    }
+    }*/
 }

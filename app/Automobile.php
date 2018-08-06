@@ -6,22 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Automobile extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'automobile';
-    protected $primarykey = 'plateno';
+    protected $primaryKey = 'plateno';
     protected $fillable = [
         'plateno',
+        'modelid',
         'transmission',
         'year',
+        'mileage',
         'color',
+        'chassisno',
         'isActive'
     ];
 
-    public function automobilemodel(){
-        return $this->belongsTo('App\AutomobileModel', 'modelid');
+    /*public function automobilemodels(){
+        return $this->belongsTo(AutomobileModel::class);
     }
 
-    public function estimate(){
-        return $this->hasMany('App\Estimate', 'estimateid');
-    }
+    public function estimates(){
+        return $this->hasMany(Estimate::class);
+    }*/
 }

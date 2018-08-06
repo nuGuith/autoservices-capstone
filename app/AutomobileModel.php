@@ -8,7 +8,7 @@ class AutomobileModel extends Model
 {
     public $timestamp = true;
     protected $table = 'automobile_model';
-    protected $primarykey = 'modelid';
+    protected $primaryKey = 'modelid';
     protected $fillable = [
         'modelid',
         'makeid',
@@ -16,12 +16,20 @@ class AutomobileModel extends Model
         'isActive'
     ];
 
-    public function automobilemake(){
+    /*public function automobilemakes(){
         return $this->belongsTo('App\AutomobileMake', 'makeid');
     }
 
-    public function productvehicle(){
+    public function productvehicles(){
         return $this->hasMany('App\ProductVehicle', '');
     }
+
+    public function automobiles(){
+        return $this->hasOne('App\Automobile', 'plateno');
+    }
+    
+    public function estimates(){
+        return $this->hasManyThrough('App\Estimate', 'App\Automobile');
+    }*/
 }
 

@@ -104,10 +104,10 @@ Route::get('/editinspect','EditInspectController@index');
 Route::get('/viewinspect','ViewInspectController@index');
 
 //Transaction - Estimate
-Route::get('/estimates','EstimatesController@index');
-Route::get('/addestimates','AddEstimatesController@index');
-Route::get('/editestimates','EditEstimatesController@index');
-Route::get('/viewestimates','ViewEstimatesController@index');
+Route::resource('/estimates', 'EstimatesController');
+//Route::post('/addestimates', 'EstimatesController@store');
+Route::get('estimates/viewestimates/{estimateid}', 'EstimatesController@show')
+    ->name('viewestimates');
 
 //Transaction - Job Order
 Route::get('/joborder','JobOrderController@index');
