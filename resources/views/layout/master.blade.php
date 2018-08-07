@@ -36,6 +36,9 @@
 
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/colorpicker_hack.css" /> -->
 
+    <link type="text/css" rel="stylesheet" href="vendors/tooltipster/css/tooltipster.bundle.min.css">
+    <link type="text/css" rel="stylesheet" href="vendors/tipso/css/tipso.min.css">
+
     <!--End of plugin styles-->
     <!--Page level styles-->
     <link type="text/css" rel="stylesheet" href="css/pages/form_elements.css"/>
@@ -47,7 +50,7 @@
     
 </head>
 <body class="fixedMenu_header">
-<div class="preloader" style=" position: fixed;
+<!-- <div class="preloader" style=" position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
@@ -64,7 +67,7 @@
 z-index: 999999">
         <img src="img/loader.gif" style=" width: 40px;" alt="loading...">
     </div>
-</div>
+</div> -->
 <div class="bg-dark" id="wrap">
     <div id="top"  class="fixed">
         <!-- .navbar -->
@@ -171,31 +174,31 @@ z-index: 999999">
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!}  >
+                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/productcategory')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Category
                             </a>
                         </li>
-                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/producttype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Type
                             </a>
                         </li>
-                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/productbrand')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Brand
                             </a>
                         </li>
-                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/productunittype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Unit Type
                             </a>
                         </li>
-                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!}  style="border-radius: 4px;">
                             <a href="{{url('/product')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product
@@ -203,26 +206,36 @@ z-index: 999999">
                         </li>
                     </ul>
                 </li>
-                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-wrench"></i>
                         <span class="link-title">&nbsp; Service</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
+                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
+                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
+                            </a>
+                        </li>
                         <li {!! (Request::is('servicecategory')  ? 'class="active"' : '') !!} >
                             <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Category
                             </a>
                         </li>
+                        <li {!! (Request::is('serviceprice')  ? 'class="active"' : '') !!} >
+                            <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Prices
+                            </a>
+                        </li>
+                        <li {!! (Request::is('serviceproduct')  ? 'class="active"' : '') !!} >
+                            <a href="/serviceproduct" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Product
+                            </a>
+                        </li>
                         <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
                             <a href="/service" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Services
-                            </a>
-                        </li>
-                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
-                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
                         <li {!! (Request::is('transact')  ? 'class="active"' : '') !!} >
@@ -472,6 +485,11 @@ z-index: 999999">
 <script type="text/javascript" src="vendors/inputmask/js/inputmask.extensions.js"></script>
 <script type="text/javascript" src="vendors/fileinput/js/fileinput.min.js"></script>
 <script type="text/javascript" src="vendors/fileinput/js/theme.js"></script>
+
+<script type="text/javascript" src="vendors/tooltipster/js/tooltipster.bundle.min.js"></script>
+<script type="text/javascript" src="vendors/tipso/js/tipso.min.js"></script>
+<script type="text/javascript" src="js/pages/tooltips.js"></script>
+
 
 
 <!--end of plugin scripts-->
