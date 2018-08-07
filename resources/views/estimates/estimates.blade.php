@@ -91,7 +91,7 @@
                                                     <td>
                                                         <ul style="padding-left: 1.2em;">
                                                             <li>Plate No:    {{ $estimate->PlateNo }}</li>
-                                                            <li>Model:   {{ $estimate->ModelID->Model }} {{ $estimate->Year }}</li>
+                                                            <li>Model:   {{ $model->Model }} {{ $model->Year }}</li>
                                                             <li>Chassis No:    {{ $estimate->ChassisNo }}</li>
                                                             <li>Mileage:    {{ $estimate->Mileage }}</li>
                                                         </ul>

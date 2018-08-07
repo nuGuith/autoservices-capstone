@@ -92,7 +92,7 @@
                                                     <td>
                                                         <ul style="padding-left: 1.2em;">
                                                             <li>Plate No:    <?php echo e($estimate->PlateNo); ?></li>
-                                                            <li>Model:   <?php echo e($estimate->ModelID->Model); ?> <?php echo e($estimate->Year); ?></li>
+                                                            <li>Model:   <?php echo e($model->Model); ?> <?php echo e($model->Year); ?></li>
                                                             <li>Chassis No:    <?php echo e($estimate->ChassisNo); ?></li>
                                                             <li>Mileage:    <?php echo e($estimate->Mileage); ?></li>
                                                         </ul>
