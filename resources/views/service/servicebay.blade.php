@@ -59,13 +59,12 @@
                         <div class="card">
                             <div class="card-header bg-dark">
                                 <div class="btn-group">
-
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                         <i class="fa fa-plus"></i>
                                             &nbsp;  Add Service Bay                                  
-                                         </a>
-                                    </div>
+                                        </a>
+                                </div>
                              </div>
 
 

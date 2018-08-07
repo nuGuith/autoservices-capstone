@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductUnitType extends Model
 {
-    public $timestamps = false;
     protected $table = 'product_unit_type';
-    protected $primaryKey = 'productunittypeid';
+    protected $primarykey = 'productunittypeid';
+    public $timestamps = true;
     protected $fillable = [
+        'productunittypeid',
         'unittypename',
         'unit',
-        'size'
+        'unitcategory',
+        'isActive'
     ];
 
     public function product()
     {
-        return $this->hasMany('App/Product','ProductID');
+        return $this->hasMany('App/Product','productid');
     }
 }

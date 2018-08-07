@@ -58,7 +58,7 @@ class ProductUnitTypeController extends Controller
         ];
 
         $validation = Validator::make($request->all(), [
-            'unittypename' => ['bail', 'required', 'unique:product_unit_type', 'max:50', 'regex:/$^[^~`!@#*_={}|\;<>,.?]+/'],
+            'unittypename' => ['bail', 'required', 'unique:product_unit_type', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
             'unit' => ['bail', 'required', 'unique:product_unit_type', 'max:6', 'regex:/$^[^~`!@#*_={}|\;<>,.?]+/']
             ], $niceNames);
         

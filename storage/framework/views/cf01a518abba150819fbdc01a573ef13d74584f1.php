@@ -215,7 +215,7 @@
                                         <br>
                                         <h4>Service Category Name</h4>
                                         <p>
-                                            <?php echo Form::input ('name','text', Input::old('servicecategoryname'), [
+                                            <?php echo Form::input ('servicecategoryname','text', Input::old('servicecategoryname'), [
                                                 'id'=>'servicecategoryname',
                                                 'name'=>'servicecategoryname',
                                                 'type'=>'text',

@@ -68,7 +68,7 @@ class ServiceController extends Controller
                 'required',
                 'max:255',
                 Rule::unique('service')->ignore(0, 'isactive'),
-                'regex:/$^[^~`!@#*_={}|\;<>,.?]+/'
+                'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'
             ],
             'servicecategoryid' => ['required'],
             'estimatedtime' => ['required','numeric','between:1,999'],
