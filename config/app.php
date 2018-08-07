@@ -159,7 +159,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        
+        // ...
+        'Collective\Html\HtmlServiceProvider',
+        'Yajra\Datatables\DatatablesServiceProvider',
+        'Gbrock\Table\Providers\TableServiceProvider',
+        // ...
     ],
 
     /*
@@ -208,6 +213,13 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        // ...
+        'Form' => 'Collective\Html\FormFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
+        'Table' => 'Gbrock\Table\Facades\Table',
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Input' => Illuminate\Support\Facades\Input::class,
+      // ... 
 
     ],
 

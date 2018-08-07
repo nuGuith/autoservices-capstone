@@ -12,26 +12,32 @@
     <!--global styles-->
     <link type="text/css" rel="stylesheet" href="css/components.css"/>
     <link type="text/css" rel="stylesheet" href="css/custom.css"/>
+      <link type="text/css" rel="stylesheet" href="css/pages/layouts.css" /
     <!-- end of global styles-->
 
     <!--Plugin styles-->
     <link type="text/css" rel="stylesheet" href="vendors/select2/css/select2.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/datatables/css/colReorder.bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/pages/dataTables.bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="css/pages/dataTables.bootstrap.css" />
     <!--End of plugin styles-->
 
     <!--Plugin styles-->
-    <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css"/>
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css"/> -->
     <link type="text/css" rel="stylesheet" href="vendors/chosen/css/chosen.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css"/>
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css"/> -->
     <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/fileinput/css/fileinput.min.css"/>
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css"/> -->
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.css"/> -->
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/> -->
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css"/> -->
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css"/> -->
+    <!-- <link type="text/css" rel="stylesheet" href="vendors/fileinput/css/fileinput.min.css"/> -->
 
-        <link type="text/css" rel="stylesheet" href="css/pages/colorpicker_hack.css" />
+    <!-- <link type="text/css" rel="stylesheet" href="css/pages/colorpicker_hack.css" /> -->
+
+    <link type="text/css" rel="stylesheet" href="vendors/tooltipster/css/tooltipster.bundle.min.css">
+    <link type="text/css" rel="stylesheet" href="vendors/tipso/css/tipso.min.css">
 
     <!--End of plugin styles-->
     <!--Page level styles-->
@@ -43,9 +49,8 @@
     <!-- end of page level styles -->
     
 </head>
-
-<body class="body">
-<div class="preloader" style=" position: fixed;
+<body class="fixedMenu_header">
+<!-- <div class="preloader" style=" position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
@@ -62,23 +67,35 @@
 z-index: 999999">
         <img src="img/loader.gif" style=" width: 40px;" alt="loading...">
     </div>
-</div>
-<div class="bg-dark" id="wrap" >
-    <div id="top" >
+</div> -->
+<div class="bg-dark" id="wrap">
+    <div id="top"  class="fixed">
         <!-- .navbar -->
         <nav class="navbar navbar-static-top" style="bottom: 2px">
             <div class="container-fluid m-0" >
-                <a class="navbar-brand float-left text-center " href="index.html">
-                    <h4 class="fa fa-car text-white">&nbsp;&nbsp;&nbsp;JPR AUTOPRECISION </h4>
+            <a class="navbar-brand float-left text-center " href="index.html" style="margin-top: 2px;">
+                    <div class="row">&nbsp;&nbsp;&nbsp;<i class="fa fa-car text-white"></i><h4 class="text-white">&nbsp;&nbsp;JPR AUTOPRECISION </h4></div>
                 </a>
                 <div class="menu">
                     <span class="toggle-left" id="menu-toggle">
-                        <i class="fa fa-bars text-white"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-bars text-white"></i>
                     </span>
+
+
                 </div>
-                <div class="topnav dropdown-menu-right float-right">                    
+
+                
+                
+                <div class="topnav dropdown-menu-right float-right">       
+
+                
+                    <div class="menu float-left">
+                      <h5><span class="toggle-left text-white" id="clockbox">&nbsp;&nbsp;</span></h5>  
+                    </div>
+
                     <div class="btn-group">
                         <div class="user-settings no-bg">
+
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
                                 <img src="img/admin.jpeg" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
@@ -108,15 +125,15 @@ z-index: 999999">
                     </div>
 
                 </div>
-         </nav>   
-    </div>
-           <!-- /.container-fluid --> 
+         </nav>
         <!-- /.navbar -->
-       <!-- /.head --> 
+        <!-- /.head --> </div>
     <!-- /#top -->
     <div class="wrapper">
-        <div id="left">
-            <div class="media user-media bg-white dker" style="top: 10px">
+        <div id="left" class="fixed">
+            <div class="menu_scroll">
+                <div class="media user-media bg-dark dker">
+                    <div class="media user-media bg-dark dker" style="top: 10px">
                 <div class="user-media-toggleHover">
                     <span class="fa fa-user"></span>
                 </div>
@@ -124,226 +141,249 @@ z-index: 999999">
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
                              src="img/admin.jpeg">
-                        <p class="text-dark user-info"><big>WELCOME ADMIN</big></p>
-                    </a>         
+                        <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
+                    </a>
                 </div>
+                <br>
             </div>
-       <!--  </br> -->
-            <!-- #menu -->
+                </div>
+                <!-- #menu -->
+                <!-- #menu -->
             <ul id="menu" class="bg-blue dker">
-                <li class="active">
-                    <a href="/">
+                <li {!! (Request::is('/') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-home"></i>
                         <span class="link-title">&nbsp;Dashboard</span>
                     </a>
                 </li>
 
+                <br>
+                    <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%;">&nbsp;&nbsp;MAINTENANCE</span>
 
-                    </br>
-                    <span class="link-title">&nbsp;&nbsp;MAINTENANCE</span>
-                
-
-                <li>
-                    <a href="/vehicletype">
+                <li {!! (Request::is('vehicletype') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/vehicletype" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-truck"></i>
                         <span class="link-title">&nbsp; Vehicle Type</span>
                     </a>
                     
                 </li>
-                <li>
-                    <a href="#">
+                <li {!! (Request::is('productcategory')|| Request::is('producttype')|| Request::is('productbrand')|| Request::is('productunittype')|| Request::is('product')? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-pencil-square-o"></i>
                         <span class="link-title">&nbsp; Product Listing</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li>
-                            <a href="/producttype">
+                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/productcategory')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Product Category
+                            </a>
+                        </li>
+                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/producttype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Type
                             </a>
                         </li>
-                        <li>
-                            <a href="/productbrand">
+                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/productbrand')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Brand
                             </a>
                         </li>
-                        <li>
-                            <a href="/productcategory">
+                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/productunittype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
-                                &nbsp; Product Variance
+                                &nbsp; Product Unit Type
                             </a>
                         </li>
-                        <li>
-                            <a href="/product">
+                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!}  style="border-radius: 4px;">
+                            <a href="{{url('/product')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#">
+                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-wrench"></i>
                         <span class="link-title">&nbsp; Service</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li>
-                            <a href="/servicecategory">
+                        <li {!! (Request::is('servicecategory')  ? 'class="active"' : '') !!} >
+                            <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Category
                             </a>
                         </li>
-                        <li>
-                            <a href="/service">
+                        <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
+                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Services
                             </a>
                         </li>
-                        <li>
-                            <a href="/servicebay">
+                        <li {!! (Request::is('serviceprice')  ? 'class="active"' : '') !!} >
+                            <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Price
+                            </a>
+                        </li>
+                        <li {!! (Request::is('serviceproduct')  ? 'class="active"' : '') !!} >
+                            <a href="/serviceproduct" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Product
+                            </a>
+                        </li>
+                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
+                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
-                        <li>
-                            <a href="/inspectionchecklist">
+                        <li {!! (Request::is('transact')  ? 'class="active"' : '') !!} >
+                            <a href="/transact" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
                             </a>
                         </li>
-                        <li>
-                            <a href="/maintenancechecklist">
+                        <!-- <li>
+                            <a href="/maintenancechecklist" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
                             </a>
-                        </li>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-angle-right"></i>
-                                &nbsp;Personnel
-                                <span class="fa arrow"></span>
-                            </a>
-                            <ul class="sub-menu sub-submenu">
-                                <li>
-                                    <a href="/jobdescription">
-                                        <i class="fa fa-angle-right"></i>
-                                        &nbsp;Job Description
-                                    </a>
-                                </li>  
-                                <li>
-                                    <a href="/personnel">
-                                        <i class="fa fa-angle-right"></i>
-                                        &nbsp;Personnel
-                                    </a>
-                                </li>   
-                            </ul>
-                        </li>
-                    </ul>
-                    </li>
+                        </li> -->
                     </ul>
                 </li>
-             <li>
-                    <a href="/package">
+                <li {!! (Request::is('jobdescription')|| Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
+                    <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-group"></i>
+                            &nbsp;Personnel
+                            <span class="fa arrow"></span>
+                    </a>
+                    <ul>
+                        <li {!! (Request::is('jobdescription')  ? 'class="active"' : '') !!} >
+                            <a href="/jobdescription" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Job Description
+                            </a>
+                        </li>  
+                        <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
+                            <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Personnel
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li {!! (Request::is('package')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/package" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa  fa-gift"></i>
                         <span class="link-title">&nbsp; Package</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/promo">
+                <li {!! (Request::is('promo')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/promo" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa  fa-bookmark"></i>
                         <span class="link-title">&nbsp; Promo</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/discount">
+                <li {!! (Request::is('discount')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/discount" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-ticket"></i>
                         <span class="link-title">&nbsp; Discount</span>
                     </a>
                 </li>
 
                     </br>
-                    <span class="link-title">&nbsp;&nbsp; TRANSACTION</span>
+                    <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
 
-                <li>
-                    <a href="/customer">
+                <!-- <li style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/customer" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-users"></i>
                         <span class="link-title">&nbsp; Customer</span>
                     </a>
                     
+                </li> -->
+                <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-search"></i>
+                        <span class="link-title">&nbsp; Inspect Vehicle</span>
+                    </a>
+                    
                 </li>
-                <li>
-                    <a href="/estimates">
+                <li {!! (Request::is('estimates')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/estimates" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-file-text"></i>
                         <span class="link-title">&nbsp; Estimates</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/joborder">
+                </li>
+                <li {!! (Request::is('joborder')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/joborder" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa fa-wpforms"></i>
                         <span class="link-title">&nbsp; Job Order</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/backjob">
-                        <i class="fa fa-file-text"></i>
+                <li {!! (Request::is('backjob')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/backjob" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-rotate-left"></i>
                         <span class="link-title">&nbsp; Back Job</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/warranty">
+                <li  {!! (Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/warranty" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-tags"></i>
                         <span class="link-title">&nbsp; Warranty</span>
                     </a>
                 </li>
 
                     </br>
-                    <span class="link-title">&nbsp;&nbsp; QUERIES AND REPORTS</span>
+                    <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; QUERIES AND REPORTS</span>
                 
-                <li>
-                    <a href="/queries">
+                <li {!! (Request::is('queries')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/queries" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-database"></i>
                         <span class="link-title">&nbsp; Queries</span>
                     </a>
                     
                 </li>
-                <li>
-                    <a href="/reports">
+                <li {!! (Request::is('reports')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/reports" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-bar-chart-o"></i>
                         <span class="link-title">&nbsp; Reports</span>
                     </a>
                 </li>
 
                 </br>
-                    <span class="link-title">&nbsp;&nbsp; UTILITIES</span>
+                    <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; UTILITIES</span>
                 
 
-                <li>
-                    <a href="/managesettings">
+                <li {!! (Request::is('settings')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/settings" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-cogs"></i>
                         <span class="link-title">&nbsp; Manage Settings</span>
                     </a>
                     
                 </li>
-                <li>
-                    <a href="/users">
+                <li {!! (Request::is('user')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/users" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa fa-user"></i>
                         <span class="link-title">&nbsp; Users</span>
                     </a>
                 </li>
-
+                <br>
 
             </ul>
             <!-- /#menu -->
+            </div>
+            <!-- /#menu -->
         </div>
         <!-- /#left -->
-
-
-        <!-- CONTENT -->
-        <div id="content" class="bg-container">          
-              @yield('content')
-        </div>
-        <!--END CONTENT -->
-
+        
+            @yield("content")
+            
+      
+        <!-- /#content -->
+    </div>
+    <!--wrapper-->
+    
 
     <!--wrapper-->
     <div id="right">
@@ -410,17 +450,18 @@ z-index: 999999">
 <!-- /#wrap -->
 
 <!--Plugin scripts-->
+
 <script type="text/javascript" src="vendors/select2/js/select2.js"></script>
 <script type="text/javascript" src="vendors/datatables/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="vendors/datatables/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="vendors/datatables/js/dataTables.responsive.min.js"></script>
 <script type="text/javascript" src="vendors/datatables/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/buttons.colVis.min.js"></script>
+<!-- <script type="text/javascript" src="vendors/datatables/js/buttons.colVis.min.js"></script> -->
 <script type="text/javascript" src="vendors/datatables/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="vendors/datatables/js/buttons.bootstrap.min.js"></script>
 <script type="text/javascript" src="vendors/datatables/js/buttons.print.min.js"></script>
 
-<script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
+<!-- <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script> -->
 
 <!--End of plugin scripts-->
 <!-- global scripts-->
@@ -429,34 +470,64 @@ z-index: 999999">
 <script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
 <script type="text/javascript" src="vendors/inputlimiter/js/jquery.inputlimiter.js"></script>
 <script type="text/javascript" src="vendors/chosen/js/chosen.jquery.js"></script>
-<script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- <script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script> -->
 <script type="text/javascript" src="vendors/jquery-tagsinput/js/jquery.tagsinput.js"></script>
 <script type="text/javascript" src="vendors/validval/js/jquery.validVal.min.js"></script>
-<script type="text/javascript" src="vendors/moment/js/moment.min.js"></script>
-<script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script>
-<script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-<script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script>
+<!-- <script type="text/javascript" src="vendors/moment/js/moment.min.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script> -->
 <script type="text/javascript" src="vendors/inputmask/js/inputmask.js"></script>
 <script type="text/javascript" src="vendors/inputmask/js/jquery.inputmask.js"></script>
-<script type="text/javascript" src="vendors/inputmask/js/inputmask.date.extensions.js"></script>
+<!-- <script type="text/javascript" src="vendors/inputmask/js/inputmask.date.extensions.js"></script> -->
 <script type="text/javascript" src="vendors/inputmask/js/inputmask.extensions.js"></script>
 <script type="text/javascript" src="vendors/fileinput/js/fileinput.min.js"></script>
 <script type="text/javascript" src="vendors/fileinput/js/theme.js"></script>
+
+<script type="text/javascript" src="vendors/tooltipster/js/tooltipster.bundle.min.js"></script>
+<script type="text/javascript" src="vendors/tipso/js/tipso.min.js"></script>
+<script type="text/javascript" src="js/pages/tooltips.js"></script>
+
 
 
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/form_elements.js"></script>
-
-
-
 <!--end of plugin scripts-->
 
 <script type="text/javascript" src="js/pages/users.js"></script>
+<script type="text/javascript" src="js/pages/fixed_menu.js"></script>
 
 
+
+
+<script type="text/javascript">
+tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+function GetClock(){
+var d=new Date();
+var nday=d.getDay(),nmonth=d.getMonth(),ndate=d.getDate(),nyear=d.getFullYear();
+var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+if(nhour==0){ap=" AM";nhour=12;}
+else if(nhour<12){ap=" AM";}
+else if(nhour==12){ap=" PM";}
+else if(nhour>12){ap=" PM";nhour-=12;}
+
+if(nmin<=9) nmin="0"+nmin;
+if(nsec<=9) nsec="0"+nsec;
+
+document.getElementById('clockbox').innerHTML=""+tday[nday]+", "+tmonth[nmonth]+" "+ndate+" "+nyear+" - "+nhour+":"+nmin+":"+nsec+ap+"";
+}
+
+window.onload=function(){
+GetClock();
+setInterval(GetClock,1000);
+}
+</script>
 
 </body>
 </html>
