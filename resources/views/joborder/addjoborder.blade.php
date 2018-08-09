@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Add Job Order') <!-- Page Title -->
 @section('content')
     
@@ -78,10 +78,20 @@
                                             <h5>Search <a id="by"></a></h5>
                                             <p>
                                                 <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
+                                                <select class="form-control chzn-select" tabindex="2">
                                                     <option disabled selected>Choose <a></a></option>
                                                     <option value="1">id</option>
                                                 </select>
+                                                {{ Form::select(
+                                                    'id',
+                                                    $estimateids,
+                                                    null,
+                                                    array(
+                                                    'class' => 'form-control',
+                                                    'id' => 'id',
+                                                    'name' => 'estimateids')
+                                                    ) 
+                                                }}
                                             </p>
                                         </div>
                                         <!--Serch by Cutomer Name -->
