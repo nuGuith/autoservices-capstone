@@ -32,26 +32,26 @@ class EstimatesController extends Controller
     public function index()
     {
         $automobilemakes = DB::table('automobile_make as ma')
-            ->join('automobile_model as am', 'ma.makeid', '=', 'am.makeid')
+            ->leftjoin('automobile_model as am', 'ma.makeid', '=', 'am.makeid')
+            ->select('ma.*', 'am.*')
             ->where('ma.isActive', 1)
-            ->select('ma.MakeID', 'ma.Make', 'am.Model')
             ->get();
         
         $automobiles = DB::table('automobile as a')
-            ->join('automobile_model as am', 'a.modelid', '=', 'am.modelid')
-            ->select('am.Model', 'a.*')
+            ->leftjoin('automobile_model as am', 'a.modelid', '=', 'am.modelid')
+            ->select('am.*', 'a.*')
             ->where('a.isActive', 1)
             ->get();
 
         $estimates = DB::table('estimate as e')
-            ->join('customer as c', 'e.customerid', '=', 'c.customerid')
-            ->join('automobile as a', 'e.plateno', '=', 'a.plateno')
-            //->leftjoin('automobile_make as ma', 'a.makeid', '=', 'ma.makeid')
-            //->leftjoin('automobile_model as mo', 'ma.modelid', '=', 'mo.modelid')
+            ->leftjoin('customer as c', 'e.customerid', '=', 'c.customerid')
+            ->leftjoin('automobile as a', 'e.plateno', '=', 'a.plateno')
+            ->join('automobile_model as am', 'a.modelid', '=', 'am.modelid')
+            ->select('e.*', 'c.*', 'a.*', 'am.*')
             ->where('e.isActive', 1)
             ->get();
-        //dd(compact('automobilemakes', 'automobiles', 'estimates'));
-        return view ('estimates.estimates', compact('automobilemakes', 'automobiles', 'estimates'));
+        
+        return view('estimates.estimates')->withEstimates($estimates)->withAutomobiles($automobiles)->withAutomobileMakes($automobilemakes);
     }
 
     /**
@@ -81,9 +81,10 @@ class EstimatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($estimateid)
     {
-        return view ('estimates.viewestimates');
+        $estimate = Estimate::findOrFail($estimateid);
+        return view('estimates.viewestimates')->withEstimate($estimate);
     }
 
     /**
@@ -117,6 +118,16 @@ class EstimatesController extends Controller
      */
     public function delete(Request $request)
     {
-       
+        try{
+            DB::table('estimate')
+                    ->where('estimateid', $request->deleteId)
+                    ->update(['isActive' => 0]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            $err = $e->getMessage();
+                return redirect('estimates')
+                    ->withErrors($err, 'delete');
+        }
+        return redirect('estimates');  
     }
 }

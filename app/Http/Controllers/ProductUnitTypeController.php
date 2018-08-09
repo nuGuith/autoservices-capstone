@@ -143,9 +143,7 @@ class ProductUnitTypeController extends Controller
                 'required', 
                 Rule::unique('product_unit_type')->ignore($request->productunittypeid, 'productunittypeid'),
                 'max:6',
-                'regex:/^[^~`!@#*_={}|\;<>,.?]+$/'],
-            
-            'unitcategory' => 'required'
+                'regex:/^[^~`!@#*_={}|\;<>,.?]+$/']
             ], $niceNames);
         
         $validation->setAttributeNames($niceNames);
@@ -156,9 +154,9 @@ class ProductUnitTypeController extends Controller
         }
         else{
             try{
-                DB::table('product_unittype')
+                DB::table('product_unit_type')
                     ->where('productunittypeid', $request->productunittypeid)
-                    ->update(['unittypename' => ($request->unittypename), 'unit' => ($request->unit), 'unitcategory' => ($request->unitcategory)]);
+                    ->update(['unittypename' => ($request->unittypename), 'unit' => ($request->unit)]);
             }
                 catch(\Illuminate\Database\QueryException $e){
                     DB::rollBack();

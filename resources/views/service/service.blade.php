@@ -83,14 +83,13 @@
                                     </div>
                                 </div>
                             <div>
-                                        <table class="table table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                             <thead>
                                                 <tr role="row">
                                                     
-                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Service Name</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Service Category</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Estimated Time</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Initial Price</b></th>
+                                                    <th class="sorting wid-30" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>Service Name</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Estimated Time</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Initial Price</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
@@ -100,16 +99,16 @@
                                                 <tr>
                                                     
                                                     <td>{!!$service->ServiceName!!}</td>
-                                                    <td>{!!$service->ServiceCategoryName!!}</td>
                                                     <td>{!!$service->EstimatedTime!!}</td>
                                                     <td>Php {!!$service->InitialPrice!!}</td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button id="editBtn({!!$service->ServiceID!!})" class="btn btn-success hvr-float-shadow adv_cust_mod_btn" onclick="editModal({!!$service->ServiceID!!})" data-toggle="modal" data-href="#responsive" data-categoryname="{{$service->ServiceCategoryName}}" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" onclick="editModal({!!$service->ServiceID!!})"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                               
+                                                        
+                                                        
                                                         <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal({!!$service->ServiceID!!})" style = "width: 70px "><i class="fa fa-trash text-white"></i> &nbsp; Delete
+                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal({!!$service->ServiceID!!})"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -137,7 +136,7 @@
                                         <br>
                                         <h4>Service Name</h4>
                                         <p>
-                                            <input id="servicename" name="servicename" disabled="disabled" type="text" placeholder="Service Name" maxlength="255" required="required" class="form-control">
+                                            <input id="servicename" name="servicename" type="text" placeholder="Service Name" maxlength="255" required="required" class="form-control">
                                             <!-- {!! 
                                                 Form::input ('servicename','text', Input::old('servicename'), [
                                                 'id'=>'servicename',
@@ -158,7 +157,16 @@
                                                 <tr>
                                                     <td><h5>Service Category</h5></td>
                                                     <td>
-                                                        <input type="text" id="servicecategory" name="servicecategory" disabled="disabled" placeholder="Service Category" class="form-control"/>
+                                                        {{ Form::select(
+                                                            'servicecategoryid',
+                                                            $categories,
+                                                            null,
+                                                            array(
+                                                            'class' => 'form-control',
+                                                            'id' => 'servicecategoryid',
+                                                            'name' => 'servicecategoryid')
+                                                            ) 
+                                                        }}
                                                     </td>
                                                 </tr>
 
@@ -269,7 +277,9 @@
                                         <table id="myTable" class="table order-list" >
                                             <tbody>
                                                 <tr>
-                                                    <td><h5>Service Category<span style="color:red">*</span></h5></td>
+                                                    <td>
+                                                    <h5>Service Category<span style="color:red">*</span></h5>
+                                                    </td>
                                                     <td>
                                                         {{ Form::select(
                                                             'servicecategoryid',
@@ -285,7 +295,9 @@
                                                 </tr>
 
                                                 <tr>
-                                                    <td><h5>Estimated Time<span style="color:red">*</span></h5></td>
+                                                    <td>
+                                                    <h5>Estimated Time<span style="color:red">*</span></h5>
+                                                    </td>
                                                     <td>
                                                         {!! 
                                                             Form::input ('estimatedtime','text', Input::old('estimatedtime'), [
@@ -316,7 +328,9 @@
                                                 </tr>
 
                                                 <tr>
-                                                    <td><h5>Initial Price<span style="color:red">*</span></h5></td>
+                                                    <td>
+                                                    <h5>Initial Price<span style="color:red">*</span></h5>
+                                                    </td>
                                                     <td>
                                                         {!! 
                                                             Form::input ('initialprice','text', Input::old('initialprice'), [
@@ -330,6 +344,7 @@
                                                         !!}
                                                     </td>
                                                 </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -462,7 +477,7 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#servicename").val(data.service.ServiceName);
-                    $("#servicecategoryid").val(data.service.ServiceCategoryName);
+                    $("#servicecategoryid").val(data.service.ServiceCategoryID);
                     $("#estimatedtime").val(data.service.EstimatedTime);
                     $("#sizetype").val(data.service.SizeType);
                     $("#class").val(data.service.Class);

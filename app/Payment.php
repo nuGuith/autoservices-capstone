@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {   
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'payment';
-    protected $primarykey = 'paymentid';
+    protected $primaryKey = 'paymentid';
     protected $fillable = [
         'paymentid',
         'totalcharge',

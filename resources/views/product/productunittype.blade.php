@@ -103,11 +103,12 @@
                                                     <td>{!! $productunittype->Unit !!}</td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" onclick="editModal({!!$productunittype->ProductUnitTypeID!!})" data-toggle="modal" data-href="#responsive" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" onclick="editModal({!!$productunittype->ProductUnitTypeID!!})"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                               
+                                                        
+                                                        
                                                         <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal({!!$productunittype->ProductUnitTypeID!!})" style = "width: 70px "><i class="fa fa-trash text-white"></i> &nbsp; Delete
+                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal({!!$productunittype->ProductUnitTypeID!!})"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>

@@ -12,8 +12,6 @@ use App\ProductCategory;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class ProductTypeController extends Controller
 {
@@ -126,7 +124,7 @@ class ProductTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $niceNames = [
             'producttypename' => 'Type Name',

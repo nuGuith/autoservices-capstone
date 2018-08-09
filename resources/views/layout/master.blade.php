@@ -213,19 +213,19 @@ z-index: 999999">
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
-                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
-                            </a>
-                        </li>
                         <li {!! (Request::is('servicecategory')  ? 'class="active"' : '') !!} >
                             <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Category
                             </a>
                         </li>
+                        <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
+                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Services
+                            </a>
+                        </li>
                         <li {!! (Request::is('serviceprice')  ? 'class="active"' : '') !!} >
                             <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Prices
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Price
                             </a>
                         </li>
                         <li {!! (Request::is('serviceproduct')  ? 'class="active"' : '') !!} >
@@ -233,9 +233,9 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Product
                             </a>
                         </li>
-                        <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
-                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Services
+                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
+                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
                         <li {!! (Request::is('transact')  ? 'class="active"' : '') !!} >

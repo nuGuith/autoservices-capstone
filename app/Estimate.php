@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estimate extends Model
 {
-    public $timestamp = true;
-    protected $primarykey = 'estimateid';
+    public $timestamps = true;
+    protected $primaryKey = 'estimateid';
     protected $table = 'estimate';
     protected $fillable = [
         'estimateid',

@@ -98,11 +98,12 @@
                                                     <td><?php echo $producttype->CategoryName; ?></td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" id="editBtn<?php echo $producttype->ProductTypeID; ?>" onclick="editModal(<?php echo $producttype->ProductTypeID; ?>); setSelected(<?php echo $ctr; ?>);" data-toggle="modal" data-href="#responsive" data-categoryname="<?php echo e($producttype->CategoryName); ?>" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" id="editBtn<?php echo $producttype->ProductTypeID; ?>" onclick="editModal(<?php echo $producttype->ProductTypeID; ?>)"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                               
+                                                        
+                                                        
                                                         <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal(<?php echo $producttype->ProductTypeID; ?>)" style = "width: 70px "><i class="fa fa-trash text-white"></i> &nbsp; Delete 
+                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal(<?php echo $producttype->ProductTypeID; ?>)"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -133,7 +134,7 @@
                                         <br>
                                         <h4>Product Type Name</h4>
                                         <p>
-                                            <?php echo e(Form::input('producttypename', 'text', Input::old('productypename'), [
+                                            <?php echo e(Form::input('producttypename', 'text', Input::old('producttypename'), [
                                                     'id' => 'producttypename',
                                                     'name' => 'producttypename',
                                                     'class' => 'form-control',
@@ -152,8 +153,8 @@
                                                     <td><h5>Product Category</h5></td>
                                                     <td>
                                                         <?php echo e(Form::select('productcategoryid', $categories, null, array(
-                                                        'class' => 'form-control',
-                                                        'id' => 'productcategoryid',
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'categoryid',
                                                         'name' => 'productcategoryid')
                                                         )); ?>
 
@@ -380,11 +381,11 @@
     });
 </script>
 <script>
-    function setSelected(id){
+    /*function setSelected(id){
         var btn = "editBtn" + id;
         alert(document.getElementById("#tbl").rows[0].cols[1].innerHTML);
         document.getElementById("#productcategoryid").value = $(this).data("categoryname");
-    }
+    }*/
      function editModal(id){
             $.ajax({
                 type: "GET",
@@ -392,7 +393,8 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#producttypename").val(data.type.ProductTypeName);
-                    $("#productcategoryid").val(data.type.ProductCategoryID);
+                    $("#categoryid").val(data.type.ProductCategoryID);
+                    $("#producttypeid").val(data.type.ProductTypeID);
                 }
             });
             $('#editModal').modal('show');

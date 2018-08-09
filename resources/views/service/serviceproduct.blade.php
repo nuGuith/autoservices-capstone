@@ -121,7 +121,7 @@
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
-                                            &nbsp;&nbsp;Add Vehicle Type</h4>
+                                            &nbsp;&nbsp;Add Service Product</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row m-r-10">

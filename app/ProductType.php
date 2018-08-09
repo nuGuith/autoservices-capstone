@@ -8,7 +8,7 @@ class ProductType extends Model
 {
     public $timestamps = true;
     protected $table = 'product_type';
-    protected $primarykey = 'producttypeid';
+    protected $primaryKey = 'producttypeid';
     protected $fillable = [
         'productcategoryid',
         'producttypename',

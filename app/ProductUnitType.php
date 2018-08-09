@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductUnitType extends Model
 {
-    protected $table = 'product_unit_type';
-    protected $primarykey = 'productunittypeid';
     public $timestamps = true;
+    protected $table = 'product_unit_type';
+    protected $primaryKey = 'productunittypeid';
     protected $fillable = [
         'productunittypeid',
         'unittypename',

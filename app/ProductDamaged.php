@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductDamaged extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'product_damaged';
-    protected $primarykey = 'productdamagedid';
+    protected $primaryKey = 'productdamagedid';
     protected $fillable = [
         'productdamagedid',
         'state',

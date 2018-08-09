@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoProductInclusions extends Model
 {
-    public $timestamp = true;
-    public $icrementing = false;
+    public $timestamps = true;
+    public $incrementing = false;
     protected $table = 'promo_product_inclusions';
     protected $primaryKey = null;
     protected $fillable = [

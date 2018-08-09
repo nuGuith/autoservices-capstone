@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductBrand extends Model
 {
-    protected $table = 'product_brand';
-    protected $primarykey = 'productbrandid';
     public $timestamps = true;
+    protected $table = 'product_brand';
+    protected $primaryKey = 'productbrandid';
     protected $fillable = [
         'productbrandid',
         'brandname',

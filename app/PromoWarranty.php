@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoWarranty extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'promo_warranty';
-    protected $primarykey = 'promowarrantyid';
+    protected $primaryKey = 'promowarrantyid';
     protected $fillable = [
         'promowarrantyid',
         'durationmode',

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PackageServiceInclusions extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     public $incrementing = false;
     protected $table = 'package_service_inclusions';
     protected $primaryKey = null;

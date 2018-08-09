@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PackageBackjob extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'package_backjob';
-    protected $primarykey = 'productbackjobid';
+    protected $primaryKey = 'productbackjobid';
     protected $fillable = [
         'productbackjobid',
         'datetime',

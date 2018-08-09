@@ -106,8 +106,9 @@ Route::get('/viewinspect','ViewInspectController@index');
 //Transaction - Estimate
 Route::resource('/estimates', 'EstimatesController');
 //Route::post('/addestimates', 'EstimatesController@store');
-Route::get('estimates/viewestimates/{estimateid}', 'EstimatesController@show')
+Route::get('/viewestimates/{estimateid}', 'EstimatesController@show')
     ->name('viewestimates');
+Route::patch('/estimates/{estimateid}', 'EstimatesController@delete');
 
 //Transaction - Job Order
 Route::get('/joborder','JobOrderController@index');
