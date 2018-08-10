@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2018 at 11:44 AM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Aug 09, 2018 at 08:35 AM
+-- Server version: 10.1.31-MariaDB
+-- PHP Version: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `autoservices-capstone`
 --
--- 1HGBH41JXMN109186
+
 -- --------------------------------------------------------
 
 --
@@ -31,12 +31,21 @@ SET time_zone = "+00:00";
 CREATE TABLE `automobile` (
   `PlateNo` varchar(10) NOT NULL,
   `ModelID` int(10) NOT NULL,
-  `Transmission` char(2) NOT NULL,
-  `Year` year(4) NOT NULL,
+  `Mileage` int(6) DEFAULT NULL,
   `Color` varchar(50) DEFAULT NULL,
   `ChassisNo` varchar(30) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `automobile`
+--
+
+INSERT INTO `automobile` (`PlateNo`, `ModelID`, `Mileage`, `Color`, `ChassisNo`, `isActive`, `updated_at`, `created_at`) VALUES
+('ABC123', 1, 10000, 'Black', 'JMDKSFIENV1223', b'1', '2018-08-03 08:20:23', '2018-08-03 07:51:12'),
+('DEF456', 2, 20000, 'Black', 'JNCVJKSD12209MKD', b'1', '2018-08-03 08:20:37', '2018-08-03 07:51:12');
 
 -- --------------------------------------------------------
 
@@ -47,8 +56,18 @@ CREATE TABLE `automobile` (
 CREATE TABLE `automobile_make` (
   `MakeID` int(10) NOT NULL,
   `Make` varchar(255) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `automobile_make`
+--
+
+INSERT INTO `automobile_make` (`MakeID`, `Make`, `isActive`, `created_at`, `updated_at`) VALUES
+(1, 'Land Rover', b'1', '2018-08-03 07:48:11', '0000-00-00 00:00:00'),
+(2, 'Volkswagen', b'1', '2018-08-03 07:48:11', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -60,8 +79,20 @@ CREATE TABLE `automobile_model` (
   `ModelID` int(10) NOT NULL,
   `MakeID` int(10) NOT NULL,
   `Model` varchar(255) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `Transmission` char(2) NOT NULL,
+  `Year` date NOT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `automobile_model`
+--
+
+INSERT INTO `automobile_model` (`ModelID`, `MakeID`, `Model`, `Transmission`, `Year`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 'Range Rover', '', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
+(2, 2, 'Beetle', '', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45');
 
 -- --------------------------------------------------------
 
@@ -80,8 +111,18 @@ CREATE TABLE `customer` (
   `City` varchar(40) NOT NULL,
   `Province` varchar(40) NOT NULL,
   `EmailAddress` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`CustomerID`, `FirstName`, `MiddleName`, `LastName`, `ContactNo`, `CompleteAddress`, `Barangay`, `City`, `Province`, `EmailAddress`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Sofia', 'Aguirre', 'Wabe', '09155810953', '18 C Blk A. Sto. Nino St. SFDM Qezon City', 'San Antonio', 'Quezon City', 'Metro Manila', 'sofia18.sw@gmail.com', b'1', '0000-00-00 00:00:00', '2018-08-03 07:46:20'),
+(2, 'John Ray', 'Ramos', 'Palatino', '09959608509', '13 San Vicente St. SFDM Quezon City', 'Damayan', 'Quezon City', 'Metro Manila', 'johnraypalatino08@gmail.com', b'1', '0000-00-00 00:00:00', '2018-08-03 07:46:20');
 
 -- --------------------------------------------------------
 
@@ -94,7 +135,9 @@ CREATE TABLE `discount` (
   `DiscountName` varchar(255) NOT NULL,
   `DiscountRate` smallint(3) NOT NULL,
   `DiscountType` varchar(40) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -107,9 +150,19 @@ CREATE TABLE `estimate` (
   `EstimateID` int(10) NOT NULL,
   `CustomerID` int(10) NOT NULL,
   `PlateNo` varchar(10) NOT NULL,
-  `InspectionID` int(10) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `InspectionID` int(10) DEFAULT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `estimate`
+--
+
+INSERT INTO `estimate` (`EstimateID`, `CustomerID`, `PlateNo`, `InspectionID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 'ABC123', NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
+(2, 2, 'DEF456', NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -122,7 +175,9 @@ CREATE TABLE `inspection` (
   `InspectionChecklistID` int(10) NOT NULL,
   `Assessment` varchar(100) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,7 +190,9 @@ CREATE TABLE `inspection_checklist` (
   `InspectionChecklistID` int(10) NOT NULL,
   `InspectionItem` varchar(100) NOT NULL,
   `InspectionType` varchar(100) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -148,7 +205,9 @@ CREATE TABLE `inspection_header` (
   `InspectionID` int(10) NOT NULL,
   `JobOrderID` int(10) NOT NULL,
   `Date` date NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -160,7 +219,9 @@ CREATE TABLE `inspection_header` (
 CREATE TABLE `job_description` (
   `JobDescriptionID` int(10) NOT NULL,
   `JobDescription` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -171,7 +232,7 @@ CREATE TABLE `job_description` (
 
 CREATE TABLE `job_order` (
   `JobOrderID` int(10) NOT NULL,
-  `EstimateID` int(10) NOT NULL,
+  `EstimateID` int(10) DEFAULT NULL,
   `PersonnelPerformedID` int(10) NOT NULL,
   `ServiceBayID` int(10) NOT NULL,
   `PromoID` int(10) DEFAULT NULL,
@@ -186,7 +247,10 @@ CREATE TABLE `job_order` (
   `LaborDiscount_Rate` smallint(3) DEFAULT NULL,
   `JobDuration` smallint(3) DEFAULT NULL,
   `TotalAmountDue` decimal(14,2) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `InspectionID` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -203,7 +267,9 @@ CREATE TABLE `job_schedule` (
   `Status` varchar(10) NOT NULL,
   `StartDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `FinishDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -220,7 +286,9 @@ CREATE TABLE `maintenance` (
   `MaterialRequired` tinyint(1) NOT NULL,
   `CarriedOut` tinyint(1) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -233,7 +301,9 @@ CREATE TABLE `maintenance_checklist` (
   `MaintenanceChecklistID` int(10) NOT NULL,
   `MaintenanceCheckCategory` varchar(100) NOT NULL,
   `MaintenanceCheckItem` varchar(100) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -246,7 +316,9 @@ CREATE TABLE `maintenance_header` (
   `MaintenanceID` int(10) NOT NULL,
   `JobOrderID` int(10) NOT NULL,
   `Mileage` int(10) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -261,7 +333,9 @@ CREATE TABLE `package_backjob` (
   `DateTime` datetime NOT NULL,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -274,7 +348,9 @@ CREATE TABLE `package_header` (
   `PackageID` int(10) NOT NULL,
   `PackageName` varchar(255) NOT NULL,
   `Price` decimal(14,2) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -287,7 +363,9 @@ CREATE TABLE `package_product_inclusions` (
   `PackageID` int(10) NOT NULL,
   `ProductID` int(10) NOT NULL,
   `Quantity` int(3) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -299,7 +377,9 @@ CREATE TABLE `package_product_inclusions` (
 CREATE TABLE `package_service_inclusions` (
   `PackageID` int(10) NOT NULL,
   `ServiceID` int(10) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -313,7 +393,9 @@ CREATE TABLE `package_warranty` (
   `PackageID` int(10) NOT NULL,
   `Duration` int(3) NOT NULL,
   `DurationMode` varchar(5) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -328,7 +410,9 @@ CREATE TABLE `payment` (
   `TotalCharge` decimal(14,2) NOT NULL,
   `TotalPayment` decimal(14,2) NOT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -348,7 +432,9 @@ CREATE TABLE `personnel_header` (
   `Barangay` varchar(40) DEFAULT NULL,
   `City` varchar(40) NOT NULL,
   `Province` varchar(40) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -361,7 +447,9 @@ CREATE TABLE `personnel_job` (
   `PersonnelJobID` int(10) NOT NULL,
   `PersonnelID` int(10) NOT NULL,
   `JobDescriptionID` int(40) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -374,7 +462,9 @@ CREATE TABLE `personnel_job_performed` (
   `PersonnelPerformedID` int(10) NOT NULL,
   `JobOrderID` int(10) NOT NULL,
   `PersonnelJobID` int(10) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -387,7 +477,9 @@ CREATE TABLE `personnel_skill` (
   `SkillID` int(10) NOT NULL,
   `PersonnelID` int(10) NOT NULL,
   `isMastered` tinyint(1) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -402,7 +494,9 @@ CREATE TABLE `personnel_workload` (
   `WorkStartDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `InitialWorkload` int(3) NOT NULL DEFAULT '0',
   `ActualWorkload` int(3) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -416,7 +510,9 @@ CREATE TABLE `problem` (
   `JobOrderID` int(10) NOT NULL,
   `Problem` varchar(8000) NOT NULL,
   `isPerformed` tinyint(1) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -430,7 +526,9 @@ CREATE TABLE `process` (
   `ServiceID` int(10) NOT NULL,
   `ProcessName` varchar(100) NOT NULL,
   `EstimatedTime` int(4) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -445,11 +543,21 @@ CREATE TABLE `product` (
   `ProductBrandID` int(10) NOT NULL,
   `ProductUnitTypeID` int(10) NOT NULL,
   `ProductName` varchar(100) NOT NULL,
-  `Application` varchar(100) NOT NULL,
   `Description` varchar(200) DEFAULT NULL,
   `Price` decimal(14,2) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `Size` int(4) NOT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`ProductID`, `ProductTypeID`, `ProductBrandID`, `ProductUnitTypeID`, `ProductName`, `Description`, `Price`, `Size`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 1, 1, 'Semi Synthetic Oil', NULL, '500.00', 1, b'1', '2018-07-31 15:13:49', '0000-00-00 00:00:00'),
+(2, 2, 2, 2, 'Scotch\'s Electrical Tape', NULL, '150.00', 100, b'0', '2018-08-03 03:49:16', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -464,7 +572,9 @@ CREATE TABLE `product_backjob` (
   `Date` date NOT NULL,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -476,8 +586,18 @@ CREATE TABLE `product_backjob` (
 CREATE TABLE `product_brand` (
   `ProductBrandID` int(10) NOT NULL,
   `BrandName` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_brand`
+--
+
+INSERT INTO `product_brand` (`ProductBrandID`, `BrandName`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Petron', b'1', '2018-07-31 15:14:45', '0000-00-00 00:00:00'),
+(2, 'Scotch', b'1', '2018-07-31 15:14:45', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -488,8 +608,18 @@ CREATE TABLE `product_brand` (
 CREATE TABLE `product_category` (
   `ProductCategoryID` int(10) NOT NULL,
   `CategoryName` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_category`
+--
+
+INSERT INTO `product_category` (`ProductCategoryID`, `CategoryName`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Mechanical', b'1', '2018-07-31 15:15:02', '0000-00-00 00:00:00'),
+(2, 'Electrical', b'1', '2018-07-31 15:15:02', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -504,7 +634,24 @@ CREATE TABLE `product_damaged` (
   `Quantity` smallint(4) NOT NULL,
   `Date` date NOT NULL,
   `Remarks` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_service`
+--
+
+CREATE TABLE `product_service` (
+  `ProductID` int(10) DEFAULT NULL,
+  `ServiceID` int(11) DEFAULT NULL,
+  `Price` decimal(14,4) DEFAULT NULL,
+  `isActive` bit(1) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -517,8 +664,18 @@ CREATE TABLE `product_type` (
   `ProductTypeID` int(10) NOT NULL,
   `ProductCategoryID` int(10) NOT NULL,
   `ProductTypeName` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_type`
+--
+
+INSERT INTO `product_type` (`ProductTypeID`, `ProductCategoryID`, `ProductTypeName`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 'Lubricant', b'1', '2018-07-31 15:15:41', '0000-00-00 00:00:00'),
+(2, 2, 'Electrical Tape', b'1', '2018-07-31 15:15:41', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -530,9 +687,18 @@ CREATE TABLE `product_unit_type` (
   `ProductUnitTypeID` int(10) NOT NULL,
   `UnitTypeName` varchar(50) NOT NULL,
   `Unit` char(3) NOT NULL,
-  `Size` int(4) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_unit_type`
+--
+
+INSERT INTO `product_unit_type` (`ProductUnitTypeID`, `UnitTypeName`, `Unit`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Liter', 'l', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00'),
+(2, 'Meter', 'm', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -541,12 +707,30 @@ CREATE TABLE `product_unit_type` (
 --
 
 CREATE TABLE `product_used` (
-  `JobOrderID` int(10) NOT NULL,
-  `SalesID` int(10) NOT NULL,
+  `JobOrderID` int(10) DEFAULT NULL,
+  `SalesID` int(10) DEFAULT NULL,
+  `EstimateID` int(10) DEFAULT NULL,
   `DateUsed` date NOT NULL,
   `SubTotal` decimal(14,2) NOT NULL,
   `isCustomerProvided` bit(1) NOT NULL DEFAULT b'0',
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_vehicle`
+--
+
+CREATE TABLE `product_vehicle` (
+  `ProductID` int(11) DEFAULT NULL,
+  `ModelID` int(11) DEFAULT NULL,
+  `Year` year(4) DEFAULT NULL,
+  `isActive` bit(1) DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -557,12 +741,21 @@ CREATE TABLE `product_used` (
 
 CREATE TABLE `product_warranty` (
   `ProductWarrantyID` int(10) NOT NULL,
-  `ServiceWarrantyID` int(10) NOT NULL,
-  `SalesID` int(10) NOT NULL,
+  `ProductID` int(10) NOT NULL,
   `Duration` int(3) NOT NULL,
   `DurationMode` varchar(5) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_warranty`
+--
+
+INSERT INTO `product_warranty` (`ProductWarrantyID`, `ProductID`, `Duration`, `DurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 5, 'year', b'1', '0000-00-00 00:00:00', '2018-08-02 07:03:08'),
+(2, 2, 52, 'week', b'1', '0000-00-00 00:00:00', '2018-08-02 07:03:08');
 
 -- --------------------------------------------------------
 
@@ -576,7 +769,9 @@ CREATE TABLE `promo_backjob` (
   `DateTime` datetime NOT NULL,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -591,7 +786,9 @@ CREATE TABLE `promo_header` (
   `Duration` int(3) NOT NULL,
   `DurationMode` varchar(5) NOT NULL,
   `Price` decimal(14,2) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -604,7 +801,9 @@ CREATE TABLE `promo_product_inclusions` (
   `PromoID` int(10) NOT NULL,
   `ProductID` int(10) NOT NULL,
   `Quantity` int(3) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -616,7 +815,9 @@ CREATE TABLE `promo_product_inclusions` (
 CREATE TABLE `promo_service_inclusions` (
   `PromoID` int(10) NOT NULL,
   `ServiceID` int(10) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -630,7 +831,9 @@ CREATE TABLE `promo_warranty` (
   `PromoID` int(10) NOT NULL,
   `Duration` int(3) NOT NULL,
   `DurationMode` varchar(5) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -645,7 +848,9 @@ CREATE TABLE `sales` (
   `MarkupPrice` decimal(14,2) NOT NULL,
   `Quantity` smallint(4) NOT NULL,
   `Date` date NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -662,7 +867,9 @@ CREATE TABLE `service` (
   `Class` varchar(50) DEFAULT NULL,
   `EstimatedTime` int(3) NOT NULL,
   `InitialPrice` decimal(14,2) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -675,10 +882,12 @@ CREATE TABLE `service_backjob` (
   `ServiceBackjobID` int(10) NOT NULL,
   `ServicePerformedID` int(10) NOT NULL,
   `ServiceWarrantyID` int(10) NOT NULL,
-  `DateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `DateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -691,7 +900,9 @@ CREATE TABLE `service_bay` (
   `ServiceBayID` int(10) NOT NULL,
   `ServiceBayName` varchar(50) NOT NULL,
   `Description` varchar(255) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -704,7 +915,9 @@ CREATE TABLE `service_category` (
   `ServiceCategoryID` int(10) NOT NULL,
   `ServiceCategoryName` varchar(100) NOT NULL,
   `Description` varchar(255) DEFAULT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -716,10 +929,13 @@ CREATE TABLE `service_category` (
 CREATE TABLE `service_performed` (
   `ServicePerformedID` int(10) NOT NULL,
   `ServiceID` int(10) NOT NULL,
-  `JobOrderID` int(10) NOT NULL,
+  `JobOrderID` int(10) DEFAULT NULL,
   `ServiceWarrantyID` int(10) NOT NULL,
-  `LaborCost` decimal(14,2) NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `EstimateID` int(10) DEFAULT NULL,
+  `LaborCost` decimal(14,2) NOT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -731,7 +947,9 @@ CREATE TABLE `service_performed` (
 CREATE TABLE `service_skill` (
   `ServiceID` int(10) NOT NULL,
   `SkillID` int(10) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -742,10 +960,12 @@ CREATE TABLE `service_skill` (
 
 CREATE TABLE `service_warranty` (
   `ServiceWarrantyID` int(10) NOT NULL,
-  `JobOrderID` int(10) NOT NULL,
+  `ServiceID` int(10) NOT NULL,
   `Duration` int(3) NOT NULL,
   `DurationMode` varchar(5) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -757,7 +977,9 @@ CREATE TABLE `service_warranty` (
 CREATE TABLE `skill_header` (
   `SkillID` int(10) NOT NULL,
   `Skill` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -775,7 +997,9 @@ CREATE TABLE `user` (
   `Username` varchar(20) DEFAULT NULL,
   `Password` varchar(50) NOT NULL,
   `EmailAddress` varchar(255) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1'
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1019,6 +1243,13 @@ ALTER TABLE `product_damaged`
   ADD KEY `FK_ProductDamaged_Product` (`ProductID`);
 
 --
+-- Indexes for table `product_service`
+--
+ALTER TABLE `product_service`
+  ADD KEY `FK_Product_ProductService` (`ProductID`),
+  ADD KEY `FK_Service_ProductService` (`ServiceID`);
+
+--
 -- Indexes for table `product_type`
 --
 ALTER TABLE `product_type`
@@ -1039,12 +1270,18 @@ ALTER TABLE `product_used`
   ADD KEY `FK_ProductUsed_Sales` (`SalesID`);
 
 --
+-- Indexes for table `product_vehicle`
+--
+ALTER TABLE `product_vehicle`
+  ADD KEY `FK_product_productvehicle` (`ProductID`),
+  ADD KEY `FK_product_automobilemodel` (`ModelID`);
+
+--
 -- Indexes for table `product_warranty`
 --
 ALTER TABLE `product_warranty`
   ADD PRIMARY KEY (`ProductWarrantyID`),
-  ADD KEY `FK_ProductWarranty_SvcWarranty` (`ServiceWarrantyID`),
-  ADD KEY `FK_ProductWarranty_Sales` (`SalesID`);
+  ADD KEY `FK_ProductWarranty_Product` (`ProductID`);
 
 --
 -- Indexes for table `promo_backjob`
@@ -1134,7 +1371,7 @@ ALTER TABLE `service_skill`
 --
 ALTER TABLE `service_warranty`
   ADD PRIMARY KEY (`ServiceWarrantyID`),
-  ADD KEY `FK_ServiceWarranty_JobOrder` (`JobOrderID`);
+  ADD KEY `FK_ServiceWarranty_Service` (`ServiceID`);
 
 --
 -- Indexes for table `skill_header`
@@ -1156,19 +1393,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `automobile_make`
 --
 ALTER TABLE `automobile_make`
-  MODIFY `MakeID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `MakeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `automobile_model`
 --
 ALTER TABLE `automobile_model`
-  MODIFY `ModelID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ModelID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `CustomerID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `discount`
@@ -1180,7 +1417,7 @@ ALTER TABLE `discount`
 -- AUTO_INCREMENT for table `estimate`
 --
 ALTER TABLE `estimate`
-  MODIFY `EstimateID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `EstimateID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `inspection_checklist`
@@ -1282,7 +1519,7 @@ ALTER TABLE `process`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_backjob`
@@ -1294,13 +1531,13 @@ ALTER TABLE `product_backjob`
 -- AUTO_INCREMENT for table `product_brand`
 --
 ALTER TABLE `product_brand`
-  MODIFY `ProductBrandID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductBrandID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `ProductCategoryID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductCategoryID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_damaged`
@@ -1312,19 +1549,19 @@ ALTER TABLE `product_damaged`
 -- AUTO_INCREMENT for table `product_type`
 --
 ALTER TABLE `product_type`
-  MODIFY `ProductTypeID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_unit_type`
 --
 ALTER TABLE `product_unit_type`
-  MODIFY `ProductUnitTypeID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductUnitTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_warranty`
 --
 ALTER TABLE `product_warranty`
-  MODIFY `ProductWarrantyID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductWarrantyID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `promo_backjob`
@@ -1561,6 +1798,13 @@ ALTER TABLE `product_damaged`
   ADD CONSTRAINT `FK_ProductDamaged_Product` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `product_service`
+--
+ALTER TABLE `product_service`
+  ADD CONSTRAINT `FK_Product_ProductService` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
+  ADD CONSTRAINT `FK_Service_ProductService` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`);
+
+--
 -- Constraints for table `product_type`
 --
 ALTER TABLE `product_type`
@@ -1574,11 +1818,17 @@ ALTER TABLE `product_used`
   ADD CONSTRAINT `FK_ProductUsed_Sales` FOREIGN KEY (`SalesID`) REFERENCES `sales` (`SalesID`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `product_vehicle`
+--
+ALTER TABLE `product_vehicle`
+  ADD CONSTRAINT `FK_product_automobilemodel` FOREIGN KEY (`ModelID`) REFERENCES `automobile_model` (`ModelID`),
+  ADD CONSTRAINT `FK_product_productvehicle` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`);
+
+--
 -- Constraints for table `product_warranty`
 --
 ALTER TABLE `product_warranty`
-  ADD CONSTRAINT `FK_ProductWarranty_Sales` FOREIGN KEY (`SalesID`) REFERENCES `sales` (`SalesID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_ProductWarranty_SvcWarranty` FOREIGN KEY (`ServiceWarrantyID`) REFERENCES `service_warranty` (`ServiceWarrantyID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ProductWarranty_Product` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `promo_backjob`
@@ -1638,7 +1888,7 @@ ALTER TABLE `service_skill`
 -- Constraints for table `service_warranty`
 --
 ALTER TABLE `service_warranty`
-  ADD CONSTRAINT `FK_ServiceWarranty_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ServiceWarranty_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

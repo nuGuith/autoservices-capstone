@@ -7,11 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\Estimate;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class AddJobOrderController extends Controller
 {
@@ -22,8 +21,8 @@ class AddJobOrderController extends Controller
      */
     public function index()
     {
-       
-        return view ('joborder.addjoborder');
+        $estimateids = Estimate::where('isActive',1);  
+        return view ('joborder.addjoborder', compact('estimateids'));
     }
 
     /**
