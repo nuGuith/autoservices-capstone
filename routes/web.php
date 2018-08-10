@@ -65,6 +65,11 @@ Route::post('/productunittype', 'ProductUnitTypeController@store');
 Route::put('/productunittype', 'ProductUnitTypeController@update');
 Route::patch('/productunittype', 'ProductUnitTypeController@delete');
 
+Route::resource('product', 'ProductController');
+Route::post('/product', 'ProductController@store');
+Route::put('/product', 'ProductController@update');
+Route::patch('/product', 'ProductController@delete');
+
 //Maintenance - Services
 Route::resource('servicebay','ServiceBayController');
 Route::post('/servicebay', 'ServiceBayController@store');
