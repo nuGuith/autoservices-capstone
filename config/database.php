@@ -43,7 +43,7 @@ return [
             'driver' => 'mysql',
             'host' => '127.0.0.1',
             'port' => '3306',
-            'database' => 'autoservices-capstone3',
+            'database' => 'autoservices-capstone',
             'username' => 'root',
             'password' => '',
             'unix_socket' => '',
