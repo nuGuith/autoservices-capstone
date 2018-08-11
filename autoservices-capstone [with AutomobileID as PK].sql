@@ -31,6 +31,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `automobile` (
+  `AutomobileID` int(10) NOT NULL,
   `PlateNo` varchar(10) NOT NULL,
   `ModelID` int(10) NOT NULL,
   `Mileage` int(6) DEFAULT NULL,
@@ -45,9 +46,9 @@ CREATE TABLE `automobile` (
 -- Dumping data for table `automobile`
 --
 
-INSERT INTO `automobile` (`PlateNo`, `ModelID`, `Mileage`, `Color`, `ChassisNo`, `isActive`, `updated_at`, `created_at`) VALUES
-('ABC123', 1, 10000, 'Black', 'JMDKSFIENV1223', b'1', '2018-08-03 08:20:23', '2018-08-03 07:51:12'),
-('DEF456', 2, 20000, 'Black', 'JNCVJKSD12209MKD', b'1', '2018-08-03 08:20:37', '2018-08-03 07:51:12');
+INSERT INTO `automobile` (`AutomobileID`,`PlateNo`, `ModelID`, `Mileage`, `Color`, `ChassisNo`, `isActive`, `updated_at`, `created_at`) VALUES
+(1,'ABC123', 1, 10000, 'Black', 'JMDKSFIENV1223', b'1', '2018-08-03 08:20:23', '2018-08-03 07:51:12'),
+(2,'DEF456', 2, 20000, 'Black', 'JNCVJKSD12209MKD', b'1', '2018-08-03 08:20:37', '2018-08-03 07:51:12');
 
 -- --------------------------------------------------------
 
@@ -163,8 +164,9 @@ CREATE TABLE `discount` (
 CREATE TABLE `estimate` (
   `EstimateID` int(10) NOT NULL,
   `CustomerID` int(10) NOT NULL,
-  `PlateNo` varchar(10) NOT NULL,
+  `AutomobileID` int(10) NOT NULL,
   `InspectionID` int(10) DEFAULT NULL,
+  `DiscountID` int(10) DEFAULT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -174,9 +176,9 @@ CREATE TABLE `estimate` (
 -- Dumping data for table `estimate`
 --
 
-INSERT INTO `estimate` (`EstimateID`, `CustomerID`, `PlateNo`, `InspectionID`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 'ABC123', NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
-(2, 2, 'DEF456', NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00');
+INSERT INTO `estimate` (`EstimateID`, `CustomerID`, `AutomobileID`, `InspectionID`, `DiscountID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 1, NULL, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
+(2, 2, 1, NULL, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -243,7 +245,7 @@ CREATE TABLE `inspection_header` (
   `InspectionID` int(10) NOT NULL,
   `JobOrderID` int(10) DEFAULT NULL,
   `CustomerID` int(10) DEFAULT NULL,
-  `PlateNo` varchar(10) DEFAULT NULL,
+  `AutomobileID` int(10) DEFAULT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -285,7 +287,7 @@ CREATE TABLE `job_order` (
   `JobOrderID` int(10) NOT NULL,
   `EstimateID` int(10) DEFAULT NULL,
   `CustomerID` int(10) DEFAULT NULL,
-  `PlateNo` varchar(10) DEFAULT NULL,
+  `AutomobileID` int(10) DEFAULT NULL,
   `InspectionID` int(10) DEFAULT NULL,
   `PersonnelPerformedID` int(10) DEFAULT NULL,
   `ServiceBayID` int(10) NOT NULL,
@@ -602,7 +604,7 @@ CREATE TABLE `problem` (
   `JobOrderID` int(10) NOT NULL,
   `EstimateID` int(10) DEFAULT NULL,
   `Problem` varchar(8000) NOT NULL,
-  `isPerformed` bit(1) NOT NULL DEFAULT b'0',
+  `isPerformed` tinyint(1) NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -998,6 +1000,7 @@ CREATE TABLE `service` (
   `Class` varchar(50) DEFAULT NULL,
   `EstimatedTime` int(3) NOT NULL,
   `InitialPrice` decimal(14,2) NOT NULL,
+  `Quantity` int(2) NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -1202,7 +1205,7 @@ INSERT INTO `user` (`UserID`, `FirstName`, `MiddleName`, `LastName`, `Position`,
 -- Indexes for table `automobile`
 --
 ALTER TABLE `automobile`
-  ADD PRIMARY KEY (`PlateNo`),
+  ADD PRIMARY KEY (`AutomobileID`),
   ADD KEY `FK_Automobile_Model` (`ModelID`);
 
 --
@@ -1236,8 +1239,9 @@ ALTER TABLE `discount`
 ALTER TABLE `estimate`
   ADD PRIMARY KEY (`EstimateID`),
   ADD KEY `FK_Estimate_Customer` (`CustomerID`),
-  ADD KEY `FK_Estimate_Automobile` (`PlateNo`),
-  ADD KEY `FK_Estimate_Inspection` (`InspectionID`);
+  ADD KEY `FK_Estimate_Automobile` (`AutomobileID`),
+  ADD KEY `FK_Estimate_Inspection` (`InspectionID`),
+  ADD KEY `FK_Estimate_Discount` (`DiscountID`);
 
 --
 -- Indexes for table `inspection`
@@ -1259,7 +1263,7 @@ ALTER TABLE `inspection_header`
   ADD PRIMARY KEY (`InspectionID`),
   ADD KEY `FK_Inspection_JobOrder` (`JobOrderID`),
   ADD KEY `FK_JobOrder_Customer` (`CustomerID`),
-  ADD KEY `FK_JobOrder_PlateNo` (`PlateNo`);
+  ADD KEY `FK_JobOrder_Automobile` (`AutomobileID`);
 
 --
 -- Indexes for table `job_description`
@@ -1274,7 +1278,7 @@ ALTER TABLE `job_order`
   ADD PRIMARY KEY (`JobOrderID`),
   ADD KEY `FK_JobOrder_Estimate` (`EstimateID`),
   ADD KEY `FK_JobOrder_Customer` (`CustomerID`),
-  ADD KEY `FK_JobOrder_PlateNo` (`PlateNo`),
+  ADD KEY `FK_JobOrder_Automobile` (`AutomobileID`),
   ADD KEY `FK_JobOrder_Inspection` (`InspectionID`),
   ADD KEY `FK_JobOrder_PersonnelJobPerformed` (`PersonnelPerformedID`),
   ADD KEY `FK_JobOrder_ServiceBay` (`ServiceBayID`),
@@ -1557,7 +1561,7 @@ ALTER TABLE `service_performed`
   ADD KEY `FK_ServicePerformed_Service` (`ServiceID`),
   ADD KEY `FK_ServicePerformed_JobOrder` (`JobOrderID`),
   ADD KEY `FK_ServicePerformed_SvcWarranty` (`ServiceWarrantyID`);
-  
+
 --
 -- Indexes for table `service_price`
 --
@@ -1861,9 +1865,10 @@ ALTER TABLE `automobile_model`
 -- Constraints for table `estimate`
 --
 ALTER TABLE `estimate`
-  ADD CONSTRAINT `FK_Estimate_Automobile` FOREIGN KEY (`PlateNo`) REFERENCES `automobile` (`PlateNo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Estimate_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Estimate_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Estimate_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Estimate_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Estimate_Discount` FOREIGN KEY (`DiscountID`) REFERENCES `discount` (`DiscountID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inspection`
@@ -1878,7 +1883,7 @@ ALTER TABLE `inspection`
 ALTER TABLE `inspection_header`
   ADD CONSTRAINT `FK_Inspection_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Inspection_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Inspection_PlateNo` FOREIGN KEY (`PlateNo`) REFERENCES `automobile` (`PlateNo`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Inspection_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `job_order`
@@ -1887,7 +1892,7 @@ ALTER TABLE `job_order`
   ADD CONSTRAINT `FK_JobOrder_Discount` FOREIGN KEY (`DiscountID`) REFERENCES `discount` (`DiscountID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Estimate` FOREIGN KEY (`EstimateID`) REFERENCES `estimate` (`EstimateID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_JobOrder_PlateNo` FOREIGN KEY (`PlateNo`) REFERENCES `automobile` (`PlateNo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_JobOrder_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Package` FOREIGN KEY (`PackageID`) REFERENCES `package_header` (`PackageID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_PersonnelJobPerformed` FOREIGN KEY (`PersonnelPerformedID`) REFERENCES `personnel_job_performed` (`PersonnelPerformedID`) ON UPDATE CASCADE,
@@ -2089,7 +2094,7 @@ ALTER TABLE `service_performed`
   ADD CONSTRAINT `FK_ServicePerformed_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_ServicePerformed_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_ServicePerformed_SvcWarranty` FOREIGN KEY (`ServiceWarrantyID`) REFERENCES `service_warranty` (`ServiceWarrantyID`) ON UPDATE CASCADE;
-  
+
 --
 -- Constraints for table `service_price`
 --

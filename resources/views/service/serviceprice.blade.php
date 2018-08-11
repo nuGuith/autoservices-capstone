@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Service Price') <!-- Page Title -->
 @section('content')
 
@@ -145,7 +145,7 @@
                                  <!--Multi Search Select: Vehicle Model -->
                                  <div class="row m-t-5">  
                                     <div class="col-md-11 ">
-                                        <h5>Price: <span style="color: red">*</span></h5>
+                                        <h5>Vehicle Model: <span style="color: red">*</span></h5>
                                         <p class ="m-t-10">
                                         <select size="9" multiple class="form-control chzn-select " id="test_me_paddington" name="test_me_form" tabindex="8" placeholder="Choose Model">
                                             <div>
@@ -159,7 +159,7 @@
                                 <!--Textfield: Price -->
                                 <div class="row m-t-5">  
                                     <div class="col-md-11 ">
-                                        <h5>Vehicle Model: <span style="color: red">*</span></h5>
+                                        <h5>Price: <span style="color: red">*</span></h5>
                                             <p class ="m-t-10">
                                                 <input id="price" name="price" type="text" placeholder="Price"class="form-control">
                                             </p>

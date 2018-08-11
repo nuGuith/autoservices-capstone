@@ -386,7 +386,7 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#producttypename").val(data.type.ProductTypeName);
-                    $("#categoryid").val(data.type.ProductCategoryID);
+                    $("#categoryid").val(data.type.ProductCategoryID).trigger('chosen:updated');;
                     $("#producttypeid").val(data.type.ProductTypeID);
                 }
             });

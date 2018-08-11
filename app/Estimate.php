@@ -10,8 +10,11 @@ class Estimate extends Model
     protected $primaryKey = 'estimateid';
     protected $table = 'estimate';
     protected $fillable = [
-        'estimateid',
-        'isActive'
+        'EstimateID',
+        'CustomerID',
+        'AutomobileID',
+        'isActive',
+        'updated_at'
     ];
     
     public function customer(){

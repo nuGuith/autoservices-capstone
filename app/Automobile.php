@@ -8,7 +8,7 @@ class Automobile extends Model
 {
     public $timestamps = true;
     protected $table = 'automobile';
-    protected $primaryKey = 'plateno';
+    protected $primaryKey = 'automobileid';
     protected $fillable = [
         'plateno',
         'transmission',

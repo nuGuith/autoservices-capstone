@@ -162,7 +162,7 @@
                                                             $categories,
                                                             null,
                                                             array(
-                                                            'class' => 'form-control',
+                                                            'class' => 'form-control chzn-select',
                                                             'id' => 'servicecategoryid',
                                                             'name' => 'servicecategoryid')
                                                             ) 
@@ -477,7 +477,7 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#servicename").val(data.service.ServiceName);
-                    $("#servicecategoryid").val(data.service.ServiceCategoryID);
+                    $("#servicecategoryid").val(data.service.ServiceCategoryID).trigger('chosen:updated');;
                     $("#estimatedtime").val(data.service.EstimatedTime);
                     $("#sizetype").val(data.service.SizeType);
                     $("#class").val(data.service.Class);

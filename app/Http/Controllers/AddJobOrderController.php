@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\Estimate;
+use App\InspectionHeader;
+use App\Customer;
+use App\Automobile;
 use Validator;
 use Session;
 use Redirect;
@@ -21,8 +24,32 @@ class AddJobOrderController extends Controller
      */
     public function index()
     {
-        $estimateids = Estimate::where('isActive',1);  
-        return view ('joborder.addjoborder', compact('estimateids'));
+        $estimateids = Estimate::orderBy('estimateid', 'desc')
+        /* ->select(DB::raw("CONCAT('estimateid','updated_at') AS estimate_desc"),'estimateid') */
+        ->where('isActive', 1)
+        ->pluck('estimateid','estimateid');
+
+        $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('inspectionid','inspectionid');
+
+        $customerids = Customer::orderBy('customerid', 'desc')
+        ->where('isActive', 1)
+        ->select('customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+        ->pluck('fullname','customerid');
+        
+        $automobiles = Automobile::orderBy('created_at', 'desc')
+        ->where('isActive', 1)
+        ->pluck('plateno','automobileid');
+
+        $estimateids->prepend('Please choose an Estimate ID',0);
+        $inspectionids->prepend('Please choose an Inspection ID',0);
+        $customerids->prepend('Please select a customer',0);
+        $automobiles->prepend('Select a Plate Number',0);
+
+        //dd($estimateids, $inspectionids, $customers, $automobiles);
+
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles'));
     }
 
     /**
@@ -54,7 +81,22 @@ class AddJobOrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $inspection = InspectionHeader::findOrFail($id);
+        return response()->json(compact('inspection'));
+    }
+
+    public function showInspection($id)
+    {
+        $inspection = InspectionHeader::findOrFail($id);
+        $customer = Customer::findOrFail($inspection->CustomerID);
+        return response()->json(compact('inspection', 'customer'));
+    }
+
+    public function showEstimate($id)
+    {
+        $estimate = Estimate::findOrFail($id);
+        $customer = Customer::findOrFail($estimate->CustomerID);
+        return response()->json(compact('estimate', 'customer'));
     }
 
     /**

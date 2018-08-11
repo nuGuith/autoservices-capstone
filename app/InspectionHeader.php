@@ -11,6 +11,8 @@ class InspectionHeader extends Model
     protected $primaryKey = 'inspectionid';
     protected $fillable = [
         'JobOrderID',
+        'CustomerID',
+        'AutomobileID',
         'Date',
         'isActive'
     ];

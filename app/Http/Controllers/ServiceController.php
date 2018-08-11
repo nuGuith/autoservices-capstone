@@ -24,7 +24,7 @@ class ServiceController extends Controller
                     ->leftJoin('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
                     ->where('se.isActive',1)
                     ->get();
-        $categories = ServiceCategory::pluck('servicecategoryname', 'servicecategoryid');
+        $categories = ServiceCategory::where('isActive', 1)->pluck('servicecategoryname', 'servicecategoryid');
         $categories->prepend('Please choose a category',0);
         return view('service.service', ['services' => $services, 'categories' => $categories]);
     }

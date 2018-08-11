@@ -117,7 +117,9 @@ Route::patch('/estimates/{estimateid}', 'EstimatesController@delete');
 
 //Transaction - Job Order
 Route::get('/joborder','JobOrderController@index');
-Route::get('/addjoborder','AddJobOrderController@index');
+Route::resource('/addjoborder','AddJobOrderController');
+Route::get('/addjoborder/{inspection}/showInspection', 'AddJobOrderController@showInspection');
+Route::get('/addjoborder/{estimate}/showEstimate', 'AddJobOrderController@showEstimate');
 Route::get('/editjoborder','EditJobOrderController@index');
 Route::get('/viewjoborder', 'ViewJobOrderController@index');
 Route::get('/updatejoborder', 'UpdateJobOrderController@index');

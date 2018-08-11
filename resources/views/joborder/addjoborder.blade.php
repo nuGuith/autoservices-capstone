@@ -20,7 +20,26 @@
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
 
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
-
+    <style>
+    p.hidden{
+        display:none;
+    }
+    p.visible{
+        display:inline;
+    }
+    p:target {
+        animation: highlight 2s forwards;
+        background: 2px solid yellow;
+        }
+    @keyframes highlight {
+        80% {
+            background: 2px solid yellow;
+        }
+        100% {
+            background: transparent;
+        }
+    }
+    </style>
         <!-- CONTENT -->
         <div id="content" class="bg-container">
 
@@ -65,33 +84,48 @@
                                             <h5>Search by:</h5>
                                             <p>
                                                 <p class="m-t-10">
-                                                <select class="form-control hide_search" tabindex="2" id="search" onchange="searchChange(this);">
+                                                <select class="form-control hide_search" tabindex="2" id="search" onchange="searchChange(this);" href="#anchor">
                                                     <option disabled selected>Choose Search by</option>
-                                                    <option value="Inspection Id">Inspection Id</option>
+                                                    <option href="#anchor" value="Inspection ID">Inspection ID</option>
                                                     </option>
-                                                    <option value="Estimate Id">Estimate Id</option>
+                                                    <option href="#anchor" value="Estimate ID">Estimate ID</option>
                                                 </select>
+                                                </p>
                                             </p>
                                         </div>
-                                        <!--Serch by Inpection Id/Estimate Id -->
+                                        <!--Search by Inpection ID/Estimate ID -->
                                         <div class="col-lg-3">
                                             <h5>Search <a id="by"></a></h5>
                                             <p>
-                                                <p class="m-t-10">
-                                                <select class="form-control chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose <a></a></option>
-                                                    <option value="1">id</option>
-                                                </select>
-                                                {{ Form::select(
-                                                    'id',
-                                                    $estimateids,
-                                                    null,
-                                                    array(
-                                                    'class' => 'form-control',
-                                                    'id' => 'id',
-                                                    'name' => 'estimateids')
-                                                    ) 
-                                                }}
+                                                <p>
+                                                    <p id="initial" class="m-t-10 visible">
+                                                        <select class="form-control chzn-select"></select>
+                                                    </p>
+                                                </p>
+                                                <p id="inspectionIDs" class="m-t-10 hidden">
+                                                    {{ Form::select(
+                                                        'id',
+                                                        $inspectionids,
+                                                        null,
+                                                        array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'inspection',
+                                                        'name' => 'inspectionid')
+                                                        ) 
+                                                    }}
+                                                </p>
+                                                <p id="estimateIDs" class="m-t-10 hidden">
+                                                    {{ Form::select(
+                                                        'id',
+                                                        $estimateids,
+                                                        null,
+                                                        array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'estimate',
+                                                        'name' => 'estimateid')
+                                                        ) 
+                                                    }}
+                                                </p>
                                             </p>
                                         </div>
                                         <!--Serch by Cutomer Name -->
@@ -99,10 +133,17 @@
                                             <h5>Search Customer Name:</h5>
                                             <p>
                                                 <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose Customer Name</option>
-                                                    <option value="1">Xavier Tanguilan Eugenio</option>
-                                                </select>
+                                                {{ Form::select(
+                                                    'customer',
+                                                    $customerids,
+                                                    null,
+                                                    array(
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'customer',
+                                                    'name' => 'customerid')
+                                                    ) 
+                                                }}
+                                                </p>
                                             </p>
                                         </div>
                                         <!--Search by Customer Plate No.-->
@@ -110,10 +151,17 @@
                                             <h5>Search Plate No:</h5>
                                             <p>
                                                 <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose Plate No.</option>
-                                                    <option value="1">XTE 0202</option>
-                                                </select>
+                                                {{ Form::select(
+                                                    'automobile',
+                                                    $automobiles,
+                                                    null,
+                                                    array(
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'automobile',
+                                                    'name' => 'plateno')
+                                                    ) 
+                                                }}
+                                                </p>
                                             </p>
                                         </div>                        
                                 </div>
@@ -150,10 +198,10 @@
 
                                 <!--Textfield: Contact No, Email, Senior Citizen/PWD ID -->
                                 <div class="row m-t-5">
-                                    <div class="col-lg-4 ">
+                                        <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                                                <input id="phones" name="contact" placeholder="(9999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(9999) 999-9999"' data-mask>
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -165,7 +213,7 @@
                                         <div class="col-lg-4 ">
                                             <h5>Senior Citizen/PWD ID: <span style="color: red"></span></h5>
                                             <p>
-                                                <input id="id" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
+                                                <input id="pwd_sc_No" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
                                             </p>
                                         </div>                        
                                 </div>
@@ -174,13 +222,13 @@
                                 <!--Textfield: Address -->
                                 <div class="form-group row m-t-0">
                                     <div class=" col-lg-1  m-t-15">
-                                            <h5>Address:<span style="color:red">*</span></h5>
-                                        </div>
-                                        <div class="col-md-12 col-lg-11">                                        
-                                            <p>
-                                                <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10">
-                                            </p>
-                                        </div>                                                
+                                        <h5>Address:<span style="color:red">*</span></h5>
+                                    </div>
+                                    <div class="col-md-12 col-lg-11">                                        
+                                        <p>
+                                            <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10">
+                                        </p>
+                                    </div>                                                
                                 </div>
                             <!--End Customer Information --> 
 
@@ -303,7 +351,7 @@
                                 <table class="table order-list table-bordered display nowrap table-hover dataTable" >
                                     <thead>
                                         <br>
-                                        <tr >
+                                        <tr>
                                             <td style="width: 5px;">
                                                 <h5>Quantity <span style="color: red">*</span></h5>
                                             </td>
@@ -333,12 +381,12 @@
                                             </td>
                                         </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody>
                                         <!--Example: for SERVICE-->
                                             <!--Hidden Field: Quantity, Unit Price -->
                                         <tr >
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name=quantity" placeholder="" readonly class="form-control hidden">
+                                                <input type="hidden" style="width:70px;" name="quantity" readonly class="form-control hidden">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 Change Oil 
@@ -356,7 +404,7 @@
                                                 </select>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name="unitprice" placeholder="" class="form-control">
+                                                <input type="hidden" style="width:70px;" name="unitprice" class="form-control">
                                             </td>
                                             <td style="border-right:none !important">
                                                 <input type="text" readonly style="width:70px;text-align: right" name="price " placeholder=".00" class="form-control">
@@ -372,7 +420,7 @@
                                             <!--Hidden Field: Labor, Assign Mechanic -->
                                            <tr >
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:70px;" name=quantity" placeholder="Quantity" class="form-control">
+                                                <input type="text" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 Dumlop 1.5mL
@@ -399,9 +447,9 @@
 
                                            <!--Example: for Discount-->
                                             <!--Hidden Field: Quantity Labor, Assign Mechanic -->
-                                           <tr >
+                                            <tr>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name=quantity" placeholder="Quantity" class="form-control">
+                                                <input type="hidden" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 <span style="color:red">Discount:
@@ -476,14 +524,14 @@
                 <!-- /.outer -->
         <!--END CONTENT -->
 
-<!-- global scripts sweet alerts-->
+<!-- global scripts sweet alerts -->
 <script type="text/javascript" src="js/components.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
 <script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
 <!-- end of plugin scripts -->
 
-<!-- global scripts animation-->
+<!-- global scripts animation -->
 <script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
 <script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
 <!-- end of plugin scripts -->
@@ -494,24 +542,110 @@
 <!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
 <script> 
 $(document).ready(function () {
-    
+
+    /* $('select').on('change', function () {}); */
+    window.addEventListener("beforeunload", function (e) {
+    var message = "Are you sure you want to leave?";
+        (e || window.event).returnValue = message;     
+        return message;
+    });
+
     //Button: Delete Row
     $("table.order-list").on("click", ".btnDel", function (event) {
-        $(this).closest("tr").remove();       
-      
+        $(this).closest("tr").remove();
+    });
+
+    /* CHANGE SEARCH BY OPTION */
+    $("#search").change(function () {
+        var selected = $(this).val();
+        var by = document.getElementById("by");
+        by.innerHTML=selected;
+        if(selected == "Inspection ID"){
+            document.getElementById("initial").className = "m-t-10 hidden";
+            document.getElementById("inspectionIDs").className = "m-t-10 visible";
+            document.getElementById("estimateIDs").className = "m-t-10 hidden";
+        }
+        else if (selected == "Estimate ID"){
+            document.getElementById("initial").className = "m-t-10 hidden";
+            document.getElementById("inspectionIDs").className = "m-t-10 hidden";
+            document.getElementById("estimateIDs").className = "m-t-10 visible";
+        }
+    });
+
+    /* SELECT RECORD via INSPECTION ID SEARCH */
+    $("#inspection").change(function () {
+        var selectedID = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/showInspection",
+            dataType: "JSON",
+            success:function(data){
+                $('#customer').val(data.inspection.CustomerID).trigger('chosen:updated');
+                $('#automobile').val(data.inspection.AutomobileID).trigger('chosen:updated');
+                $('#fname').val($.trim(data.customer.FirstName));
+                $('#mname').val($.trim(data.customer.MiddleName));
+                $('#lname').val($.trim(data.customer.LastName));
+                $('#phones').val(data.customer.ContactNo);
+                $('#email').val(data.customer.EmailAddress);
+                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#address').val(data.customer.CompleteAddress);
+            }
+        });
+    });
+
+    /* SELECT RECORD via ESTIMATE ID SEARCH */
+    $("#estimate").change(function () {
+        var selectedID = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/showEstimate",
+            dataType: "JSON",
+            success:function(data){
+                $('#customer').val(data.estimate.CustomerID).trigger('chosen:updated');
+                $('#automobile').val(data.estimate.AutomobileID).trigger('chosen:updated');
+                $('#fname').val($.trim(data.customer.FirstName));
+                $('#mname').val($.trim(data.customer.MiddleName));
+                $('#lname').val($.trim(data.customer.LastName));
+                $('#phones').val(data.customer.ContactNo);
+                $('#email').val(data.customer.EmailAddress);
+                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#address').val(data.customer.CompleteAddress);
+            }
+        });
+    });
+
+    /* SELECT RECORD via CUSTOMER NAME SEARCH */
+    $("#customer").change(function () {
+        var selectedID = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/showEstimate",
+            dataType: "JSON",
+            success:function(data){
+                $('#customer').val(data.estimate.CustomerID).trigger('chosen:updated');
+                $('#automobile').val(data.estimate.AutomobileID).trigger('chosen:updated');
+                $('#fname').val($.trim(data.customer.FirstName));
+                $('#mname').val($.trim(data.customer.MiddleName));
+                $('#lname').val($.trim(data.customer.LastName));
+                $('#phones').val(data.customer.ContactNo);
+                $('#email').val(data.customer.EmailAddress);
+                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#address').val(data.customer.CompleteAddress);
+            }
+        });
+    });
+
+    /* SELECT RECORD via PLATE NUMBER SEARCH */
+    $("#automobile").change(function () {
+        var selected = $(this).val();
+        /* $.post( "ajax.php", { option: selectedValue })
+        .done(function (data) {
+            console.log("Data sent!");
+        }); */
+        alert(selected);
     });
 
 });
-</script>
-
-<!--SCRIPT CHOOSE SEARCH BY- will display to next field-->
-<script type="text/javascript">
- function searchChange(selectObj) {
-   var selectIndex=selectObj.selectedIndex;
-   var selectValue=selectObj.options[selectIndex].text;
-   var by=document.getElementById("by");
-   by.innerHTML=selectValue;
- }
 </script>
 
 @stop
