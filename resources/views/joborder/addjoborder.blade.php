@@ -243,22 +243,28 @@
                                     <div class="col-lg-3">
                                             <h5>Plate No.: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10">
+                                                <input id="plateno" name="plateno" type="text" placeholder="Plate No." class="form-control m-t-10">
                                             </p>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Model: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose Model</option>
-                                                    <option value="Honda-City 2015-M">Honda-City 2015-MT</option>
-                                                </select>
+                                                {{ Form::select(
+                                                    'automobile_model',
+                                                    $automobile_models,
+                                                    null,
+                                                    array(
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'automobile_model',
+                                                    'name' => 'model')
+                                                    ) 
+                                                }}
                                             </p>
                                         </div>
                                         <div class="col-lg-3 ">
                                            <h5>Chassis No.: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10">
+                                                <input id="chassisno" name="chassisno" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10">
                                             </p>
                                         </div>
 
@@ -285,20 +291,31 @@
                            <div class="col-lg-6">
                                 <h5>Service Bay: <span style="color:red">*</span></h5>
                                 <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Service Bay</option>
-                                        <option value="">1</option>
-                                    </select>
+                                    {{Form::select(
+                                        'servicebay',
+                                        $service_bays,
+                                        null,
+                                        array(
+                                            'class' => 'form-control chzn-select',
+                                            'id' => 'servicebay',
+                                            'name' => 'servicebay')
+                                        ) 
+                                    }}
                                 </p>
                             </div>
                             <div class="col-lg-6">
                                 <h5>Discount: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Discount</option>
-                                        <option value="">Senior Citizen</option>
-                                        <option value="">PWD</option>
-                                    </select>
+                                    {{Form::select(
+                                        'discount',
+                                        $discounts,
+                                        null,
+                                        array(
+                                            'class' => 'form-control chzn-select',
+                                            'id' => 'discounts',
+                                            'name' => 'discount')
+                                        ) 
+                                    }}
                                 </p>
                             </div>                                                    
                         </div>
@@ -423,7 +440,7 @@
                                                 <input type="text" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
                                             </td>   
                                             <td style="border-right:none !important">  
-                                                Dumlop 1.5mL
+                                                Dunlop 1.5mL
                                             </td>
                                             <td style="border-right:none !important">
                                                 <input type="hidden" style="width:70px;" name="labor" placeholder="Labor" class="form-control">
@@ -542,6 +559,8 @@
 <!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
 <script> 
 $(document).ready(function () {
+    var estimateID = 0;
+    var inspectID = 0;
 
     /* $('select').on('change', function () {}); */
     window.addEventListener("beforeunload", function (e) {
@@ -564,17 +583,42 @@ $(document).ready(function () {
             document.getElementById("initial").className = "m-t-10 hidden";
             document.getElementById("inspectionIDs").className = "m-t-10 visible";
             document.getElementById("estimateIDs").className = "m-t-10 hidden";
+            if (estimateID > 0){
+                var ans = confirm("There might be changes you haven't saved yet. Continue?");
+                if (ans == true)
+                    reset();
+            }
         }
         else if (selected == "Estimate ID"){
             document.getElementById("initial").className = "m-t-10 hidden";
             document.getElementById("inspectionIDs").className = "m-t-10 hidden";
             document.getElementById("estimateIDs").className = "m-t-10 visible";
+            if (inspectID > 0){
+                var ans = confirm("There might be changes you haven't saved yet. Continue?");
+                if (ans == true)
+                    reset();
+            }
+        }
+
+        function reset(){
+            $('#estimate').val(0).trigger('chosen:updated');
+            $('#inspect').val(0).trigger('chosen:updated');
+            $('#customer').val(0).trigger('chosen:updated');
+            $('#automobile').val(0).trigger('chosen:updated');
+            $('#fname').val(null);
+            $('#mname').val(null);
+            $('#lname').val(null);
+            $('#phones').val(null);
+            $('#email').val(null);
+            $('#pwd_sc_No').val(null);
+            $('#address').val(null);
         }
     });
 
     /* SELECT RECORD via INSPECTION ID SEARCH */
     $("#inspection").change(function () {
         var selectedID = $(this).val();
+        inspectID = selectedID;
         $.ajax({
             type: "GET",
             url: "/addjoborder/"+selectedID+"/showInspection",
@@ -589,6 +633,10 @@ $(document).ready(function () {
                 $('#email').val(data.customer.EmailAddress);
                 $('#pwd_sc_No').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
+                $('#plateno').val(data.automobile.PlateNo);
+                $('#automobile_model').val(data.automobile.ModelID).trigger('chosen:updated');
+                $('#chassisno').val(data.automobile.ChassisNo);
+                $('#mileage').val(data.automobile.Mileage);
             }
         });
     });
@@ -596,6 +644,7 @@ $(document).ready(function () {
     /* SELECT RECORD via ESTIMATE ID SEARCH */
     $("#estimate").change(function () {
         var selectedID = $(this).val();
+        estimateID = selectedID;
         $.ajax({
             type: "GET",
             url: "/addjoborder/"+selectedID+"/showEstimate",
@@ -610,6 +659,10 @@ $(document).ready(function () {
                 $('#email').val(data.customer.EmailAddress);
                 $('#pwd_sc_No').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
+                $('#plateno').val(data.automobile.PlateNo);
+                $('#automobile_model').val(data.automobile.ModelID).trigger('chosen:updated');
+                $('#chassisno').val(data.automobile.ChassisNo);
+                $('#mileage').val(data.automobile.Mileage);
             }
         });
     });
@@ -631,6 +684,9 @@ $(document).ready(function () {
                 $('#email').val(data.customer.EmailAddress);
                 $('#pwd_sc_No').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
+                $('#plateno').val(data.automobile.PlateNo);
+                $('#chassisno').val(data.automobile.ChassisNo);
+                $('#mileage').val(data.automobile.Mileage);
             }
         });
     });

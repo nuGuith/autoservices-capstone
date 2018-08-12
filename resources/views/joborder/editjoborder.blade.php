@@ -3,23 +3,22 @@
 @section('content')
     
 
-    <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/sweet_alert.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/sweetalert/css/sweetalert2.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/sweet_alert.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/animate/css/animate.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/hover/css/hover-min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/wow/css/animate.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/animate/css/animate.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/hover/css/hover-min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/wow/css/animate.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/modal/css/component.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css"/>
-    <link rel="stylesheet" type="text/css" href="vendors/animate/css/animate.min.css" />
-
-    <link type="text/css" rel="stylesheet" href="vendors/fileinput/css/fileinput.min.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/modal/css/component.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tipso/css/tipso.min.css')}}">
 
     <!-- end of plugin styles -->
-    <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
-
-    <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/animate/css/animate.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/fileinput/css/fileinput.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/portlet.css')}}"/>
 
         <!-- CONTENT -->
         <div id="content" class="bg-container">
@@ -416,15 +415,15 @@
         <!--END CONTENT -->
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
-<script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
-<script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
-<script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/snabbt/js/snabbt.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/wow/js/wow.min.js')}}"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();

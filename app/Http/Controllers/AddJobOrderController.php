@@ -11,6 +11,8 @@ use App\Estimate;
 use App\InspectionHeader;
 use App\Customer;
 use App\Automobile;
+use App\ServiceBay;
+use App\Discount;
 use Validator;
 use Session;
 use Redirect;
@@ -25,9 +27,9 @@ class AddJobOrderController extends Controller
     public function index()
     {
         $estimateids = Estimate::orderBy('estimateid', 'desc')
-        /* ->select(DB::raw("CONCAT('estimateid','updated_at') AS estimate_desc"),'estimateid') */
         ->where('isActive', 1)
-        ->pluck('estimateid','estimateid');
+        ->select('estimateid', DB::table('estimate')->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+        ->pluck('estimate_desc','estimateid');
 
         $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
         ->where('isActive', 1)
@@ -42,14 +44,26 @@ class AddJobOrderController extends Controller
         ->where('isActive', 1)
         ->pluck('plateno','automobileid');
 
+        $automobile_models = DB::table('automobile_model')
+                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+                                ->where('automobile_model.isActive',1)
+                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', year)  AS automobile_models"), 'modelid');
+
+        $service_bays = ServiceBay::where('isActive', 1)
+        ->pluck('servicebayname', 'servicebayid');
+
+        $discounts = Discount::where('isActive', 1)
+        ->pluck('discountname', 'discountid');
+
         $estimateids->prepend('Please choose an Estimate ID',0);
         $inspectionids->prepend('Please choose an Inspection ID',0);
         $customerids->prepend('Please select a customer',0);
         $automobiles->prepend('Select a Plate Number',0);
+        $automobile_models->prepend('Select a Model',0);
+        $service_bays->prepend('Please choose a Service Bay', 0);
+        $discounts->prepend('Choose a Discount', 0);
 
-        //dd($estimateids, $inspectionids, $customers, $automobiles);
-
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts'));
     }
 
     /**
@@ -81,22 +95,23 @@ class AddJobOrderController extends Controller
      */
     public function show($id)
     {
-        $inspection = InspectionHeader::findOrFail($id);
-        return response()->json(compact('inspection'));
+        //
     }
 
     public function showInspection($id)
     {
         $inspection = InspectionHeader::findOrFail($id);
         $customer = Customer::findOrFail($inspection->CustomerID);
-        return response()->json(compact('inspection', 'customer'));
+        $automobile = Automobile::findOrFail($inspection->AutomobileID);
+        return response()->json(compact('inspection', 'customer', 'automobile'));
     }
 
     public function showEstimate($id)
     {
         $estimate = Estimate::findOrFail($id);
         $customer = Customer::findOrFail($estimate->CustomerID);
-        return response()->json(compact('estimate', 'customer'));
+        $automobile = Automobile::findOrFail($estimate->AutomobileID);
+        return response()->json(compact('estimate', 'customer', 'automobile'));
     }
 
     /**

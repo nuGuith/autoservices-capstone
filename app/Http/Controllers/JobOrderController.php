@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\JobOrder;
+use App\Automobile;
+use App\Customer;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class JobOrderController extends Controller
 {
@@ -22,8 +23,21 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-       
-        return view ('joborder.joborder');
+       $joborders = JobOrder::orderBy('joborderid', 'desc')
+       ->where('isActive', 1)
+       ->get();
+       $automobiles = Automobile::where('isActive', 1)->get();
+       $automobile_models = DB::table('automobile_model')
+                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+                                ->where('automobile_model.isActive',1)
+                                ->select(DB::raw("CONCAT(make, ' - ', model, ' (', year, ')')  AS AutomobileModel"), 'ModelID')
+                                ->get();
+       $customers = Customer::where('isActive', 1)
+       ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
+       ->get();
+
+       //dd($joborders, $automobiles, $customers);
+       return view ('joborder.joborder', compact('joborders','automobiles','automobile_models', 'customers'));
     }
 
     /**

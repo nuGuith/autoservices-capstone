@@ -45,7 +45,7 @@ class EstimatesController extends Controller
 
         $estimates = DB::table('estimate as e')
             ->leftjoin('customer as c', 'e.customerid', '=', 'c.customerid')
-            ->leftjoin('automobile as a', 'e.plateno', '=', 'a.plateno')
+            ->leftjoin('automobile as a', 'e.automobileid', '=', 'a.automobileid')
             ->join('automobile_model as am', 'a.modelid', '=', 'am.modelid')
             ->select('e.*', 'c.*', 'a.*', 'am.*')
             ->where('e.isActive', 1)

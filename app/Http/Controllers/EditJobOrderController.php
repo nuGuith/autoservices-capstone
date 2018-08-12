@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\JobOrder;
+use App\Customer;
+use App\Automobile;
+use App\ServiceBay;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class EditJobOrderController extends Controller
 {
@@ -20,7 +22,7 @@ class EditJobOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
        
         return view ('joborder.editjoborder');
