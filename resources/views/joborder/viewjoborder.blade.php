@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','View Job Order') <!-- Page Title -->
 @section('content')
 
@@ -143,9 +143,14 @@
 
                                         <!--progress bar-->
                                         <div class="row m-t-20">
-                                           <div class="col-lg-12">
+                                            <div class="col-lg-4">
                                                 <h5><span style="color:gray">Progress: </span>&nbsp;&nbsp;&nbsp;50%</h5>
                                             </div>
+                                            
+                                            <div class="col-lg-8">
+                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;{{$joborder->Status}}</h5>
+                                            </div>
+                                            
 
                                             <div class="col-lg-12 m-t-10">
                                                 <div class="progress">

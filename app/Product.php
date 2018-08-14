@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    public $timestamps = true;
     protected $table = 'product';
     protected $primaryKey = 'productid';
-    public $timestamps = true;
     protected $fillable = [
         'productid',
         'productname',
@@ -16,7 +16,8 @@ class Product extends Model
         'description',
         'price',
         'size',
-        'expirydate',
+        'warrantydurationmode',
+        'warrantyduration',
         'isActive'
     ];
 

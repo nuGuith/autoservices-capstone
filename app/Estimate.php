@@ -13,6 +13,8 @@ class Estimate extends Model
         'EstimateID',
         'CustomerID',
         'AutomobileID',
+        'InspectionID',
+        'DiscountID',
         'isActive',
         'updated_at'
     ];

@@ -24,8 +24,21 @@ class EditJobOrderController extends Controller
      */
     public function index($id)
     {
-       
-        return view ('joborder.editjoborder');
+        $joborder = JobOrder::findOrFail($id);
+        $customer = DB::table('customer')
+                    ->where('customerid',$joborder->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'FirstName', 'MiddleName', 'LastName', 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->first();
+        $model = Automobile::findOrFail($joborder->AutomobileID);
+        
+        $automobile = DB::table('automobile_model AS md')
+                    ->where('md.ModelID', $model->ModelID)
+                    ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+                    ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+                    ->select('mk.Make', 'md.Model', 'md.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->first();
+        $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
+        return view ('joborder.editjoborder', compact('joborder','customer','model','automobile','servicebay'));
     }
 
     /**

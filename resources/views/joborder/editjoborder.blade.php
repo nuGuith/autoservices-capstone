@@ -68,19 +68,22 @@
                                     <div class="col-lg-4">
                                             <h5>First Name: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="fname" name="fname" type="text" placeholder="First Name" class="form-control m-t-10">
+                                                <input id="fname" name="fname" type="text" placeholder="First Name" class="form-control m-t-10"
+                                                value="{{$customer->FirstName}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
                                             <h5>Middle Name: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10">
+                                                <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10"
+                                                value="{{$customer->MiddleName}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4 ">
                                             <h5>Last Name: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="lname" name="lname" type="text" placeholder="Last Name" class="form-control m-t-10">
+                                                <input id="lname" name="lname" type="text" placeholder="Last Name" class="form-control m-t-10"
+                                                value="{{$customer->LastName}}">
                                             </p>
                                         </div>                        
                                 </div>
@@ -91,19 +94,19 @@
                                     <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask value="{{$customer->ContactNo}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
                                             <h5>Email: <span style="color:red"></span></h5>
                                             <p>
-                                                <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
+                                                <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'" value="{{$customer->EmailAddress}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4 ">
                                             <h5>Senior Citizen/PWD ID: <span style="color: red"></span></h5>
                                             <p>
-                                                <input id="id" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
+                                                <input id="id" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10" value="{{$customer->PWD_SC_No}}">
                                             </p>
                                         </div>                        
                                 </div>
@@ -116,7 +119,7 @@
                                         </div>
                                         <div class="col-md-12 col-lg-11">                                        
                                             <p>
-                                                <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10">
+                                                <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10" value="{{$customer->CompleteAddress}}">
                                             </p>
                                         </div>                                                
                                 </div>
@@ -133,7 +136,7 @@
                                     <div class="col-lg-3">
                                             <h5>Plate No.: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10">
+                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10" value="{{$automobile->PlateNo}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-3">
@@ -148,7 +151,7 @@
                                         <div class="col-lg-3 ">
                                            <h5>Chassis No.: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10">
+                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10" value="{{$automobile->ChassisNo}}">
                                             </p>
                                         </div>
 
@@ -158,7 +161,7 @@
                                                     <span class="input-group-addon m-t-10">
                                                         <i class="fa fa-dashboard"></i>
                                                     </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="km" class="form-control m-t-10">
+                                                    <input id="mileage" name="mileage" type="text" placeholder="km" class="form-control m-t-10" value="{{$automobile->Mileage}} km">
                                                 </div>
                                         </div>                         
                                 </div>
@@ -276,7 +279,7 @@
                                             <!--Hidden Field: Quantity, Unit Price -->
                                         <tr >
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name=quantity" placeholder="" readonly class="form-control hidden">
+                                                <input type="hidden" style="width:70px;" name="quantity" placeholder="" readonly class="form-control hidden">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 Change Oil 
@@ -310,7 +313,7 @@
                                             <!--Hidden Field: Labor, Assign Mechanic -->
                                            <tr >
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:70px;" name=quantity" placeholder="Quantity" class="form-control">
+                                                <input type="text" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 Dumlop 1.5mL
@@ -339,7 +342,7 @@
                                             <!--Hidden Field: Quantity Labor, Assign Mechanic -->
                                            <tr >
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name=quantity" placeholder="Quantity" class="form-control">
+                                                <input type="hidden" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 <span style="color:red">Discount:

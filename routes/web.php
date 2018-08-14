@@ -124,6 +124,7 @@ Route::get('/joborder','JobOrderController@index');
 Route::resource('/addjoborder','AddJobOrderController');
 Route::get('/addjoborder/{inspection}/showInspection', 'AddJobOrderController@showInspection');
 Route::get('/addjoborder/{estimate}/showEstimate', 'AddJobOrderController@showEstimate');
+Route::get('/addjoborder/{id}/getProducts', 'AddJobOrderController@getProducts');
 
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');

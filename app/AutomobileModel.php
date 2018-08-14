@@ -13,6 +13,7 @@ class AutomobileModel extends Model
         'modelid',
         'makeid',
         'model',
+        'year',
         'isActive'
     ];
 

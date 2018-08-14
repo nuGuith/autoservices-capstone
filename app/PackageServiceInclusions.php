@@ -11,6 +11,9 @@ class PackageServiceInclusions extends Model
     protected $table = 'package_service_inclusions';
     protected $primaryKey = null;
     protected $fillable = [
+        'packageid',
+        'serviceid',
+        'isFree',
         'isActive'
     ];
 

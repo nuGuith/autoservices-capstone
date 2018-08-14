@@ -11,6 +11,7 @@ class Problem extends Model
     protected $primaryKey = 'problemid';
     protected $fillable = [
         'JobOrderID',
+        'EstimateID',
         'Problem',
         'isPerformed',
         'isActive'

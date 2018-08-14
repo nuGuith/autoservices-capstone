@@ -11,7 +11,10 @@ class PromoProductInclusions extends Model
     protected $table = 'promo_product_inclusions';
     protected $primaryKey = null;
     protected $fillable = [
+        'promoid',
+        'productid',
         'quantity',
+        'isFree',
         'isActive'
     ];
 

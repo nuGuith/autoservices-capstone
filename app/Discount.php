@@ -13,7 +13,6 @@ class Discount extends Model
         'discountid',
         'discountname',
         'discountrate',
-        'discounttype',
         'isActive'
     ];
 }

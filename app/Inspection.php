@@ -10,8 +10,10 @@ class Inspection extends Model
     protected $table = 'inspection';
     protected $fillable = [
     	'InspectionChecklistID',
-        'Assessment',
-        'Note',
+        'isWorking',
+        'hasInventory',
+        'Condition',
+        'Remarks',
         'isActive'
     ];
 

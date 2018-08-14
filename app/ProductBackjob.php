@@ -10,7 +10,8 @@ class ProductBackjob extends Model
     protected $table = 'product_backjob';
     protected $primaryKey = 'productbackjobid';
     protected $fillable = [
-        'productbackjobid',
+        'joborderid',
+        'productid'
         'date',
         'cost',
         'note',

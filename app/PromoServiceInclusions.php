@@ -11,6 +11,9 @@ class PromoServiceInclusions extends Model
     protected $table = 'promo_service_inclusions';
     protected $primaryKey = null;
     protected $fillable =[
+        'productid',
+        'serviceid',
+        'isFree',
         'isActive'
     ];
 

@@ -19,6 +19,7 @@ class PersonnelHeader extends Model
         'Barangay',
         'City',
         'Province',
+        'EmailAddress',
         'isActive'
     ];
 

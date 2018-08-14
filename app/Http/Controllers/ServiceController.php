@@ -54,7 +54,7 @@ class ServiceController extends Controller
                 'sizetype' => 'Size Type',
                 'class' => 'Class',
                 'initialprice' => 'Initial Price',
-            ]; 
+        ]; 
             /** This is an array of custom variable names you could set so that in case there is an Exception, 
             * the variable name displayed in the view is a decent one and not a name straight from the database. */
         $customMessages = [

@@ -9,6 +9,11 @@ class ServiceBay extends Model {
     public $timestamps = true;
     protected $table = 'service_bay';
     protected $primaryKey = 'servicebayid';
-    protected $fillable = ['servicebayid','servicebayname','description'];
+    protected $fillable = [
+        'servicebayid',
+        'servicebayname',
+        'description',
+        'isActive'
+    ];
     
 }

@@ -11,6 +11,7 @@ class PromoBackjob extends Model
     protected $primaryKey = 'promobackjobid';
     protected $fillable = [
         'promobackjobid',
+        'promoid',
         'datetime',
         'cost',
         'note',

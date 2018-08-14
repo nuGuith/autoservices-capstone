@@ -13,6 +13,8 @@ class PackageHeader extends Model
         'packageid',
         'packagename',
         'price',
+        'warrantydurationmode',
+        'warrantyduration',
         'isActive'
     ];
 

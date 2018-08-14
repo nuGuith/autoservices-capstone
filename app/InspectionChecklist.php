@@ -11,8 +11,8 @@ class InspectionChecklist extends Model
     protected $primaryKey = 'inspectionchecklistid';
     protected $fillable = [
         'inspectionchecklistid',
+        'inspectiontypeid',
     	'inspectionitem',
-        'inspectiontype',
         'isActive'
     ];
 

@@ -11,6 +11,8 @@ class Automobile extends Model
     protected $primaryKey = 'automobileid';
     protected $fillable = [
         'plateno',
+        'modelid',
+        'transmission',
         'mileage',
         'color',
         'chassisno',

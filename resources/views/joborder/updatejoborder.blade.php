@@ -2,20 +2,20 @@
 @section('Title','Update Job Order') <!-- Page Title -->
 @section('content')
 
-    <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/sweet_alert.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/sweetalert/css/sweetalert2.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/sweet_alert.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/animate/css/animate.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/hover/css/hover-min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/wow/css/animate.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/animate/css/animate.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/hover/css/hover-min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/wow/css/animate.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/tooltipster/css/tooltipster.bundle.min.css">
-    <link type="text/css" rel="stylesheet" href="vendors/tipso/css/tipso.min.css">
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tipso/css/tipso.min.css')}}">
 
     <!-- end of plugin styles -->
-    <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/animations.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/portlet.css')}}"/>
 
         <!-- CONTENT -->
         <div id="content" class="bg-container">
@@ -66,7 +66,7 @@
 
                                         <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
                                         <div class="row m-t-15">
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12 m-t-10">
                                                         <h5><span style="color:gray">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                         {{$customer->FullName}}</h5>                    
                                                 </div>  
@@ -90,7 +90,7 @@
                                         <hr style="margin-top: 10px; border: 2px solid #6699cc">
 
                                         <div class="row m-t-15">
-                                            <div class="col-lg-12 m-t-5">
+                                            <div class="col-lg-12 m-t-10">
                                                     <h5><span style="color:gray">Plate No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->PlateNo}}</h5>                    
                                             </div>
 
@@ -131,20 +131,26 @@
                                         <!--Label: Start Date, End Date, Service Bay-->
                                         <div class="row m-t-15">
                                                 <div class="col-lg-4">
-                                                        <h5><span style="color:gray">Start:</span>&nbsp;&nbsp;&nbsp;June 28, 2018</h5>                    
+                                                        <h5><span style="color:gray">Start:</span>&nbsp;&nbsp;&nbsp;June 28, 2018</h5>     
                                                 </div>  
+
                                                 <div class="col-lg-4">
                                                         <h5><span style="color:gray">End:</span>&nbsp;&nbsp;&nbsp;&nbsp;</h5>               
                                                 </div>
+
                                                 <div class="col-lg-4">
-                                                        <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;3</h5>
+                                                        <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;{{$servicebay->ServiceBayName}}</h5>
                                                 </div>
                                          </div> 
 
                                         <!--progress bar-->
                                         <div class="row m-t-20">
-                                           <div class="col-lg-12">
+                                            <div class="col-lg-4">
                                                 <h5><span style="color:gray">Progress: </span>&nbsp;&nbsp;&nbsp;50%</h5>
+                                            </div>
+
+                                            <div class="col-lg-8">
+                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;{{$joborder->Status}}</h5>
                                             </div>
 
                                             <div class="col-lg-12 m-t-10">
@@ -365,27 +371,27 @@
 
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
-<script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
-<script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
-<script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/snabbt/js/snabbt.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/wow/js/wow.min.js')}}"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="vendors/tooltipster/js/tooltipster.bundle.min.js"></script>
-<script type="text/javascript" src="vendors/tipso/js/tipso.min.js"></script>
-<script type="text/javascript" src="js/pages/tooltips.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/tipso/js/tipso.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/tooltips.js')}}"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="js/pages/modals.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/modals.js')}}"></script>
 <!--End of global scripts-->
 
 

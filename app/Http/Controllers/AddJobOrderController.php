@@ -7,12 +7,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\JobOrder;
 use App\Estimate;
 use App\InspectionHeader;
 use App\Customer;
 use App\Automobile;
 use App\ServiceBay;
 use App\Discount;
+use App\Service;
+use App\Product;
+use App\PromoHeader;
+use App\PackageHeader;
 use Validator;
 use Session;
 use Redirect;
@@ -28,12 +33,15 @@ class AddJobOrderController extends Controller
     {
         $estimateids = Estimate::orderBy('estimateid', 'desc')
         ->where('isActive', 1)
-        ->select('estimateid', DB::table('estimate')->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+        ->select('estimateid', DB::table('estimate')
+                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
         ->pluck('estimate_desc','estimateid');
 
         $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
         ->where('isActive', 1)
-        ->pluck('inspectionid','inspectionid');
+        ->select('inspectionid', DB::table('inspection_header')
+                                ->raw("CONCAT('ID: ',inspectionid, ' - ', updated_at)  AS inspection_desc"))
+        ->pluck('inspection_desc','inspectionid');
 
         $customerids = Customer::orderBy('customerid', 'desc')
         ->where('isActive', 1)
@@ -47,13 +55,30 @@ class AddJobOrderController extends Controller
         $automobile_models = DB::table('automobile_model')
                                 ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
                                 ->where('automobile_model.isActive',1)
-                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', year)  AS automobile_models"), 'modelid');
+                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
 
         $service_bays = ServiceBay::where('isActive', 1)
         ->pluck('servicebayname', 'servicebayid');
 
-        $discounts = Discount::where('isActive', 1)
+        $discounts = Discount::orderBy('discountid', 'desc')
+        ->where('isActive', 1)
         ->pluck('discountname', 'discountid');
+
+        $services = Service::orderBy('serviceid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('servicename', 'serviceid');
+
+        $products = Product::orderBy('productid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('productname', 'productid');
+
+        $promos = PromoHeader::orderBy('promoid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('promoname', 'promoid');
+
+        $packages = PackageHeader::orderBy('packageid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('packagename', 'packageid');
 
         $estimateids->prepend('Please choose an Estimate ID',0);
         $inspectionids->prepend('Please choose an Inspection ID',0);
@@ -62,8 +87,14 @@ class AddJobOrderController extends Controller
         $automobile_models->prepend('Select a Model',0);
         $service_bays->prepend('Please choose a Service Bay', 0);
         $discounts->prepend('Choose a Discount', 0);
+        $services->prepend('Choose a Service', 0);
+        $products->prepend('Choose a Product', 0);
+        $promos->prepend('Choose a Promo', 0);
+        $packages->prepend('Choose a Package', 0);
 
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts'));
+        //dd($products);
+        //return response()->json(compact('products'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages'));
     }
 
     /**
@@ -84,7 +115,26 @@ class AddJobOrderController extends Controller
      */
     public function store(Request $request)
     {
-       
+        try{
+            DB::beginTransaction();
+            JobOrder::create([
+                'customerid' => ($request->customerid),
+                'automobileid' => ($request->automobileid),
+                'inspectionid' => ($request->inspectionid),
+                'servicebayid' => ($request->servicebayid),
+                'promoid' => ($request->promoid),
+                'userid' => (1),
+                'status' => ('Ongoing'),
+                'agreement_timestamp' => (date('Y-m-d H:i:s')),
+                'laborcharge' => (499)
+            ]);
+            DB::commit();
+        }catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return redirect('\addjoborder')
+                ->withErrors($errors, 'jo');
+        }
     }
 
     /**
@@ -113,6 +163,18 @@ class AddJobOrderController extends Controller
         $automobile = Automobile::findOrFail($estimate->AutomobileID);
         return response()->json(compact('estimate', 'customer', 'automobile'));
     }
+
+
+    public function getProducts($id)
+    {
+        $products = DB::table('product AS pr')
+                    ->join('product_service AS ps', 'pr.productid', 'ps.productid')
+                    ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
+                    ->select('pr.productname','pr.productid')
+                    ->get();
+        return response()->json(compact('products'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.

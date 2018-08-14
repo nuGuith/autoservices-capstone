@@ -35,6 +35,7 @@ CREATE TABLE `automobile` (
   `PlateNo` varchar(10) NOT NULL,
   `ModelID` int(10) NOT NULL,
   `Mileage` int(6) DEFAULT NULL,
+  `Transmission` char(3) NULL DEFAULT 'A/T',
   `Color` varchar(50) DEFAULT NULL,
   `ChassisNo` varchar(30) NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
@@ -86,7 +87,6 @@ CREATE TABLE `automobile_model` (
   `ModelID` int(10) NOT NULL,
   `MakeID` int(10) NOT NULL,
   `Model` varchar(255) NOT NULL,
-  `Transmission` char(3) NOT NULL DEFAULT 'A/T',
   `Year` date NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -97,9 +97,9 @@ CREATE TABLE `automobile_model` (
 -- Dumping data for table `automobile_model`
 --
 
-INSERT INTO `automobile_model` (`ModelID`, `MakeID`, `Model`, `Transmission`, `Year`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 'Range Rover', '', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
-(2, 2, 'Beetle', '', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45');
+INSERT INTO `automobile_model` (`ModelID`, `MakeID`, `Model`, `Year`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 'Range Rover', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
+(2, 2, 'Beetle', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45');
 
 -- --------------------------------------------------------
 
@@ -654,7 +654,7 @@ CREATE TABLE `product` (
   `ProductID` int(10) NOT NULL,
   `ProductTypeID` int(10) NOT NULL,
   `ProductBrandID` int(10) NOT NULL,
-  `ProductUnitTypeID` int(10) NOT NULL,
+  `ProductUnitTypeID` int(10),
   `ProductName` varchar(100) NOT NULL,
   `Description` varchar(200) DEFAULT NULL,
   `Price` decimal(14,2) NOT NULL,
@@ -896,8 +896,8 @@ CREATE TABLE `promo_backjob` (
 CREATE TABLE `promo_header` (
   `PromoID` int(10) NOT NULL,
   `PromoName` varchar(255) NOT NULL,
-  `Duration` int(3) NOT NULL,
-  `DurationMode` varchar(5) NOT NULL,
+  `StartDate` date NOT NULL,
+  `EndDate` date NOT NULL,
   `Price` decimal(14,2) NOT NULL,
   `WarrantyDuration` int(3) DEFAULT NULL,
   `WarrantyDurationMode` varchar(5) DEFAULT NULL,
@@ -918,6 +918,7 @@ CREATE TABLE `promo_product_inclusions` (
   `PromoID` int(10) NOT NULL,
   `ProductID` int(10) NOT NULL,
   `Quantity` int(3) NOT NULL,
+  `isFree` bit(1) NOT NULL DEFAULT b'0',
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP

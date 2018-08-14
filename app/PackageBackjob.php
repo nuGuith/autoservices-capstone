@@ -11,6 +11,7 @@ class PackageBackjob extends Model
     protected $primaryKey = 'productbackjobid';
     protected $fillable = [
         'productbackjobid',
+        'packageid',
         'datetime',
         'cost',
         'note',

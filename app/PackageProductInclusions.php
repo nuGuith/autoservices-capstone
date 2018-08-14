@@ -11,7 +11,10 @@ class PackageProductInclusions extends Model
     protected $table = 'package_product_inclusions';
     protected $primaryKey = null;
     protected $fillable = [
+        'packageid',
+        'productid',
         'quantity',
+        'isFree',
         'isActive'
     ];
 

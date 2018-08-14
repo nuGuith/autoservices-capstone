@@ -8,10 +8,14 @@ class ProductsUsed extends Model
 {
     public $timestamps = true;
     protected $table = 'product_used';
-    protected $primaryKey = null;
     protected $fillable = [
+        'joborderid',
+        'salesid',
+        'productid',
+        'estimateid',
         'dateused',
         'subtotal',
+        'isCustomerProvided',
         'isActive'
     ];
 

@@ -11,6 +11,7 @@ class ProductDamaged extends Model
     protected $primaryKey = 'productdamagedid';
     protected $fillable = [
         'productdamagedid',
+        'productid'
         'state',
         'quantity',
         'date',

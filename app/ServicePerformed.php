@@ -12,7 +12,8 @@ class ServicePerformed extends Model
     protected $fillable = [
         'ServiceID',
         'JobOrderID',
-        'ServiceWarrantyID',
+        'EstimateID',
+        'LaborCost',
         'isActive'
     ];
 

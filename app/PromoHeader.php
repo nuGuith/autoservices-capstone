@@ -12,9 +12,11 @@ class PromoHeader extends Model
     protected $fillable = [
         'promoid',
         'promoname',
-        'duration',
-        'durationmode',
+        'startdate',
+        'enddate',
         'price',
+        'warrantydurationmode',
+        'warrantyduration',
         'isActive'
     ];
 
