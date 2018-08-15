@@ -131,15 +131,15 @@
                             <hr style="margin-top: 10px; border: 2px solid #6699cc">
 
 
-                            <!--Textfield: Plate No, Model, Chassis No, Mileage -->
-                            <div class="row m-t-15">
-                                    <div class="col-lg-3">
+                                <!--Textfield: Plate No, Model, Chassis No, Mileage -->
+                                    <div class="row m-t-15">
+                                        <div class="col-lg-4">
                                             <h5>Plate No.: <span style="color:red">*</span></h5>
                                             <p>
                                                 <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10" value="{{$automobile->PlateNo}}">
                                             </p>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-4">
                                             <h5>Model: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
                                                 <select class="form-control  chzn-select" tabindex="2">
@@ -148,23 +148,46 @@
                                                 </select>
                                             </p>
                                         </div>
-                                        <div class="col-lg-3 ">
+                                        <div class="col-lg-4">
                                            <h5>Chassis No.: <span style="color: red">*</span></h5>
                                             <p>
                                                 <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10" value="{{$automobile->ChassisNo}}">
                                             </p>
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-3 ">
+                                    <!--Textfield:Color, Transmission Assign Mechanic, Service Bay -->
+                                    <div class="row m-t-5">
+                                        <div class="col-lg-4 ">
                                             <h5>Mileage.: <span style="color: red">*</span></h5>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon m-t-10">
+                                                <div class="input-group m-t-10" style="padding-bottom: 20px;">
+                                                    <span class="input-group-addon">
                                                         <i class="fa fa-dashboard"></i>
                                                     </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="km" class="form-control m-t-10" value="{{$automobile->Mileage}} km">
+                                                    <input id="mileage" name="mileage" type="text" placeholder="km" class="form-control"/>
                                                 </div>
-                                        </div>                         
-                                </div>
+                                        </div>  
+                                        <div class="col-lg-4 ">
+                                            <h5>Color: <span style="color: red">*</span></h5>
+                                            <p class="m-t-10">
+                                                <input id="color" name="color" type="text" placeholder="Color" class="form-control">
+                                            </p>
+                                        </div> 
+                                        <div class="col-lg-4">
+                                            <h5>Transmission: <span style="color:red">*</span></h5>
+                                            <div class="checkbox-rotate m-t-20">
+                                            <label class="text-black"  style="padding-left: 45px;">
+                                                <input type="checkbox" value="">
+                                                &nbsp;&nbsp;Manual 
+                                            </label>
+
+                                            <label class="text-black" style="padding-left: 60px;">
+                                                <input type="checkbox" value="">
+                                                &nbsp;&nbsp;Automatic 
+                                            </label>
+                                            </div>
+                                        </div>
+                                    </div>
 
                             <!--END VEHICLE INFORMATION -->
 

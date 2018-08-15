@@ -123,12 +123,12 @@
                                     <td>   
                                         <div class="examples transitions m-t-5">
                                             <!--VIEW BUTTON-->
-                                            <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View" href="/viewjoborder/{{$joborder->JobOrderID}}" >
+                                            <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background="#00C0EF" data-color="white" data-tipso="View" href="/viewjoborder/{{$joborder->JobOrderID}}" >
                                             <i class="fa fa-eye text-white"></i>
                                             </a>
 
                                             <!--UPDATE BUTTON-->
-                                            <a class="btn btn-info hvr-float-shadow  tipso_bounceIn" style ="width:;"data-background="blue" data-color="white" data-tipso="Update" href="/updatejoborder/{{$joborder->JobOrderID}}">
+                                            <a class="btn btn-info hvr-float-shadow  tipso_bounceIn" style ="width:;"data-background="#668CFF" data-color="white" data-tipso="Update" href="/updatejoborder/{{$joborder->JobOrderID}}">
                                             <i class="fa fa-refresh text-white"></i>
                                             </a>
 

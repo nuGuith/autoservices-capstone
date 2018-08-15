@@ -114,6 +114,44 @@
                                                     <h5><span style="color:gray">Transmission:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Transmission}}</h5>
                                             </div>              
                                         </div>
+
+                                        <!--START OTHER INFORMATION-->
+                                        <h4 class ="m-t-30">Other Information</h2>
+                                        <hr style="margin-top: 10px; border: 2px solid #aa66cc">
+
+                                        <div class="row m-t-15">
+
+                                            <div class="col-lg-12">
+                                                <h5>Service Advisor: <span style="color:red"></span></h5>
+                                                <p class="m-t-10">
+                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                        <option disabled selected>Choose Service Advisor</option>
+                                                        <option value="">Daphne</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <h5>Inventory Manager: <span style="color:red"></span></h5>
+                                                <p class="m-t-10">
+                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                        <option disabled selected>Choose Service Advisor</option>
+                                                        <option value="">Daphne</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <h5>Quality Assurance: <span style="color:red"></span></h5>
+                                                <p class="m-t-10">
+                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                        <option disabled selected>Choose Service Advisor</option>
+                                                        <option value="">Daphne</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+          
+                                        </div>
                                        
                                     </div>
                                 </div>
@@ -205,7 +243,7 @@
                                                     </td>
                                                     <!--Column: Actions: Refresh-->
                                                     <td>
-                                                        <button type="button" id=" " class="btn btn-success hvr-float-shadow" ><i class="fa fa-refresh text-white"></i></button>       
+                                                        <button type="button" id=" " class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
                                                     </td>
                                                 </tr>
 
@@ -237,7 +275,7 @@
                                                     </td>
                                                     <!--Column: Actions: Refresh-->
                                                     <td>
-                                                        <button type="button" id=" " class="btn btn-success hvr-float-shadow" ><i class="fa fa-refresh text-white"></i></button>         
+                                                        <button type="button" id=" " class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>         
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -285,7 +323,11 @@
                                                         <p>
                                                             <input id="address" name="payment" type="text" placeholder=".00" class=" form-control m-t-10" style="text-align: right">
                                                         </p>
-                                                    </div>                                             
+                                                    </div>
+                                                    
+                                                <div class="col-md-12 col-lg-4 m-t-10">
+                                                    <button type="button" id=" " class="btn btn-outline-primary" ><i class="fa fa-plus text-cyan"></i></button>
+                                                </div>                                       
                                             </div>                                                                                              
                                             
                                                     

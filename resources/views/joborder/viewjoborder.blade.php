@@ -114,9 +114,28 @@
                                                     <h5><span style="color:gray">Transmission:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Transmission}}</h5>
                                             </div>              
                                         </div>
+
+                                        <!--START OTHER INFORMATION-->
+                                        <h4 class ="m-t-30">Other Information</h2>
+                                        <hr style="margin-top: 10px; border: 2px solid #aa66cc">
+
+                                        <div class="row m-t-15">
+                                            <div class="col-lg-12 m-t-5">
+                                                    <h5><span style="color:gray">Service Advisor:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Daphne</h5>                    
+                                            </div>
+
+                                            <div class="col-lg-12 m-t-10">
+                                                    <h5><span style="color:gray">Inventory Manager:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hercules</h5>
+                                            </div>
+
+                                            <div class="col-lg-12 m-t-10">
+                                                    <h5><span style="color:gray">Quality Assurance:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Athena</h5>
+                                            </div>
+          
+                                        </div>
                                        
                                     </div>
-                                </div>
+                                </div><br>
                             </div>
 
                             <div class="col-lg-7 m-t-25">
