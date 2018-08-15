@@ -28,7 +28,8 @@ class JobOrder extends Model
         'LaborDiscount_Rate',
         'JobDuration',
         'TotalAmountDue',
-        'isActive'
+        'isActive',
+        'updated_at'
     ];
 
     public function estimate (){

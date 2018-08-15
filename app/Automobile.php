@@ -13,9 +13,9 @@ class Automobile extends Model
         'plateno',
         'modelid',
         'transmission',
+        'chassisno',
         'mileage',
         'color',
-        'chassisno',
         'isActive'
     ];
 

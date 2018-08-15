@@ -115,26 +115,60 @@ class AddJobOrderController extends Controller
      */
     public function store(Request $request)
     {
+        $cust_id = 0;
+        $auto_id = 0;
         try{
             DB::beginTransaction();
+            if (($request->customerid) < 1){
+                $firstname = ($request->fname). ' ';
+                $middlename = ($request->mname). ' ';
+                Customer::create([
+                    'firstname' => ($firstname),
+                    'middlename' => ($middlename),
+                    'lastname' => ($request->lname),
+                    'ContactNo' => ($request->contact),
+                    'emailaddress' => ($request->email),
+                    'pwd_sc_no' => ($request->pwd_sc_no),
+                    'completeaddress' => ($request->address)
+                ]);
+                $cust_id = Customer::orderBy('customerid', 'desc')->first();
+            }
+            if (($request->automobileid) < 1){
+                Automobile::create([
+                    'plateno' => ($request->plateno),
+                    'modelid' => ($request->modelid),
+                    'chassisno' => ($request->chassisno),
+                    'mileage' => ($request->mileage),
+                    'color' => ($request->color)
+                ]);
+                $auto_id = Automobile::orderBy('automobileid', 'desc')->first();
+            }
+            if ($cust_id->CustomerID < 1)
+                $cust_id->CustomerID = ($request->customerid);
+            if ($auto_id->AutomobileID < 1)
+                $auto_id->AutomobileID = ($request->automobileid);
             JobOrder::create([
-                'customerid' => ($request->customerid),
-                'automobileid' => ($request->automobileid),
-                'inspectionid' => ($request->inspectionid),
-                'servicebayid' => ($request->servicebayid),
-                'promoid' => ($request->promoid),
-                'userid' => (1),
-                'status' => ('Ongoing'),
-                'agreement_timestamp' => (date('Y-m-d H:i:s')),
-                'laborcharge' => (499)
+                'CustomerID' => ($cust_id->CustomerID),
+                'AutomobileID' => ($auto_id->AutomobileID),
+                'InspectionID' => ($request->inspectionid),
+                'EstimateID' => ($request->estimateid),
+                'ServiceBayID' => ($request->servicebayid),
+                'PromoID' => ($request->promoid),
+                'PackageID' => ($request->packageid),
+                'DiscountID' => ($request->discountid),
+                'UserID' => (1),
+                'Status' => ('Ongoing'),
+                'Agreement_Timestamp' => (date('Y-m-d H:i:s')),
+                'LaborCharge' => (499),
+                'updated_at' => (date('Y-m-d H:i:s'))
             ]);
             DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
-            $errors = $e->getMessage();
-            return redirect('\addjoborder')
-                ->withErrors($errors, 'jo');
+            $err = $e->getMessage();
+            return response()->json($err);
         }
+        return redirect('/joborder');
     }
 
     /**

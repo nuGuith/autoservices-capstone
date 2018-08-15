@@ -10,7 +10,6 @@ class ServiceBay extends Model {
     protected $table = 'service_bay';
     protected $primaryKey = 'servicebayid';
     protected $fillable = [
-        'servicebayid',
         'servicebayname',
         'description',
         'isActive'

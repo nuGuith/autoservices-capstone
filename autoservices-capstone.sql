@@ -49,7 +49,10 @@ CREATE TABLE `automobile` (
 
 INSERT INTO `automobile` (`AutomobileID`, `PlateNo`, `ModelID`, `Mileage`, `Color`, `ChassisNo`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'ABC123', 1, 10000, 'Black', 'JMDKSFIENV1223', b'1', '2018-08-03 08:20:23', '2018-08-03 07:51:12'),
-(2, 'DEF456', 2, 20000, 'Black', 'JNCVJKSD12209MKD', b'1', '2018-08-03 08:20:37', '2018-08-03 07:51:12');
+(2, 'DEF456', 2, 20000, 'Black', 'JNCVJKSD12209MKD', b'1', '2018-08-03 08:20:37', '2018-08-03 07:51:12'),
+(3, 'XHR321', 2, 15000, 'Gray', 'JNCVJKSD12209MKF', b'1', '2018-08-15 00:04:32', '2018-08-14 15:59:22'),
+(4, 'YES555', 3, 10000, NULL, 'HNCVJKSD15209JPN', b'1', '2018-08-15 00:11:50', '2018-08-14 16:10:52'),
+(5, 'VAMP19', 3, 12000, 'Red', 'VAMPJKSD15209J', b'1', '2018-08-15 01:53:55', '2018-08-14 17:53:27');
 
 -- --------------------------------------------------------
 
@@ -73,7 +76,8 @@ CREATE TABLE `automobile_make` (
 
 INSERT INTO `automobile_make` (`MakeID`, `Make`, `isActive`, `created_at`, `updated_at`) VALUES
 (1, 'Land Rover', b'1', '2018-08-03 07:48:11', '0000-00-00 00:00:00'),
-(2, 'Volkswagen', b'1', '2018-08-03 07:48:11', '0000-00-00 00:00:00');
+(2, 'Volkswagen', b'1', '2018-08-03 07:48:11', '0000-00-00 00:00:00'),
+(3, 'Honda', b'1', '2018-08-15 00:08:05', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -99,7 +103,8 @@ CREATE TABLE `automobile_model` (
 
 INSERT INTO `automobile_model` (`ModelID`, `MakeID`, `Model`, `Year`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 1, 'Range Rover', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
-(2, 2, 'Beetle', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45');
+(2, 2, 'Beetle', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
+(3, 3, 'City', '2015-01-00', b'1', '0000-00-00 00:00:00', '2018-08-15 00:08:39');
 
 -- --------------------------------------------------------
 
@@ -118,8 +123,8 @@ CREATE TABLE `customer` (
   `PWD_SC_No` varchar(30) DEFAULT NULL,
   `CompleteAddress` varchar(255) NOT NULL,
   `Barangay` varchar(40) DEFAULT NULL,
-  `City` varchar(40) NOT NULL,
-  `Province` varchar(40) NOT NULL,
+  `City` varchar(40) DEFAULT NULL,
+  `Province` varchar(40) DEFAULT NULL,
   `EmailAddress` varchar(255) DEFAULT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -133,7 +138,12 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`CustomerID`, `FirstName`, `MiddleName`, `LastName`, `ContactNo`, `PWD_SC_No`, `CompleteAddress`, `Barangay`, `City`, `Province`, `EmailAddress`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'Sofia ', 'Aguirre ', 'Wabe ', '09155810953', NULL, '18 C Blk A. Sto. Nino St. SFDM Qezon City', 'San Antonio', 'Quezon City', 'Metro Manila', 'sofia18.sw@gmail.com', b'1', '2018-08-10 04:29:47', '2018-08-03 07:46:20'),
 (2, 'John Ray ', 'Ramos ', 'Palatino ', '09959608509', NULL, '13 San Vicente St. SFDM Quezon City', 'Damayan', 'Quezon City', 'Metro Manila', 'johnraypalatino08@gmail.com', b'1', '2018-08-10 04:29:50', '2018-08-03 07:46:20'),
-(3, 'Ivann Ashley ', 'Reyes ', 'Nuguid', '09104327718', NULL, '002 P. Lucas St., Napindan, Taguig City', 'Napindan', 'Taguig', 'MM', 'nuguidivannxx@gmail.com', b'1', '2018-08-12 17:23:55', '2018-08-10 04:27:06');
+(3, 'Ivann Ashley ', 'Reyes ', 'Nuguid', '09104327718', NULL, '002 P. Lucas St., Napindan, Taguig City', 'Napindan', 'Taguig', 'MM', 'nuguidivannxx@gmail.com', b'1', '2018-08-12 17:23:55', '2018-08-10 04:27:06'),
+(16, 'Guesshee ', 'Orteza ', 'Almario', '09999999999', NULL, 'FilInvest City, Alabang, Muntinlupa City', NULL, '', '', 'guesshee@email.com', b'1', '2018-08-15 00:03:08', '2018-08-14 15:28:47'),
+(18, 'Danice Joy ', 'Escano ', 'Tanguilan', '(0999) 999-99', NULL, 'Bulacan', NULL, '', '', 'da_nice@email.com', b'1', '2018-08-14 23:45:38', '2018-08-14 15:45:16'),
+(20, 'Dodge Samuel ', 'Nerizon ', 'Culaniban', '(0999) 999-99', NULL, 'Sto. Tomas, Pasig City', NULL, '', '', 'dodgekun@weeabmail.com', b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
+(21, 'Rena Eznaira ', 'Carino ', 'Era', '(0915) 000-00', NULL, 'Imus City, Cavite', NULL, '', '', 'iamzegryffindor@gmail.com', b'1', '2018-08-14 16:10:52', '2018-08-14 16:10:52'),
+(22, 'Sharmil Joy ', 'Ballera ', 'Pamatian', '(092) 342-020', NULL, '', NULL, '', '', 'sharmmms19@gmail.com', b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27');
 
 -- --------------------------------------------------------
 
@@ -173,6 +183,8 @@ CREATE TABLE `estimate` (
   `AutomobileID` int(10) NOT NULL,
   `InspectionID` int(10) DEFAULT NULL,
   `DiscountID` int(10) DEFAULT NULL,
+  `PersonnelID` int(10) NOT NULL,
+  `ServiceBayID` int(10) DEFAULT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -182,10 +194,10 @@ CREATE TABLE `estimate` (
 -- Dumping data for table `estimate`
 --
 
-INSERT INTO `estimate` (`EstimateID`, `CustomerID`, `AutomobileID`, `InspectionID`, `DiscountID`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 2, NULL, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
-(2, 2, 2, NULL, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
-(3, 3, 1, NULL, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00');
+INSERT INTO `estimate` (`EstimateID`, `CustomerID`, `AutomobileID`, `InspectionID`, `DiscountID`,`PersonnelID`,`ServiceBayID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 2, NULL, NULL, 1, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
+(2, 2, 2, NULL, NULL, 1, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
+(3, 3, 1, NULL, NULL, 1, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -343,7 +355,13 @@ CREATE TABLE `job_order` (
 --
 
 INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `CustomerID`, `AutomobileID`, `InspectionID`, `PersonnelPerformedID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `Terms_Agreement`, `Agreement_Timestamp`, `Release_Timestamp`, `LaborCharge`, `LaborDiscount_Rate`, `JobDuration`, `TotalAmountDue`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-10 00:00:00', '2018-08-12 17:25:43', '4500.00', NULL, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-10 02:04:34');
+(1, 1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-10 00:00:00', '2018-08-12 17:25:43', '4500.00', NULL, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-10 02:04:34'),
+(15, 3, 3, 1, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-14 23:37:27', '2018-08-14 23:37:27', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:37:27', '2018-08-14 15:37:27'),
+(16, 1, 1, 2, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-14 23:39:45', '2018-08-14 23:39:45', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:39:45', '2018-08-14 15:39:45'),
+(19, NULL, 18, NULL, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-14 23:45:16', '2018-08-14 23:45:16', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:45:16', '2018-08-14 15:45:16'),
+(20, NULL, 20, 2, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, '2018-08-14 23:59:22', '2018-08-14 23:59:22', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
+(21, NULL, 21, 4, NULL, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-15 00:10:52', '2018-08-15 00:12:04', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 16:10:52', '2018-08-14 16:10:52'),
+(22, NULL, 22, 5, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, '2018-08-15 01:53:27', '2018-08-15 01:54:11', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27');
 
 -- --------------------------------------------------------
 
@@ -459,6 +477,13 @@ CREATE TABLE `package_header` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `inspection_checklist_type`
+--
+
+INSERT INTO `package_header` (`PackageID`, `PackageName`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Summer Package', '999.00', '3', 'weeks', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
+
 -- --------------------------------------------------------
 
 --
@@ -528,12 +553,20 @@ CREATE TABLE `personnel_header` (
   `ContactNo` varchar(13) NOT NULL,
   `CompleteAddress` varchar(255) NOT NULL,
   `Barangay` varchar(40) DEFAULT NULL,
-  `City` varchar(40) NOT NULL,
-  `Province` varchar(40) NOT NULL,
+  `City` varchar(40) DEFAULT NULL,
+  `Province` varchar(40) DEFAULT NULL,
+  `EmailAddress` varchar(40) NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `personnel_header`
+--
+
+INSERT INTO `personnel_header` (`PersonnelID`, `FirstName`, `MiddleName`, `LastName`, `ContactNo`, `CompleteAddress`, `Barangay`, `City`, `Province`, `EmailAddress`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Sofia ', 'Aguirre ', 'Wabe ', '09155810953', '18 C Blk A. Sto. Nino St. SFDM Qezon City', 'San Antonio', 'Quezon City', 'Metro Manila', 'sofia18.sw@gmail.com', b'1', '2018-08-10 04:29:47', '2018-08-03 07:46:20');
 
 -- --------------------------------------------------------
 
@@ -672,7 +705,9 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`ProductID`, `ProductTypeID`, `ProductBrandID`, `ProductUnitTypeID`, `ProductName`, `Description`, `Price`, `Size`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 1, 1, 1, 'Semi Synthetic Oil', NULL, '500.00', 1, NULL, NULL, b'1', '2018-07-31 15:13:49', '0000-00-00 00:00:00'),
-(2, 2, 2, 2, 'Scotch\'s Electrical Tape', NULL, '150.00', 100, NULL, NULL, b'0', '2018-08-03 03:49:16', '0000-00-00 00:00:00');
+(2, 2, 2, 2, 'Scotch\'s Electrical Tape', NULL, '150.00', 100, NULL, NULL, b'0', '2018-08-03 03:49:16', '0000-00-00 00:00:00'),
+(3, 13, 5, 3, 'Piston', NULL, '700.00', 0, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-13 09:18:38'),
+(4, 15, 3, 3, 'Crank Rods', NULL, '500.00', 0, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-13 09:18:38');
 
 -- --------------------------------------------------------
 
@@ -716,7 +751,12 @@ CREATE TABLE `product_brand` (
 
 INSERT INTO `product_brand` (`ProductBrandID`, `BrandName`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'Petron', b'1', '2018-07-31 15:14:45', '0000-00-00 00:00:00'),
-(2, 'Scotch', b'1', '2018-07-31 15:14:45', '0000-00-00 00:00:00');
+(2, 'Scotch', b'1', '2018-07-31 15:14:45', '0000-00-00 00:00:00'),
+(3, 'Denso', b'1', '0000-00-00 00:00:00', '2018-08-13 08:44:24'),
+(4, 'Continental', b'1', '0000-00-00 00:00:00', '2018-08-13 08:44:24'),
+(5, 'Sumitomo', b'1', '0000-00-00 00:00:00', '2018-08-13 08:44:24'),
+(6, 'Schaeffler', b'1', '0000-00-00 00:00:00', '2018-08-13 08:44:24'),
+(7, 'Mitsubishi', b'1', '0000-00-00 00:00:00', '2018-08-13 08:44:24');
 
 -- --------------------------------------------------------
 
@@ -740,7 +780,23 @@ CREATE TABLE `product_category` (
 
 INSERT INTO `product_category` (`ProductCategoryID`, `CategoryName`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'Mechanical', b'1', '2018-07-31 15:15:02', '0000-00-00 00:00:00'),
-(2, 'Electrical', b'1', '2018-07-31 15:15:02', '0000-00-00 00:00:00');
+(2, 'Electrical', b'1', '2018-07-31 15:15:02', '0000-00-00 00:00:00'),
+(3, 'Brake', b'1', '2018-08-13 00:50:28', '2018-08-13 00:50:28'),
+(4, 'Accessory', b'1', '2018-08-13 00:50:42', '2018-08-13 00:50:42'),
+(5, 'Air Intake', b'1', '2018-08-13 00:50:58', '2018-08-13 00:50:58'),
+(6, 'Auto Body Parts', b'1', '2018-08-13 00:51:11', '2018-08-13 00:51:11'),
+(7, 'Body Electrical', b'1', '2018-08-13 00:51:31', '2018-08-13 00:51:31'),
+(8, 'Body Mechanical & Trim', b'1', '2018-08-13 00:51:46', '2018-08-13 00:51:46'),
+(9, 'Climate Control', b'1', '2018-08-13 00:52:18', '2018-08-13 00:52:18'),
+(10, 'Cooling System', b'1', '2018-08-13 00:52:34', '2018-08-13 00:52:34'),
+(11, 'Driveshaft & Axle', b'1', '2018-08-13 00:53:00', '2018-08-13 00:53:00'),
+(12, 'Engine Electrical', b'1', '2018-08-13 00:53:20', '2018-08-13 00:53:20'),
+(13, 'Exhaust', b'1', '2018-08-13 00:53:46', '2018-08-13 00:53:46'),
+(14, 'Fuel Delivery', b'1', '2018-08-13 00:53:58', '2018-08-13 00:53:58'),
+(15, 'Interior Styling', b'1', '2018-08-13 00:54:09', '2018-08-13 00:54:09'),
+(16, 'Steering', b'1', '2018-08-13 00:54:20', '2018-08-13 00:54:20'),
+(17, 'Suspension', b'1', '2018-08-13 00:54:31', '2018-08-13 00:54:31'),
+(18, 'Transmission', b'1', '2018-08-13 00:54:44', '2018-08-13 00:54:44');
 
 -- --------------------------------------------------------
 
@@ -778,6 +834,15 @@ CREATE TABLE `product_service` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `product_service`
+--
+
+INSERT INTO `product_service` (`ProductID`, `ServiceID`, `isActive`, `created_at`, `updated_at`) VALUES
+(3, 1, b'1', '2018-08-13 09:48:56', '0000-00-00 00:00:00'),
+(4, 1, b'1', '2018-08-13 09:49:15', '0000-00-00 00:00:00'),
+(1, 2, b'1', '2018-08-13 10:33:12', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -801,7 +866,20 @@ CREATE TABLE `product_type` (
 
 INSERT INTO `product_type` (`ProductTypeID`, `ProductCategoryID`, `ProductTypeName`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 1, 'Lubricant', b'1', '2018-07-31 15:15:41', '0000-00-00 00:00:00'),
-(2, 2, 'Electrical Tape', b'1', '2018-07-31 15:15:41', '0000-00-00 00:00:00');
+(2, 2, 'Electrical Tape', b'1', '2018-07-31 15:15:41', '0000-00-00 00:00:00'),
+(3, 1, 'Connecting Rod', b'1', '0000-00-00 00:00:00', '2018-08-13 08:34:44'),
+(4, 1, 'Connecting Piston', b'1', '0000-00-00 00:00:00', '2018-08-13 08:35:33'),
+(5, 1, 'Main Bearings', b'1', '0000-00-00 00:00:00', '2018-08-13 08:35:33'),
+(6, 1, 'Push Rods', b'1', '0000-00-00 00:00:00', '2018-08-13 08:36:54'),
+(7, 1, 'Bolts', b'1', '0000-00-00 00:00:00', '2018-08-13 08:36:54'),
+(8, 1, 'Harmonic Balancer', b'1', '0000-00-00 00:00:00', '2018-08-13 08:38:39'),
+(9, 1, 'Lifters', b'1', '2018-08-13 08:45:47', '2018-08-13 08:38:39'),
+(10, 1, 'Valve', b'1', '0000-00-00 00:00:00', '2018-08-13 08:39:15'),
+(11, 1, 'Spring', b'1', '0000-00-00 00:00:00', '2018-08-13 08:39:15'),
+(12, 1, 'Rotator', b'1', '0000-00-00 00:00:00', '2018-08-13 08:39:56'),
+(13, 1, 'Piston', b'1', '0000-00-00 00:00:00', '2018-08-13 08:39:56'),
+(14, 1, 'Camshafts', b'1', '0000-00-00 00:00:00', '2018-08-13 08:40:45'),
+(15, 1, 'Crank Rods', b'1', '0000-00-00 00:00:00', '2018-08-13 08:40:45');
 
 -- --------------------------------------------------------
 
@@ -826,7 +904,8 @@ CREATE TABLE `product_unit_type` (
 
 INSERT INTO `product_unit_type` (`ProductUnitTypeID`, `UnitTypeName`, `Unit`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'Liter', 'l', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00'),
-(2, 'Meter', 'm', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00');
+(2, 'Meter', 'm', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00'),
+(3, 'Piece', 'pc', b'1', '0000-00-00 00:00:00', '2018-08-13 09:16:18');
 
 -- --------------------------------------------------------
 
@@ -905,6 +984,13 @@ CREATE TABLE `promo_header` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `promo_header`
+--
+
+INSERT INTO `promo_header` (`PromoID`, `PromoName`, `StartDate`, `EndDate`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Summer Package', '2018-08-01', '2018-08-21', '999.00', '3', 'weeks', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
 
 -- --------------------------------------------------------
 
@@ -988,7 +1074,8 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`ServiceID`, `ServiceCategoryID`, `ServiceName`, `SizeType`, `Class`, `EstimatedTime`, `InitialPrice`, `Quantity`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 'Engine Overhaul', '', '', 360, '2500.00', 0, NULL, NULL, b'1', '2018-08-09 17:59:00', '2018-08-09 17:59:00');
+(1, 1, 'Engine Overhaul', '', '', 360, '2500.00', 0, NULL, NULL, b'1', '2018-08-09 17:59:00', '2018-08-09 17:59:00'),
+(2, 3, 'Change Oil', NULL, NULL, 90, '250.00', 4, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-13 10:32:49');
 
 -- --------------------------------------------------------
 
@@ -1202,7 +1289,9 @@ ALTER TABLE `estimate`
   ADD KEY `FK_Estimate_Customer` (`CustomerID`),
   ADD KEY `FK_Estimate_Automobile` (`AutomobileID`),
   ADD KEY `FK_Estimate_Inspection` (`InspectionID`),
-  ADD KEY `FK_Estimate_Discount` (`DiscountID`);
+  ADD KEY `FK_Estimate_Discount` (`DiscountID`),
+  ADD KEY `FK_Estimate_Personnel` (`PersonnelID`),
+  ADD KEY `FK_Estimate_ServiceBay` (`ServiceBayID`);
 
 --
 -- Indexes for table `inspection`
@@ -1796,7 +1885,9 @@ ALTER TABLE `estimate`
   ADD CONSTRAINT `FK_Estimate_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Estimate_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Estimate_Discount` FOREIGN KEY (`DiscountID`) REFERENCES `discount` (`DiscountID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Estimate_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Estimate_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Estimate_Personnel` FOREIGN KEY (`PersonnelID`) REFERENCES `personnel_header` (`PersonnelID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Estimate_ServiceBay` FOREIGN KEY (`ServiceBayID`) REFERENCES `service_bay` (`ServiceBayID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inspection`

@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Edit Job Order') <!-- Page Title -->
 @section('content')
     

@@ -80,8 +80,6 @@ z-index: 999999">
                     <span class="toggle-left" id="menu-toggle">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-bars text-white"></i>
                     </span>
-
-
                 </div>
 
                 

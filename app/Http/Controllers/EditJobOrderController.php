@@ -35,7 +35,7 @@ class EditJobOrderController extends Controller
                     ->where('md.ModelID', $model->ModelID)
                     ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
                     ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
-                    ->select('mk.Make', 'md.Model', 'md.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->select('mk.Make', 'md.Model', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
                     ->first();
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
         return view ('joborder.editjoborder', compact('joborder','customer','model','automobile','servicebay'));

@@ -67,7 +67,7 @@
                                         <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
                                         <div class="row m-t-15">
                                                 <div class="col-lg-12 m-t-10">
-                                                        <h5><span style="color:gray">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <h5><span style="color:gray">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                                                         {{$customer->FullName}}</h5>                    
                                                 </div>  
                                                 <div class="col-lg-12 m-t-10">
