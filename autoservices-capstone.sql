@@ -1540,6 +1540,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `automobile`
+--
+ALTER TABLE `automobile`
+  MODIFY `AutomobileID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `automobile_make`
 --
 ALTER TABLE `automobile_make`
