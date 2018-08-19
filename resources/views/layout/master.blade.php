@@ -96,7 +96,7 @@ z-index: 999999">
                     <div class="btn-group">
                         <div class="user-settings no-bg">
 
-                            button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
+                            <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
                                 <img src="{{URL::asset('img/admin.jpeg')}}" class="media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
@@ -298,7 +298,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
 
@@ -342,7 +342,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; QUERIES AND REPORTS</span>
                 
                 <li {!! (Request::is('queries')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
