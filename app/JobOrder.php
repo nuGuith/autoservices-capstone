@@ -11,7 +11,6 @@ class JobOrder extends Model
     protected $primaryKey = 'joborderid';
     protected $fillable = [
         'EstimateID',
-        'CustomerID',
         'AutomobileID',
         'InspectionID',
         'PersonnelPerformedID',

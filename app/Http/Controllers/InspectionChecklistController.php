@@ -109,9 +109,9 @@ class InspectionChecklistController extends Controller
 
       //Add inspectionType
       $itype = array("InspectionType"=>$name);
-      DB::table('inspection_type')->insert($itype);
+      DB::table('inspection_checklist_type')->insert($itype);
 
-      $temp = DB::table('inspection_type')->max('InspectionTypeID');
+      $temp = DB::table('inspection_checklist_type')->max('InspectionTypeID');
 
       //Add Inspectionitem
       for($i=0;$i<=count($item);$i++)
@@ -128,7 +128,7 @@ class InspectionChecklistController extends Controller
 
     public function Retrieve(){
       //Get Inspection Name
-      $type = DB::table('inspection_type')
+      $type = DB::table('inspection_checklist_type')
       ->WHERE('InspectionTypeID',Input::get('Cid'))
       ->get();
 
@@ -143,7 +143,7 @@ class InspectionChecklistController extends Controller
 
     public function editchecklist(){
       //edit inspection checklist type
-      DB::table('inspection_type')
+      DB::table('inspection_checklist_type')
       ->WHERE('InspectionTypeID',Input::get('Inid'))
       ->UPDATE(['InspectionType'=>Input::get('type')]);
 
@@ -163,7 +163,7 @@ class InspectionChecklistController extends Controller
 
       public function delete(){
 
-        DB::table('inspection_type')
+        DB::table('inspection_checklist_type')
         ->WHERE('InspectionTypeID',Input::get('clid'))
         ->UPDATE(['isActive'=>0]);
 

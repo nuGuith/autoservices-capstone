@@ -85,7 +85,7 @@
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Service Category</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Estimated Time</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Initial Price</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1"><b>Actions</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 10%;"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -95,7 +95,7 @@
                                                     
                                                     <td>{!!$service->ServiceName!!}</td>
                                                     <td>{!!$service->ServiceCategoryName!!}</td>
-                                                    <td>{!!$service->EstimatedTime!!}</td>
+                                                    <td>{!!$service->EstimatedTime!!}mins</td>
                                                     <td>Php {!!$service->InitialPrice!!}</td>
                                                     <td>
 
@@ -142,9 +142,16 @@
                                     <div class="col-md-11">
                                         <h5>Service Category: <span style="color: red">*</span></h5>
                                         <p class="m-t-10">
-                                            <select id="servicecategory" name="servicecategory" class=" form-control chzn-select m-t-10">
-                                                <option value=""></option>
-                                            </select>
+                                            {{ Form::select(
+                                            'servicecategoryid',
+                                            $categories,
+                                            null,
+                                            array(
+                                            'class' => 'form-control chzn-select',
+                                            'id' => 'servicecategoryid',
+                                            'name' => 'servicecategoryid')
+                                            ) 
+                                            }}
                                         </p>
                                     </div>
                                 </div>
@@ -495,7 +502,7 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#servicename").val(data.service.ServiceName);
-                    $("#servicecategoryid").val(data.service.ServiceCategoryName);
+                    $("#servicecategoryid").val(data.service.ServiceCategoryID).trigger("chosen:updated");
                     $("#estimatedtime").val(data.service.EstimatedTime);
                     $("#sizetype").val(data.service.SizeType);
                     $("#class").val(data.service.Class);

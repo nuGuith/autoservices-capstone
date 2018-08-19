@@ -25,17 +25,17 @@ class ViewJobOrderController extends Controller
     public function index($id)
     {
         $joborder = JobOrder::findOrFail($id);
-        $customer = DB::table('customer')
-                    ->where('customerid',$joborder->CustomerID)
-                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
-                    ->first();
         $model = Automobile::findOrFail($joborder->AutomobileID);
         
         $automobile = DB::table('automobile_model AS md')
                     ->where('md.ModelID', $model->ModelID)
                     ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
                     ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
-                    ->select('mk.Make', 'md.Model', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->first();
+        $customer = DB::table('customer')
+                    ->where('customerid', $automobile->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
                     ->first();
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
         //dd($automobile);

@@ -107,11 +107,11 @@
                                     </td>
                                     <td class="center">
                                         <ul style="padding-left: 1.2em;">
-                                        <!-- @foreach($customers as $customer) -->
-                                            <!-- @if($joborder->CustomerID == $customer->CustomerID) -->
-                                                <li>Name: {{$customer->FullName}}</li>
-                                                <li>Contact No: {{$customer->ContactNo}}</li>
-                                                <li>Address: {{$customer->CompleteAddress}}</li>
+                                        <!-- @foreach($automobiles as $automobile) -->
+                                            <!-- @if($joborder->AutomobileID == $automobile->AutomobileID) -->
+                                                <li>Name: {{$automobile->FullName}}</li>
+                                                <li>Contact No: {{$automobile->ContactNo}}</li>
+                                                <li>Address: {{$automobile->CompleteAddress}}</li>
                                             <!-- @endif -->
                                         <!-- @endforeach -->
                                         </ul>

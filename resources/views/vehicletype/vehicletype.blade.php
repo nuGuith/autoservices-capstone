@@ -115,14 +115,9 @@
                                                     <td class="center">
                                                         <ul style="padding-left: 1.7em;">
                                                           @foreach($models as $model)
-
-                                                          @if($makes->MakeID == $model->MakeID)
-
-                                                          <li>{{$model->Model}} {{$model->year}} {{$model->transmission}}</li>
-
-                                                          @endif
-
-
+                                                            @if($makes->MakeID == $model->MakeID)
+                                                            <li>{{$model->Model}} {{$model->year}}</li>
+                                                            @endif
                                                           @endforeach
                                                         </ul>
                                                     </td>

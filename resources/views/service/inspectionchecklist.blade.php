@@ -83,7 +83,7 @@
                                             <tbody>
                                               @foreach($type as $type)
                                                 <tr>
-                                                    <td>{{$type->InspectionType}}</td>
+                                                    <td>{{$type->InspectionTypeName}}</td>
                                                     <td>
 
                                                         <ul style="padding-left: 1.2em;">

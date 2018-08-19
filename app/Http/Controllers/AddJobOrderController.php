@@ -136,6 +136,7 @@ class AddJobOrderController extends Controller
             if (($request->automobileid) < 1){
                 Automobile::create([
                     'plateno' => ($request->plateno),
+                    'customerid' => ($cust_id),
                     'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
@@ -143,12 +144,9 @@ class AddJobOrderController extends Controller
                 ]);
                 $auto_id = Automobile::orderBy('automobileid', 'desc')->first();
             }
-            if ($cust_id->CustomerID < 1)
-                $cust_id->CustomerID = ($request->customerid);
             if ($auto_id->AutomobileID < 1)
                 $auto_id->AutomobileID = ($request->automobileid);
             JobOrder::create([
-                'CustomerID' => ($cust_id->CustomerID),
                 'AutomobileID' => ($auto_id->AutomobileID),
                 'InspectionID' => ($request->inspectionid),
                 'EstimateID' => ($request->estimateid),
@@ -185,27 +183,27 @@ class AddJobOrderController extends Controller
     public function showInspection($id)
     {
         $inspection = InspectionHeader::findOrFail($id);
-        $customer = Customer::findOrFail($inspection->CustomerID);
         $automobile = Automobile::findOrFail($inspection->AutomobileID);
+        $customer = Customer::findOrFail($automobile->CustomerID);
         return response()->json(compact('inspection', 'customer', 'automobile'));
     }
 
     public function showEstimate($id)
     {
         $estimate = Estimate::findOrFail($id);
-        $customer = Customer::findOrFail($estimate->CustomerID);
         $automobile = Automobile::findOrFail($estimate->AutomobileID);
+        $customer = Customer::findOrFail($automobile->CustomerID);
         return response()->json(compact('estimate', 'customer', 'automobile'));
     }
 
     public function filterByCustomer($id)
     {
-        $products = DB::table('product AS pr')
+        /* $products = DB::table('product AS pr')
                     ->join('product_service AS ps', 'pr.productid', 'ps.productid')
                     ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
                     ->select('pr.productname','pr.productid')
                     ->get();
-        return response()->json(compact('products'));
+        return response()->json(compact('products')); */
     }
 
     public function getFilteredProductList($id)

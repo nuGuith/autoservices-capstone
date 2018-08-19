@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use App\Service;
 use App\ServiceCategory;
-use App\Http\Controllers\Controller;
 use Validator;
 use Redirect;
 use Session;
@@ -55,13 +55,13 @@ class ServiceController extends Controller
                 'class' => 'Class',
                 'initialprice' => 'Initial Price',
         ]; 
-            /** This is an array of custom variable names you could set so that in case there is an Exception, 
-            * the variable name displayed in the view is a decent one and not a name straight from the database. */
+            /** this is an array of custom variable names you could set so that in case there is an Exception, 
+            * the variable name displayed in the view is a decent one and not a name straight from the database hahahha. */
         $customMessages = [
                 'servicename.regex' => 'You cannot input special characters into :attribute field. Sorry. :(',
                 'servicename.unique' => 'The :attribute you entered is already taken.',
             ];
-            /** This is an array of custom messages you could set so aside from the default ones by laravel. */
+            /** This is an array of custom messages you could set so aside from the default ones by laravel. UwU */
         $validation = Validator::make($request->all(), [
             'servicename' => [
                 'bail',
@@ -131,12 +131,6 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::findOrFail($id);
-        /*  DB::table('service as se')
-                ->leftJoin('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
-                ->where('se.serviceid', $id)
-                ->get(); */
-        
-
         return response()->json(compact('service')); /** returns the response result data as JSON */
     }
 
@@ -194,7 +188,7 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        /* try{
             Service::findOrFail($id);
             Service::destroy($id);
         }
@@ -203,7 +197,7 @@ class ServiceController extends Controller
                 return redirect('service')
                     ->withErrors($err);
         }
-        return redirect('service');
+        return redirect('service'); */
     }
 
     public function delete(Request $request)

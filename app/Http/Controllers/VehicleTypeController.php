@@ -17,8 +17,9 @@ class VehicleTypeController extends Controller
             ->where('isActive', 1)
             ->get();
         $models = DB::table('automobile_model as md')
-        	->leftJoin('automobile_make as mk', 'mk.makeid', '=', 'md.makeid')
-        	->select('md.ModelID','md.MakeID', 'md.Model','md.transmission','md.year')
+          ->leftJoin('automobile_make as mk', 'mk.makeid', '=', 'md.makeid')
+          ->leftJoin('automobile as auto', 'auto.modelid', '=', 'md.modelid')
+        	->select('md.ModelID','md.MakeID', 'md.Model', 'auto.transmission','md.year')
         	->where('md.isActive', 1)
           ->where('mk.isActive',1)
         	->get();

@@ -37,9 +37,9 @@ Route::get('/addpackage','AddPackageController@addpackage');
 Route::get('/editpackage','EditPackageController@editpackage');
 
 //Maintenance - Vehicle
-// Route::resource('vehicletype','VehicleTypeController');
-// Route::put('/vehicletype', 'VehicleTypeController@update');
-// Route::patch('/vehicletype', 'VehicleTypeController@delete');
+Route::resource('vehicletype','VehicleTypeController');
+Route::put('/vehicletype', 'VehicleTypeController@update');
+Route::patch('/vehicletype', 'VehicleTypeController@delete');
 
 Route::resource('addvehicletype','AddVehicleTypeController');
 Route::post('/addvehicletype', 'AddVehicleTypeController@store');

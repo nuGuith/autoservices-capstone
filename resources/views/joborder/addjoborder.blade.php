@@ -97,11 +97,13 @@
 	                                        </div>
                                         <!--Search by Inpection ID/Estimate ID -->
                                         <div class="col-lg-3">
-                                            <h5>Search <a id="by"></a></h5>
+                                            <h5>Search <a id="by">Existing Records</a></h5>
 	                                            <p>
 	                                                <p>
 	                                                    <p id="initial" class="m-t-10 visible">
-	                                                        <select class="form-control chzn-select"></select>
+	                                                        <select disabled class="form-control chzn-select">
+                                                                <option selected disabled> &#8592;  Select a search method first <option>
+                                                            </select>
 	                                                    </p>
 	                                                </p>
 	                                                <p id="inspectionIDs" class="m-t-10 hidden">
@@ -848,11 +850,8 @@ $(document).ready(function () {
                 cols = "";
                 counter++;
                 totalCounter++;
-            }.done(function() {
-                price = data.product.price;
-                grandTotal += price;
-            });
-        }
+            }
+        });
         
         counter++;
         var newProductRow = $("<tr>");
@@ -882,11 +881,8 @@ $(document).ready(function () {
                     cols = "";
                     counter++;
                     totalCounter++;
-                }).done(function(){
-                for (i = 0; i < totalCounter; i++){
-                    grandTotal += parseFloat(price[i]);
                 }
-            }
+            });
         }
 
         $("#grandtotal").text("Php " + grandTotal);
@@ -1026,7 +1022,6 @@ $(document).ready(function () {
                 PWDSCNO = data.customer.PWD_SC_No;
             }
         });
-        alert(PWDSCNO);
         if (PWDSCNO != null)
             autoDiscount();
 
