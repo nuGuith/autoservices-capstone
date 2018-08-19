@@ -2,22 +2,22 @@
 <?php $__env->startSection('Title','Estimates'); ?> <!-- Page Title -->
 <?php $__env->startSection('content'); ?>
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/sweetalert/css/sweetalert2.min.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/pages/sweet_alert.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/sweetalert/css/sweetalert2.min.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('css/pages/sweet_alert.css')); ?>"/>
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/animate/css/animate.min.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/hover/css/hover-min.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/wow/css/animate.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/animate/css/animate.min.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/hover/css/hover-min.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/wow/css/animate.css')); ?>"/>
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/tooltipster/css/tooltipster.bundle.min.css')); ?>">
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/tipso/css/tipso.min.css')); ?>">
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css')); ?>">
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/tipso/css/tipso.min.css')); ?>">
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/pages/animations.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/pages/portlet.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('css/pages/animations.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('css/pages/portlet.css')); ?>"/>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo e(asset('vendors/animate/css/animate.min.css')); ?>" />
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css')); ?>" />
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo e(URL::asset('vendors/animate/css/animate.min.css')); ?>" />
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css')); ?>" />
+    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css')); ?>" />
     <!--End of plugin styles-->
 
         <!-- CONTENT -->
@@ -35,14 +35,8 @@
 
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
-                            <li class="breadcrumb-item">
-                                <a href="/">
-                                    <i class="fa fa-home"></i>
-                                        Dashboard
-                                </a>
-                            </li>
                             <li class="breadcrumb-item " >
-                                <a href="/estimates">
+                                <a href="/inspect">
                                     <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
                                     &nbsp;Estimates
                                 </a>
@@ -60,7 +54,8 @@
                                 <div class="btn-group">
 
                                         <!--ADD BUTTON MODAL-->
-                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" href="/addestimates">
+                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
+                                                    href="/addestimates">
                                         <i class="fa fa-plus"></i>
                                             &nbsp;  Add Estimate                                  
                                          </a>
@@ -91,109 +86,65 @@
                                                 <?php $__currentLoopData = $estimates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $estimate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr role="row" class="even">
                                                     <td>
-                                                        <?php echo e($estimate->EstimateID); ?>
+                                                        ES000<?php echo e($estimate->EstimateID); ?>
 
                                                     </td>
                                                     <td>
-                                                        <ul style="padding-left: 1.2em;">
-                                                            <li>Plate No:    <?php echo e($estimate->PlateNo); ?></li>
-                                                            <li>Model:   <?php echo e($estimate->Model); ?> <?php echo e($estimate->Year); ?></li>
-                                                            <li>Chassis No:    <?php echo e($estimate->ChassisNo); ?></li>
-                                                            <li>Mileage:    <?php echo e($estimate->Mileage); ?></li>
-                                                        </ul>
+                                                    <!-- <?php $__currentLoopData = $automobiles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $automobile): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> -->
+                                                        <!-- <?php if($estimate->AutomobileID == $automobile->AutomobileID): ?> -->
+                                                        <li>Plate No: <?php echo e($automobile->PlateNo); ?></li>
+                                                        <li>
+                                                        <!-- <?php $__currentLoopData = $automobile_models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $md): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> -->
+                                                            <!-- <?php if($automobile->ModelID == $md->ModelID): ?> -->
+                                                            Model: <?php echo e($md->AutomobileModel); ?>
+
+                                                            <!-- <?php endif; ?> -->
+                                                        <!-- <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
+                                                        </li>
+                                                        <li>Chassis No: <?php echo e($automobile->ChassisNo); ?></li>
+                                                        <li>Mileage: <?php echo e($automobile->Mileage); ?> KM</li>
+                                                        <!-- <?php endif; ?> -->
+                                                    <!-- <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
                                                     </td>
                                                     <td class="center">
                                                         <ul style="padding-left: 1.2em;">
-                                                            <li>Name:   <?php echo e($estimate->FirstName); ?> <?php echo e($estimate->MiddleName); ?> <?php echo e($estimate->LastName); ?></li>
-                                                            <li>Contact No:   <?php echo e($estimate->ContactNo); ?></li>
-                                                            <li>Address:   <?php echo e($estimate->CompleteAddress); ?></li>
+                                                            <!-- <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> -->
+                                                                <!-- <?php if($estimate->CustomerID == $customer->CustomerID): ?> -->
+                                                                    <li>Name: <?php echo e($customer->FullName); ?></li>
+                                                                    <li>Contact No: <?php echo e($customer->ContactNo); ?></li>
+                                                                    <li>Address: <?php echo e($customer->CompleteAddress); ?></li>
+                                                                <!-- <?php endif; ?> -->
+                                                            <!-- <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
                                                         </ul>
                                                     </td>
                                                     <td><?php echo e($estimate->created_at); ?></td>
                                                     <td>
                                                         <!--VIEW BUTTON-->
-                                                    <div class="examples transitions m-t-5">
-                                                        <a href="<?php echo e(route('viewestimates', $estimate->EstimateID)); ?>">
-                                                            <button class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background="#6495ED" data-color="white" data-tipso="View">
+                                                        <div class="examples transitions m-t-5">
+                                                            <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View" href="/viewestimates/<?php echo $estimate->EstimateID; ?>" >
                                                                 <i class="fa fa-eye text-white"></i>
-                                                            </button>
-                                                        </a>
-                                                        
-                                                        <!--EDIT BUTTON-->
-                                                        <a href="<?php echo e(route('editestimates', $estimate->EstimateID)); ?>">
-                                                            <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" onclick="window.location='<?php echo e(url("/editestimates")); ?>'">
+                                                            </a>
+
+                                                            <!--EDIT BUTTON-->
+                                                            <a class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" href="/editestimates/<?php echo e($estimate->EstimateID); ?>">
                                                                 <i class="fa fa-pencil text-white"></i>
+                                                            </a>
+                                                
+                                                            <!--DELETE BUTTON-->
+                                                            <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete">
+                                                                <i class="fa fa-trash text-white"></i>
                                                             </button>
-                                                        </a>
-                                               
-                                                        <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete" onclick="deleteModal(<?php echo $estimate->EstimateID; ?>)">
-                                                            <i class="fa fa-trash text-white"></i>
-                                                        </button>
                                                        
-                                                    </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
-
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <!-- END EXAMPLE TABLE PORTLET-->
 
-                <!-- START DELETE MODAL -->
-                <?php echo Form::open(array('id' => 'deleteForm', 'url' => 'estimates', 'action' => 'EstimatesController@delete', 'method' => 'PATCH')); ?>
-
-                                <!-- <?php echo csrf_field(); ?> -->
-                <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Delete this record?</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <p>
-                                            Are you sure you want to delete this record?
-                                        </p>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="examples transitions m-t-5">
-                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
-                                </div>
-                                <div class="examples transitions m-t-5">
-                                    <?php echo Form::button('<i class="fa fa-save text-white"></i>&nbsp;OK', [
-                                        'type'=>'submit',
-                                        'class'=>'btn btn-success warning source confirm m-l-10 adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal',
-                                    ]); ?>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php echo Form::close(); ?>
-
-                <!-- END DELETE MODAL -->
             
                             </div>
                         </div>
@@ -205,28 +156,28 @@
 
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="<?php echo e(asset('js/jquery.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('js/components.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('js/custom.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('vendors/sweetalert/js/sweetalert2.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('js/pages/sweet_alerts.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/jquery.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/components.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/custom.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('vendors/sweetalert/js/sweetalert2.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/pages/sweet_alerts.js')); ?>"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="<?php echo e(asset('vendors/snabbt/js/snabbt.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('vendors/wow/js/wow.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('vendors/snabbt/js/snabbt.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('vendors/wow/js/wow.min.js')); ?>"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="<?php echo e(asset('vendors/tooltipster/js/tooltipster.bundle.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('vendors/tipso/js/tipso.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(asset('js/pages/tooltips.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('vendors/tipso/js/tipso.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/pages/tooltips.js')); ?>"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="<?php echo e(asset('js/pages/modals.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/pages/modals.js')); ?>"></script>
 <!--End of global scripts-->
 
 

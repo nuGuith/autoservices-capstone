@@ -115,8 +115,8 @@
                                 </div>
                                 <!-- END TABLE -->
 
-            <!-- START EDIT MODAL -->
-            <?php echo Form::open(array('id' => 'editForm', 'url' => 'producttype', 'action' => 'ProductTypeController@update', 'method' => 'PUT')); ?>
+             <!-- START EDIT MODAL -->
+           <?php echo Form::open(array('id' => 'editForm', 'url' => 'producttype', 'action' => 'ProductTypeController@update', 'method' => 'PUT')); ?>
 
             <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
@@ -125,19 +125,19 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white">
                                 <i class="fa fa-pencil"></i>
-                                    &nbsp;&nbsp;Edit Product Type
+                                    &nbsp;Edit Product Type
                                 </h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <h4>Product Type Name</h4>
+                            <div class="modal-body" style="padding-left: 47px;">
+                                
+                                <div class="row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Type: <span style="color: red">*</span></h5>
                                         <p>
-                                            <?php echo e(Form::input('producttypename', 'text', Input::old('producttypename'), [
+                                            <?php echo e(Form::input('producttypename', 'text', Input::old('productypename'), [
                                                     'id' => 'producttypename',
                                                     'name' => 'producttypename',
-                                                    'class' => 'form-control',
+                                                    'class' => 'form-control m-t-10',
                                                     'type' => 'text',
                                                     'placeholder' => 'Product Type',
                                                     'required'
@@ -146,25 +146,25 @@
                                         </p>
                                         <input id="productcategoryid" name="productcategoryid" type="hidden" value=null>
                                     </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td><h5>Product Category</h5></td>
-                                                    <td>
-                                                        <?php echo e(Form::select('productcategoryid', $categories, null, array(
-                                                        'class' => 'form-control chzn-select',
-                                                        'id' => 'categoryid',
-                                                        'name' => 'productcategoryid')
-                                                        )); ?>
+                                </div>
 
-                                                    </td>
-                                                    <td><input id="producttypeid" name="producttypeid" type="hidden" value=null></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Category: <span style="color: red">*</span></h5>
+                                            <p class="m-t-10">
+                                                <?php echo e(Form::select('productcategoryid', $categories, null, array(
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'categoryid',
+                                                    'name' => 'productcategoryid')
+                                                    )); ?>
+
+                                            </p>
+                                        <input id="producttypeid" name="producttypeid" type="hidden" value=null>
                                     </div>
+                                </div>
+
                                     <br>
+                                    
                                     <div id="show-errors">
                                         <?php if($errors->update->any()): ?>
                                             <div class="alert alert-danger">
@@ -177,7 +177,7 @@
                                             <br>
                                         <?php endif; ?>
                                     </div>
-                                </div>
+                                
                             </div>
 
 
@@ -200,62 +200,51 @@
                 </div>
                 <?php echo Form::close(); ?>
 
-                <!-- END EDIT MODAL -->
                 <!-- START ADD MODAL -->
                 <?php echo Form::open(array('id' => 'addForm', 'url' => 'producttype', 'action' => 'ProductTypeController@store', 'method' => 'POST')); ?>
 
                 <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Add New Product Type
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Product Type
                                 </h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-xl-8">
-                                                <h4>Product Type Name<span style="color:red;font-size:14px;">*</span></h4>
-                                            </div>
-                                            <div class="col-xl-4" style="text-align:right;">
-                                                <h6>Required field(s)<span style="color:red;font-size:14px;">*</span></h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
+                            <div class="modal-body" style="padding-left: 47px;">
+                                
+                                <div class="row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Type: <span style="color: red">*</span></h5>
                                         <p>
                                             <?php echo e(Form::input('producttypename', 'text', Input::old('producttypename'), [
                                                 'id' => 'producttypename',
                                                 'name' => 'producttypename',
-                                                'class' => 'form-control',
+                                                'class' => 'form-control m-t-10',
                                                 'type' => 'text',
                                                 'placeholder' => 'Product Type',
                                                 'required'
                                                 ])); ?>
 
                                         </p>
-                                        </div>
                                     </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td><h5>Product Category<span style="color:red">*</span></h5></td>
-                                                    <td>
-                                                        <?php echo e(Form::select('productcategoryid', $categories, null, array(
-                                                        'class' => 'form-control',
-                                                        'id' => 'productcategoryid',
-                                                        'name' => 'productcategoryid')
-                                                        )); ?>
+                                </div>
 
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Category: <span style="color: red">*</span></h5>
+                                            <p class="m-t-10">
+                                                <?php echo e(Form::select('productcategoryid', $categories, null, array(
+                                                'class' => 'form-control chzn-select',
+                                                'id' => 'categoryid',
+                                                'name' => 'productcategoryid')
+                                                )); ?>
+
+                                            </p>
                                     </div>
+                                </div>
+
                                     <br>
                                     <div id="show-errors">
                                         <?php if($errors->add->any()): ?>
@@ -270,7 +259,8 @@
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                            </div>
+ 
+
 
                             <div class="modal-footer">
                                 <div class="examples transitions m-t-5">
@@ -292,43 +282,28 @@
 
                 <!--END ADD MODAL -->
 
-                <!-- START DELETE MODAL -->
+               <!-- START DELETE MODAL -->
                 <?php echo Form::open(array('id' => 'deleteForm', 'url' => 'producttype', 'action' => 'ProductTypeController@delete', 'method' => 'PATCH')); ?>
 
                 <!-- <?php echo csrf_field(); ?> -->
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-md">
+                   <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-danger">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Delete this record?</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-trash"></i>
+                                            &nbsp;Delete Record</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <p>
-                                            Are you sure you want to delete this record?
-                                        </p>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="col m-t-15">
+                                    <h5>Are you sure do you want to delete this record?</h5>
+                                    <input id="deleteId" name="deleteId" type="hidden" value=null>
                                 </div>
                             </div>
 
 
 
-                            <div class="modal-footer">
+                            <div class="modal-footer m-t-10">
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
@@ -393,7 +368,7 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#producttypename").val(data.type.ProductTypeName);
-                    $("#categoryid").val(data.type.ProductCategoryID);
+                    $("#categoryid").val(data.type.ProductCategoryID).trigger('chosen:updated');;
                     $("#producttypeid").val(data.type.ProductTypeID);
                 }
             });

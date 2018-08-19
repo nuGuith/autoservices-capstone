@@ -38,12 +38,6 @@
                         <div class="col-sm-6 col-12"  >
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item">
-                                    <a href="/">
-                                        <i class="fa fa-home"></i>
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">
                                     <a href="#">
                                         <i class="fa fa-pencil-square-o"></i>
                                         Product Listing
@@ -86,7 +80,7 @@
                                         <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                             <thead>
                                                 <tr role="row">
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Product Brand ID</b></th>
+                                                    <!-- <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Product Brand ID</b></th> -->
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Product Brand</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width:20%"><b>Actions</b></th>  
                                                 </tr>
@@ -94,18 +88,19 @@
                                             <tbody>
 
                                                 <?php $__currentLoopData = $productbrands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $productbrand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <tr>
+                                                <tr style="padding-left: 1.2em;">
                                                     
-                                                    <td><?php echo $productbrand->ProductBrandID; ?></td>
+                                                   <!--  <td><?php echo $productbrand->ProductBrandID; ?></td> -->
                                                     <td><?php echo $productbrand->BrandName; ?></td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" onclick="editModal(<?php echo $productbrand->ProductBrandID; ?>)"><i class="fa fa-pencil text-white"></i>
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn"onclick="editModal(<?php echo $productbrand->ProductBrandID; ?>)"data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                                        
-                                                        
+                                                              
+                                               
+
                                                         <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal(<?php echo $productbrand->ProductBrandID; ?>)"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                                        <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" onclick="deleteModal(<?php echo $productbrand->ProductBrandID; ?>)" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -126,20 +121,19 @@
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Product Brand</h4>
+                                            &nbsp;Edit Product Brand</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <h4>Product Category</h4>
+                            <div class="modal-body" style="padding-left: 45px;">
+                                <div class="row m-t-10">
+                                    <div class="col-md-11">
+                                        <h5>Brand Name: <span style="color: red">*</span></h5>
                                         <p>
                                             <?php echo Form::input ('brandname','text', Input::old('brandname'), [
                                                 'id'=>'brandname',
                                                 'name'=>'brandname',
                                                 'type'=>'text',
                                                 'placeholder'=>'Brand Name',
-                                                'class'=>'form-control',
+                                                'class'=>'form-control m-t-10',
                                                 'maxlength'=>'50',
                                                 'required'
                                                 ]); ?>
@@ -147,8 +141,9 @@
                                         </p>
                                         <input id="productbrandid" name="productbrandid" type="hidden" value=null>
                                     </div>
+                                </div>
                                     <br>
-                                    <div id="show-errors">
+                                    <div id="show-errors" style="margin-right: 43px;">
                                         <?php if($errors->update->any()): ?>
                                             <div class="alert alert-danger">
                                                 <ul>
@@ -160,7 +155,7 @@
                                             <br>
                                         <?php endif; ?>
                                     </div>
-                                </div>
+                                
                             </div>
 
 
@@ -184,46 +179,40 @@
                 <?php echo Form::close(); ?>
 
                 <!-- END EDIT MODAL -->
+
                 <!-- START ADD MODAL -->
                 <?php echo Form::open(array('id' => 'addForm', 'url' => 'productbrand', 'action' => 'ProductBrandController@store', 'method' => 'POST')); ?>
 
                 <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Add New Product Brand</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Product Brand</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <h4>Brand Name<span style="color:red;font-size:14px;">*</span></h4>
-                                            </div>
-                                            <div class="col-xl-6" style="text-align:right;">
-                                                <h6>Required field(s)<span style="color:red;font-size:14px;">*</span></h6>
-                                            </div>
-                                        </div>
+                            <div class="modal-body" style="margin-right: 43px;">
+                                <div class="row m-t-10">
+                                    <div class="col-md-11">
+                                        <h5>Brand Name: <span style="color: red">*</span></h5>
                                         <p>
                                             <?php echo Form::input ('brandname','text', Input::old('brandname'), [
                                                 'id'=>'brandname',
                                                 'name'=>'brandname',
                                                 'type'=>'text',
                                                 'placeholder'=>'Brand Name',
-                                                'class'=>'form-control',
+                                                'class'=>'form-control m-t-10',
                                                 'maxlength'=>'50',
                                                 'required'
                                                 ]); ?>
 
                                         </p>
                                     </div>
+                                </div>
                                     <br>
-                                    <div id="show-errors">
+                                    <div id="show-errors" style="right: 45px;">
                                         <?php if($errors->add->any()): ?>
-                                            <div class="alert alert-danger">
+                                            <div class="alert alert-danger" >
                                                 <ul>
                                                     <?php $__currentLoopData = $errors->add->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <li><?php echo e($error); ?></li>
@@ -232,7 +221,6 @@
                                             </div>
                                             <br>
                                         <?php endif; ?>
-                                    </div>
                                 </div>
                             </div>
 
@@ -263,33 +251,17 @@
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-danger">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Delete this record?</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-trash"></i>
+                                            &nbsp;Delete record?</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <p>
-                                            Are you sure you want to delete this record?
-                                        </p>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="col m-t-15">
+                                    <h5>Are you sure do you want to delete this record?</h5>
+                                    <input id="deleteId" name="deleteId" type="hidden" value=null>
                                 </div>
                             </div>
-
 
 
                             <div class="modal-footer">
