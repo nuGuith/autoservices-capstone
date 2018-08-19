@@ -7,22 +7,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
-use App\Estimate;
-use App\Customer;
-use App\Automobile;
-use App\AutomobileMake;
-use App\AutomobileModel;
-use App\Inspection;
-use App\Service;
-use App\ServiceBay;
-use App\Product;
 use Validator;
 use Session;
 use Redirect;
 use Tables;
 use DateTables;
 
-class EstimatesController extends Controller
+class EditEstimatesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,24 +21,9 @@ class EstimatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
-        $estimates = Estimate::orderBy('estimateid', 'desc')
-            ->where('isActive', 1)
-            ->get();
-        
-        $automobile_models = DB::table('automobile_model')
-            ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
-            ->where('automobile_model.isActive',1)
-            ->select(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS AutomobileModel"), 'ModelID')
-            ->get();
-
-        $automobiles = Automobile::where('isActive', 1)->get();
-
-        $customers = Customer::where('isActive', 1)
-            ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
-            ->get();
-
-       return view ('estimates.estimates', compact('estimates', 'automobiles', 'automobile_models', 'customers'));
+    {
+       
+        return view ('estimates.editestimates');
     }
 
     /**
@@ -77,7 +53,7 @@ class EstimatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($estimateid)
+    public function show($id)
     {
         //
     }
@@ -90,7 +66,7 @@ class EstimatesController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -113,6 +89,6 @@ class EstimatesController extends Controller
      */
     public function delete(Request $request)
     {
-        //
+       
     }
 }

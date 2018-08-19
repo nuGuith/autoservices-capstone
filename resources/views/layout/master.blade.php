@@ -204,6 +204,27 @@ z-index: 999999">
                         </li>
                     </ul>
                 </li>
+                <li {!! (Request::is('jobdescription')|| Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
+                    <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-group"></i>
+                            &nbsp;Personnel
+                            <span class="fa arrow"></span>
+                    </a>
+                    <ul>
+                        <li {!! (Request::is('jobdescription')  ? 'class="active"' : '') !!} >
+                            <a href="/jobdescription" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Job Description
+                            </a>
+                        </li>  
+                        <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
+                            <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Personnel
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-wrench"></i>
@@ -246,27 +267,6 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
                             </a>
                         </li> -->
-                    </ul>
-                </li>
-                <li {!! (Request::is('jobdescription')|| Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
-                    <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
-                        <i class="fa fa-group"></i>
-                            &nbsp;Personnel
-                            <span class="fa arrow"></span>
-                    </a>
-                    <ul>
-                        <li {!! (Request::is('jobdescription')  ? 'class="active"' : '') !!} >
-                            <a href="/jobdescription" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                    &nbsp;Job Description
-                            </a>
-                        </li>  
-                        <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
-                            <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                    &nbsp;Personnel
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li {!! (Request::is('package')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -325,7 +325,7 @@ z-index: 999999">
                         <span class="link-title">&nbsp; Back Job</span>
                     </a>
                 </li>
-                <li  {!! (Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                <li {!!(Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/warranty" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-tags"></i>
                         <span class="link-title">&nbsp; Warranty</span>

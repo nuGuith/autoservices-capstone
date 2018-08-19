@@ -198,8 +198,7 @@ class AddJobOrderController extends Controller
         return response()->json(compact('estimate', 'customer', 'automobile'));
     }
 
-
-    public function getProducts($id)
+    public function filterByCustomer($id)
     {
         $products = DB::table('product AS pr')
                     ->join('product_service AS ps', 'pr.productid', 'ps.productid')
@@ -207,6 +206,44 @@ class AddJobOrderController extends Controller
                     ->select('pr.productname','pr.productid')
                     ->get();
         return response()->json(compact('products'));
+    }
+
+    public function getFilteredProductList($id)
+    {
+        $products = DB::table('product AS pr')
+                    ->join('product_service AS ps', 'pr.productid', 'ps.productid')
+                    ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
+                    ->select('pr.productname','pr.productid')
+                    ->get();
+        return response()->json(compact('products'));
+    }
+
+    public function getProductDetails($id)
+    {
+        $product = DB::table('product')
+                    ->where(['productid' => $id, 'isActive' => 1])
+                    ->select('productname','price')
+                    ->first();
+        return response()->json(compact('product'));
+    }
+
+    public function getDiscountDetails($id)
+    {
+        $discount = DB::table('discount')
+                    ->where(['discountid' => $id, 'isActive' => 1])
+                    ->select('discountname','discountrate')
+                    ->first();
+        return response()->json(compact('discount'));
+    }
+
+    public function getServiceDetails($id)
+    {
+        $service = DB::table('service AS se')
+                    ->join('service_price AS sp', 'se.serviceid', 'sp.serviceid')
+                    ->where(['sp.serviceid' => $id, 'sp.isActive' => 1, 'sp.modelid' => 1])
+                    ->select('se.servicename','sp.price')
+                    ->first();
+        return response()->json(compact('service'));
     }
 
 

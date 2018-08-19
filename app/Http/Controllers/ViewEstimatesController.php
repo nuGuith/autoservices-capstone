@@ -7,47 +7,52 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
-use App\Estimate;
 use App\Customer;
+use App\Estimate;
 use App\Automobile;
 use App\AutomobileMake;
 use App\AutomobileModel;
-use App\Inspection;
-use App\Service;
 use App\ServiceBay;
+use App\Personnel;
+use App\Discount;
+use App\Service;
 use App\Product;
+use App\PersonnelHeader;
+use App\Process;
+use App\ProcessService;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
-class EstimatesController extends Controller
+class ViewEstimatesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {        
-        $estimates = Estimate::orderBy('estimateid', 'desc')
-            ->where('isActive', 1)
-            ->get();
+    public function index($id)
+    {
+        $estimate = Estimate::findOrFail($id);
+        $customer = DB::table('customer')
+                    ->where('customerid',$estimate->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->first();
+        $model = Automobile::findOrFail($estimate->AutomobileID);
         
-        $automobile_models = DB::table('automobile_model')
-            ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
-            ->where('automobile_model.isActive',1)
-            ->select(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS AutomobileModel"), 'ModelID')
-            ->get();
+        $automobile = DB::table('automobile_model AS md')
+                    ->where('md.ModelID', $model->ModelID)
+                    ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+                    ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+                    ->select('mk.Make', 'md.Model', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->first();
+        $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
+        $personnel = DB::table('personnel_header')
+                    ->where('personnelid',$estimate->PersonnelID)
+                    ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
+                    ->first();
 
-        $automobiles = Automobile::where('isActive', 1)->get();
-
-        $customers = Customer::where('isActive', 1)
-            ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
-            ->get();
-
-       return view ('estimates.estimates', compact('estimates', 'automobiles', 'automobile_models', 'customers'));
+        return view('joborder.viewjoborder', compact('estimate','customer', 'model', 'automobile','servicebay','personnel'));
     }
 
     /**
@@ -77,7 +82,7 @@ class EstimatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($estimateid)
+    public function show($id)
     {
         //
     }
@@ -90,7 +95,7 @@ class EstimatesController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -113,6 +118,6 @@ class EstimatesController extends Controller
      */
     public function delete(Request $request)
     {
-        //
+       
     }
 }

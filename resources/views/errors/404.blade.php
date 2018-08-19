@@ -2,17 +2,17 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" href="img/icon.png"/>
+    <link rel="shortcut icon" href="{{URL::asset('img/icon.png')}}"/>
     <title>404 Page Not Found</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     
     <!-- global level css-->
     <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="css/components.css"/>
-    <link type="text/css" rel="stylesheet" href="css/custom.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/components.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/custom.css')}}"/>
     <!-- end of globallevel js-->
     <!-- page level styles-->
-    <link type="text/css" rel="stylesheet" href="css/pages/404.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/404.css')}}"/>
     <link type="text/css" rel="stylesheet" href="#" id="skin_change"/>
     <!-- end of page level styles-->
 </head>
@@ -42,16 +42,16 @@ z-index: 999999">
         <a href="/"><b>HOME</b></a>
     </div>
     <div class="text-center" >
-        <img src="img/404.png" class="img-fluid center-block" alt="Page Not Found"/>
+        <img src="{{URL::asset('img/404.png')}}" class="img-fluid center-block" alt="Page Not Found"/>
     </div>
 </div>
 <!-- global js -->
 <!--jQuery 2.1.1 -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/jquery.min.js')}}"></script>
 <!--Bootstrap -->
-<script type="text/javascript" src="js/tether.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/pages/404.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/tether.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/404.js')}}"></script>
 
 <!-- end of global js -->
 <!-- end of page level js-->

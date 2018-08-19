@@ -121,11 +121,11 @@
 
                                         <div class="row m-t-15">
                                             <div class="col-lg-12 m-t-5">
-                                                    <h5><span style="color:gray">Service Advisor:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Daphne</h5>                    
+                                                    <h5><span style="color:gray">Service Advisor:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Daphne</h5>                    
                                             </div>
 
                                             <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Inventory Manager:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hercules</h5>
+                                                    <h5><span style="color:gray">Inventory Manager:</span>&nbsp;&nbsp;&nbsp;&nbsp;Hercules</h5>
                                             </div>
 
                                             <div class="col-lg-12 m-t-10">
@@ -287,12 +287,12 @@
                                                     
                                             <!--Table: Payment Details -->
                                             <table class="table table-bordered table-hover dataTable no-footer " id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:5px;" >
-                                                <thead>
-                                                    <tr class="trrow">
-                                                        <th>Date</th>
-                                                        <th>Amount</th>   
-                                                    </tr>
-                                                </thead>
+                                                    <thead>
+                                                        <tr class="trrow">
+                                                            <th>Date</th>
+                                                            <th>Amount</th>   
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
                                                         <tr role="row" class="odd">
                                                             <!--Column: Date -->
@@ -317,7 +317,7 @@
                                                             </th>   
                                                         </tr> 
                                                     </tfoot>
-                                                </table>
+                                            </table>
 
 
                                                     
@@ -329,9 +329,8 @@
 
                                 </div>
                             </div>
-
                     
-                    </div>
+                    </div><br>
                 </div>
             </div>
         </div>
@@ -339,7 +338,7 @@
 
                            
                                 <!--Button: Back, Save-->
-                             <div class="card-footer bg-black disabled">
+                             <div class="card-footer bg-black">
                                <div class="examples transitions m-t-5 pull-right">
                                     <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  

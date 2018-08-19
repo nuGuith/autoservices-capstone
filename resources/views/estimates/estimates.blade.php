@@ -2,22 +2,22 @@
 @section('Title','Estimates') <!-- Page Title -->
 @section('content')
 
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/sweetalert/css/sweetalert2.min.css') }}"/>
-    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/sweet_alert.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/sweetalert/css/sweetalert2.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('css/pages/sweet_alert.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/animate/css/animate.min.css') }}"/>
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/hover/css/hover-min.css') }}"/>
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/wow/css/animate.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/animate/css/animate.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/hover/css/hover-min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/wow/css/animate.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/tooltipster/css/tooltipster.bundle.min.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/tipso/css/tipso.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/tipso/css/tipso.min.css') }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/animations.css') }}"/>
-    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/portlet.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('css/pages/animations.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('css/pages/portlet.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/animate/css/animate.min.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('vendors/animate/css/animate.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css') }}" />
     <!--End of plugin styles-->
 
         <!-- CONTENT -->
@@ -35,14 +35,8 @@
 
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
-                            <li class="breadcrumb-item">
-                                <a href="/">
-                                    <i class="fa fa-home"></i>
-                                        Dashboard
-                                </a>
-                            </li>
                             <li class="breadcrumb-item " >
-                                <a href="/estimates">
+                                <a href="/inspect">
                                     <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
                                     &nbsp;Estimates
                                 </a>
@@ -60,7 +54,8 @@
                                 <div class="btn-group">
 
                                         <!--ADD BUTTON MODAL-->
-                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" href="/addestimates">
+                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
+                                                    href="/addestimates">
                                         <i class="fa fa-plus"></i>
                                             &nbsp;  Add Estimate                                  
                                          </a>
@@ -91,105 +86,63 @@
                                                 @foreach($estimates as $estimate)
                                                 <tr role="row" class="even">
                                                     <td>
-                                                        {{ $estimate->EstimateID }}
+                                                        ES000{{ $estimate->EstimateID }}
                                                     </td>
                                                     <td>
-                                                        <ul style="padding-left: 1.2em;">
-                                                            <li>Plate No:    {{ $estimate->PlateNo }}</li>
-                                                            <li>Model:   {{ $estimate->Model }} {{ $estimate->Year }}</li>
-                                                            <li>Chassis No:    {{ $estimate->ChassisNo }}</li>
-                                                            <li>Mileage:    {{ $estimate->Mileage }}</li>
-                                                        </ul>
+                                                    <!-- @foreach($automobiles as $automobile) -->
+                                                        <!-- @if($estimate->AutomobileID == $automobile->AutomobileID) -->
+                                                        <li>Plate No: {{$automobile->PlateNo}}</li>
+                                                        <li>
+                                                        <!-- @foreach($automobile_models as $md) -->
+                                                            <!-- @if($automobile->ModelID == $md->ModelID) -->
+                                                            Model: {{$md->AutomobileModel}}
+                                                            <!-- @endif -->
+                                                        <!-- @endforeach -->
+                                                        </li>
+                                                        <li>Chassis No: {{$automobile->ChassisNo}}</li>
+                                                        <li>Mileage: {{$automobile->Mileage}} KM</li>
+                                                        <!-- @endif -->
+                                                    <!-- @endforeach -->
                                                     </td>
                                                     <td class="center">
                                                         <ul style="padding-left: 1.2em;">
-                                                            <li>Name:   {{ $estimate->FirstName }} {{ $estimate->MiddleName }} {{ $estimate->LastName }}</li>
-                                                            <li>Contact No:   {{ $estimate->ContactNo }}</li>
-                                                            <li>Address:   {{ $estimate->CompleteAddress }}</li>
+                                                            <!-- @foreach($customers as $customer) -->
+                                                                <!-- @if($estimate->CustomerID == $customer->CustomerID) -->
+                                                                    <li>Name: {{$customer->FullName}}</li>
+                                                                    <li>Contact No: {{$customer->ContactNo}}</li>
+                                                                    <li>Address: {{$customer->CompleteAddress}}</li>
+                                                                <!-- @endif -->
+                                                            <!-- @endforeach -->
                                                         </ul>
                                                     </td>
                                                     <td>{{ $estimate->created_at }}</td>
                                                     <td>
                                                         <!--VIEW BUTTON-->
-                                                    <div class="examples transitions m-t-5">
-                                                        <a href="{{ route('viewestimates', $estimate->EstimateID) }}">
-                                                            <button class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background="#6495ED" data-color="white" data-tipso="View">
+                                                        <div class="examples transitions m-t-5">
+                                                            <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View" href="/viewestimates/{!! $estimate->EstimateID!!}" >
                                                                 <i class="fa fa-eye text-white"></i>
-                                                            </button>
-                                                        </a>
-                                                        
-                                                        <!--EDIT BUTTON-->
-                                                        <a href="{{ route('editestimates', $estimate->EstimateID) }}">
-                                                            <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" onclick="window.location='{{ url("/editestimates") }}'">
+                                                            </a>
+
+                                                            <!--EDIT BUTTON-->
+                                                            <a class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" href="/editestimates/{{$estimate->EstimateID}}">
                                                                 <i class="fa fa-pencil text-white"></i>
+                                                            </a>
+                                                
+                                                            <!--DELETE BUTTON-->
+                                                            <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete">
+                                                                <i class="fa fa-trash text-white"></i>
                                                             </button>
-                                                        </a>
-                                               
-                                                        <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete" onclick="deleteModal({!! $estimate->EstimateID !!})">
-                                                            <i class="fa fa-trash text-white"></i>
-                                                        </button>
                                                        
-                                                    </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
-
-                                                @endforeach
+                                               @endforeach
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <!-- END EXAMPLE TABLE PORTLET-->
 
-                <!-- START DELETE MODAL -->
-                {!! Form::open(array('id' => 'deleteForm', 'url' => 'estimates', 'action' => 'EstimatesController@delete', 'method' => 'PATCH')) !!}
-                                <!-- {!! csrf_field() !!} -->
-                <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Delete this record?</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <p>
-                                            Are you sure you want to delete this record?
-                                        </p>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="examples transitions m-t-5">
-                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
-                                </div>
-                                <div class="examples transitions m-t-5">
-                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;OK', [
-                                        'type'=>'submit',
-                                        'class'=>'btn btn-success warning source confirm m-l-10 adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal',
-                                    ]) !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {!! Form::close() !!}
-                <!-- END DELETE MODAL -->
             
                             </div>
                         </div>
@@ -201,28 +154,28 @@
 
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/components.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendors/sweetalert/js/sweetalert2.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/sweet_alerts.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/components.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/sweetalert/js/sweetalert2.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/sweet_alerts.js') }}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="{{ asset('vendors/snabbt/js/snabbt.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendors/wow/js/wow.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/snabbt/js/snabbt.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/wow/js/wow.min.js') }}"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="{{ asset('vendors/tooltipster/js/tooltipster.bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendors/tipso/js/tipso.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/tooltips.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/tipso/js/tipso.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/tooltips.js') }}"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="{{ asset('js/pages/modals.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
 
