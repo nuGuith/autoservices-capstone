@@ -95,12 +95,14 @@
         <!--PRODUCT TAB-->  
         <div class="tab-pane active" id="tab1">
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="producttab1" role="grid">                                       
-                    <tr>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th style="width: 5%;">Select</th>
+            <table class="table  table-bordered table-hover dataTable no-footer" id="producttab1" role="grid">  
+                <thead>                                  
+                    <tr style="background-color: #f5f5f5">
+                        <th><b>Product</b></th>
+                        <th><b>Description</b></th>
+                        <th style="width: 5%;"><b>Select</b></th>
                     </tr>
+                </thead>   
                     <tr>
                         <td>Petron Ultron</td>
                         <td>
@@ -123,8 +125,10 @@
                     </tr>
             </table>
 
+            
+
              <div class="tab tab-btn">
-                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="prodtab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
+                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="prodtab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
             </div>
         </div>
         <!--END PRODUCT TAB--> 
@@ -133,12 +137,14 @@
         <!--SERVICE TAB--> 
         <div class="tab-pane" id="tab2">
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="servicetab1" role="grid">                         
-                    <tr>
-                        <th>Service</th>
-                        <th>Category</th>
-                        <th style="width: 5%;">Select</th>
+            <table class="table table-bordered table-hover dataTable no-footer" id="servicetab1" role="grid">  
+                <thead>                       
+                    <tr style="background-color: #f5f5f5">
+                        <th><b>Service</b></th>
+                        <th><b>Category</b></th>
+                        <th style="width: 5%;"><b>Select</b></th>
                     </tr>
+                </thead>
                     <tr>
                         <td>Replace Bell Crank - Sedan</td>
                         <td>
@@ -155,9 +161,11 @@
                     </tr>
 
             </table>
+            <!--DELETE BUTTON-->
+
  
             <div class="tab tab-btn">
-                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="servicetab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
+                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="servicetab1_To_tab2();"><i class="fa fa-arrow-right text-white " ></i></button>
             </div>
         </div>
         <!--END SERVICE TAB--> 
@@ -191,28 +199,53 @@
 
                     <div class="col-md-5 m-t-15">
                         <h5 style = "">Computed Price:</h5>
-                        <div class="input-group m-t-5" style = "width: 139px;" >
+                        <div class="input-group m-t-5">
                             <input type="text" class="form-control" disabled="disabled" placeholder ="Php.">
                             <span class="input-group-addon">.00</span>
                         </div>
                     </div>
+
+
                 </div>
 
+                <div class="input-group">
+                    <div class="col-md-7">
+                        <h5>Warranty: <span style="color: red"></span></h5>
+                        <p>
+                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
+                        </p>
+                    </div>
+
+                    <div class="col-md-5">
+                        <p class="m-t-25">
+                            <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option value="Days">Day(s)</option>
+                                <option value="Weeks">Week(s)</option>
+                                <option value="Months">Month(s)</option>
+                                <option value="Years">Year(s)</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
             </div>
 
 
             <!--Package Details Product Table-->
             <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="producttab2" role="grid">   
-                    <tr>
+                <table class="table  table-striped table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">   
+                <thead>
+                    <tr style="background-color: #f5f5f5">
                         <th>Product</th>
                         <th>Description</th>
+                        <th>Quantity</th>
                         <th style="width: 5%;">Select</th>
                     </tr>
+                </thead>
                 </table>   
 
+
                 <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="prodtab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
+                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="prodtab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
                 </div>
             </div>
             <!--End Package Details Product Table-->
@@ -220,17 +253,20 @@
 
             <!--Package Details Service Table-->
             <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="servicetab2" role="grid">   
-                    <tr>
+                <table class="table table-bordered table-hover dataTable no-footer" id="servicetab2" role="grid">  
+                <thead> 
+                    <tr style="background-color: #f5f5f5">
                         <th>Service</th>
                         <th>Category</th>
                         <th style="width: 5%;">Select</th>
                     </tr>
-                </table>   
+                </thead>
+                </table> 
+
 
                 <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="servicetab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
-                </div>
+                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="servicetab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
+                </div>  
             </div>
             <!--End Package Details Service Table-->
 
@@ -331,15 +367,18 @@
                  for(var i = 0; i < checkboxes.length; i++)
                      if(checkboxes[i].checked)
                         {
-                            // create new row and cells
+                           // create new row and cells
                             var newRow = producttab2.insertRow(producttab2.length),
                                 cell1 = newRow.insertCell(0),
                                 cell2 = newRow.insertCell(1),
                                 cell3 = newRow.insertCell(2);
+                                cell4 = newRow.insertCell(3);
+
                             // add values to the cells
                             cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
+                            cell3.innerHTML = "<input type='text' name='quantity' class='form-control' placeholder='' style='width: 20px;';>"
+                            cell4.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
                            
                             // remove the transfered rows from the first table [producttab1]
                             var index = producttab1.rows[i+1].rowIndex;

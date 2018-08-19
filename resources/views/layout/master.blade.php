@@ -80,6 +80,8 @@ z-index: 999999">
                     <span class="toggle-left" id="menu-toggle">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-bars text-white"></i>
                     </span>
+
+
                 </div>
 
                 
@@ -94,7 +96,7 @@ z-index: 999999">
                     <div class="btn-group">
                         <div class="user-settings no-bg">
 
-                            <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
+                            button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
                                 <img src="{{URL::asset('img/admin.jpeg')}}" class="media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
@@ -138,7 +140,7 @@ z-index: 999999">
                 <div class="user-wrapper bg-dark">
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
-                             src="{{URL::asset('img/admin.jpeg')}}">
+                             src="img/admin.jpeg">
                         <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
                     </a>
                 </div>
@@ -204,19 +206,27 @@ z-index: 999999">
                         </li>
                     </ul>
                 </li>
-                <li {!! (Request::is('jobdescription')|| Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
+                <li {!! (Request::is('jobtitle')|| Request::is('skills') || Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
                     <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-group"></i>
                             &nbsp;Personnel
                             <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li {!! (Request::is('jobdescription')  ? 'class="active"' : '') !!} >
-                            <a href="/jobdescription" style="padding-left:10%; padding-right: 10%;">
+                        <li {!! (Request::is('jobtitle')  ? 'class="active"' : '') !!} >
+                            <a href="/jobtitle" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
-                                    &nbsp;Job Description
+                                    &nbsp;Job Title
                             </a>
-                        </li>  
+                        </li>
+
+                        <li {!! (Request::is('skills')  ? 'class="active"' : '') !!} >
+                            <a href="/skills" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Skills
+                            </a>
+                        </li>
+                         
                         <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
                             <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
@@ -325,7 +335,7 @@ z-index: 999999">
                         <span class="link-title">&nbsp; Back Job</span>
                     </a>
                 </li>
-                <li {!!(Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                <li  {!! (Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/warranty" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-tags"></i>
                         <span class="link-title">&nbsp; Warranty</span>
@@ -499,6 +509,7 @@ z-index: 999999">
 <script type="text/javascript" src="{{URL::asset('js/pages/fixed_menu.js')}}"></script>
 
 
+<script type="text/javascript" src="{{URL::asset('js/pages/radio_checkbox.js')}}"></script>
 
 
 <script type="text/javascript">

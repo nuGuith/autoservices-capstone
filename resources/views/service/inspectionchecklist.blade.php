@@ -57,7 +57,7 @@
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                         <i class="fa fa-plus"></i>
-                                            &nbsp;Add Inspection Items                                  
+                                            &nbsp;Add Inspection Items
                                          </a>
                                     </div>
                              </div>
@@ -80,32 +80,46 @@
                                                     <th class="sorting wid-15" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>             
+                                            <tbody>
+                                              @foreach($type as $type)
                                                 <tr>
-                                                    <td></td>
+                                                    <td>{{$type->InspectionType}}</td>
                                                     <td>
+
                                                         <ul style="padding-left: 1.2em;">
+
+                                                          @foreach($item as $i)
+
+                                                          @if($i->InspectionTypeID == $type->InspectionTypeID)
+
+                                                          <li>{{$i->InspectionItem}}</li>
+
+                                                          @endif
+
+                                                          @endforeach
 
                                                         </ul>
                                                     </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" onclick="editMod()" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
+                                                        <button name = '{{$type->InspectionTypeID}}' onclick="updateIC(this.name)"  class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                                              
+
                                                         <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" onclick="deleteModal()" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                                        <button name = '{{$type->InspectionTypeID}}' onclick="deleteIC(this.name)"  class="btn btn-danger hvr-float-shadow tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
-                
+                                                @endforeach
+
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <!-- END TABLE -->
             <!-- START EDIT MODAL -->
-            {!! Form::open(array('id' => 'editForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@update', 'method' => 'PUT')) !!}
+
                 <!-- {!! csrf_field() !!} -->
                 <div class="modal fade in" id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
@@ -120,38 +134,30 @@
                                     <div class="col-md-11 m-t-10" style="padding-left: 40px;">
                                         <h5>Inspection Name: <span style="color: red">*</span></h5>
                                         <p>
-                                            {!!
-                                                Form::input ('name','text', Input::old('inspectionname'), [
-                                                'id'=>'inspectionname',
-                                                'name'=>'inspectionname',
-                                                'type'=>'text',
-                                                'placeholder'=>'Inspection Name',
-                                                'class'=>'form-control m-t-10',
-                                                'maxlength'=>'100',
-                                                'required'
-                                                ])
-                                            !!}
+                                            <input type='text' id='INid' hidden>
+                                            <input type="text" id='Einame'name="type" placeholder="Item" class="form-control m-t-10"/>
+
                                         </p>
                                     </div>
                                 </div>
-                                
+
                                 <!--Table: edit-order-list -->
                                     <div class="col-md-12">
                                         <table id="myTable" class="table edit-order-list" style="border-color: white" rules="rows">
                                             <thead>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td><h5>Inspection Items <span style="color: red">*</span></h5>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                            <!--Seach Select: Product-->
+                                            <!-- <tr>
+                                            Seach Select: Product
                                             <td  style="width:500px;">
-                                                <input type="text" name="item" placeholder="Item" class="form-control"/>                                   
+                                                <input type="text" name="item" placeholder="Item" class="form-control"/>
                                             </td>
-                                             
-                                            <!--ADD ROW FOR EDIT MODAL-->                          
+
+                                            ADD ROW FOR EDIT MODAL
                                             <td style="border-color: white" rules="rows">
                                                 <div class="examples transitions m-t-0">
                                                 <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
@@ -159,25 +165,14 @@
                                             </td>
                                             <td style="border-color: white" rules="rows"><i class="deleteeditRow "></i>
                                             </td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     <tfoot>
                                      </tfoot>
                                     </table>
                                 </div>
                                     <br>
-                                    <div id="show-errors">
-                                        @if ($errors->update->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->update->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <br>
-                                        @endif
-                                    </div>
+
                             </div>
 
 
@@ -187,23 +182,17 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    {!!  Form::button('<i class="fa fa-save text-white"></i>&nbsp; Save Changes', [
-                                        'type'=>'submit',
-                                        'class'=>'btn btn-success warning source cancel_edit m-l-10 hvr-float-shadow adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal'
-                                    ])
-                                    !!}
+                                  <button id="editform" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                  </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
                 <!-- END EDIT MODAL -->
 
                 <!-- START ADD MODAL -->
-                {!! Form::open(array('id' => 'addForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@store', 'method' => 'POST')) !!}
-                <!-- {!! csrf_field() !!} -->
+
                 <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
@@ -218,21 +207,11 @@
                                     <div class="col-md-11 m-t-10" style="padding-left: 40px;">
                                         <h5>Inspection Name: <span style="color: red">*</span></h5>
                                         <p>
-                                            {!!
-                                                Form::input ('name','text', Input::old('inspectionname'), [
-                                                'id'=>'inspectionname',
-                                                'name'=>'inspectionname',
-                                                'type'=>'text',
-                                                'placeholder'=>'Inspection Name',
-                                                'class'=>'form-control m-t-10',
-                                                'maxlength'=>'100',
-                                                'required'
-                                                ])
-                                            !!}
+                                            <input id="Iname" type="text" name="item" placeholder="Item" class="form-control m-t-10"/>
                                         </p>
                                     </div>
                                 </div>
-                                
+
                                 <!--Table: edit-order-list -->
                                     <div class="col-md-12">
                                         <table id="myTable" class="table order-list" style="border-color: white" rules="rows">
@@ -246,10 +225,10 @@
                                             <tr>
                                             <!--Seach Select: Product-->
                                             <td  style="width:500px;">
-                                                <input type="text" name="item" placeholder="Item" class="form-control"/>                                   
+                                                <input id='Iitem' type="text" name="item" placeholder="Item" class="form-control"/>
                                             </td>
-                                             
-                                            <!--ADD ROW FOR EDIT MODAL-->                          
+
+                                            <!--ADD ROW FOR ADD MODAL-->
                                             <td style="border-color: white" rules="rows">
                                                 <div class="examples transitions m-t-0">
                                                 <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
@@ -264,44 +243,24 @@
                                     </table>
                                 </div>
                                     <br>
-                                    <div id="show-errors">
-                                        @if ($errors->add->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->add->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <br>
-                                        @endif
-                                    </div>
+
                                 </div>
-                                
-                    
-
-
-
-                            <div class="modal-footer">
+                                <!-- Add modal Footer -->
+                                <div class="modal-footer">
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
-                                <div class="examples transitions m-t-5">
-                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
-                                        'type'=>'submit',
-                                        'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal',
-                                    ]) !!}
+                                <input type="hidden" id="token" value="{{ csrf_token() }}">
+                                <button id = "addform" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
                 <!-- END ADD MODAL -->
 
                 <!-- START DELETE MODAL -->
-                {!! Form::open(array('id' => 'deleteForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@delete', 'method' => 'PATCH')) !!}
+
                 <!-- {!! csrf_field() !!} -->
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
@@ -336,7 +295,6 @@
                         </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
                 <!-- END DELETE MODAL -->
                 <!-- END MODAL-->
 
@@ -395,15 +353,181 @@
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
-<script> 
+<script>
+
+
+$("#addform").on("click", function () {
+
+  var Iname = $('#Iname').val();
+  var Iitem = $('#Iitem').val();
+
+  var itemarr = [];
+
+  itemarr.push(Iitem);
+
+  for(var i=0;i<counter;i++)
+  {
+    var items = $('#item'+i+'').val()
+
+    itemarr.push(items);
+
+  }
+
+  $.ajax({
+    url: "/AddIChecklist",
+    type: "POST",
+    data:{
+
+    Iname:Iname,
+    Item:itemarr,
+    '_token': $('#token').val()
+  },
+  success: function(data){
+                  alert("Success");
+                   location.reload();
+            },
+                  error: function(xhr)
+                {
+                 location.reload();
+                }
+
+
+
+
+  });
+
+
+});
+
+
+$("#editform").on("click", function () {
+
+    var etype = $('#Einame').val();
+    var INid = $('#INid').val();
+
+    var eitem = [];
+    var eid = [];
+
+
+
+    for(var x=0; x<i; x++)
+    {
+
+      var tid = $('#editid'+x+'').val()
+      var titem = $('#edititem'+x+'').val()
+
+      eid.push(tid);
+      eitem.push(titem);
+
+
+    }
+
+
+  $.ajax({
+    url: "/EditIChecklist",
+    type: "POST",
+    data:{
+
+    type:etype,
+    Inid:INid,
+    id:eid,
+    item:eitem,
+    '_token': $('#token').val()
+  },
+  success: function(data){
+                  alert("Success");
+                  location.reload();
+            },
+                  error: function(xhr)
+                {
+                 location.reload();
+                }
+
+
+
+
+  });
+
+
+
+});
+
+function updateIC(id)
+{
+  $.ajax({
+    url: "/RetrieveChecklist",
+    type: "GET",
+    data:{
+
+    Cid:id,
+
+  },
+  success: function(data){
+
+      var t =  data['type'][0]['InspectionType'];
+      var temp = data['type'][0]['InspectionTypeID'];
+      document.getElementById('Einame').value = t;
+      document.getElementById('INid').value= temp;
+
+      for(i=0;i<data.item.length;i++)
+      {
+        var newRow = $("<tr>");
+        var cols = "";
+
+        cols += '<td><input id="editid'+i+'"type="text" hidden value="'+data['item'][i]['InspectionChecklistID']+'"/><input id="edititem'+i+'"type="text" class="form-control" name="item" value = "'+data['item'][i]['InspectionItem']+'"/></td>';
+        cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
+
+        newRow.append(cols);
+        $("table.edit-order-list").append(newRow);
+        counter++;
+      }
+
+      },
+                  error: function(xhr)
+                {
+
+                }
+
+
+
+
+  });
+
+
+}
+
+function deleteIC(id){
+  $.ajax({
+    url: "/DeleteCheckList",
+    type: "POST",
+    data:{
+
+    clid:id,
+    '_token': $('#token').val()
+  },
+  success: function(data){
+                  alert("Success");
+                  location.reload();
+            },
+                  error: function(xhr)
+                {
+                 location.reload();
+                }
+
+
+
+
+  });
+}
+
 $(document).ready(function () {
-    var counter = 0;
+    counter = 0;
 
     $("#addrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
 
-        cols += '<td><input type="text" class="form-control" name="item" placeholder="Item"' + counter + '"/></td>';
+        cols += '<td><input id="item'+counter+'"type="text" class="form-control" name="item" placeholder="Item'+counter+'"/></td>';
         cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
 
         newRow.append(cols);
@@ -414,7 +538,7 @@ $(document).ready(function () {
 
 
     $("table.order-list").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();       
+        $(this).closest("tr").remove();
         counter -= 1
     });
 
@@ -423,7 +547,7 @@ $(document).ready(function () {
 </script>
 
 <!--script for table edit brand-->
-<script> 
+<script>
 $(document).ready(function () {
     var counter = 0;
 
@@ -443,7 +567,7 @@ $(document).ready(function () {
 
 
     $("table.edit-order-list").on("click", ".ibtneDel", function (event) {
-        $(this).closest("tr").remove();       
+        $(this).closest("tr").remove();
         counter -= 1
     });
 

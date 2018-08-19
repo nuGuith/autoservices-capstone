@@ -75,7 +75,7 @@
                             <div class="row m-t-5">
                                    
                           
-                        <!--PRODUCT, SERVICE, FREE ITEM TAB-->     
+                                      <!--PRODUCT, SERVICE, FREE ITEM TAB-->     
                          <div class="col-lg-6 m-t-10">
                             <div class="card">
                                 <div class="card-header bg-white">
@@ -238,28 +238,7 @@
 
 
 
-                <div class="input-group lter form_elements_datepicker" id="dateRangePickerBlock">
-                    <div class="col-md-7 m-t-5">
-                        <h5 style = "">Date Range:</h5>
-                    <form>
-                         <div class="input-group">
-                            <span class="input-group-addon m-t-5">
-                                <i class="fa fa-calendar"></i>
-                            </span>
-                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
-                        </div>
-                    </form>
-                    </div>
 
-
-                    <div class="col-md-5 m-t-5">
-                    <h5 style = "">Stock Range:</h5>
-                        <div class="input-group m-t-5" style = "width: 139px;">
-                            <span class="input-group-addon"><i class="fa fa-bar-chart-o"></i></i></span>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
             </div>
 
 
@@ -269,6 +248,7 @@
                     <tr>
                         <th>Product</th>
                         <th>Description</th>
+                        <th>Quantity</th>
                         <th style="width: 5%;">Select</th>
                     </tr>
                 </table>   
@@ -312,6 +292,52 @@
                 </div>
             </div>
              <!--End Promo Details Free Item Table-->
+
+
+
+                <div class="input-group lter form_elements_datepicker" id="dateRangePickerBlock">
+                    <div class="col-md-12 m-t-5">
+                        <h5 style = "">Date Range:</h5>
+                    <form>
+                         <div class="input-group">
+                            
+                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                             <span class="input-group-addon m-t-5">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+
+            <!-- <div class="col-md-5 m-t-5">
+            <h5 style = "">Stock Range:</h5>
+                <div class="input-group m-t-5" style = "width: 139px;">
+                    <span class="input-group-addon"><i class="fa fa-bar-chart-o"></i></i></span>
+                    <input type="text" class="form-control">
+                </div>
+            </div> -->
+
+
+            <div class="input-group">
+                    <div class="col-md-7 m-t-10">
+                        <h5>Warranty: <span style="color: red"></span></h5>
+                        <p>
+                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
+                        </p>
+                    </div>
+
+                    <div class="col-md-5 m-t-10">
+                        <p class="m-t-25">
+                            <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option value="Days">Day(s)</option>
+                                <option value="Weeks">Week(s)</option>
+                                <option value="Months">Month(s)</option>
+                                <option value="Years">Year(s)</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
 
         </div>
                                  
@@ -414,10 +440,13 @@
                                 cell1 = newRow.insertCell(0),
                                 cell2 = newRow.insertCell(1),
                                 cell3 = newRow.insertCell(2);
+                                cell4 = newRow.insertCell(3);
+
                             // add values to the cells
                             cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
+                            cell3.innerHTML = "<input type='text' name='quantity' class='form-control' placeholder='' style='width: 20px;';>"
+                            cell4.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
                            
                             // remove the transfered rows from the first table [producttab1]
                             var index = producttab1.rows[i+1].rowIndex;

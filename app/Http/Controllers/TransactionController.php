@@ -2,26 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Http\Request;
-use App\ServiceCategory;
-use App\Http\Controllers\Controller;
-use Kris\LaravelFormBuilder\FormBuilder; 
-use App\Forms\InspectionForm;
-use Validator;
-use Redirect;
-use Session;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\RedirectResponse;
+
+// use App\ServiceCategory;
+// use App\Http\Controllers\Controller;
+// use Kris\LaravelFormBuilder\FormBuilder;
+// use App\Forms\InspectionForm;
+// use Validator;
+// use Redirect;
+// use Session;
 
 class TransactionController extends Controller
-{	
-
-    /**
-     * This serves as the index hehe
-     */
+{
     public function index()
     {
-        return view('service.inspectionchecklist');
+      $type = DB::table('inspection_type')
+          ->where('isActive', 1)
+          ->get();
+
+      $item = DB::table('inspection_checklist as ic')
+        ->leftJoin('inspection_type as it', 'ic.InspectionTypeID', '=', 'it.InspectionTypeID')
+        ->select('ic.InspectionTypeID','ic.InspectionChecklistID', 'ic.InspectionItem')
+        ->where('ic.isActive', 1)
+        ->where('it.isActive',1)
+        ->get();
+
+
+
+        return view('service.inspectionchecklist', compact('type', 'item'));
     }
 
     /**
@@ -45,8 +57,8 @@ class TransactionController extends Controller
         $customNames = [
                 'servicecategoryname' => 'Service Category Name',
                 'description' => 'Description',
-            ]; 
-            /** This is an array of custom variable names you could set so that in case there is an Exception, 
+            ];
+            /** This is an array of custom variable names you could set so that in case there is an Exception,
             * the variable name displayed in the view is a decent one and not a name straight from the database. */
         $customMessages = [
                 'servicecategoryname.regex' => 'You cannot input special characters into :attribute field. Sorry. :(',
@@ -60,7 +72,7 @@ class TransactionController extends Controller
             /** The $validation variable using the 'Validator' facade takes the arguments $request->all() getting all the data sent over the Request
              * from the view/user input, next argument is an array of rules for validation and finally the $customMessages.
              */
-        
+
         $validation->setAttributeNames($customNames);
             /** setting the custom names */
 
@@ -74,7 +86,7 @@ class TransactionController extends Controller
                 DB::beginTransaction();
                 ServiceCategory::create([ /** this uses Eloquent by the way, create an object based on the ServiceCategory Model */
                     'servicecategoryname' => trim($request->servicecategoryname), /** insert into the database the data inputted by the user */
-                    'description' => trim($request->description), 
+                    'description' => trim($request->description),
                 ]);
                 DB::commit();
             }catch(\Illuminate\Database\QueryException $e){
@@ -83,7 +95,7 @@ class TransactionController extends Controller
                 return redirect('servicecategory')
                     ->withErrors($errors);
             }
-            $request->session()->flash('success', 'Record successfully added.');  
+            $request->session()->flash('success', 'Record successfully added.');
             return redirect('servicecategory');
         }
     }
@@ -132,7 +144,7 @@ class TransactionController extends Controller
             'servicecategoryname' => ['bail','required','max:100', 'regex:/^[^~`!@#*_={}|\;<>,.?]+$/'],
             'description' => ['nullable','max:255']
         ], $customMessages);
-        
+
         $validation->setAttributeNames($customNames);
         if ($validation->fails()) {
             return redirect('servicecategory')
@@ -151,7 +163,7 @@ class TransactionController extends Controller
                 return redirect('servicecategory')
                     ->withErrors($errors);
             }
-            $request->session()->flash('success', 'Record successfully updated.');  
+            $request->session()->flash('success', 'Record successfully updated.');
             return redirect('servicecategory');
         }
     }

@@ -73,195 +73,229 @@
                                                     
 
                             <div class="row m-t-5">
-                                   
-                          
-                        <!--PRODUCT, SERVICE, FREE ITEM TAB-->     
-                         <div class="col-lg-6 m-t-10">
-                            <div class="card">
-                                <div class="card-header bg-white">
-                                    <ul class="nav nav-tabs card-header-tabs float-left">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#tab1" data-toggle="tab">Products</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#tab2" data-toggle="tab">Services</a>
-                                        </li>                   
-                                    </ul>
-                                </div>
-    
-    <div class="card-block">
-    <div class="tab-content m-t-15">
+                                
+                             <!--PRODUCT, SERVICE, FREE ITEM TAB-->     
+                             <div class="col-lg-6 m-t-10">
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <ul class="nav nav-tabs card-header-tabs float-left">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#tab1" data-toggle="tab">Products</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#tab2" data-toggle="tab">Services</a>
+                                            </li>                   
+                                        </ul>
+                                    </div>
+                                
+                                <div class="card-block">
+                                <div class="tab-content m-t-15">
 
-        <!--PRODUCT TAB-->  
-        <div class="tab-pane active" id="tab1">
+                                    <!--PRODUCT TAB-->  
+                                    <div class="tab-pane active" id="tab1">
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="producttab1" role="grid">                                       
-                    <tr>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                    <tr>
-                        <td>Petron Ultron</td>
-                        <td>
-                            <ul>
-                                <li>Oil</li>
-                                <li>500 mL</li>
-                            </ul>
-                        </td>
-                        <td><input type="checkbox" name="prodcheck-tab1"></td>
-                    </tr>
-                    <tr>
-                        <td>Motolite- 4500</td>
-                        <td>
-                            <ul>
-                                <li>Batteries</li>
-                                <li>4500 watts</li>
-                            </ul>
-                        </td>
-                        <td><input type="checkbox" name="prodcheck-tab1"></td>
-                    </tr>
-            </table>
+                                        <table class="table  table-bordered table-hover dataTable no-footer" id="producttab1" role="grid">  
+                                            <thead>                                  
+                                                <tr style="background-color: #f5f5f5">
+                                                    <th><b>Product</b></th>
+                                                    <th><b>Description</b></th>
+                                                    <th style="width: 5%;"><b>Select</b></th>
+                                                </tr>
+                                            </thead>   
+                                                <tr>
+                                                    <td>Petron Ultron</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li>Oil</li>
+                                                            <li>500 mL</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td><input type="checkbox" name="prodcheck-tab1"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Motolite- 4500</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li>Batteries</li>
+                                                            <li>4500 watts</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td><input type="checkbox" name="prodcheck-tab1"></td>
+                                                </tr>
+                                        </table>
 
-             <div class="tab tab-btn">
-                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="prodtab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
-            </div>
-        </div>
-        <!--END PRODUCT TAB--> 
-                                                        
+                                        
 
-        <!--SERVICE TAB--> 
-        <div class="tab-pane" id="tab2">
+                                         <div class="tab tab-btn">
+                                             <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="prodtab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
+                                        </div>
+                                    </div>
+                                    <!--END PRODUCT TAB--> 
+                                                                                    
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="servicetab1" role="grid">                         
-                    <tr>
-                        <th>Service</th>
-                        <th>Category</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                    <tr>
-                        <td>Replace Bell Crank - Sedan</td>
-                        <td>
-                            Suspension
-                        </td>
-                        <td><input type="checkbox" name="servicecheck-tab1"></td>
-                    </tr>
-                    <tr>
-                        <td>Change Oil - Large</td>
-                        <td>
-                            Maintenance
-                        </td>
-                        <td><input type="checkbox" name="servicecheck-tab1"></td>
-                    </tr>
+                                    <!--SERVICE TAB--> 
+                                    <div class="tab-pane" id="tab2">
 
-            </table>
- 
-            <div class="tab tab-btn">
-                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="servicetab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
-            </div>
-        </div>
-        <!--END SERVICE TAB--> 
-        
-                                                       
-    
-                </div>
-            </div>
-        </div>
-    </div>
-                      
+                                        <table class="table table-bordered table-hover dataTable no-footer" id="servicetab1" role="grid">  
+                                            <thead>                       
+                                                <tr style="background-color: #f5f5f5">
+                                                    <th><b>Service</b></th>
+                                                    <th><b>Category</b></th>
+                                                    <th style="width: 5%;"><b>Select</b></th>
+                                                </tr>
+                                            </thead>
+                                                <tr>
+                                                    <td>Replace Bell Crank - Sedan</td>
+                                                    <td>
+                                                        Suspension
+                                                    </td>
+                                                    <td><input type="checkbox" name="servicecheck-tab1"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Change Oil - Large</td>
+                                                    <td>
+                                                        Maintenance
+                                                    </td>
+                                                    <td><input type="checkbox" name="servicecheck-tab1"></td>
+                                                </tr>
 
-    <!--Package DETAILS-->
-    <div class="col-lg-6 m-t-10">
-        <div class="card">
-            <div class="card-header bg-black">
-                Package Details
-            </div>
-        
-            <div class="card-block">
-            <div class="tab">
-                
-                <div class="input-group">
-                    <div class="col-md-7 m-t-15">
-                        <h5 style = "">Package:</h5>
-                        <p>
-                            <input id="name" name="packagename" type="text" placeholder="Package Name" class="form-control  m-t-5" style = "width: 210px;" >
-                        </p>
-                    </div>
+                                        </table>
+                                        <!--DELETE BUTTON-->
 
-
-                    <div class="col-md-5 m-t-15">
-                        <h5 style = "">Computed Price:</h5>
-                        <div class="input-group m-t-5" style = "width: 139px;" >
-                            <input type="text" class="form-control" disabled="disabled" placeholder ="Php.">
-                            <span class="input-group-addon">.00</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!--Package Details Product Table-->
-            <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="producttab2" role="grid">   
-                    <tr>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                </table>   
-
-                <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="prodtab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
-                </div>
-            </div>
-            <!--End Package Details Product Table-->
-            
-
-            <!--Package Details Service Table-->
-            <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="servicetab2" role="grid">   
-                    <tr>
-                        <th>Service</th>
-                        <th>Category</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                </table>   
-
-                <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="servicetab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
-                </div>
-            </div>
-            <!--End Package Details Service Table-->
-
-
-        </div>
-                                 
-            <div class="card-footer bg-black">
-                <div class="input-group">
-
-                    <div class="col-md-8 m-t-5">
-                    
-                        <div class="input-group" >
-                            <h5 style = "width: 90px;"class="m-t-10">Package Price:</h5>
-                            <input type="text" class="form-control" style = "width: 100px;" placeholder ="Php";>
-                            <span class="input-group-addon">.00</span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 m-t-5">
-                        <div class="input-group examples transitions" >
-                            <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn " style ="width: 150px; left: 35px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
                              
-        </div>
-     </div>
-    <!--END Package DETAILS-->
+                                        <div class="tab tab-btn">
+                                            <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="servicetab1_To_tab2();"><i class="fa fa-arrow-right text-white " ></i></button>
+                                        </div>
+                                    </div>
+                                    <!--END SERVICE TAB--> 
+                                    
+                                                                                   
+                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                  
 
+                                <!--Package DETAILS-->
+                                <div class="col-lg-6 m-t-10">
+                                    <div class="card">
+                                        <div class="card-header bg-black">
+                                            Package Details
+                                        </div>
+                                    
+                                        <div class="card-block">
+                                        <div class="tab">
+                                            
+                                            <div class="input-group">
+                                                <div class="col-md-7 m-t-15">
+                                                    <h5 style = "">Package:</h5>
+                                                    <p>
+                                                        <input id="name" name="packagename" type="text" placeholder="Package Name" class="form-control  m-t-5" style = "width: 210px;" >
+                                                    </p>
+                                                </div>
+
+
+                                                <div class="col-md-5 m-t-15">
+                                                    <h5 style = "">Computed Price:</h5>
+                                                    <div class="input-group m-t-5">
+                                                        <input type="text" class="form-control" disabled="disabled" placeholder ="Php.">
+                                                        <span class="input-group-addon">.00</span>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="input-group">
+                                                <div class="col-md-7">
+                                                    <h5>Warranty: <span style="color: red"></span></h5>
+                                                    <p>
+                                                        <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-md-5">
+                                                    <p class="m-t-25">
+                                                        <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                                            <option value="Days">Day(s)</option>
+                                                            <option value="Weeks">Week(s)</option>
+                                                            <option value="Months">Month(s)</option>
+                                                            <option value="Years">Year(s)</option>
+                                                        </select>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--Package Details Product Table-->
+                                        <div class ="m-t-15">
+                                            <table class="table  table-striped table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">   
+                                            <thead>
+                                                <tr style="background-color: #f5f5f5">
+                                                    <th>Product</th>
+                                                    <th>Description</th>
+                                                    <th>Quantity</th>
+                                                    <th style="width: 5%;">Select</th>
+                                                </tr>
+                                            </thead>
+                                            </table>   
+
+
+                                            <div class="tab tab-btn">
+                                                <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="prodtab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
+                                            </div>
+                                        </div>
+                                        <!--End Package Details Product Table-->
+                                        
+
+                                        <!--Package Details Service Table-->
+                                        <div class ="m-t-15">
+                                            <table class="table table-bordered table-hover dataTable no-footer" id="servicetab2" role="grid">  
+                                            <thead> 
+                                                <tr style="background-color: #f5f5f5">
+                                                    <th>Service</th>
+                                                    <th>Category</th>
+                                                    <th style="width: 5%;">Select</th>
+                                                </tr>
+                                            </thead>
+                                            </table> 
+
+
+                                            <div class="tab tab-btn">
+                                                <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="servicetab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
+                                            </div>  
+                                        </div>
+                                        <!--End Package Details Service Table-->
+
+
+                                    </div>
+                                                             
+                                        <div class="card-footer bg-black">
+                                            <div class="input-group">
+
+                                                <div class="col-md-8 m-t-5">
+                                                
+                                                    <div class="input-group" >
+                                                        <h5 style = "width: 90px;"class="m-t-10">Package Price:</h5>
+                                                        <input type="text" class="form-control" style = "width: 100px;" placeholder ="Php";>
+                                                        <span class="input-group-addon">.00</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 m-t-5">
+                                                    <div class="input-group examples transitions" >
+                                                        <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn " style ="width: 150px; left: 35px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                                         
+                                    </div>
+                                 </div>
+                                <!--END Package DETAILS-->
 
                     </div>
                </div>
@@ -336,10 +370,13 @@
                                 cell1 = newRow.insertCell(0),
                                 cell2 = newRow.insertCell(1),
                                 cell3 = newRow.insertCell(2);
+                                cell4 = newRow.insertCell(3);
+
                             // add values to the cells
                             cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
+                            cell3.innerHTML = "<input type='text' name='quantity' class='form-control' placeholder='' style='width: 20px;';>"
+                            cell4.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
                            
                             // remove the transfered rows from the first table [producttab1]
                             var index = producttab1.rows[i+1].rowIndex;

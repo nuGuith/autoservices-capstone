@@ -31,7 +31,7 @@
                         </h4>
                     </div>
 
-                    <div class="col-sm-6 col-12"  >
+                    <div class="col-sm-6 col-12">
                         <ol  class="breadcrumb float-right   ">
                             <li class="breadcrumb-item " >
                                 <a href="/serviceproduct">
@@ -136,39 +136,15 @@
                                             </select>
                                     </div>
 
-                                    <!--Table: add-order-list -->
-                                    <div class="col-md-12">
-                                        <table id="myTable" class="table add-order-list" style="border-color: white" rules="rows" >
-                                            <thead>
-                                                <tr>
-                                                <td><h5>Product <span style="color: red">*</span></h5>
-                                                </td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                            <!--Seach Select: Product-->
-                                            <td  style="width:500px;">
-                                                <select class="form-control chzn-select" id="product" name="product"  tabindex="2">
-                                                    <option disabled selected>Choose Product</option>
+                                    <div class="col-md-11 m-t-10 m-l-10">
+                                        <h5>Product Name: <span style="color: red">*</span>
+                                        <p class ="m-t-10">
+                                            <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
+                                                    <option disabled>Choose Product</option>
                                                     <option value="Change Oil">Dunlop 1.5mL</option>
-                                                </select>                                       
-                                            </td>
-                                             
-                                            <!--ADD ROW FOR ADD MODAL-->
-                                            <td style="border-color: white" rules="rows">
-                                                <div class="examples transitions m-t-0">
-                                                <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
-                                             </div>
-                                            </td>
-                                            <td style="border-color: white" rules="rows"><i class="deleteRow "></i>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    <tfoot>
-                                     </tfoot>
-                                    </table>
-                                </div>
+                                                </select>
+                                        </p>
+                                    </div>
 
                              </div>
                         </div>
@@ -197,7 +173,7 @@
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Vehicle Type</h4>                  
+                                            &nbsp;&nbsp;Edit Service Product</h4>                  
                             </div>
 
 
@@ -209,44 +185,21 @@
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
                                             <select class="form-control  chzn-select" tabindex="2">
-                                                <option disabled selected>Choose Service Bay</option>
+                                                <option disabled selected>Choose Service Name</option>
                                                 <option value="1">1</option>
                                             </select>
+                                        </p>
                                     </div>
 
-                                    <!--Table: edit-order-list -->
-                                    <div class="col-md-12">
-                                        <table id="myTable" class="table edit-order-list" style="border-color: white" rules="rows" >
-                                            <thead>
-                                                <tr>
-                                                    <td><h5>Product <span style="color: red">*</span></h5>
-                                                    </td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                            <!--Seach Select: Product-->
-                                            <td  style="width:500px;">
-                                                <select class="form-control chzn-select" id="product" name="product"  tabindex="2">
-                                                    <option disabled selected>Choose Product</option>
+                                    <div class="col-md-11 m-t-10 m-l-10">
+                                        <h5>Product Name: <span style="color: red">*</span>
+                                        <p class ="m-t-10">
+                                            <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
+                                                    <option disabled>Choose Product</option>
                                                     <option value="Change Oil">Dunlop 1.5mL</option>
-                                                </select>                                       
-                                            </td>
-                                             
-                                            <!--ADD ROW FOR EDIT MODAL-->                          
-                                            <td style="border-color: white" rules="rows">
-                                                <div class="examples transitions m-t-0">
-                                                <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
-                                             </div>
-                                            </td>
-                                            <td style="border-color: white" rules="rows"><i class="deleteeditRow "></i>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    <tfoot>
-                                     </tfoot>
-                                    </table>
-                                </div>
+                                                </select>
+                                        </p>
+                                    </div>
 
 
                              </div>
@@ -298,75 +251,5 @@
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
-
-
-
-<!--script for table add brand-->
-<script> 
-$(document).ready(function () {
-    var counter = 0;
-
-    
-
-    $("#addrow").on("click", function () {
-        var newRow = $("<tr>");
-        var cols = "";
-
-        $(".chzn-select").chosen();
-
-        cols += '<td><select class="form-control chzn-select" id="product" tabindex="" name="product"><option disabled selected>Choose Product</option><option value="Dunlop 1.5mL">Dunlop 1.5mL</option></select></td>';
-        cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md" value ="X"></td>';
-
-        newRow.append(cols);
-        $("table.add-order-list").append(newRow);
-        counter++;
-    });
-
-
-
-    $("table.add-order-list").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();       
-        counter -= 1
-    });
-
-
-});
-</script>
-<!--end script of table edit brand-->
-
-
-
-
-
-<!--script for table edit brand-->
-<script> 
-$(document).ready(function () {
-    var counter = 0;
-
-
-    $("#editrow").on("click", function () {
-        var newRow = $("<tr>");
-        var cols = "";
-
-    $(".chzn-select").chosen();
-
-        cols += '<td><select class="form-control chzn-select" id="product" tabindex="" name="product"><option disabled selected>Choose Product</option><option value="Dunlop 1.5mL">Dunlop 1.5mL</option></select></td>';
-        cols += '<td><input type="button" class="ibtneDel btn  btn-danger btn-md" value ="X"></td>';
-
-        newRow.append(cols);
-        $("table.edit-order-list").append(newRow);
-        counter++;
-    });
-
-
-    $("table.edit-order-list").on("click", ".ibtneDel", function (event) {
-        $(this).closest("tr").remove();       
-        counter -= 1
-    });
-
-
-});
-</script>
-<!--end script of table edit brand-->
 
 @stop
