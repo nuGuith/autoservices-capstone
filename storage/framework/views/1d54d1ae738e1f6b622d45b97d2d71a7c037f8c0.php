@@ -309,13 +309,6 @@ z-index: 999999">
                     </a>
                     
                 </li> -->
-                <li <?php echo (Request::is('inspect')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-search"></i>
-                        <span class="link-title">&nbsp; Inspect Vehicle</span>
-                    </a>
-                    
-                </li>
                 <li <?php echo (Request::is('estimates')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/estimates" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-file-text"></i>
@@ -328,6 +321,13 @@ z-index: 999999">
                         <i class="fa fa fa-wpforms"></i>
                         <span class="link-title">&nbsp; Job Order</span>
                     </a>
+                </li>
+                <li <?php echo (Request::is('inspect')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-search"></i>
+                        <span class="link-title">&nbsp; Inspect Vehicle</span>
+                    </a>
+                    
                 </li>
                 <li <?php echo (Request::is('backjob')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/backjob" style="padding-left:10%; padding-right: 10%;">
