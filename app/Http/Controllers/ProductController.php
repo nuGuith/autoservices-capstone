@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
-use App\product;
+use App\Product;
+use App\ProductCategory;
+use App\ProductType;
+use App\ProductBrand;
+use App\ProductUnitType;
+use App\ProductWarranty;
 use Validator;
 use Session;
 use Redirect;
@@ -99,12 +104,74 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-
-
     public function store(Request $request)
     {
-       
+        $niceNames = [
+            'productname' => 'Product Name',
+            'producttypeid' => 'Type',
+            'productbrandid' => 'Brand',
+            'productunittypeid' => 'Unit Type',
+            'size' => 'Unit Size',
+            'price' => 'Price',
+            'duration' => 'Warranty Duration',
+            'durationmode' => 'Duration Mode',
+            'description' => 'Description'
+        ];
+        $messages = [
+            'required' => 'The :attribute is required',
+            'unique' => 'The :attribute is already taken',
+            'max' => 'The :attribute has over the required maximum length.',
+            'regex' => 'You cannot input special characters' 
+        ];
+
+        $validation = Validator::make($request->all(), [
+            'productname' => ['bail', 'required', 'unique:product', 'max:50', 'regex:/^[^~`!@#*$_={}|\;<>,.?]+/'],
+            'producttypeid' => 'required',
+            'productbrandid' => 'required',
+            'productunittypeid' => 'required',
+            'size' => ['bail', 'required', 'max:4', 'regex:/^[^~`!@#*$_={}|\;<>,.?]+/'],
+            'price' => ['bail', 'required', 'max:14', 'regex:/^[^~`!@#*$_={}|\;<>,.?]+/'],
+            'duration' => ['bail', 'max:14', 'regex:/^[^~`!@#*$_={}|\;<>,.?]+/'],
+            'description' => ['bail', 'max:200', 'regex:/^[^~`!@#*$_={}|\;<>,.?]+/']
+            ], $niceNames);
+        
+        $validation->setAttributeNames($niceNames);
+        if ($validation->fails()){
+            return redirect('product')
+                ->withErrors($validation, 'add')
+                ->withInput();
+        }
+        else{
+            try{
+            DB::beginTransaction();
+            Product::create([
+                'productname' => trim($request->productname),
+                'producttypeid' => ($request->producttypeid),
+                'productbrandid' => ($request->productbrandid),
+                'productunittypeid' => ($request->productunittypeid),
+                'size' => trim($request->size),
+                'price' => trim($request->price),
+                'description' => ($request->description)
+            ]);
+            $id = Product::orderBy('created_at', 'DESC')
+                ->first();
+            ProductWarranty::create([
+                'productid' => ($id),
+                'duration' => trim($request->duration),
+                'durationmode' => ($request->durationmode)
+            ]);
+            DB::commit();
+            }
+                catch(\Illuminate\Database\QueryException $e){
+                    DB::rollBack();
+                    $err = $e->getMessage();
+                    return redirect('product')
+                        ->withErrors($err, 'add');
+            }
+            
+            $request->session()->flash('success', 'Record successfully added');
+            return redirect('product');
+        }
     }
 
     /**
@@ -177,6 +244,20 @@ class ProductController extends Controller
         $p->isActive='0';
         $p->save();
         return \Redirect::back();
-       
+    }
+
+    public function delet(Request $request)
+    {
+        try{
+            DB::table('product')
+                    ->where('productid', $request->deleteId)
+                    ->update(['isActive' => 0]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            $err = $e->getMessage();
+                return redirect('product')
+                    ->withErrors($err, 'delete');
+        }
+        return redirect('product');
     }
 }

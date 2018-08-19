@@ -26,4 +26,8 @@ class ProductsUsed extends Model
     public function joborder(){
         return $this->belongsTo('App\JobOrder', 'joborderid');
     }
+
+    public function estimate(){
+        return $this->belongsTo('App\Estimate', 'estimateid');
+    }
 }

@@ -21,8 +21,6 @@ Route::get('/','DashboardIndexController@index');
 Route::get('/personnel','PersonnelController@personnel');
 
 Route::get('/customer','CustomerController@customer');
-Route::resource('/estimates', 'EstimatesController');
-/* Route::get('/estimates', 'EstimatesController@estimates'); */
 Route::get('/warranty', 'WarrantyController@warranty');
 Route::get('/jobdescription', 'JobDescriptionController@jobdescription');
 Route::get('/viewcustomer', 'ViewCustomerController@viewcustomer');

@@ -54,7 +54,7 @@
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
                                                     href="/addjoborder">
-                                        <i class="fa fa-plus"></i> &nbsp;  Add Job Order                                  
+                                        <i class="fa fa-plus"></i> &nbsp;  Add Job Order
                                         </a>
                                 </div>
                             </div>

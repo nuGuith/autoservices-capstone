@@ -14,17 +14,18 @@ class Automobile extends Model
         'plateno',
         'modelid',
         'transmission',
-        'chassisno',
+        'year',
         'mileage',
         'color',
+        'chassisno',
         'isActive'
     ];
 
-    public function automobilemodel(){
-        return $this->belongsTo('App\AutomobileModel', 'modelid');
+    /*public function automobilemodels(){
+        return $this->belongsTo(AutomobileModel::class);
     }
 
-    public function estimate(){
-        return $this->hasMany('App\Estimate', 'estimateid');
-    }
+    public function estimates(){
+        return $this->hasMany(Estimate::class);
+    }*/
 }

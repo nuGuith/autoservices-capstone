@@ -41,6 +41,12 @@
 
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right   ">
+                            <li class="breadcrumb-item">
+                                <a href="/">
+                                    <i class="fa fa-home"></i>
+                                        Dashboard
+                                </a>
+                            </li>
                             <li class="breadcrumb-item " >
                                 <a href="/estimates">
                                     <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
@@ -136,7 +142,7 @@
                                     <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "0(999) 999-9999"' data-mask>
+                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "0(999) 999-9999"' data-mask>
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -204,7 +210,7 @@
                                         </div>
 
                                         <div class="col-lg-3 ">
-                                            <h5>Mileage.: <span style="color: red">*</span></h5>
+                                            <h5>Mileage: <span style="color: red">*</span></h5>
                                                 <div class="input-group">
                                                     <span class="input-group-addon m-t-10">
                                                         <i class="fa fa-dashboard"></i>

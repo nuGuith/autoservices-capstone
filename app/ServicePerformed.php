@@ -29,4 +29,8 @@ class ServicePerformed extends Model
         return $this->hasOne('App\ServiceWarranty','ServiceWarrantyID');
     }
 
+    public function estimate() {
+        return $this->belongsTo('App\Estimate','EstimateID');
+    }
+
 }
