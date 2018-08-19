@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductService extends Model
 {
-    protected $table = 'product_service';
-    protected $primarykey = false;
     public $timestamps = true;
+    protected $table = 'product_service';
+    protected $primaryKey = false;
     protected $fillable = [
         'productid',
         'serviceid',

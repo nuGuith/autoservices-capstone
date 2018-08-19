@@ -6,15 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoHeader extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'promo_header';
-    protected $primarykey = 'promoid';
+    protected $primaryKey = 'promoid';
     protected $fillable = [
         'promoid',
         'promoname',
-        'duration',
-        'durationmode',
+        'startdate',
+        'enddate',
         'price',
+        'warrantydurationmode',
+        'warrantyduration',
         'isActive'
     ];
 

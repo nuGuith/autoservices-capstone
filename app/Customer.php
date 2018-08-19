@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'customer';
-    protected $primarykey = 'customerid';
+    protected $primaryKey = 'customerid';
     protected $fillable = [
-        'customerid',
         'firstname',
         'middlename',
         'lastname',
-        'contactnumber',
-        'lotno',
-        'streetname',
+        'ContactNo',
+        'pwd_sc_no',
+        'CompleteAddress',
         'barangay',
         'city',
+        'province',
         'emailaddress',
         'isActive'
     ];

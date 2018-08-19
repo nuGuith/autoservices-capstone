@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Automobile extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'automobile';
-    protected $primarykey = 'plateno';
+    protected $primaryKey = 'automobileid';
     protected $fillable = [
         'plateno',
+        'modelid',
         'transmission',
-        'year',
+        'chassisno',
+        'mileage',
         'color',
         'isActive'
     ];

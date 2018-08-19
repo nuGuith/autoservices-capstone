@@ -8,7 +8,7 @@ class MaintenanceChecklist extends Model
 {   
     public $timestamps = true;
     protected $table = 'maintenance_checklist';
-    protected $primarykey = 'maintenancechecklistid';
+    protected $primaryKey = 'maintenancechecklistid';
     protected $fillable = [
         'maintenancechecklistid',
     	'maintenancecheckcategory',

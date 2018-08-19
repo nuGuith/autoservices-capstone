@@ -21,7 +21,8 @@ Route::get('/','DashboardIndexController@index');
 Route::get('/personnel','PersonnelController@personnel');
 
 Route::get('/customer','CustomerController@customer');
-Route::get('/estimates', 'EstimatesController@estimates');
+Route::resource('/estimates', 'EstimatesController');
+/* Route::get('/estimates', 'EstimatesController@estimates'); */
 Route::get('/warranty', 'WarrantyController@warranty');
 Route::get('/jobdescription', 'JobDescriptionController@jobdescription');
 Route::get('/viewcustomer', 'ViewCustomerController@viewcustomer');
@@ -35,7 +36,7 @@ Route::get('/package','packageController@package');
 Route::get('/addpackage','AddPackageController@addpackage');
 Route::get('/editpackage','EditPackageController@editpackage');
 
-//MaintenanceVehicle
+//Maintenance - Vehicle
 Route::resource('vehicletype','VehicleTypeController');
 Route::put('/vehicletype', 'VehicleTypeController@update');
 Route::patch('/vehicletype', 'VehicleTypeController@delete');
@@ -43,7 +44,7 @@ Route::patch('/vehicletype', 'VehicleTypeController@delete');
 Route::resource('addvehicletype','AddVehicleTypeController');
 Route::post('/addvehicletype', 'AddVehicleTypeController@store');
 
-//MaintenanceProducts
+//Maintenance - Products
 Route::resource('productcategory', 'ProductCategoryController');
 Route::post('/productcategory', 'ProductCategoryController@store');
 Route::put('/productcategory', 'ProductCategoryController@update');
@@ -64,16 +65,24 @@ Route::post('/productunittype', 'ProductUnitTypeController@store');
 Route::put('/productunittype', 'ProductUnitTypeController@update');
 Route::patch('/productunittype', 'ProductUnitTypeController@delete');
 
-//MaintenanceServices
+Route::resource('product', 'ProductController');
+Route::post('/product', 'ProductController@store');
+Route::put('/product', 'ProductController@update');
+Route::patch('/product', 'ProductController@delete');
+
+//Maintenance - Services
+Route::resource('servicebay','ServiceBayController');
+Route::post('/servicebay', 'ServiceBayController@store');
+Route::put('/servicebay', 'ServiceBayController@update');
+Route::patch('/servicebay', 'ServiceBayController@delete');
+
 Route::resource('servicecategory','ServiceCategoryController');
 Route::post('/servicecategory', 'ServiceCategoryController@store');
 Route::put('/servicecategory', 'ServiceCategoryController@update');
 Route::patch('/servicecategory', 'ServiceCategoryController@delete');
 
-Route::resource('servicebay','ServiceBayController');
-Route::post('/servicebay', 'ServiceBayController@store');
-Route::put('/servicebay', 'ServiceBayController@update');
-Route::patch('/servicebay', 'ServiceBayController@delete');
+Route::resource('/serviceprice', 'ServicePriceController');
+Route::resource('/serviceproduct', 'ServiceProductController');
 
 Route::resource('service','ServiceController');
 Route::post('/service', 'ServiceController@store');
@@ -88,4 +97,41 @@ Route::resource('transact','TransactionController');
 //     return view('maintenance.service');
 // });
 
+//404 blade - modified
+Route::get('/404',['as'=>'404','uses'=>'ErrorHandlerController@errorCode404']);
+Route::get('/405',['as'=>'405','uses'=>'ErrorHandlerController@errorCode405']);
+
+
+//Transaction - Inspect Vehicle
+Route::get('/inspect','InspectController@index');
+Route::get('/addinspect','AddInspectController@index');
+Route::get('/editinspect','EditInspectController@index');
+Route::get('/viewinspect','ViewInspectController@index');
+
+///Transaction - Estimate
+Route::get('/estimates','EstimatesController@index');
+
+Route::resource('/addestimates','AddEstimatesController');
+Route::get('/addestimates/{automobile}/showAutomobile', 'AddEstimatesController@showAutomobile');
+Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@showCustomer');
+Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
+Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
+
+Route::get('/editestimates/{id}','EditEstimatesController@index');
+Route::get('/viewestimates/{id}','ViewEstimatesController@index');
+
+//Transaction - Job Order
+Route::get('/joborder','JobOrderController@index');
+
+Route::resource('/addjoborder','AddJobOrderController');
+Route::get('/addjoborder/{inspection}/showInspection', 'AddJobOrderController@showInspection');
+Route::get('/addjoborder/{estimate}/showEstimate', 'AddJobOrderController@showEstimate');
+Route::get('/addjoborder/{id}/getFilteredProductList', 'AddJobOrderController@getFilteredProductList');
+Route::get('/addjoborder/{id}/getServiceDetails', 'AddJobOrderController@getServiceDetails');
+Route::get('/addjoborder/{id}/getProductDetails', 'AddJobOrderController@getProductDetails');
+Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDiscountDetails');
+
+Route::get('/editjoborder/{id}','EditJobOrderController@index');
+Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
+Route::get('/updatejoborder/{id}', 'UpdateJobOrderController@index');
 

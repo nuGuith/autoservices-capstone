@@ -33,15 +33,9 @@
                     <div class="col-sm-6 col-12"  >
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item">
-                                <a href="/">
-                                    <i class="fa fa-home"></i>
-                                        Dashboard
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item">
                                 <a href="#">
                                     <i class="fa fa-wrench"></i>
-                                        Services
+                                        Service
                                 </a>
                             </li>
                             <li class="breadcrumb-item">
@@ -63,7 +57,7 @@
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                         <i class="fa fa-plus"></i>
-                                            &nbsp;  Add Inspection Items                                  
+                                            &nbsp;Add Inspection Items                                  
                                          </a>
                                     </div>
                              </div>
@@ -86,17 +80,21 @@
                                                     <th class="sorting wid-15" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-
-                                                
+                                            <tbody>             
                                                 <tr>
                                                     <td></td>
-                                                    <td></td>
+                                                    <td>
+                                                        <ul style="padding-left: 1.2em;">
+
+                                                        </ul>
+                                                    </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" onclick="editModal()" data-toggle="modal" data-href="#responsive" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" onclick="editMod()" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal()" type="button" style="width:70px"><i class="fa fa-trash text-white"></i> &nbsp; Delete
+                                                              
+                                                        <!--DELETE BUTTON-->
+                                                        <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" onclick="deleteModal()" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -116,53 +114,57 @@
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Inspection Checklist</h4>
+                                            &nbsp;Edit Inspection Checklist</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <h4>Inspection Name</h4>
-                                        <div>
+                                <div class="row m-r-10">
+                                    <div class="col-md-11 m-t-10" style="padding-left: 40px;">
+                                        <h5>Inspection Name: <span style="color: red">*</span></h5>
+                                        <p>
                                             <?php echo Form::input ('name','text', Input::old('inspectionname'), [
                                                 'id'=>'inspectionname',
                                                 'name'=>'inspectionname',
                                                 'type'=>'text',
                                                 'placeholder'=>'Inspection Name',
-                                                'class'=>'form-control',
+                                                'class'=>'form-control m-t-10',
                                                 'maxlength'=>'100',
                                                 'required'
                                                 ]); ?>
 
-                                        </div>
+                                        </p>
                                     </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table" >
-                                            <tbody>
+                                </div>
+                                
+                                <!--Table: edit-order-list -->
+                                    <div class="col-md-12">
+                                        <table id="myTable" class="table edit-order-list" style="border-color: white" rules="rows">
+                                            <thead>
                                                 <tr>
-                                                    <td><h5>Inspection Item(s):</h5></td>
-                                                </tr>
-                                                <!-- for here -->
-                                                <tr role= "row">
-                                                    <td>
-                                                        <input type="text" name="item" placeholder="Item" class="form-control"/>
-                                                    </td>
-                                                    <td>
-                                                        <i class="deleteRow "></i>
+                                                    <td><h5>Inspection Items <span style="color: red">*</span></h5>
                                                     </td>
                                                 </tr>
-                                                <!-- endfor here -->
-                                                <tr role= "row">
-                                                    <td>
-                                                        <input type="text" name="item" placeholder="Item" class="form-control"/>
-                                                    </td>
-                                                    <td>
-                                                        <i class="deleteRow "></i>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                            <!--Seach Select: Product-->
+                                            <td  style="width:500px;">
+                                                <input type="text" name="item" placeholder="Item" class="form-control"/>                                   
+                                            </td>
+                                             
+                                            <!--ADD ROW FOR EDIT MODAL-->                          
+                                            <td style="border-color: white" rules="rows">
+                                                <div class="examples transitions m-t-0">
+                                                <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
+                                             </div>
+                                            </td>
+                                            <td style="border-color: white" rules="rows"><i class="deleteeditRow "></i>
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                    <tfoot>
+                                     </tfoot>
+                                    </table>
+                                </div>
                                     <br>
                                     <div id="show-errors">
                                         <?php if($errors->update->any()): ?>
@@ -176,7 +178,6 @@
                                             <br>
                                         <?php endif; ?>
                                     </div>
-                                </div>
                             </div>
 
 
@@ -210,50 +211,59 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Add Inspection Items</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Inspection Items</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <h4>Inspection Name</h4>
+
+                        <div class="modal-body">
+                            <div class="row m-t-10">
+                                    <div class="col-md-11 m-t-10" style="padding-left: 40px;">
+                                        <h5>Inspection Name: <span style="color: red">*</span></h5>
                                         <p>
                                             <?php echo Form::input ('name','text', Input::old('inspectionname'), [
                                                 'id'=>'inspectionname',
                                                 'name'=>'inspectionname',
                                                 'type'=>'text',
                                                 'placeholder'=>'Inspection Name',
-                                                'class'=>'form-control',
+                                                'class'=>'form-control m-t-10',
                                                 'maxlength'=>'100',
                                                 'required'
                                                 ]); ?>
 
                                         </p>
                                     </div>
-                                    <div class="col-xl-12" style="padding-right:-10px;">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
+                                </div>
+                                
+                                <!--Table: edit-order-list -->
+                                    <div class="col-md-12">
+                                        <table id="myTable" class="table order-list" style="border-color: white" rules="rows">
+                                            <thead>
                                                 <tr>
-                                                    <td><h5>Inspection Item(s):</h5></td>
-                                                    <td>
-                                                        <input type="text" name="item" placeholder="Item" class="form-control"/>
+                                                    <td><h5>Inspection Items <span style="color: red">*</span></h5>
                                                     </td>
                                                 </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr role= "row">
-                                                <td colspan="5" style="text-align: right;">
-                                                    <div class="examples transitions m-t-5">
-                                                        <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp; Add Row </button>
-                                                     </div>
-                                                </td>
-                                                <td><i class="deleteRow "></i>
-                                                </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                            <!--Seach Select: Product-->
+                                            <td  style="width:500px;">
+                                                <input type="text" name="item" placeholder="Item" class="form-control"/>                                   
+                                            </td>
+                                             
+                                            <!--ADD ROW FOR EDIT MODAL-->                          
+                                            <td style="border-color: white" rules="rows">
+                                                <div class="examples transitions m-t-0">
+                                                <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
+                                             </div>
+                                            </td>
+                                            <td style="border-color: white" rules="rows"><i class="deleteeditRow "></i>
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                    <tfoot>
+                                     </tfoot>
+                                    </table>
+                                </div>
                                     <br>
                                     <div id="show-errors">
                                         <?php if($errors->add->any()): ?>
@@ -268,7 +278,8 @@
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                            </div>
+                                
+                    
 
 
 
@@ -299,36 +310,22 @@
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-danger">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Delete this record?</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-trash"></i>
+                                            &nbsp;Delete Record</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <p>
-                                            Are you sure you want to delete this record?
-                                        </p>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                           <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Are you sure do you want to delete this record?</h5>
+                                    <input id="deleteId" name="deleteId" type="hidden" value=null>
                                 </div>
                             </div>
 
 
 
-                            <div class="modal-footer">
+
+                            <div class="modal-footer m-t-10">
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
@@ -411,9 +408,9 @@ $(document).ready(function () {
     $("#addrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
-        cols += '<td> </td>';
+
         cols += '<td><input type="text" class="form-control" name="item" placeholder="Item"' + counter + '"/></td>';
-        cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md" value ="X"></td>';
+        cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
 
         newRow.append(cols);
         $("table.order-list").append(newRow);
@@ -429,6 +426,35 @@ $(document).ready(function () {
 
 });
 
+</script>
+
+<!--script for table edit brand-->
+<script> 
+$(document).ready(function () {
+    var counter = 0;
+
+
+    $("#editrow").on("click", function () {
+        var newRow = $("<tr>");
+        var cols = "";
+
+
+        cols += '<td><input type="text" class="form-control" name="item" placeholder="Item"' + counter + '"/></td>';
+        cols += '<td><input type="button" class="ibtneDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
+
+        newRow.append(cols);
+        $("table.edit-order-list").append(newRow);
+        counter++;
+    });
+
+
+    $("table.edit-order-list").on("click", ".ibtneDel", function (event) {
+        $(this).closest("tr").remove();       
+        counter -= 1
+    });
+
+
+});
 </script>
 
 <?php $__env->stopSection(); ?>

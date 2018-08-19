@@ -95,9 +95,12 @@
                                                     <td><?php echo $bay->Description; ?></td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn" onclick="editModal(<?php echo $bay->ServiceBayID; ?>)" data-toggle="modal" data-href="#responsive" type="button"><i class="fa fa-pencil text-white"></i>&nbsp; Edit
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" onclick="editModal(<?php echo $bay->ServiceBayID; ?>)"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                                        <button class="btn btn-danger source warning confirm hvr-float-shadow" onclick="deleteModal(<?php echo $bay->ServiceBayID; ?>)" type="button" style="width:70px"><i class="fa fa-trash text-white"></i> &nbsp; Delete
+                                                        
+                                                        
+                                                        <!--DELETE BUTTON-->
+                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal(<?php echo $bay->ServiceBayID; ?>)"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>

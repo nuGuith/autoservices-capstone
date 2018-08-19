@@ -8,11 +8,11 @@ class InspectionChecklist extends Model
 {
     public $timestamps = true;
     protected $table = 'inspection_checklist';
-    protected $primarykey = 'inspectionchecklistid';
+    protected $primaryKey = 'inspectionchecklistid';
     protected $fillable = [
         'inspectionchecklistid',
+        'inspectiontypeid',
     	'inspectionitem',
-        'inspectiontype',
         'isActive'
     ];
 

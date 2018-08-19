@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductsUsed extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'product_used';
-    protected $primarykey = null;
     protected $fillable = [
+        'joborderid',
+        'salesid',
+        'productid',
+        'estimateid',
         'dateused',
         'subtotal',
+        'isCustomerProvided',
         'isActive'
     ];
 

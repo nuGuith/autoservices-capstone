@@ -5,28 +5,28 @@
     <meta charset="UTF-8">
     <title>@yield('Title')</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="img/icon.png"/>
+    <link rel="shortcut icon" href="{{URL::asset('img/icon.png')}}"/>
 
 
 
     <!--global styles-->
-    <link type="text/css" rel="stylesheet" href="css/components.css"/>
-    <link type="text/css" rel="stylesheet" href="css/custom.css"/>
-      <link type="text/css" rel="stylesheet" href="css/pages/layouts.css" /
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/components.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/custom.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/layouts.css')}}"/>
     <!-- end of global styles-->
 
     <!--Plugin styles-->
-    <link type="text/css" rel="stylesheet" href="vendors/select2/css/select2.min.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/datatables/css/colReorder.bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="css/pages/dataTables.bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="css/pages/dataTables.bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/select2/css/select2.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/datatables/css/colReorder.bootstrap.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/dataTables.bootstrap.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/dataTables.bootstrap.css')}}" />
     <!--End of plugin styles-->
 
     <!--Plugin styles-->
     <!-- <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css"/> -->
-    <link type="text/css" rel="stylesheet" href="vendors/chosen/css/chosen.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/chosen/css/chosen.css')}}"/>
     <!-- <link type="text/css" rel="stylesheet" href="vendors/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css"/> -->
-    <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/jquery-tagsinput/css/jquery.tagsinput.css')}}"/>
     <!-- <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css"/> -->
     <!-- <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.css"/> -->
     <!-- <link type="text/css" rel="stylesheet" href="vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/> -->
@@ -36,18 +36,21 @@
 
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/colorpicker_hack.css" /> -->
 
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tipso/css/tipso.min.css')}}">
+
     <!--End of plugin styles-->
     <!--Page level styles-->
-    <link type="text/css" rel="stylesheet" href="css/pages/form_elements.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/form_elements.css')}}"/>
 
     <!--Page level styles-->
-    <link type="text/css" rel="stylesheet" href="css/pages/tables.css" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/tables.css')}}" />
     <link type="text/css" rel="stylesheet" href="#" id="skin_change" />
     <!-- end of page level styles -->
     
 </head>
 <body class="fixedMenu_header">
-<div class="preloader" style=" position: fixed;
+<!-- <div class="preloader" style=" position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
@@ -64,21 +67,19 @@
 z-index: 999999">
         <img src="img/loader.gif" style=" width: 40px;" alt="loading...">
     </div>
-</div>
+</div> -->
 <div class="bg-dark" id="wrap">
     <div id="top"  class="fixed">
         <!-- .navbar -->
         <nav class="navbar navbar-static-top" style="bottom: 2px">
             <div class="container-fluid m-0" >
-            <a class="navbar-brand float-left text-center " href="index.html" style="margin-top: 2px;">
+            <a class="navbar-brand float-left text-center " href="{{URL::asset('/')}}" style="margin-top: 2px;">
                     <div class="row">&nbsp;&nbsp;&nbsp;<i class="fa fa-car text-white"></i><h4 class="text-white">&nbsp;&nbsp;JPR AUTOPRECISION </h4></div>
                 </a>
                 <div class="menu">
                     <span class="toggle-left" id="menu-toggle">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-bars text-white"></i>
                     </span>
-
-
                 </div>
 
                 
@@ -94,18 +95,18 @@ z-index: 999999">
                         <div class="user-settings no-bg">
 
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
-                                <img src="img/admin.jpeg" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
+                                <img src="{{URL::asset('img/admin.jpeg')}}" class="media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
 
                             <div class="dropdown-menu admire_admin">
                                 <a class="dropdown-item title" href="#">
                                     Admin</a>
-                                <a class="dropdown-item" href="edit_user.html"><i class="fa fa-cogs"></i>
+                                <a class="dropdown-item" href="{{URL::asset('edit_user.html')}}"><i class="fa fa-cogs"></i>
                                     Account Settings</a>
-                                <a class="dropdown-item" href="lockscreen.html"><i class="fa fa-lock"></i>
+                                <a class="dropdown-item" href="{{URL::asset('lockscreen.htm')}}l"><i class="fa fa-lock"></i>
                                     Lock Screen</a>
-                                <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out"></i>
+                                <a class="dropdown-item" href="{{URL::asset('login.html')}}"><i class="fa fa-sign-out"></i>
                                     Log Out</a>
                             </div>
                         </div>
@@ -137,7 +138,7 @@ z-index: 999999">
                 <div class="user-wrapper bg-dark">
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
-                             src="img/admin.jpeg">
+                             src="{{URL::asset('img/admin.jpeg')}}">
                         <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
                     </a>
                 </div>
@@ -171,70 +172,36 @@ z-index: 999999">
                         <span class="fa arrow"></span>
                     </a>
                     <ul>
-                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!}  >
+                        <li {!! (Request::is('productcategory') ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/productcategory')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Category
                             </a>
                         </li>
-                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('producttype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/producttype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Type
                             </a>
                         </li>
-                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('productbrand')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/productbrand')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Brand
                             </a>
                         </li>
-                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('productunittype')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/productunittype')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product Unit Type
                             </a>
                         </li>
-                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!} >
+                        <li {!! (Request::is('product')  ? 'class="active"' : '') !!}  style="border-radius: 4px;">
                             <a href="{{url('/product')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Product
                             </a>
                         </li>
-                    </ul>
-                </li>
-                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
-                        <i class="fa fa-wrench"></i>
-                        <span class="link-title">&nbsp; Service</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul>
-                        <li {!! (Request::is('servicecategory')  ? 'class="active"' : '') !!} >
-                            <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Category
-                            </a>
-                        </li>
-                        <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
-                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Services
-                            </a>
-                        </li>
-                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
-                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
-                            </a>
-                        </li>
-                        <li {!! (Request::is('transact')  ? 'class="active"' : '') !!} >
-                            <a href="/transact" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <a href="/maintenancechecklist" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
                 <li {!! (Request::is('jobdescription')|| Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
@@ -256,6 +223,50 @@ z-index: 999999">
                                     &nbsp;Personnel
                             </a>
                         </li>
+                    </ul>
+                </li>
+                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-wrench"></i>
+                        <span class="link-title">&nbsp; Service</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul>
+                        <li {!! (Request::is('servicecategory')  ? 'class="active"' : '') !!} >
+                            <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Category
+                            </a>
+                        </li>
+                        <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
+                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Services
+                            </a>
+                        </li>
+                        <li {!! (Request::is('serviceprice')  ? 'class="active"' : '') !!} >
+                            <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Price
+                            </a>
+                        </li>
+                        <li {!! (Request::is('serviceproduct')  ? 'class="active"' : '') !!} >
+                            <a href="/serviceproduct" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Product
+                            </a>
+                        </li>
+                        <li {!! (Request::is('servicebay')  ? 'class="active"' : '') !!} >
+                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
+                            </a>
+                        </li>
+                        <li {!! (Request::is('transact')  ? 'class="active"' : '') !!} >
+                            <a href="/transact" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="/maintenancechecklist" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
+                            </a>
+                        </li> -->
                     </ul>
                 </li>
                 <li {!! (Request::is('package')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -314,7 +325,7 @@ z-index: 999999">
                         <span class="link-title">&nbsp; Back Job</span>
                     </a>
                 </li>
-                <li  {!! (Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                <li {!!(Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/warranty" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-tags"></i>
                         <span class="link-title">&nbsp; Warranty</span>
@@ -438,15 +449,15 @@ z-index: 999999">
 
 <!--Plugin scripts-->
 
-<script type="text/javascript" src="vendors/select2/js/select2.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/dataTables.responsive.min.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/select2/js/select2.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/dataTables.bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/dataTables.responsive.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/dataTables.buttons.min.js')}}"></script>
 <!-- <script type="text/javascript" src="vendors/datatables/js/buttons.colVis.min.js"></script> -->
-<script type="text/javascript" src="vendors/datatables/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/buttons.bootstrap.min.js"></script>
-<script type="text/javascript" src="vendors/datatables/js/buttons.print.min.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/buttons.html5.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/buttons.bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/datatables/js/buttons.print.min.js')}}"></script>
 
 <!-- <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script> -->
 
@@ -454,33 +465,38 @@ z-index: 999999">
 <!-- global scripts-->
 
 <!-- plugin level scripts -->
-<script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
-<script type="text/javascript" src="vendors/inputlimiter/js/jquery.inputlimiter.js"></script>
-<script type="text/javascript" src="vendors/chosen/js/chosen.jquery.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/jquery.uniform/js/jquery.uniform.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/inputlimiter/js/jquery.inputlimiter.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/chosen/js/chosen.jquery.js')}}"></script>
 <!-- <script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script> -->
-<script type="text/javascript" src="vendors/jquery-tagsinput/js/jquery.tagsinput.js"></script>
-<script type="text/javascript" src="vendors/validval/js/jquery.validVal.min.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/jquery-tagsinput/js/jquery.tagsinput.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/validval/js/jquery.validVal.min.js')}}"></script>
 <!-- <script type="text/javascript" src="vendors/moment/js/moment.min.js"></script> -->
 <!-- <script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script> -->
 <!-- <script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script> -->
 <!-- <script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script> -->
 <!-- <script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
 <!-- <script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script> -->
-<script type="text/javascript" src="vendors/inputmask/js/inputmask.js"></script>
-<script type="text/javascript" src="vendors/inputmask/js/jquery.inputmask.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/inputmask.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/jquery.inputmask.js')}}"></script>
 <!-- <script type="text/javascript" src="vendors/inputmask/js/inputmask.date.extensions.js"></script> -->
-<script type="text/javascript" src="vendors/inputmask/js/inputmask.extensions.js"></script>
-<script type="text/javascript" src="vendors/fileinput/js/fileinput.min.js"></script>
-<script type="text/javascript" src="vendors/fileinput/js/theme.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/inputmask.extensions.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/fileinput.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/theme.j')}}s"></script>
+
+<script type="text/javascript" src="{{URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/tipso/js/tipso.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/tooltips.js')}}"></script>
+
 
 
 <!--end of plugin scripts-->
-<script type="text/javascript" src="js/form.js"></script>
-<script type="text/javascript" src="js/pages/form_elements.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/form.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/form_elements.js')}}"></script>
 <!--end of plugin scripts-->
 
-<script type="text/javascript" src="js/pages/users.js"></script>
-<script type="text/javascript" src="js/pages/fixed_menu.js"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/users.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/fixed_menu.js')}}"></script>
 
 
 

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class AutomobileMake extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'automobile_make';
-    protected $primarykey = 'makeid';
+    protected $primaryKey = 'makeid';
     protected $fillable = [
         'makeid',
         'make',

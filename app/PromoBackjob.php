@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoBackjob extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'promo_bakcjob';
-    protected $primarykey = 'promobackjobid';
+    protected $primaryKey = 'promobackjobid';
     protected $fillable = [
         'promobackjobid',
+        'promoid',
         'datetime',
         'cost',
         'note',

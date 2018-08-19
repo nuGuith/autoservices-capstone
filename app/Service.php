@@ -15,7 +15,10 @@ class Service extends Model {
         'sizetype',
         'class',
         'estimatedtime',
-        'initialprice'  	
+        'initialprice',
+        'quantity',
+        'warrantydurationmode',
+        'warrantyduration'  	
     ];
 
     public function servicecategory()

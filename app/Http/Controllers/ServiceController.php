@@ -24,7 +24,7 @@ class ServiceController extends Controller
                     ->leftJoin('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
                     ->where('se.isActive',1)
                     ->get();
-        $categories = ServiceCategory::pluck('servicecategoryname', 'servicecategoryid');
+        $categories = ServiceCategory::where('isActive', 1)->pluck('servicecategoryname', 'servicecategoryid');
         $categories->prepend('Please choose a category',0);
         return view('service.service', ['services' => $services, 'categories' => $categories]);
     }
@@ -54,7 +54,7 @@ class ServiceController extends Controller
                 'sizetype' => 'Size Type',
                 'class' => 'Class',
                 'initialprice' => 'Initial Price',
-            ]; 
+        ]; 
             /** This is an array of custom variable names you could set so that in case there is an Exception, 
             * the variable name displayed in the view is a decent one and not a name straight from the database. */
         $customMessages = [

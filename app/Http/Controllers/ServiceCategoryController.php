@@ -137,7 +137,7 @@ class ServiceCategoryController extends Controller
                 'required',
                 'max:100', 
                 Rule::unique('service_category')->ignore($request->servicecategoryid, 'servicecategoryid'),
-                'regex:/^[^~`!@#*_={}|\;<>,.?]+$/'
+                'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'
             ],
             'description' => ['nullable','max:255']
         ], $customMessages);

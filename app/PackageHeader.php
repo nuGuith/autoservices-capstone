@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class PackageHeader extends Model
 {
-    public $timestamp = true;
+    public $timestamps = true;
     protected $table = 'package_header';
-    protected $primarykey = 'packageid';
+    protected $primaryKey = 'packageid';
     protected $fillable = [
         'packageid',
         'packagename',
         'price',
+        'warrantydurationmode',
+        'warrantyduration',
         'isActive'
     ];
 
