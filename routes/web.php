@@ -37,9 +37,9 @@ Route::get('/addpackage','AddPackageController@addpackage');
 Route::get('/editpackage','EditPackageController@editpackage');
 
 //Maintenance - Vehicle
-//Route::resource('vehicletype','VehicleTypeController');
-//Route::put('/vehicletype', 'VehicleTypeController@update');
-//Route::patch('/vehicletype', 'VehicleTypeController@delete');
+// Route::resource('vehicletype','VehicleTypeController');
+// Route::put('/vehicletype', 'VehicleTypeController@update');
+// Route::patch('/vehicletype', 'VehicleTypeController@delete');
 
 Route::resource('addvehicletype','AddVehicleTypeController');
 Route::post('/addvehicletype', 'AddVehicleTypeController@store');
@@ -65,10 +65,6 @@ Route::post('/productunittype', 'ProductUnitTypeController@store');
 Route::put('/productunittype', 'ProductUnitTypeController@update');
 Route::patch('/productunittype', 'ProductUnitTypeController@delete');
 
-Route::resource('product', 'ProductController');
-Route::post('/product', 'ProductController@store');
-Route::put('/product', 'ProductController@update');
-Route::patch('/product', 'ProductController@delete');
 
 //Maintenance - Services
 Route::resource('servicebay','ServiceBayController');
@@ -91,13 +87,10 @@ Route::patch('/service', 'ServiceController@delete');
 
 Route::resource('inspectionchecklist','InspectionChecklistController');
 Route::get('/maintenancechecklist','ServiceController@maintenancechecklist');
-Route::resource('transact','InspectionChecklistController');
+Route::resource('transact','TransactionController');
 
-// Route::get('/service', function () {
-//     return view('maintenance.service');
-// });
 
-//404 blade - modified
+//404 blade
 Route::get('/404',['as'=>'404','uses'=>'ErrorHandlerController@errorCode404']);
 Route::get('/405',['as'=>'405','uses'=>'ErrorHandlerController@errorCode405']);
 
@@ -134,4 +127,54 @@ Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDis
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
 Route::get('/updatejoborder/{id}', 'UpdateJobOrderController@index');
+
+
+//Maintenance - Vehicle Type
+Route::resource('vehicletype','VehicleTypeController');
+Route::POST('/Addvehicletype', 'VehicleTypeController@addvehicletype');
+Route::GET('/RetrieveVT', 'VehicleTypeController@RetrieveVT');
+Route::POST('/editvehicletype', 'VehicleTypeController@editvehicletype');
+Route::POST('/Deletevehicletype', 'VehicleTypeController@Deletevehicletype');
+
+//Maintenance - Product
+Route::get('/product', 'ProductController@index');
+Route::post('/addproduct', 'ProductController@create');
+Route::get('/RetrieveProduct', 'ProductController@edit');
+Route::post('/updateproduct', 'ProductController@update');
+Route::post('/deleteproduct', 'ProductController@delete');
+
+//Maintenance - Personnel
+Route::get('/jobtitle', 'JobTitleController@index');
+Route::POST('/addJD', 'JobTitleController@create');
+Route::GET('/RetrieveJD', 'JobTitleController@show');
+Route::POST('/editJD', 'JobTitleController@edit');
+Route::POST('/delJD', 'JobTitleController@delete');
+
+//Maintenance - skills
+Route::get('/skills', 'SkillsController@index');
+Route::POST('/addskills', 'SkillsController@create');
+Route::GET('/retskill', 'SkillsController@show');
+Route::POST('/editskills', 'SkillsController@edit');
+Route::POST('/delskills', 'SkillsController@delete');
+
+//Add,Edit,Delete,View InspectionChecklist
+Route::resource('transact','TransactionController');
+Route::POST('/AddIChecklist','InspectionChecklistController@add');
+Route::GET('/RetrieveChecklist','InspectionChecklistController@Retrieve');
+Route::POST('/EditIChecklist','InspectionChecklistController@editchecklist');
+Route::POST('/DeleteCheckList','InspectionChecklistController@delete');
+
+//Maintenance - Personnel
+Route::resource('/personnel','PersonnelController');
+Route::POST('/addpersonnel','PersonnelController@create');
+Route::GET('/retpersonnel','PersonnelController@show');
+Route::POST('/editpersonnel','PersonnelController@edit');
+Route::POST('/delpersonnel','PersonnelController@delete');
+
+//Maintenance - Discount
+Route::get('/discount','DiscountController@discount');
+Route::POST('/adddiscount','DiscountController@add');
+Route::GET('/RetrieveDiscount','DiscountController@ret');
+Route::POST('/editdiscount','DiscountController@edit');
+Route::POST('/deldiscount','DiscountController@delete');
 
