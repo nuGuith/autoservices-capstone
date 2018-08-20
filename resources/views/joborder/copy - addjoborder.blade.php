@@ -16,15 +16,7 @@
 
     <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/fileinput/css/fileinput.min.css')}}"/>
 
-    <!--Plugin styles-->
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrap-switch/css/bootstrap-switch.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/switchery/css/switchery.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/radio_css/css/radiobox.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/checkbox_css/css/checkbox.min.css')}}" />
-    <!--End of Plugin styles-->
-    <!--Page level styles-->
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/radio_checkbox.css')}}" />
-
+    <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/animations.css')}}"/>
 
     <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/portlet.css')}}"/>
@@ -87,8 +79,60 @@
 
                             <div class="card-block m-t-15">
                             
-                            <!-- Search by Estimate ID, Customer Name, Plate No -->
+                            <!-- Seacrh by: Inspection/Estimate, Inspection Id/Estimate Id, Customer Name, Plate No -->
                             <div class="row m-t-15">
+                                        <!--Search by Inspection/Estimate-->
+                                        <!-- <div class="col-lg-3">    
+	                                            <h5>Search by:</h5>
+	                                            <p>
+	                                                <p class="m-t-10">
+	                                                <select class="form-control hide_search" tabindex="2" id="search" href="#anchor">
+	                                                    <option disabled selected value=0>Choose Search by</option>
+	                                                    <option href="#anchor" value = 1>Inspection ID</option>
+	                                                    </option>
+	                                                    <option href="#anchor" value = 2>Estimate ID</option>
+	                                                </select>
+	                                                </p>
+	                                            </p>
+	                                        </div>
+                                        Search by Inpection ID/Estimate ID
+                                        <div class="col-lg-3">
+                                            <h5>Search <a id="by">Existing Records</a></h5>
+	                                            <p>
+	                                                <p>
+	                                                    <p id="initial" class="m-t-10 visible">
+	                                                        <select disabled class="form-control chzn-select">
+                                                                <option selected disabled> &#8592;  Select a search method first <option>
+                                                            </select>
+	                                                    </p>
+	                                                </p>
+	                                                <p id="inspectionIDs" class="m-t-10 hidden">
+	                                                     Form::select(
+	                                                        'inspections',
+	                                                        $inspectionids,
+	                                                        null,
+	                                                        array(
+	                                                        'class' => 'form-control chzn-select',
+	                                                        'id' => 'inspections',
+	                                                        'name' => 'inspectionid')
+	                                                        ) 
+	                                                    
+	                                                </p>
+	                                                <p id="estimateIDs" class="m-t-10 hidden">
+	                                                     Form::select(
+	                                                        'estimates',
+	                                                        $estimateids,
+	                                                        null,
+	                                                        array(
+	                                                        'class' => 'form-control chzn-select',
+	                                                        'id' => 'estimates',
+	                                                        'name' => 'estimateid')
+	                                                        ) 
+	                                                    
+	                                                </p>
+	                                            </p>
+                                        </div> -->
+
                                         <!--Search Existing Records using Estimate ID -->
                                         <div class="col-lg-4">
 	                                            <h5>Search Estimate ID:</h5>
@@ -297,7 +341,22 @@
 
                         <!--Select Button: Service Bay, Discount-->
                         <div class="row m-t-15">
-                            <div class="col-lg-4">
+                           <div class="col-lg-3">
+                                <h5>Service Bay: <span style="color:red">*</span></h5>
+                                <p class="m-t-10">
+                                    {{Form::select(
+	                                        'servicebays',
+	                                        $service_bays,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'servicebays',
+	                                            'name' => 'servicebayid')
+	                                        ) 
+	                                }}
+                                </p>
+                            </div>
+                            <div class="col-lg-3">
                                 <h5>Discount: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
                                     {{Form::select(
@@ -312,7 +371,7 @@
 	                                }}
                                 </p>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <h5>Search Promo: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
                                     {{Form::select(
@@ -327,7 +386,7 @@
 	                                }}
                                 </p>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <h5>Search Package: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
                                     {{Form::select(
@@ -346,22 +405,13 @@
 
                         <!--Select Button: Service, Proodcut, Promo, Package-->
                         <div class="row m-t-10">
-                            <div class="col-lg-4">
-                                <h5>Service Bay: <span style="color:red">*</span></h5>
+                            <div class="col-lg-4 ">
+                                <h5>Problem: <span style="color: red"></span></h5>
                                 <p class="m-t-10">
-                                    {{Form::select(
-	                                        'servicebays',
-	                                        $service_bays,
-	                                        null,
-	                                        array(
-	                                            'class' => 'form-control chzn-select',
-	                                            'id' => 'servicebays',
-	                                            'name' => 'servicebayid')
-	                                        ) 
-	                                }}
+                                    <input id="problem" name="problem" type="text" placeholder="Problem" class="form-control">
                                 </p>
-                            </div>   
-                            <div class="col-lg-4">
+                            </div> 
+                            <div class="col-lg-3">
                                 <h5>Search Service: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
                                     {{Form::select(
@@ -376,7 +426,7 @@
 	                                }}
                                 </p>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <h5>Search Product: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
                                     {{Form::select(
@@ -394,7 +444,9 @@
                             </div>
                             <div class="col-lg-1">
                                 <button type="button" id="addRow" class="ibtnAdd btn btn-info m-t-25" ><i class="fa fa-plus text-white"></i></button>
-                            </div>           
+                            </div>
+                            
+                                                      
                         </div>
 
 
@@ -405,7 +457,7 @@
                                         <br>
                                         <tr>
                                             <td style="width: 18%;">
-                                                <h5>Service <span style="color: red">*</span></h5>
+                                                <h5>Problem <span style="color: red">*</span></h5>
                                             </td>
                                             <td style="width: 10%;">
                                                 <h5>Quantity <span style="color: red">*</span></h5>
@@ -432,85 +484,17 @@
                                                 </h5>
                                             </td>
                                             <td style="width: 10%;">
-                                                <h5>Include<span style="color: red"></span>
+                                                <h5>Action<span style="color: red"></span>
                                                 </h5>
                                             </td>
                                         </tr>
                                     </thead>
                                     <tbody >
-                                        <!--Example for service-->
-                                            <tr>
-                                            <td style="border-right:none !important">
-                                                <span style="color:red">Service:</span><br>
-                                            </td>
-                                            <td  style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="" readonly class="form-control hidden">
-                                            </td>
-                                            <td style="border-right:none !important"></td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <select class="form-control chzn-select" multiple style="width:120px;" value="Choose Mechanic">
-                                                    <option disabled>Choose Mechanic</option>
-                                                    <optgroup label="Maintenance">
-                                                        <option>Juan Dela Cruz</option>
-                                                        <option>Pedro Dela Cruz</option>
-                                                    </optgroup>
-                                                </select>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:50px;text-align: right"  name="price" placeholder=".00" class="form-control" value="">
-                                                </td>
-                                            <td style="border-left:none !important">
-                                                <center>
-                                                <div class="checkbox radio_Checkbox_size2">
-                                                    <label>
-                                                        <input type="checkbox" value="" id="checkService">
-                                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                                                    </label>
-                                                </div>
-                                                </center>
-                                            </td>
-                                            </tr>
-                                        <!--Example for product-->
-                                            <tr>
-                                            <td style="border-right:none !important">
-                                            </td>
-                                            <td  style="border-right:none !important">
-                                                <input type="text" style="width:55px;" id="id" name="quantity" placeholder="" value=""  class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <span style="color:red">Product</span><br>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:50px; text-align:right;" id="unitprice" name="unitprice" placeholder=".00" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:50px; text-align:right;" id="price" name="price" placeholder=".00" class="form-control" value="">
-                                                </td>
-                                            <td style="border-left:none !important">
-                                                <center>
-                                                <div class="checkbox radio_Checkbox_size2">
-                                                    <label>
-                                                        <input type="checkbox" value="" id="checkProduct">
-                                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                                                    </label>
-                                                </div>
-                                                </center>
-                                            </td>
-                                            </tr>
-                                            <!--Example: for Discount-->
+                                        <!--Example: for SERVICE-->
+
+                                           <!--Example: for Discount-->
                                             <!--Hidden Field: Quantity Labor, Assign Mechanic -->
-                                            <tr id="discount">
+                                           <tr id="discount">
                                             <td style="border-right:none !important"></td>
                                             <td style="border-right:none !important">
                                                 <input type="hidden" style="width:55px;" name="quantity" placeholder="Quantity" class="form-control">
@@ -530,7 +514,7 @@
                                                 <input type="text" style="width:50px; text-align: right" name="unitprice" readonly placeholder="0%" class="form-control">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:50px; text-align: right;color:red" name="price" readonly placeholder=".00" class="form-control">
+                                                <input type="text" style="width:50px; text-align: left;color:red" name="price" readonly placeholder=".00" class="form-control">
                                             </td>
                                             <!--Delete Row Inside Job Order Table -->
                                             <td style="border-left:none !important">
@@ -563,7 +547,7 @@
                             <!-- Assigning of SA, QA, IM, Mechanic -->
                             <div class="row m-t-15">
                                 <div class="col-lg-3">
-	                                <h5>Mechanic:</h5>
+	                                <h5>Service Advisor:</h5>
 	                                    <p>
 	                                        <p class="m-t-10">
                                                 <select class="form-control chzn-select" multiple style="width:120px;" value="Choose Service Advisor">
@@ -577,7 +561,7 @@
 	                                    </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Service Advisor:</h5>
+	                                <h5>Mechanic:</h5>
 	                                    <p>
 	                                        <p class="m-t-10">
                                                 <select class="form-control chzn-select" multiple style="width:120px;" value="Choose Mechanic">
@@ -750,16 +734,12 @@
 <script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
-<script type="text/javascript" src="{{URL::asset('vendors/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
-<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
 <!-- end of plugin scripts -->
 
-<!--Page level scripts-->
-<script type="text/javascript" src="{{URL::asset('js/pages/radio_checkbox.js')}}"></script>
 <!-- global scripts animation-->
 <script type="text/javascript" src="{{URL::asset('vendors/snabbt/js/snabbt.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/wow/js/wow.min.js')}}"></script>
-<!--End of plugin scripts-->
+<!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
@@ -786,6 +766,7 @@ $(document).on('submit', 'form.jobForm', function(e) {
 <script> 
 $(document).ready(function () {
     $("#estimates option[value='0']").prop("disabled",true);
+    $("#inspections option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
     $("#automobiles option[value='0']").prop("disabled",true);
     $("#automobile_models option[value='0']").prop("disabled",true);
@@ -796,21 +777,6 @@ $(document).ready(function () {
     $("#promos option[value='0']").prop("disabled",true);
     $("#packages option[value='0']").prop("disabled",true);
     $("#addRow").prop("disabled",true);
-
-    //// Check all Checkboxes ////
-    $('input:checkbox').prop('checked', true);
-
-    $("#checkService").change( function() {
-        if (this.checked) {
-            $("#checkProduct").each(function() {
-                this.checked=true;
-            });
-        } else {
-            $("#checkProduct").each(function() {
-                this.checked=false;
-            });
-        }
-    });
 
     var estimateID, inspectID, packageID, promoID;
     var nah;
@@ -855,21 +821,13 @@ $(document).ready(function () {
         }
         
         $(this).closest("tr").remove();
-        if($(this).closest("tr#promo")){
-            $("#promos").val(null).trigger("chosen:updated");
-        }
-        
-        if($(this).closest("tr#package")){
-            $("#packages").val(null).trigger("chosen:updated");
-        }
-
-        if($(this).closest("tr#id")){
-            $(this).closest("tr#id", function (){
-                var id = $(this).find("input#id").val();
-                $("#services option[value='"+ id +"']").prop("disabled", false);
-                $("#services").trigger("chosen:updated");
-            });
-        }
+            if($(this).closest("tr#id")){
+                $(this).closest("tr#id", function (){
+                    var id = $(this).find("input#id").val();
+                    $("#services option[value='"+ id +"']").prop("disabled", false);
+                    $("#services").trigger("chosen:updated");
+                });
+            }
             
     });
 
@@ -886,6 +844,7 @@ $(document).ready(function () {
         compute();
         var counter = 0;
         var cols = "";
+        var problem = $("#problem").val();
 
         $.ajax({
             type: "GET",
@@ -893,9 +852,9 @@ $(document).ready(function () {
             dataType: "JSON",
             success:function(data){
                 var newServiceRow = $("<tr id='id'>");
-                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
+                cols += '<td style="border-right:none !important">'+ problem +'</td>';
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="'+ selectedService +'" readonly class="form-control hidden"></td>';
-                cols += '<td style="border-right:none !important"></td>';
+                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
                 var pr = data.service.price;
                 cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><select id="mechanic" class="form-control chzn-select"></select></td>';
@@ -931,7 +890,7 @@ $(document).ready(function () {
                     var pr = data.product.price;
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                    cols += '<td style="border-left:none !important"><div class="checkbox radio_Checkbox_size2"><label><input type="checkbox"><span class="cr"></span></label></div></td>';
+                    cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#discount");
                     if (ctr != 1){
@@ -1005,6 +964,7 @@ $(document).ready(function () {
 
         function reset(){
             $('#estimates').val(0).trigger('chosen:updated');
+            $('#inspects').val(0).trigger('chosen:updated');
             $('#customers').val(0).trigger('chosen:updated');
             $('#automobiles').val(0).trigger('chosen:updated');
             $('#fname').val(null);
@@ -1029,17 +989,94 @@ $(document).ready(function () {
         }
     });
 
+    /* SELECT RECORD via INSPECTION ID SEARCH */
+    $("#inspections").change(function () {
+        var selectedID = $(this).val();
+        inspectID = selectedID;
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/showInspection",
+            dataType: "JSON",
+            success:function(data){
+                $('#customers').val(data.inspection.CustomerID).trigger('chosen:updated');
+                $('#automobiles').val(data.inspection.AutomobileID).trigger('chosen:updated');
+                $('#fname').val($.trim(data.customer.FirstName));
+                $('#mname').val($.trim(data.customer.MiddleName));
+                $('#lname').val($.trim(data.customer.LastName));
+                $('#phones').val(data.customer.ContactNo);
+                $('#email').val(data.customer.EmailAddress);
+                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#address').val(data.customer.CompleteAddress);
+                $('#plateno').val(data.automobile.PlateNo);
+                $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                $('#chassisno').val(data.automobile.ChassisNo);
+                $('#mileage').val(data.automobile.Mileage);
+            }
+        });
+    });
+
     /* SELECT RECORD via ESTIMATE ID SEARCH */
     $("#estimates").change(function () {
         var selectedID = $(this).val();
         estimateID = selectedID;
+        var PWDSCNO = null;
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/showEstimate",
+            dataType: "JSON",
+            success:function(data){
+                $('#customers').val(data.estimate.CustomerID).trigger('chosen:updated');
+                $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
+                $('#fname').val($.trim(data.customer.FirstName));
+                $('#mname').val($.trim(data.customer.MiddleName));
+                $('#lname').val($.trim(data.customer.LastName));
+                $('#phones').val(data.customer.ContactNo);
+                $('#email').val(data.customer.EmailAddress);
+                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#address').val(data.customer.CompleteAddress);
+                $('#plateno').val(data.automobile.PlateNo);
+                $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                $('#chassisno').val(data.automobile.ChassisNo);
+                $('#mileage').val(data.automobile.Mileage);
+                $('#color').val(data.automobile.Color);
+                PWDSCNO = data.customer.PWD_SC_No;
+            }
+        });
+        if (PWDSCNO != null)
+            autoDiscount();
+
+    });
+
+    /* SELECT RECORD via CUSTOMER NAME SEARCH */
+    $("#customers").change(function () {
+        var selectedID = $(this).val();
+        var PWDSCNO;
+        //Filter by Customer
+        /* $('#automobiles').empty().append('<option value=0 >These are your registered automobiles</option>');
+        $('#automobiles').trigger("chosen:updated");
+        var select = $('#automobiles');
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/filterByCustomer",
+            dataType: "JSON",
+            success:function(data){
+                var options = '';
+                var count = Object.keys(data.products).length;
+                for (var i = 0; i < count; i++) {
+                    options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+                }
+                $("#products").append(options);
+                $("#products option[value='0']").prop("disabled",true, "selected",false);
+                $('#products').trigger("chosen:updated");
+            }
+        }); */
 
         $.ajax({
             type: "GET",
             url: "/addjoborder/"+selectedID+"/showEstimate",
             dataType: "JSON",
             success:function(data){
-                $('#customers').val(data.automobile.CustomerID).trigger('chosen:updated');
+                $('#customers').val(data.estimate.CustomerID).trigger('chosen:updated');
                 $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
                 $('#fname').val($.trim(data.customer.FirstName));
                 $('#mname').val($.trim(data.customer.MiddleName));
@@ -1049,52 +1086,28 @@ $(document).ready(function () {
                 $('#pwd_sc_No').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
-                $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
+                PWDSCNO = data.customer.PWD_SC_No;
+                alert(PWDSCNO);
             }
         });
-    });
-
-    /* SELECT RECORD via CUSTOMER NAME SEARCH */
-    $("#customers").change(function () {
-        var selectedID = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/addjoborder/"+selectedID+"/searchByCustomerName",
-            dataType: "JSON",
-            success:function(data){
-                $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
-                $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
-                $('#fname').val($.trim(data.customer.FirstName));
-                $('#mname').val($.trim(data.customer.MiddleName));
-                $('#lname').val($.trim(data.customer.LastName));
-                $('#phones').val(data.customer.ContactNo);
-                $('#email').val(data.customer.EmailAddress);
-                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
-                $('#address').val(data.customer.CompleteAddress);
-                $('#plateno').val(data.automobile.PlateNo);
-                $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
-                $('#chassisno').val(data.automobile.ChassisNo);
-                $('#mileage').val(data.automobile.Mileage);
-                $('#color').val(data.automobile.Color);
-            }
-        });
+        if (PWDSCNO != null)
+            autoDiscount();
+        
     });
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
     $("#automobiles").change(function () {
         var selectedID = $(this).val();
-
+        var PWDSCNO;
         $.ajax({
             type: "GET",
-            url: "/addjoborder/"+selectedID+"/searchByPlateNo",
+            url: "/addjoborder/"+selectedID+"/showEstimate",
             dataType: "JSON",
             success:function(data){
-                $('#customers').val(data.automobile.CustomerID).trigger('chosen:updated');
-                $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
+                $('#customers').val(data.estimate.CustomerID).trigger('chosen:updated');
                 $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
                 $('#fname').val($.trim(data.customer.FirstName));
                 $('#mname').val($.trim(data.customer.MiddleName));
@@ -1110,8 +1123,11 @@ $(document).ready(function () {
                 $('#color').val(data.automobile.Color);
                 $('#AT').prop("checked", true);
                 $('#MT').prop("checked", true);
+                PWDSCNO = data.customer.PWD_SC_No;
             }
         });
+        if (PWDSCNO != null)
+            autoDiscount();
     });
 
     /* CHOOSE SERVICE TO FILTER THE PRODUCTS */

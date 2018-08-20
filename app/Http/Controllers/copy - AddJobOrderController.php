@@ -211,6 +211,14 @@ class AddJobOrderController extends Controller
         //
     }
 
+    public function showInspection($id)
+    {
+        $inspection = InspectionHeader::findOrFail($id);
+        $automobile = Automobile::findOrFail($inspection->AutomobileID);
+        $customer = Customer::findOrFail($automobile->CustomerID);
+        return response()->json(compact('inspection', 'customer', 'automobile'));
+    }
+
     public function showEstimate($id)
     {
         $estimate = Estimate::findOrFail($id);
@@ -221,18 +229,12 @@ class AddJobOrderController extends Controller
 
     public function searchByCustomerName($id)
     {
-        $automobile = Automobile::where('customerid', '=', $id)->first();
-        $estimate = Estimate::where('AutomobileID', '=', $automobile->AutomobileID)->first();
-        $customer = Customer::findOrFail($id);
-        return response()->json(compact('estimate', 'customer', 'automobile'));
-    }
-    
-    public function searchByPlateNo($id)
-    {
-        $automobile = Automobile::findOrFail($id);
-        $estimate = Estimate::where('AutomobileID', $id)->first();
-        $customer = Customer::findOrFail($automobile->CustomerID);
-        return response()->json(compact('estimate', 'customer', 'automobile'));
+        /* $products = DB::table('product AS pr')
+                    ->join('product_service AS ps', 'pr.productid', 'ps.productid')
+                    ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
+                    ->select('pr.productname','pr.productid')
+                    ->get();
+        return response()->json(compact('products')); */
     }
 
     public function getFilteredProductList($id)

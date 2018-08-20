@@ -11,7 +11,6 @@ class Estimate extends Model
     protected $table = 'estimate';
     protected $fillable = [
         'EstimateID',
-        'CustomerID',
         'AutomobileID',
         'InspectionID',
         'DiscountID',

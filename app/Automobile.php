@@ -10,6 +10,7 @@ class Automobile extends Model
     protected $table = 'automobile';
     protected $primaryKey = 'automobileid';
     protected $fillable = [
+        'AutomobileID',
         'customerid',
         'plateno',
         'modelid',

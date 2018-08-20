@@ -34,11 +34,12 @@ class ViewJobOrderController extends Controller
                     ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
                     ->first();
         $customer = DB::table('customer')
-                    ->where('customerid', $automobile->CustomerID)
+                    ->where('customerid', $model->CustomerID)
                     ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
                     ->first();
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
-        //dd($automobile);
+        
+        //dd($automobile, $customer);
         return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay'));
     }
 
