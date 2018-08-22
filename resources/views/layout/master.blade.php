@@ -102,7 +102,7 @@ z-index: 999999">
                             </button>
 
                             <div class="dropdown-menu admire_admin">
-                                <a class="dropdown-item title" href="#">
+                                <a class="dropdown-item title" href="">
                                     Admin</a>
                                 <a class="dropdown-item" href="{{URL::asset('edit_user.html')}}"><i class="fa fa-cogs"></i>
                                     Account Settings</a>

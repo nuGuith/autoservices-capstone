@@ -2,7 +2,6 @@
 @section('Title','Edit Estimate') <!-- Page Title -->
 @section('content')
     
-
     <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/sweetalert/css/sweetalert2.min.css')}}"/>
     <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/sweet_alert.css')}}"/>
 
@@ -10,16 +9,11 @@
     <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/hover/css/hover-min.css')}}"/>
     <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/wow/css/animate.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/modal/css/component.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/modal/css/component.css')}}"/>
     <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{URL::asset('vendors/animate/css/animate.min.css')}}" />
 
     <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/fileinput/css/fileinput.min.css')}}"/>
-    
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrap-switch/css/bootstrap-switch.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/switchery/css/switchery.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/radio_css/css/radiobox.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/checkbox_css/css/checkbox.min.css')}}" />
 
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/animations.css')}}"/>
@@ -123,7 +117,7 @@
                                     <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                                                <input id="phones" name="contact" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask>
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -248,74 +242,65 @@
                         <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
 
                         
-                        <!--Start Add Estimate  -->
+                        <!--Start Add Service and Product  -->
                             <div class ="row">
 
                                 <table id="myTable" class=" table order-list responsive" style="border-color: white" rules="rows" >
                                     <thead>
                                         <br>
                                         <tr>
-                                            <!-- <td><h5>Problem</h5></td> -->
-                                            <td><h5>Problem<span style="color:red"></span></h5></td>
                                             <td><h5>Service <span style="color:red">*</span></h5></td>
-                                            <td style="width: 10px;"><h5>Labor <span style="color:red"></span></h5></td>
-                                            <td><h5>Product <span style="color:red">*</span></h5></td>
-                                            <td style="width: 10px;"><h5>Quantity <span style="color:red">*</span></h5></td>
-                                            <td style="width: 10px;"><h5>Price</h5></td>
-                                            <td style="width: 10px;"><h5>Action</h5></td>                    
+                                            <td style="width: 20px;"><h5>Labor <span style="color:red"></span></h5></td>
+                                            <td><h5>Product <span style="color:red">*</span></h5></td>            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <textarea id="text4"  type="text" name="problem" class="form-control" cols="5" rows="1" placeholder="Problem"></textarea>                                               
-                                            </td>
-                                            <td>                                            
-                                                <select class="form-control chzn-select" id="service" name="service"  tabindex="2">
-                                                    <option disabled selected>Choose Service</option>
-                                                    <option value="Change Oil">Change Oil</option>
-                                                </select>   
-                                            </td>
-                                            <td>
-                                                <input type="text" style="width:90px;" name="labor" placeholder="Labor" class="form-control" readonly>
-                                            </td>
-                                            <td>
-                                                <select class="form-control chzn-select" id="product" name="product"  tabindex="2">
-                                                    <option disabled selected>Choose Product</option>
-                                                    <option value="Change Oil">Dunlop 1.5mL</option>
-                                                </select>
+                                                <p class="col-lg-15">
+                                                {{ Form::select(
+                                                    'services',
+                                                    $services,
+                                                    null,
+                                                    array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'services',
+                                                        'name' => 'serviceid')
+                                                    ) 
+                                                }}
                                             </td>
                                             <td>
-                                                <input type="text" style="width:90px;" name="quantity" placeholder="" class="form-control">
+                                                <input type="text" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control" readonly>
                                             </td>
                                             <td>
-                                                <input type="text" style="width:90px;" name="price" placeholder="Price" class="form-control" value="" readonly>
+                                                <p class="col-lg-15">
+                                                {{ Form::select(
+                                                    'products',
+                                                    $products,
+                                                    null,
+                                                    array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'products',
+                                                        'name' => 'productid',
+                                                        'multiple')
+                                                    ) 
+                                                }}
                                             </td>
                                             <td>
-                                                <button type="button" id="addrowproduct" class="ibtnAdd btn btn-info hvr-float-shadow" ><i class="fa fa-plus text-white"></i></button>
-                                            </td> 
-                                            </tr>
-                                        </tbody>
-                                    <tfoot>
-                                        <tr role= "row">
-                                        <td colspan="7" style="text-align: right;">
-                                        <div class="examples transitions m-t-5">
-                                                <button type="button" id="addrow" value="Add Row" class="btn btn-success hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp;Add Items</button>
-                                             </div>
-                                        </td>
+                                                <button type="button" name="addRow" id="addrow" value="Add Row" class="btn btn-success hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp;Add Items</button>
+                                            </td>
                                         </tr>
-                                     </tfoot>
-                                    </table>
+                                    </tbody>
+                                </table>
 
                             </div>
 
 
 
                             <!--Start of estimate table-->
-                        <table class="table list table-bordered display table-hover dataTable">
+                        <table id="itemsTable" class="table list table-bordered display table-hover dataTable">
                                 <thead>
                                     <tr class="trrow">
-                                        <th style="width: 15% !important">Problem</th>
                                         <th style="width: 20% !important">Service</th>
                                         <th style="width: 23% !important">Product</th>
                                         <th>Labor</th>
@@ -325,143 +310,30 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                    <tbody>
-                                        <tr role="row" class="odd">
-                                            <!--Column: Problem -->
-                                            <td style="width: 15% !important">Engine become to hot<b>
-                                            </td>
-                                            <!--Column: Service -->
-                                            <td style="width: 20% !important">
-                                                <span class="badge badge-pill badge-primary float-right calendar_badge" data-toggle="modal" data-href="#responsive" href="#viewModal">?</span>
-                                                <b>Change Oil<b>    
-                                            </td>
-                                            <!--Column: Product-->
-                                            <td style="width: 23% !important">
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px;">Dunlop 1.5mL</li>
-                                                  <li style="padding-bottom: 7px;">Shell Helix Ulta 2.5m</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Labor-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 1.2em;">
-                                                  <li style="text-align: right">350</li>
-                                                  <li>&nbsp;</li>
-                                                  <li>&nbsp;</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Unit Price-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">700</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">650</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Quantity -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">3</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Total Price -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px; text-align: center">350</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2100</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">1300</li>
-                                                <ul>            
-                                            </td>
-                                            <td>
-                                                <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button>    
-                                            </td>
-                                        </tr>
-
-                                    <!-- TO SHOW HOW IT LOOKS LIKE: another row -->
-                                        <tr class="even">
-                                            <!--Column: Problem -->
-                                            <td style="width: 15% !important">Engine become to hot Engine become to hot Engine become to hot Engine become
-                                            </td>
-                                            <!--Column: Service -->
-                                            <td style="width: 20% !important">
-                                                <span class="badge badge-pill badge-primary float-right calendar_badge" data-toggle="modal" data-href="#responsive" href="#viewModal">?</span>
-                                                <b>Balance Wheel <b>
-                                            
-                                            </td>
-                                            <!--Column: Product-->
-                                            <td style="width: 23% !important">
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px;">Dunlop 1.5mL</li>
-                                                  <li style="padding-bottom: 7px;">Shell Helix Ulta 2.5m</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Labor-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 1.2em;">
-                                                  <li style="text-align: right">350</li>
-                                                  <li>&nbsp;</li>
-                                                  <li>&nbsp;</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Unit Price-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">700</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">650</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Quantity -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">3</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Total Price -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px; text-align: center">350</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2100</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">1300</li>
-                                                <ul>            
-                                            </td>
-                                            <td>
-                                               <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button> 
-                                            </td>
-                                        </tr>
-                                    <!--END: TO SHOW HOW IT LOOKS LIKE -->
-                                    </tbody>
-
+                                    
                                      <!--Footer: Total Price-->
                                     <tfoot>
                                         <tr class="trrow">
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
-                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center; color: blue">3 days</span>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center; color: blue"></span>
                                             </th>
-                                            
-                                            <th colspan="4" style="text-align: right;">Grand Total Price (Php): </th>
-                                            <th style="text-align: center; color: red">7500</th>
+                                            <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
+                                            <th style="text-align: center; color: red"></th>
                                             <th></th>
                                         </tr>
                                     </tfoot>
-                                </table>
+                                </table><br>
 
 
-                            <!--Textfield: Remarks -->
+                            <!--Textfield: Problem -->
                                 <div class="row m-t-5">
                                     <div class="col-lg-12">
-                                            <h5 style = "padding-bottom: 10px;">Remarks: <span style="color: red"></span></h5>
+                                            <h5 style = "padding-bottom: 10px;">Problems: <span style="color: red"></span></h5>
                                                 <textarea id="remark3" class="form-control" cols="30" rows="2"></textarea>
                                         </div>                               
                                 </div>
                        
-                    <!--END OF INSPECTION DETAILS -->
+                    <!--END OF ESTIMATE DETAILS -->
                     </div>
 
 

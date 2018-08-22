@@ -23,8 +23,6 @@ use App\ProcessService;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class AddEstimatesController extends Controller
 {
@@ -98,22 +96,78 @@ class AddEstimatesController extends Controller
      */
     public function store(Request $request)
     {
+        $cust_id = 0;
+        $auto_id = 0;
         try{
             DB::beginTransaction();
+            if ($request->has('customerid')){
+                $cust_id->CustomerID = ($request->customerid);
+                Customer::where(['isActive' => 1, 'customerid' => $cust_id->CustomerID])
+                        ->update([
+                            'firstname' => $firstname,
+                            'middlename' => $middlename, 
+                            'lastname' => $request->lname, 
+                            'ContactNo' => $request->contact, 
+                            'emailaddress' => $request->email, 
+                            'pwd_sc_no' => $request->pwd_sc_no, 
+                            'completeaddress' => $request->address
+                        ]);
+            }
+            else {
+                $firstname = ($request->fname). ' ';
+                $middlename = ($request->mname). ' ';
+                Customer::create([
+                    'firstname' => ($firstname),
+                    'middlename' => ($middlename),
+                    'lastname' => ($request->lname),
+                    'ContactNo' => ($request->contact),
+                    'emailaddress' => ($request->email),
+                    'pwd_sc_no' => ($request->pwd_sc_no),
+                    'completeaddress' => ($request->address)
+                ]);
+                $cust_id = Customer::orderBy('CustomerID', 'desc')->first();
+            }
+
+            if ($request->has('automobileid')){
+                $auto_id->AutomobileID = ($request->automobileid);
+                Automobile::where(['isActive' => 1, 'automobileid' => $auto_id->AutomobileID])
+                ->update([
+                    'plateno' => ($request->plateno),
+                    'customerid' => ($cust_id),
+                    'modelid' => ($request->modelid),
+                    'chassisno' => ($request->chassisno),
+                    'mileage' => ($request->mileage),
+                    'color' => ($request->color)
+                ]);
+            }
+            else {
+                Automobile::create([
+                    'plateno' => ($request->plateno),
+                    'customerid' => ($cust_id),
+                    'modelid' => ($request->modelid),
+                    'chassisno' => ($request->chassisno),
+                    'mileage' => ($request->mileage),
+                    'color' => ($request->color)
+                ]);
+                $auto_id = Automobile::orderBy('automobileid', 'desc')->first();
+            }
             Estimate::create([
-                'customerid' => ($request->customerid),
-                'automobileid' => ($request->automobileid),
-                'servicebayid' => ($request->servicebayid),
-                'discountid' => ($request->discountid),
-                'personnelid' => ($request->personnelid)
+                'CustomerID' => ($cust_id->CustomerID),
+                'AutomobileID' => ($auto_id->AutomobileID),
+                'EstimateID' => ($request->estimateid),
+                'ServiceBayID' => ($request->servicebayid),
+                'PersonnelID' => ($request->personnelid),
+                'DiscountID' => ($request->discountid),
+                'updated_at' => (date('Y-m-d H:i:s'))
             ]);
+
             DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
-            $errors = $e->getMessage();
-            return redirect('\addestimates')
-                ->withErrors($errors, 'estimate');
+            $err = $e->getMessage();
+            return response()->json($err);
         }
+        return redirect('/estimates');
     }
 
     /**
@@ -129,18 +183,25 @@ class AddEstimatesController extends Controller
 
     public function showCustomer($id)
     {
-        $estimate = Estimate::findOrFail($id);
-        $automobile = Automobile::findOrFail($estimate->AutomobileID);
-        $customer = Customer::findOrFail($estimate->CustomerID);
-        return response()->json(compact('estimate', 'automobile', 'customer'));
+        $customer = Customer::findOrFail($id);
+        $automobile = Automobile::where('customerid', $customer->CustomerID)->first();
+        return response()->json(compact('automobile', 'customer'));
+    }
+
+    public function filterPlateNo($id)
+    {
+        $plates = DB::table('automobile AS auto')
+                ->where(['auto.customerid' => $id, 'auto.isActive' => 1])
+                ->select('auto.plateno','auto.automobileid')
+                ->get();
+        return response()->json(compact('plates'));
     }
 
     public function showAutomobile($id)
     {
-        $estimate = Estimate::findOrFail($id);
-        $automobile = Automobile::findOrFail($estimate->AutomobileID);
-        $customer = Customer::findOrFail($estimate->CustomerID);
-        return response()->json(compact('estimate', 'customer', 'automobile'));
+        $automobile = Automobile::findOrFail($id);
+        $customer = Customer::findOrFail($automobile->CustomerID);
+        return response()->json(compact('customer', 'automobile'));
     }
 
     public function getServicePrice($id)
@@ -163,6 +224,36 @@ class AddEstimatesController extends Controller
             ->get();
         return response()->json(compact('products'));
     }
+
+    public function getProductDetails($id)
+    {
+        $product = DB::table('product')
+                    ->where(['productid' => $id, 'isActive' => 1])
+                    ->select('productname','price')
+                    ->first();
+        return response()->json(compact('product'));
+    }
+
+    public function getDiscountDetails($id)
+    {
+        $discount = DB::table('discount')
+                    ->where(['discountid' => $id, 'isActive' => 1])
+                    ->select('discountname','discountrate')
+                    ->first();
+        return response()->json(compact('discount'));
+    }
+
+    public function getServiceDetails($id)
+    {
+        $service = DB::table('service_price AS sp')
+                    ->join('automobile_model as am', 'sp.modelid', '=', 'am.modelid')
+                    ->join('service as se', 'sp.serviceid', '=', 'se.serviceid')
+                    ->where(['sp.serviceid' => $id,'sp.modelid' => 1, 'sp.isActive' => 1])
+                    ->select('se.servicename','sp.price')
+                    ->first();
+        return response()->json(compact('service'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

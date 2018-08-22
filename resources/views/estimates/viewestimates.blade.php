@@ -1,23 +1,23 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','View Estimates') <!-- Page Title -->
 @section('content')
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/sweetalert/css/sweetalert2.min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/sweet_alert.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/sweetalert/css/sweetalert2.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('css/pages/sweet_alert.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/animate/css/animate.min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/hover/css/hover-min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/wow/css/animate.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/animate/css/animate.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/hover/css/hover-min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/wow/css/animate.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css')}}">
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/tipso/css/tipso.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/tipso/css/tipso.min.css') }}">
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/animations.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/portlet.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('css/pages/animations.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('css/pages/portlet.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/animate/css/animate.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/animate/css/animate.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css') }}" />
     <!--End of plugin styles-->
 
         <!-- CONTENT -->
@@ -69,7 +69,7 @@
                                             <h5><span style="color:gray">Customer Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->FullName }}</h5>                    
                                     </div>  
                                     <div class="col-lg-12 m-t-10">
-                                            <h5><span style="color:gray">Contact No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ @customer->ContactNo }}</h5>               
+                                            <h5><span style="color:gray">Contact No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->ContactNo }}</h5>               
                                     </div>
                                     <div class="col-lg-12 m-t-10">
                                             <h5><span style="color:gray">Email Address:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->EmailAddress }}</h5>
@@ -121,7 +121,8 @@
                                     <h5><span style="color:gray">Assign Mechanic:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $personnel->FullName }}</h5>
                             </div>                         
                             <div class="col-lg-6 m-t-0">
-                                    <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $servicebay->ServiceBay }}</h5>
+                                    <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{ $servicebay->ServiceBayName }}</h5>
                             </div>                          
                         </div>
 
@@ -332,30 +333,29 @@
                 <!-- /.outer -->
         <!--END CONTENT -->
 
-
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="{{asset('js/components.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
-<script type="text/javascript" src="{{asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/pages/sweet_alerts.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
 <script type="text/javascript" src="{{URL::asset('vendors/snabbt/js/snabbt.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/wow/js/wow.min.js')}}"></script>
 <!-- end of plugin scripts -->
+
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="{{URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
-<script type="text/javascript" src="{{URL::asset('vendors/tipso/js/tipso.min.js')}}"></script>
-<script type="text/javascript" src="{{URL::asset('js/pages/tooltips.js')}}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('vendors/tipso/js/tipso.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/tooltips.js') }}"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="{{URL::asset('js/pages/modals.js')}}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
-
 
 @stop

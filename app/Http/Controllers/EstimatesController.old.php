@@ -19,8 +19,6 @@ use App\Product;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class EstimatesController extends Controller
 {
@@ -30,28 +28,24 @@ class EstimatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $automobilemakes = DB::table('automobile_make as ma')
-            ->join('automobile_model as am', 'ma.makeid', '=', 'am.makeid')
-            ->where('ma.isActive', 1)
-            ->select('ma.MakeID', 'ma.Make', 'am.Model')
+    {        
+        $estimates = Estimate::orderBy('estimateid', 'desc')
+            ->where('isActive', 1)
             ->get();
         
-        $automobiles = DB::table('automobile as a')
-            ->join('automobile_model as am', 'a.modelid', '=', 'am.modelid')
-            ->select('am.Model', 'a.*')
-            ->where('a.isActive', 1)
+        $automobile_models = DB::table('automobile_model')
+            ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+            ->where('automobile_model.isActive',1)
+            ->select(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS AutomobileModel"), 'ModelID')
             ->get();
 
-        $estimates = DB::table('estimate as e')
-            ->join('customer as c', 'e.customerid', '=', 'c.customerid')
-            ->join('automobile as a', 'e.plateno', '=', 'a.plateno')
-            //->leftjoin('automobile_make as ma', 'a.makeid', '=', 'ma.makeid')
-            //->leftjoin('automobile_model as mo', 'ma.modelid', '=', 'mo.modelid')
-            ->where('e.isActive', 1)
+        $automobiles = Automobile::where('isActive', 1)->get();
+
+        $customers = Customer::where('isActive', 1)
+            ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
             ->get();
-        //dd(compact('automobilemakes', 'automobiles', 'estimates'));
-        return view ('estimates.estimates', compact('automobilemakes', 'automobiles', 'estimates'));
+
+       return view ('estimates.estimates', compact('estimates', 'automobiles', 'automobile_models', 'customers'));
     }
 
     /**
@@ -61,7 +55,7 @@ class EstimatesController extends Controller
      */
     public function create()
     {
-        return view ('estimates.addestimates');
+        //
     }
 
     /**
@@ -81,9 +75,9 @@ class EstimatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($estimateid)
     {
-        return view ('estimates.viewestimates');
+        //
     }
 
     /**
@@ -94,7 +88,7 @@ class EstimatesController extends Controller
      */
     public function edit($id)
     {
-        return view ('estimates.editestimates');
+        //
     }
 
     /**
@@ -117,6 +111,6 @@ class EstimatesController extends Controller
      */
     public function delete(Request $request)
     {
-       
+        //
     }
 }

@@ -21,8 +21,6 @@ Route::get('/','DashboardIndexController@index');
 Route::get('/personnel','PersonnelController@personnel');
 
 Route::get('/customer','CustomerController@customer');
-Route::resource('/estimates', 'EstimatesController');
-/* Route::get('/estimates', 'EstimatesController@estimates'); */
 Route::get('/warranty', 'WarrantyController@warranty');
 Route::get('/jobdescription', 'JobDescriptionController@jobdescription');
 Route::get('/viewcustomer', 'ViewCustomerController@viewcustomer');
@@ -109,6 +107,10 @@ Route::get('/addestimates/{automobile}/showAutomobile', 'AddEstimatesController@
 Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@showCustomer');
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
 Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
+Route::get('/addestimates/{id}/filterPlateNo', 'AddEstimatesController@filterPlateNo');
+Route::get('/addestimates/{id}/getServiceDetails', 'AddEstimatesController@getServiceDetails');
+Route::get('/addestimates/{id}/getProductDetails', 'AddEstimatesController@getProductDetails');
+Route::get('/addestimates/{id}/getDiscountDetails', 'AddEstimatesController@getDiscountDetails');
 
 Route::get('/editestimates/{id}','EditEstimatesController@index');
 Route::get('/viewestimates/{id}','ViewEstimatesController@index');

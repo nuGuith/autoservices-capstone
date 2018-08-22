@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Add Estimate') <!-- Page Title -->
 @section('content')
     
@@ -10,47 +10,46 @@
     <link type="text/css" rel="stylesheet" href="vendors/hover/css/hover-min.css"/>
     <link type="text/css" rel="stylesheet" href="vendors/wow/css/animate.css"/>
 
-    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/modal/css/component.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/modal/css/component.css') }}"/>
     <link type="text/css" rel="stylesheet" href="vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css"/>
     <link rel="stylesheet" type="text/css" href="vendors/animate/css/animate.min.css" />
 
     <link type="text/css" rel="stylesheet" href="vendors/fileinput/css/fileinput.min.css"/>
-    
-        <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/switchery/css/switchery.min.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/radio_css/css/radiobox.min.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/checkbox_css/css/checkbox.min.css" />
+    <!--Plugin styles-->
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrap-switch/css/bootstrap-switch.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/switchery/css/switchery.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/radio_css/css/radiobox.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/checkbox_css/css/checkbox.min.css')}}" />
+    <!--End of Plugin styles-->
+    <!--Page level styles-->
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/radio_checkbox.css')}}" />
 
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
-
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
 
         <!-- CONTENT -->
         <div id="content" class="bg-container">
-
             <header class="head">
                 <div class="main-bar">
                     <div class="row" style = "height: 47px;">
-                    <div class="col-6">
-                        <h4 class="m-t-15">
-                            <i class="fa fa-plus"></i>&nbsp;
-                            Add Estimate
-                        </h4>
-                    </div>
-
-                    <div class="col-sm-6 col-12"  >
-                        <ol  class="breadcrumb float-right   ">
-                            <li class="breadcrumb-item " >
-                                <a href="/estimates">
-                                    <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
-                                    &nbsp;Estimates
-                                </a>
-                            </li>
-                            <li class="active breadcrumb-item">&nbsp;Add Estimate</li>
-                        </ol>
-                    </div>
-
+                        <div class="col-6">
+                            <h4 class="m-t-15">
+                                <i class="fa fa-plus"></i>&nbsp;
+                                Add Estimate
+                            </h4>
+                        </div>
+                        <div class="col-sm-6 col-12"  >
+                            <ol  class="breadcrumb float-right   ">
+                                <li class="breadcrumb-item " >
+                                    <a href="/estimates">
+                                        <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
+                                        &nbsp;Estimates
+                                    </a>
+                                </li>
+                                <li class="active breadcrumb-item">&nbsp;Add Estimate</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -61,56 +60,50 @@
                         <div class="col-lg-12">
                             {!! Form::open(array('id' => 'estimateForm', 'url' => '/addestimates', 'action' => 'AddEstimatesController@store', 'method' => 'POST')) !!}
                             <div class="card" >
-
-                            <div class="card-block m-t-15">
+                                <div class="card-block m-t-15">
+                                    <div class="row m-t-15">    
+                                        <div class="col-lg-6">
+                                            <h5>Search Customer Name:</h5>
+                                            <p>
+                                                <p class="m-t-10">
+                                                {{ Form::select(
+                                                    'customers',
+                                                    $customerids,
+                                                    null,
+                                                    array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'customers',
+                                                        'name' => 'customerid'
+                                                        )
+                                                    ) 
+                                                }}
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <h5>Search Plate No:</h5>
+                                            <p>
+                                                <p class="m-t-10">
+                                                {{ Form::select(
+                                                    'automobiles',
+                                                    $automobiles,
+                                                    null,
+                                                    array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'automobiles',
+                                                        'name' => 'automobileid'
+                                                        )
+                                                    ) 
+                                                }}
+                                            </p>
+                                        </div>                        
+                                    </div>
                             
-
-                            <div class="row m-t-15">
-                                    
-                                <div class="col-lg-6">
-                                    <h5>Search Customer Name:</h5>
-                                    <p>
-                                        <p class="m-t-10">
-                                        {{ Form::select(
-	                                        'customers',
-	                                        $customerids,
-	                                        null,
-	                                        array(
-                                                'class' => 'form-control chzn-select',
-                                                'id' => 'customers',
-                                                'name' => 'customerid')
-	                                        ) 
-	                                    }}
-                                    </p>
-                                </div>
-                                <div class="col-lg-6 ">
-                                    <h5>Search Plate No:</h5>
-                                    <p>
-                                        <p class="m-t-10">
-                                        {{ Form::select(
-	                                        'automobiles',
-	                                        $automobiles,
-	                                        null,
-	                                        array(
-	                                            'class' => 'form-control chzn-select',
-	                                            'id' => 'automobiles',
-	                                            'name' => 'automobileid')
-	                                        ) 
-	                                    }}
-                                    </p>
-                                </div>                        
-                            </div>
-
-
-                            
-                            <!--Start Customer Information -->                
-                            <h4 class="m-t-10">Customer Information</h2>
-                            <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
-                            
-
-                            <!--Textfield: First Name, Middle Name, Last Name -->
-                            <div class="row m-t-15">
-                                    <div class="col-lg-4">
+                                    <!--Start Customer Information -->                
+                                    <h4 class="m-t-10">Customer Information</h2>
+                                    <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
+                                    <!--Textfield: First Name, Middle Name, Last Name -->
+                                    <div class="row m-t-15">
+                                        <div class="col-lg-4">
                                             <h5>First Name: <span style="color:red">*</span></h5>
                                             <p>
                                                 <input id="fname" name="fname" type="text" placeholder="First Name" class="form-control m-t-10">
@@ -128,15 +121,14 @@
                                                 <input id="lname" name="lname" type="text" placeholder="Last Name" class="form-control m-t-10">
                                             </p>
                                         </div>                        
-                                </div>
+                                    </div>
 
-
-                                <!--Textfield: Contact No, Email, Senior Citizen/PWD ID -->
-                                <div class="row m-t-5">
-                                    <div class="col-lg-4 ">
+                                    <!--Textfield: Contact No, Email, Senior Citizen/PWD ID -->
+                                    <div class="row m-t-5">
+                                        <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "0(999) 999-9999"' data-mask>
+                                                <input id="phones" name="contact" placeholder="(9999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(9999) 999-9999"' data-mask>
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -151,12 +143,11 @@
                                                 <input id="pwd_sc_No" name="pwd_sc_No" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
                                             </p>
                                         </div>                        
-                                </div>
+                                    </div>
 
-
-                                <!--Textfield: Address -->
-                                <div class="form-group row m-t-0">
-                                    <div class=" col-lg-1  m-t-15">
+                                    <!--Textfield: Address -->
+                                    <div class="form-group row m-t-0">
+                                        <div class="col-lg-1  m-t-15">
                                             <h5>Address:<span style="color:red">*</span></h5>
                                         </div>
                                         <div class="col-md-12 col-lg-11">                                        
@@ -164,55 +155,52 @@
                                                 <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10">
                                             </p>
                                         </div>                                                
-                                </div>
-                            <!--End Customer Information --> 
+                                    </div>
+                                <!--End Customer Information --> 
 
+                                <!--Start Vehicle Information --> 
+                                <h4>Vehicle Information</h2>
+                                <hr style="margin-top: 10px; border: 2px solid #6699cc">
 
-                            <!--Start Vehicle Information --> 
-                            <h4>Vehicle Information</h2>
-                            <hr style="margin-top: 10px; border: 2px solid #6699cc">
-
-
-                            <!--Textfield: Plate No, Model, Chassis No, Mileage -->
-                            <div class="row m-t-15">
+                                <!--Textfield: Plate No, Model, Chassis No, Mileage -->
+                                <div class="row m-t-15">
                                     <div class="col-lg-3">
-                                            <h5>Plate No.: <span style="color:red">*</span></h5>
-                                            <p>
-                                                <input id="plateno" name="plateno" type="text" placeholder="Plate No." class="form-control m-t-10">
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <h5>Model: <span style="color:red">*</span></h5>
+                                        <h5>Plate No.: <span style="color:red">*</span></h5>
+                                        <p>
+                                            <input id="plateno" name="plateno" type="text" placeholder="Plate No." class="form-control m-t-10">
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <h5>Model: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
                                                 {{ Form::select(
-	                                                'automobile_models',
-	                                                $automobile_models,
-	                                                null,
-	                                                array(
-	                                                'class' => 'form-control chzn-select',
-	                                                'id' => 'automobile_models',
-	                                                'name' => 'modelid')
-	                                                ) 
-	                                            }}
+                                                    'automobile_models',
+                                                    $automobile_models,
+                                                    null,
+                                                    array(
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'automobile_models',
+                                                    'name' => 'modelid')
+                                                    ) 
+                                                }}
                                             </p>
-                                        </div>
-                                        <div class="col-lg-3 ">
-                                           <h5>Chassis No.: <span style="color: red">*</span></h5>
-                                            <p>
-                                                <input id="chassisno" name="chassisno" type="text" placeholder="Chassis No." maxlength="30" class="form-control m-t-10">
-                                            </p>
-                                        </div>
-
-                                        <div class="col-lg-3 ">
-                                            <h5>Mileage.: <span style="color: red">*</span></h5>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon m-t-10">
-                                                        <i class="fa fa-dashboard"></i>
-                                                    </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10">
-                                                </div>
-                                        </div>                         
                                     </div>
+                                    <div class="col-lg-3 ">
+                                        <h5>Chassis No.: <span style="color: red">*</span></h5>
+                                        <p>
+                                            <input id="chassisno" name="chassisno" type="text" placeholder="Chassis No." maxlength="30" class="form-control m-t-10">
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-3 ">
+                                        <h5>Mileage.: <span style="color: red">*</span></h5>
+                                        <div class="input-group">
+                                            <span class="input-group-addon m-t-10">
+                                                <i class="fa fa-dashboard"></i>
+                                            </span>
+                                            <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10">
+                                        </div>
+                                    </div>                         
+                                </div>
 
                                 <!--Textfield: Assign Mechanic, Service Bay -->
                                 <div class="row m-t-5">
@@ -224,29 +212,28 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Transmission: <span style="color:red">*</span></h5>
-                                            <div class="checkbox-rotate m-t-20">
-                                            <label class="text-black">
-                                                <input type="checkbox" id="transmission" value="M/T">
-                                                &nbsp;&nbsp;Manual 
-                                            </label>
+                                            <div class="row checkbox-rotate m-t-15">
+                                                <label class="text-black"  style="padding-left: 45px;">
+                                                    <input id="MT" type="checkbox" value="MT">
+                                                    &nbsp;&nbsp;Manual 
+                                                </label>
 
-                                            <label class="text-black m-l-20">
-                                                <input type="checkbox" id="transmission" value="A/T">
-                                                &nbsp;&nbsp;Automatic 
-                                            </label>
+                                                <label class="text-black" style="padding-left: 45px;">
+                                                    <input id="AT" type="checkbox" value="AT">
+                                                    &nbsp;&nbsp;Automatic 
+                                                </label>
                                             </div>
                                         </div>  
-
                                         <div class="col-lg-3">
-                                            <h5 style = "padding-bottom: 10px;">Assign Mechanic: <span style="color: red">*</span></h5>
+                                            <h5 style = "padding-bottom: 10px;">Estimated by: <span style="color: red">*</span></h5>
                                                 {{ Form::select(
-                                                    'personnel',
+                                                    'personnels',
                                                     $personnels,
                                                     null,
                                                     array(
-                                                        'class' => 'form-control chzn-select',
-                                                        'id' => 'personnels',
-                                                        'name' => 'personnelid')
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'personnels',
+                                                    'name' => 'personnelid')
                                                     ) 
                                                 }}
                                         </div>
@@ -254,10 +241,10 @@
                                             <h5>Service Bay: <span style="color:red"></span></h5>
                                             <p class="m-t-10">
                                                 {{ Form::select(
-                                                    'servicebays',
-                                                    $service_bays,
-                                                    null,
-                                                    array(
+                                                        'servicebays',
+                                                        $service_bays,
+                                                        null,
+                                                        array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'servicebays',
                                                         'name' => 'servicebayid')
@@ -266,160 +253,171 @@
                                             </p>
                                         </div> 
                                     </div>
-                            <!--END VEHICLE INFORMATION -->
+                                    <!--END VEHICLE INFORMATION -->
 
-
-
-
-                        <!--START ESTIMATE-->
-                        <h4 class="m-t-20">Estimate Details</h2>
-                        <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
-
-                        
-                        <!--Start Add Service and Product  -->
-                            <div class ="row">
-
-                                <table id="myTable" class=" table order-list responsive" style="border-color: white" rules="rows" >
-                                    <thead>
-                                        <br>
-                                        <tr>
-                                            <td><h5>Service <span style="color:red">*</span></h5></td>
-                                            <td style="width: 20px;"><h5>Labor <span style="color:red"></span></h5></td>
-                                            <td><h5>Product <span style="color:red">*</span></h5></td>            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <p class="col-lg-15">
+                                    <!--START ESTIMATE-->
+                                    <h4 class="m-t-20">Estimate Details</h2>
+                                    <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
+                                    <!--Start Add Service and Product  -->
+                                    <div class ="row m-t-10">
+                                        <div class="col-lg-4 m-t-20">
+                                            <h5>Service <span style="color:red">*</span></h5>
+                                            <p class="m-t-10">
                                                 {{ Form::select(
-                                                    'services',
-                                                    $services,
-                                                    null,
-                                                    array(
+                                                        'services',
+                                                        $services,
+                                                        null,
+                                                        array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'services',
                                                         'name' => 'serviceid')
-                                                    ) 
+                                                        ) 
                                                 }}
-                                            </td>
-                                            <td>
-                                                <input type="text" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control" readonly>
-                                            </td>
-                                            <td>
-                                                <p class="col-lg-15">
+                                            </p>
+                                        </div>
+
+                                        <div class="col-lg-2 m-t-20">
+                                            <h5>Labor <span style="color:red"></span></h5>
+                                            <input type="text" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control m-t-10" readonly>
+                                        </div>
+
+                                        <div class="col-lg-4 m-t-20">
+                                            <h5>Products <span style="color:red">*</span></h5>
+                                            <p class="m-t-10">
                                                 {{ Form::select(
-                                                    'products',
-                                                    $products,
-                                                    null,
-                                                    array(
+                                                        'products',
+                                                        $products,
+                                                        null,
+                                                        array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'products',
                                                         'name' => 'productid',
                                                         'multiple')
                                                     ) 
                                                 }}
-                                            </td>
-                                            <td>
-                                                <button type="button" name="addRow" id="addrow" value="Add Row" class="btn btn-success hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp;Add Items</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </p>
+                                        </div>
 
-                            </div>
-
-
-
-                            <!--Start of estimate table-->
-                        <table id="itemsTable" class="table list table-bordered display table-hover dataTable">
-                                <thead>
-                                    <tr class="trrow">
-                                        <th style="width: 20% !important">Service</th>
-                                        <th style="width: 23% !important">Product</th>
-                                        <th>Labor</th>
-                                        <th>Unit Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total Price</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                    
-                                     <!--Footer: Total Price-->
-                                    <tfoot>
-                                        <tr class="trrow">
-                                            <th colspan="2" style="text-align: left;">Estimated Time: 
-                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center; color: blue"></span>
-                                            </th>
-                                            <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
-                                            <th style="text-align: center; color: red"></th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
-                                </table><br>
-
-
-                            <!--Textfield: Problem -->
-                                <div class="row m-t-5">
-                                    <div class="col-lg-12">
-                                            <h5 style = "padding-bottom: 10px;">Problems: <span style="color: red"></span></h5>
-                                                <textarea id="remark3" class="form-control" cols="30" rows="2"></textarea>
-                                        </div>                               
-                                </div>
-                       
-                    <!--END OF INSPECTION DETAILS -->
-                    </div>
-
-
-
-            <!--VIEW STEPS MODAL -->
-            <div class="modal fade in " id="viewModal" tabindex="-1" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-info"></i>
-                                            &nbsp;&nbsp;Service Steps </h4>                  
-                            </div>
-
-
-                        <div class="modal-body" style="padding-left: 47px;">
-                                 <!--Content-->
-                                 <div class="row m-t-5">  
-                                    <div class="col-md-11 ">
-                                        <h4>Steps: <span style="color: red">Change Oil</span></h4>
-                                        <p class="m-t-15" style="padding-left: 20px;">
-                                            1. Ikiss ni Xavier </br>
-                                            2. Matapos ito. </br>
-                                            3. Mapasa kay Vhel. </br>
-                                            4. Para makiss si Xavier </br>
-                                        </p>
+                                        <div class="col-lg-2 m-t-40">
+                                            <h5></h5>
+                                            <p class="m-t-5">
+                                            <button type="button" name="addRow" id="addRow" value="Add Row" class="btn btn-outline-success" ><i class="fa fa-plus text-green"></i>&nbsp;Add Items</button>
+                                            </p>
+                                        </div>
                                     </div>
-                                 </div>
-                                 
-                            </div>
-                        
-                            <!--Button: Close, Save Changes -->
-                            <div class="modal-footer">
-                              <div class="examples transitions m-t-5">
-                                <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- VIEW STEPS MODAL-->             
 
-                             <!--Button: Back, SAVe-->
-                             <div class="card-footer bg-black disabled">
-                               <div class="examples transitions m-t-5 pull-right">
-                                    <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left">
-                                    </i>&nbsp;Back</button>  
+                                    <!--Start of estimate table-->
+                                    <table id="itemsTable" class="table list table-bordered display table-hover dataTable">
+                                        <thead>
+                                            <br>
+                                            <tr>
+                                                <td style="width: 18%;">
+                                                    <h5>Service <span style="color: red">*</span></h5>
+                                                </td>
+                                                <td style="width: 10%;">
+                                                    <h5>Quantity <span style="color: red">*</span></h5>
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <h5>Items <span style="color: red"></span>
+                                                    </h5>
+                                                </td>
+                                                <td style="width: 10%;">
+                                                    <h5>Labor <span style="color: red">*</span>
+                                                    </h5>
+                                                </td>
+                                                <td style="width: 10%;">
+                                                    <h5>Unit Price<span style="color: red"></span>
+                                                    </h5>
+                                                </td>
+                                                <td style="width: 15%;">
+                                                    <h5>Total Price<span style="color: red"></span>
+                                                    </h5>
+                                                </td>
+                                                <td style="width: 3%;">
+                                                    <h5>Include<span style="color: red"></span>
+                                                    </h5>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <!--Footer: Total Price-->
+                                        <tfoot id="footer">
+                                            <tr class="trrow">
+                                                <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <span style="text-align: center; color: blue"></span>
+                                                </th>
+                                                <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
+                                                <th style="text-align: center; color: red"></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <br>
 
-                                    <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                    <!--Textfield: Complaint -->
+                                    <div class="row m-t-5">
+                                        <div class="col-lg-6">
+                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
+                                            <textarea id="complaints" class="form-control" cols="30" rows="2"></textarea>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
+                                            <textarea id="diagnosis" class="form-control" cols="30" rows="2"></textarea>
+                                        </div>                              
+                                    </div>
+                                <!--END OF ESTIMATE DETAILS -->
                                 </div>
+
+                                <!--VIEW STEPS MODAL -->
+                                <div class="modal fade in " id="viewModal" tabindex="-1" role="dialog" aria-hidden="false">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-info">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title text-white">
+                                                    <i class="fa fa-info"></i>
+                                                    &nbsp;&nbsp;Service Steps
+                                                </h4>                  
+                                            </div>
+                                            <div class="modal-body" style="padding-left: 47px;">
+                                                <!--Content-->
+                                                <div class="row m-t-5">  
+                                                    <div class="col-md-11 ">
+                                                        <h4>Steps: <span style="color: red">Change Oil</span></h4>
+                                                        <p class="m-t-15" style="padding-left: 20px;">
+                                                            1. Ikiss ni Xavier </br>
+                                                            2. Matapos ito. </br>
+                                                            3. Mapasa kay Vhel. </br>
+                                                            4. Para makiss si Xavier </br>
+                                                        </p>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                            <!--Button: Close, Save Changes -->
+                                            <div class="modal-footer">
+                                                <div class="examples transitions m-t-5">
+                                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- VIEW STEPS MODAL-->             
+
+                                <!--Button: Back, Save-->
+                                <div class="card-footer bg-black">
+                                    <div class="examples transitions m-t-5 pull-right">
+                                        <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates">
+                                            <i class="fa fa-arrow-left"></i>
+                                            &nbsp;Back
+                                        </button>  
+                                        <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;">
+                                            <i class="fa fa-save text-white" ></i>
+                                            &nbsp; Save
+                                        </button>
+                                    </div>
+                                </div>
+                            {{ Form::close() }}
                             </div>
-                        {{ Form::close() }}
                         </div>
                     </div>
                 </div>
@@ -431,10 +429,17 @@
 
 <!-- global scripts sweet alerts-->
 <script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
 <!-- end of plugin scripts -->
+
+<!--Page level scripts-->
+<script type="text/javascript" src="{{URL::asset('js/pages/radio_checkbox.js')}}"></script>
+<!-- global scripts animation-->
 
 <!-- global scripts animation-->
 <script type="text/javascript" src="{{URL::asset('vendors/snabbt/js/snabbt.min.js')}}"></script>
@@ -475,6 +480,7 @@ $(document).ready(function () {
     $("#automobiles option[value='0']").prop("disabled",true);
     $("#automobile_models option[value='0']").prop("disabled",true);
     $("#servicebays option[value='0']").prop("disabled",true);
+    $("#personnels option[value='0']").prop("disabled",true);
     $("#discounts option[value='0']").prop("disabled",true);
     $("#services option[value='0']").prop("disabled",true);
     $("#products option[value='0']").prop("disabled",true);
@@ -482,6 +488,7 @@ $(document).ready(function () {
 
     var servicePrices = [];
     var selectProduct = [];
+    var selectedService= "";
     var selectService;
     var i, j, ctr;
 
@@ -493,9 +500,10 @@ $(document).ready(function () {
             type: "GET",
             url: "/addestimates/"+selectedID+"/showCustomer",
             dataType: "JSON",
+            async: false,
             success:function(data){
-                $('#customers').val(data.estimate.CustomerID).trigger('chosen:updated');
-                $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
+                $('#customers').val(data.customer.CustomerID).trigger('chosen:updated');
+                $('#automobiles').val(data.automobile.AutomobileID).trigger('chosen:updated');
                 $('#fname').val($.trim(data.customer.FirstName));
                 $('#mname').val($.trim(data.customer.MiddleName));
                 $('#lname').val($.trim(data.customer.LastName));
@@ -510,8 +518,42 @@ $(document).ready(function () {
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
             }
         });
+
+                
+        $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
+        $('#automobiles').trigger("chosen:updated");
+        var options = '';
+
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+selectedID+"/filterPlateNo",
+            dataType: "JSON",
+            success:function(data){
+                var count = Object.keys(data.plates).length;
+                if (count>1)
+                    resetFieldsIfhasMultipleRecs();
+
+                for(var i = 0; i < count; i++)
+                {
+                    options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                }
+                $('#automobiles').append(options);
+                $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
+                $('#automobiles').trigger("chosen:updated");
+            }
+        });
         
     });
+
+    // this function resets the Vehicle Information fields if multiple vehicle records are found.
+    function resetFieldsIfhasMultipleRecs(){
+        alert("This customer has more than one registered car, \nplease select using the Plate Number for the Vehicle Information. \nOr you can just register a new one! \n\nThank you.");
+        $('#plateno').val(null);
+        $('#chassisno').val(null);
+        $('#mileage').val(null);
+        $('#color').val(null);
+        $('#automobile_models').val(0).trigger('chosen:updated');
+    }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
     $("#automobiles").change(function () {
@@ -521,8 +563,8 @@ $(document).ready(function () {
             url: "/addestimates/"+selectedID+"/showAutomobile",
             dataType: "JSON",
             success:function(data){
-                $('#customers').val(data.estimate.CustomerID).trigger('chosen:updated');
-                $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
+                $('#customers').val(data.customer.CustomerID).trigger('chosen:updated');
+                $('#automobiles').val(data.automobile.AutomobileID).trigger('chosen:updated');
                 $('#fname').val($.trim(data.customer.FirstName));
                 $('#mname').val($.trim(data.customer.MiddleName));
                 $('#lname').val($.trim(data.customer.LastName));
@@ -534,7 +576,9 @@ $(document).ready(function () {
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
-                $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');               
+                $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                $('#AT').prop("checked", true);
+                $('#MT').prop("checked", true);               
             }
         });
     });	
@@ -544,11 +588,18 @@ $(document).ready(function () {
 		var selectedID = $(this).val();
 	});
 
+    /** CHOOSE PERSONNEL **/
+    $("#personnel").change(function () {
+		var selectedID = $(this).val();
+	});
+
+    var modelID = 0;
     /* CHOOSE MODEL TO FILTER SERVICE PRICE*/
     $("#automobile_models").change(function(){
         var selectedID = $(this).val();
         $('#services').empty().append('<option value = 0> Choose a Service</option>');
         $('#services').trigger("chosen:updated");
+        modelID = selectedID;
 
         $.ajax({
             type: "GET",
@@ -573,27 +624,40 @@ $(document).ready(function () {
     /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
     $("#services").change(function () {
         var selectedID = $(this).val();
-        $('#products').empty().append('<option value=0 >Choose a Product</option>');
-        $('#products').trigger("chosen:updated");
-        var select = $('#products');
-        var labor = $("#services :selected").data("price");
-        $('#labor').val(labor);
+        selectedService = selectedID;
 
-        $.ajax({
-            type: "GET",
-            url: "/addestimates/"+selectedID+"/getProducts",
-            dataType: "JSON",
-            success:function(data){
-                var options = '';
-                var count = Object.keys(data.products).length;
-                for (var i = 0; i < count; i++) {
-                    options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+        if (modelID < 1){
+            alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank You.');
+            $('#services').prop('selectedIndex', 0);
+            $('#services').trigger("chosen:updated");
+        }
+
+        if (modelID > 0){
+            $('#products').empty().append('<option value=0 >Choose a Product</option>');
+            $('#products').trigger("chosen:updated");
+            var select = $('#products');
+            var labor = $("#services :selected").data("price");
+            $('#labor').val(labor);
+
+            $.ajax({
+                type: "GET",
+                url: "/addestimates/"+selectedID+"/getProducts",
+                dataType: "JSON",
+                async: false,
+                success:function(data){
+                    var options = '';
+                    var count = Object.keys(data.products).length;
+                    for (var i = 0; i < count; i++) {
+                        options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+                    }
+                    $("#products").append(options);
+                    $("#products option[value='0']").prop("disabled",true, "selected",false);
+                    $('#products').trigger("chosen:updated");
                 }
-                $("#products").append(options);
-                $("#products option[value='0']").prop("disabled",true, "selected",false);
-                $('#products').trigger("chosen:updated");
-            }
-        });
+            });
+        }
+
+        
     });
 
     $("#products").change(function () {
@@ -616,35 +680,71 @@ $(document).ready(function () {
         }
     });
 
+    // ADD ITEMS Button
+    var newProductRow = $("<tr/>");
     $("#addRow").on("click", function (event) {
-        alert("Eyy");
         var counter = 0;
-        var newServiceRow = $("<tr>");
-        var newProductRow = $("<tr>");
         var cols = "";
 
-        newServiceRow.append(cols);
-        $("#itemsTable").append(newServiceRow);
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+selectedService+"/getServiceDetails",
+            dataType: "JSON",
+            success:function(data){
+                var newServiceRow = $("<tr id='id'>");
+                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="'+ selectedService +'" readonly class="form-control hidden"></td>';
+                cols += '<td style="border-right:none !important"></td>';
+                var pr = data.service.price;
+                cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right"  name="price" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><center><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></center></td>';
+                newServiceRow.append(cols);
+                $(newServiceRow).insertBefore("#footer");
+                $("#services option[value='"+selectedService+"']").prop("disabled", true);
+                $("#services").trigger("chosen:updated");
+                selectedService = null;
+                cols = "";
+            }
+        });
+        
+        
         counter++;
-
+        var newProductRow = $("<tr>");
         for(var k = 0; k < ctr; k++){
-            cols = "";
-            cols += '<td style="border-right:none !important">'+ selectProduct[k] +'</td>';
-            cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" name="quantity" placeholder="Quantity" class="form-control hidden"></td>';
-            cols += '<td style="border-right:none !important"> Semisynthetic Oil </td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
-            //cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" name="unitprice" readonly placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="totalprice " placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-            newProductRow.append(cols);
-            $("#itemsTable").append(newProductRow);
-            counter++;
-            var newProductRow = $("<tr>");
-            var cols = "";
+            $.ajax({
+                type: "GET",
+                url: "/addestimates/"+ selectProduct[k] +"/getProductDetails",
+                dataType: "JSON",
+                success: function (data) {
+                    cols = "";
+                    cols += '<td style="border-right:none !important"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity" name="quantity" placeholder="Quantity" class="form-control hidden"></td>';
+                    cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
+                    var pr = data.product.price;
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-left:none !important"><div class="checkbox radio_Checkbox_size2"><label><center><input type="checkbox"></center><span class="cr"></span></label></div></td>';
+                    newProductRow.append(cols);
+                    $(newProductRow).insertBefore("#footer");
+                    if (ctr != 1){
+                        newProductRow = $("<tr>");
+                        cols = "";
+                    }
+                    cols = "";
+                    counter++;
+                }
+            });
         }
+        
+        $("#problem").val(null);
+        $("#services").val(0).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+        $("#addRow").prop("disabled", true);
     });
-    
+
     //Button: Delete Row
     $("table.list").on("click", ".btnDel", function (event) {
         $(this).closest("tr").remove();       
