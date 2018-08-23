@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Route;
 use App\JobOrder;
 use App\Estimate;
 use App\InspectionHeader;
@@ -17,8 +16,14 @@ use App\ServiceBay;
 use App\Discount;
 use App\Service;
 use App\Product;
+use App\ServicePerformed;
+use App\ProductUsed;
 use App\PromoHeader;
 use App\PackageHeader;
+use App\PersonnelHeader;
+use App\PersonnelSkill;
+use App\ServiceSkill;
+use App\SkillHeader;
 use Validator;
 use Session;
 use Redirect;
@@ -33,55 +38,61 @@ class AddJobOrderController extends Controller
     public function index()
     {
         $estimateids = Estimate::orderBy('estimateid', 'desc')
-        ->where('isActive', 1)
-        ->select('estimateid', DB::table('estimate')
-                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
-        ->pluck('estimate_desc','estimateid');
+            ->where('isActive', 1)
+            ->select('estimateid', DB::table('estimate')
+                                    ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+            ->pluck('estimate_desc','estimateid');
 
         $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
-        ->where('isActive', 1)
-        ->select('inspectionid', DB::table('inspection_header')
-                                ->raw("CONCAT('ID: ',inspectionid, ' - ', updated_at)  AS inspection_desc"))
-        ->pluck('inspection_desc','inspectionid');
+            ->where('isActive', 1)
+            ->select('inspectionid', DB::table('inspection_header')
+                                    ->raw("CONCAT('ID: ',inspectionid, ' - ', updated_at)  AS inspection_desc"))
+            ->pluck('inspection_desc','inspectionid');
 
         $customerids = DB::table('customer AS c')
-        ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
-        ->orderBy('a.customerid', 'desc')
-        ->where('c.isActive', 1)
-        ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
-        ->pluck('fullname','c.customerid');
+            ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
+            ->orderBy('a.customerid', 'desc')
+            ->where('c.isActive', 1)
+            ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+            ->pluck('fullname','c.customerid');
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
-        ->where('isActive', 1)
-        ->pluck('plateno','automobileid');
+            ->where('isActive', 1)
+            ->pluck('plateno','automobileid');
 
         $automobile_models = DB::table('automobile_model')
-                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
-                                ->where('automobile_model.isActive',1)
-                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
+            ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+            ->where('automobile_model.isActive',1)
+            ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
 
+        $personnels = PersonnelHeader::where('isActive', 1)
+            ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
+            ->pluck('personnelfullname','personnelid');
+        
         $service_bays = ServiceBay::where('isActive', 1)
-        ->pluck('servicebayname', 'servicebayid');
+            ->pluck('servicebayname', 'servicebayid');
 
         $discounts = Discount::orderBy('discountid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('discountname', 'discountid');
+            ->where('isActive', 1)
+            ->pluck('discountname', 'discountid');
 
         $services = Service::orderBy('serviceid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('servicename', 'serviceid');
+            ->where('isActive', 1)
+            ->pluck('servicename', 'serviceid');
 
         $products = Product::orderBy('productid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('productname', 'productid');
+            ->where('isActive', 1)
+            ->pluck('productname', 'productid');
 
         $promos = PromoHeader::orderBy('promoid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('promoname', 'promoid');
+            ->where('isActive', 1)
+            ->pluck('promoname', 'promoid');
 
         $packages = PackageHeader::orderBy('packageid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('packagename', 'packageid');
+            ->where('isActive', 1)
+            ->pluck('packagename', 'packageid');
+
+        
 
         $estimateids->prepend('Please choose an Estimate ID',0);
         $inspectionids->prepend('Please choose an Inspection ID',0);
@@ -92,88 +103,26 @@ class AddJobOrderController extends Controller
         $discounts->prepend('Choose a Discount', 0);
         $services->prepend('Choose a Service', 0);
         $products->prepend('Choose a Product', 0);
+        $personnels->prepend('Assign Personnel', 0);
         $promos->prepend('Choose a Promo', 0);
         $packages->prepend('Choose a Package', 0);
 
-        $currentRoute = Route::currentRouteName();
-        //dd(compact('currentRoute'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages', 'currentRoute'));
-    }
+        $serviceskills = DB::table('service_skill as ss')
+            ->join('service as ser', 'ss.serviceid', '=', 'ser.serviceid')
+            ->join('skill_header as sk', 'ss.skillid', '=', 'sk.skillid')
+            ->where(['ss.serviceid' => 6, 'ss.isActive' => 1])
+            ->select('ss.*', 'ser.*', 'sk.*')
+            ->get();
 
-    
-    public function fromEstimate($id)
-    {
-        $estimateids = Estimate::orderBy('estimateid', 'desc')
-        ->where('isActive', 1)
-        ->select('estimateid', DB::table('estimate')
-                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
-        ->pluck('estimate_desc','estimateid');
+        $personnelskills = DB::table('personnel_skill as ps')
+            ->join('skill_header as sh', 'ps.skillid', '=', 'sh.skillid')
+            ->join('personnel_header as ph', 'ps.personnelid', '=', 'ph.personnelid')
+            ->where(['ps.isActive' => 1, 'ps.SkillID' => 3])
+            ->select('ps.*', 'ph.*', 'sh.*')
+            ->get();
 
-        $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
-        ->where('isActive', 1)
-        ->select('inspectionid', DB::table('inspection_header')
-                                ->raw("CONCAT('ID: ',inspectionid, ' - ', updated_at)  AS inspection_desc"))
-        ->pluck('inspection_desc','inspectionid');
-
-        $customerids = DB::table('customer AS c')
-        ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
-        ->orderBy('a.customerid', 'desc')
-        ->where('c.isActive', 1)
-        ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
-        ->pluck('fullname','c.customerid');
-        
-        $automobiles = Automobile::orderBy('created_at', 'desc')
-        ->where('isActive', 1)
-        ->pluck('plateno','automobileid');
-
-        $automobile_models = DB::table('automobile_model')
-                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
-                                ->where('automobile_model.isActive',1)
-                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
-
-        $service_bays = ServiceBay::where('isActive', 1)
-        ->pluck('servicebayname', 'servicebayid');
-
-        $discounts = Discount::orderBy('discountid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('discountname', 'discountid');
-
-        $services = Service::orderBy('serviceid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('servicename', 'serviceid');
-
-        $products = Product::orderBy('productid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('productname', 'productid');
-
-        $promos = PromoHeader::orderBy('promoid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('promoname', 'promoid');
-
-        $packages = PackageHeader::orderBy('packageid', 'desc')
-        ->where('isActive', 1)
-        ->pluck('packagename', 'packageid');
-
-        $estimate = Estimate::findOrFail($id);
-        $automobile = Automobile::findOrFail($estimate->AutomobileID);
-        $customer = Customer::findOrFail($automobile->CustomerID);
-
-        $estimateids->prepend('Please choose an Estimate ID',0);
-        $inspectionids->prepend('Please choose an Inspection ID',0);
-        $customerids->prepend('Please select a customer',0);
-        $automobiles->prepend('Select a Plate Number',0);
-        $automobile_models->prepend('Select a Model',0);
-        $service_bays->prepend('Please choose a Service Bay', 0);
-        $discounts->prepend('Choose a Discount', 0);
-        $services->prepend('Choose a Service', 0);
-        $products->prepend('Choose a Product', 0);
-        $promos->prepend('Choose a Promo', 0);
-        $packages->prepend('Choose a Package', 0);
-
-        $currentRoute = Route::currentRouteName();
-
-        //dd(compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
+        //dd($personnelskills);
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages'));
     }
 
     /**
@@ -315,39 +264,58 @@ class AddJobOrderController extends Controller
     public function getFilteredProductList($id)
     {
         $products = DB::table('product AS pr')
-                    ->join('product_service AS ps', 'pr.productid', 'ps.productid')
-                    ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
-                    ->select('pr.productname','pr.productid')
-                    ->get();
+            ->join('product_service AS ps', 'pr.productid', 'ps.productid')
+            ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
+            ->select('pr.productname','pr.productid')
+            ->get();
         return response()->json(compact('products'));
     }
 
     public function getProductDetails($id)
     {
         $product = DB::table('product')
-                    ->where(['productid' => $id, 'isActive' => 1])
-                    ->select('productname','price')
-                    ->first();
+            ->where(['productid' => $id, 'isActive' => 1])
+            ->select('productname','price')
+            ->first();
         return response()->json(compact('product'));
     }
 
     public function getDiscountDetails($id)
     {
         $discount = DB::table('discount')
-                    ->where(['discountid' => $id, 'isActive' => 1])
-                    ->select('discountname','discountrate')
-                    ->first();
+            ->where(['discountid' => $id, 'isActive' => 1])
+            ->select('discountname','discountrate')
+            ->first();
         return response()->json(compact('discount'));
     }
 
     public function getServiceDetails($id)
     {
         $service = DB::table('service AS se')
-                    ->join('service_price AS sp', 'se.serviceid', 'sp.serviceid')
-                    ->where(['sp.serviceid' => $id, 'sp.isActive' => 1, 'sp.modelid' => 1])
-                    ->select('se.servicename','sp.price')
-                    ->first();
+            ->join('service_price AS sp', 'se.serviceid', 'sp.serviceid')
+            ->where(['sp.serviceid' => $id, 'sp.isActive' => 1, 'sp.modelid' => 1])
+            ->select('se.servicename','sp.price', 'se.estimatedtime')
+            ->first();
         return response()->json(compact('service'));
+    }
+
+    public function computeEstimatedTime($id)
+    {
+        $estimate = DB::table('service')
+            ->where(['isActive'=>1, 'serviceid' => $id])
+            ->select('serviceid', 'servicename', 'estimatedtime')
+            ->get();
+    }
+
+    public function getServiceSkill($id)
+    {
+        $serviceskills = DB::table('service_skill as ss')
+            ->join('service as ser', 'ss.serviceid', '=', 'ser.serviceid')
+            ->join('skill_header as sk', 'ss.skillid', '=', 'sk.skillid')
+            ->where(['ss.serviceid' => $id, 'ss.isActive' => 1])
+            ->select('ss.*', 'ser.*', 'sk.*')
+            ->get();
+        return response()->json(compact('serviceskills'));
     }
 
 

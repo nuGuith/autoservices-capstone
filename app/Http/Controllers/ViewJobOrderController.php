@@ -11,6 +11,7 @@ use App\JobOrder;
 use App\Customer;
 use App\Automobile;
 use App\ServiceBay; 
+use App\Payment;
 use Validator;
 use Session;
 use Redirect;
@@ -28,19 +29,27 @@ class ViewJobOrderController extends Controller
         $model = Automobile::findOrFail($joborder->AutomobileID);
         
         $automobile = DB::table('automobile_model AS md')
-                    ->where('md.ModelID', $model->ModelID)
-                    ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
-                    ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
-                    ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
-                    ->first();
+            ->where('md.ModelID', $model->ModelID)
+            ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+            ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+            ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+            ->first();
+
         $customer = DB::table('customer')
-                    ->where('customerid', $model->CustomerID)
-                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
-                    ->first();
+            ->where('customerid', $model->CustomerID)
+            ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+            ->first();
+
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
+
+        $payments = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+            ->select('p.*')
+            ->get();
         
         //dd($automobile, $customer);
-        return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay'));
+        return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay','payments'));
     }
 
     /**
