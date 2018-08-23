@@ -410,10 +410,10 @@
                                         <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates">
                                             <i class="fa fa-arrow-left"></i>
                                             &nbsp;Back
-                                        </button>  
-                                        <button class="btn btn-success m-l-0 hvr-float-shadow" style="width: 85px;" onclick="validate()">
-                                            <i class="fa fa-save text-white" ></i>
-                                            &nbsp; Save
+                                        </button>
+                                        <button id="btnSave" type="button" class="btn btn-raised btn-success" onclick="confirmationModal()" data-toggle="modal" >
+                                            <i class="fa fa-save text-white" ></i> 
+                                            &nbsp;Save
                                         </button>
                                     </div>
                                 </div>
@@ -421,6 +421,34 @@
                         </div>
                     </div>
                 </div>
+                <!-- START SUBMIT MODAL -->
+                <div class="modal fade in " id="confirmationModal" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Record Saved</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Done. We've already saved this record. Do you want to proceed to creating the Job Order now?</h5>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <a id="btnProceed" type="submit" class="btn btn-success">
+                                        &nbsp;Proceed &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DELETE MODAL -->
             </div>
         </div>
                    
@@ -451,31 +479,14 @@
 </script>
 
 <script>
-$(document).on('submit', 'form.estimateForm', function() {
-    var validation = validate();
-    if (validation){
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            dataType: 'JSON',
-            data: $(this).serialize(),
-            success: function(data) {
-                alert('Submitted');
-            },
-            error: function(xhr,err) {
-                alert('Error ', err);
-            }
-        });
-        e.PreventDefault();
-        return false;
-    }
-});
-</script>
-
-<script>
 function validate(){
-    return false;
+    return true;
 }
+</script>
+<script>
+    function confirmationModal(){
+        $("#confirmationModal").modal('show');
+    }
 </script>
 
 <!--SCRIPT FOR ESTIMATE TABLE -->
@@ -503,6 +514,24 @@ $(document).ready(function () {
     var modelID = null;
     var grandTotal;
 
+
+    $("#btnProceed").on("click", function (e) {
+        var estFromRoute;
+        e.preventDefault();
+        var formData = $('#estimateForm').serialize();
+
+        $.ajax({
+            type: "POST",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/addestimates",
+            data: formData,
+            async: false,
+            success: function(data) { 
+                alert("Save Complete") 
+                document.getElementById("btnProceed").href = "{{URL::route('fromEstimate',"+estFromRoute+")}}";
+            }
+        });
+    });
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
     $("#customers").change(function () {
@@ -724,14 +753,14 @@ $(document).ready(function () {
             success:function(data){
                 var newServiceRow = $("<tr id='id'>");
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
-                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="'+ selectedService +'" readonly class="form-control hidden"></td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="1" readonly class="form-control quantity"></td>';
                 cols += '<td style="border-right:none !important"></td>';
                 var pr = data.service.price;
                 pr = parseFloat(pr).toFixed(2);
-                cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right"  name="price" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-left:none !important"><center><button type="button" id=" " data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></center></td>';
+                cols += '<td style="border-right:none !important"><input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control unitprice"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control totalprice" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><center><button type="button" id="" data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></center></td>';
                 $('#labor').removeClass("focused_input");
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#footer");
@@ -739,10 +768,9 @@ $(document).ready(function () {
                 $("#services").trigger("chosen:updated");
                 selectedService = null;
                 cols = "";
-                grandTotal += parseFloat(pr).toFixed(2);
+                getGrandTotal();
             }
         });
-        
         
         counter++;
         for(var k = 0; k < ctr; k++){
@@ -751,16 +779,16 @@ $(document).ready(function () {
                 url: "/addestimates/"+ selectProduct[k] +"/getProductDetails",
                 dataType: "JSON",
                 success: function (data) {
-                    var newProductRow = $("<tr>");
+                    var newProductRow = $("<tr >");
                     cols = "";
                     cols += '<td style="border-right:none !important"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" class="form-control hidden"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" class="form-control"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
-                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
-                    cols += '<td id="total" style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control unitprice"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control totalprice" value="'+ pr +'"></td>';
                     cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+selectedService+'" id="chkInclude" type="checkbox" checked value="'+selectProduct[k]+'"></center></td>';
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#footer");
@@ -781,19 +809,16 @@ $(document).ready(function () {
                         grandTotal += parseFloat(total).toFixed(2);
                         alert("Grand total: " + grandTotal);
                         alert("Qty: "+qty + " * Unitprice: " +unitprice + " Total: " + total);
-                        /* var tdTotal = $(this).parent().children("#total");
-                        tdTotal.childNodes[1].value = total; */
-                        document.getElementById("grandtotal").innerHTML = grandTotal;
                         getGrandTotal();
                     });
                     qtyCtr++;
 
                     $("#chkInclude").on("click", function() {
                         if(this.checked) {
-                            alert("i'm checked, u know it");
+                            alert("I'm checked, u know it");
                         }
                         if(!(this.checked)) {
-                            alert("oh no, now i'm not.");
+                            alert("Oh no, now i'm not.");
                         }
                     });
 
@@ -806,38 +831,34 @@ $(document).ready(function () {
                         $(this).closest("tr").remove();
                         getGrandTotal();
                     });
-                    //grandTotal += pr;
-                    getGrandTotal();
+                    
                 }
             });
         }
-        
-        document.getElementById("grandtotal").innerHTML = grandTotal;
+
+        getGrandTotal();
         $("#problem").val(null);
         $("#services").val(0).trigger("chosen:updated");
         $("#products").val(null).trigger("chosen:updated");
         $("#addRow").prop("disabled", true);
-        $("#products").prop("disabled", true);
+        $("#products").prop("disabled", "disabled").trigger('chosen:updated');
     });
 
     function getGrandTotal(){
-        var table = document.getElementById("itemsTable");
-        var k, d, temp;
-        var i = table.rows.length;
 
-        /* for (k = 1; k <= i; k++) {
-            for (d = 0; d < 6; d++) {
-                if (d == 2) {
-                    temp = parseFloat(document.getElementById("itemsTable").rows[k].cells[2].childNodes[1].value);
-                }
-                if (d == 5) {
-                    temp = temp * parseFloat(document.getElementById("itemsTable").rows[k].cells[5].childNodes[1].value);
-                }
-                //grandTotal += temp;
-            }
-            document.getElementById("itemsTable").rows[k].cells[6].childNodes[1].value = temp;
-            document.getElementById("grandtotal").value = temp;
-        } */
+        $("#itemsTable tr").each(function() {
+            var quantity  = $(this).find("input #quantity").val();
+            var unitprice = $(this).find("input #unitprice").val();
+            quantity = parseFloat(quantity);
+            unitprice = parseFloat(unitprice);
+            var totalprice = parseFloat(quantity * unitprice);
+            $(this).find("input #totalprice").val('AAAAA');
+            grandTotal += totalprice;
+        });
+        alert("i was here");
+        
+        document.getElementById("grandtotal").innerHTML = grandTotal;
+
     }
 
     //Button: Delete Row

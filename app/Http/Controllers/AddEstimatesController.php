@@ -75,7 +75,10 @@ class AddEstimatesController extends Controller
         $services->prepend('Choose a Service', 0);
         $products->prepend('Choose a Product', 0);
 
-        return view ('estimates.addestimates', compact('customerids', 'automobiles', 'automobile_models', 'service_bays', 'discounts', 'services', 'products', 'personnels'));
+        $estimate = new Estimate;
+        $estimate->EstimatedID = 0;
+
+        return view ('estimates.addestimates', compact('customerids', 'automobiles', 'automobile_models', 'service_bays', 'discounts', 'services', 'products', 'personnels', 'estimate'));
     }
 
     /**
@@ -96,12 +99,15 @@ class AddEstimatesController extends Controller
      */
     public function store(Request $request)
     {
+        $estimateID = 0;
         $cust_id = new Customer;
         $auto_id = new Automobile;
         try{
             DB::beginTransaction();
             if ($request->has('customerid')){
                 $cust_id->CustomerID = ($request->customerid);
+                $firstname = ($request->fname). ' ';
+                $middlename = ($request->mname). ' ';
                 Customer::where(['isActive' => 1, 'customerid' => $cust_id->CustomerID])
                         ->update([
                             'firstname' => $firstname,
@@ -125,7 +131,8 @@ class AddEstimatesController extends Controller
                     'pwd_sc_no' => ($request->pwd_sc_no),
                     'completeaddress' => ($request->address)
                 ]);
-                $cust_id = Customer::orderBy('CustomerID', 'desc')->first();
+                $cust_id = DB::table('customer')->orderBy('customerid', 'desc')->first();
+                //$cust_id = Customer::orderBy('CustomerID', 'desc')->first();
             }
 
             if ($request->has('automobileid')){
@@ -133,7 +140,6 @@ class AddEstimatesController extends Controller
                 Automobile::where(['isActive' => 1, 'automobileid' => $auto_id->AutomobileID])
                 ->update([
                     'plateno' => ($request->plateno),
-                    'customerid' => ($cust_id),
                     'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
@@ -143,13 +149,15 @@ class AddEstimatesController extends Controller
             else {
                 Automobile::create([
                     'plateno' => ($request->plateno),
-                    'customerid' => ($cust_id),
+                    'customerid' => ($cust_id->CustomerID),
                     'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
-                    'color' => ($request->color)
+                    'color' => ($request->color),
+                    'updated_at' => (date('Y-m-d H:i:s'))
                 ]);
-                $auto_id = Automobile::orderBy('automobileid', 'desc')->first();
+                $auto_id = DB::table('automobile')->orderBy('automobileid', 'desc')->first();
+                //$auto_id = Automobile::orderBy('automobileid', 'desc')->first();
             }
             Estimate::create([
                 'CustomerID' => ($cust_id->CustomerID),
@@ -157,17 +165,17 @@ class AddEstimatesController extends Controller
                 'EstimateID' => ($request->estimateid),
                 'ServiceBayID' => ($request->servicebayid),
                 'PersonnelID' => ($request->personnelid),
-                'DiscountID' => ($request->discountid),
-                'updated_at' => (date('Y-m-d H:i:s'))
+                'DiscountID' => ($request->discountid)
             ]);
-
+            $estimateID = DB::table('estimate')->orderBy('estimateid', 'desc')->first();
             DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $err = $e->getMessage();
             return response()->json($err);
         }
-        return redirect('/estimates');
+        //return redirect()->route('fromEstimate', $estimateID->EstimateID);
+        return response()->json(compact('estimateID'));
     }
 
     /**

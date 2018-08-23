@@ -103,6 +103,7 @@ Route::get('/viewinspect','ViewInspectController@index');
 Route::get('/estimates','EstimatesController@index');
 
 Route::resource('/addestimates','AddEstimatesController');
+Route::post('/addestimates', 'AddEstimatesController@store');
 Route::get('/addestimates/{automobile}/showAutomobile', 'AddEstimatesController@showAutomobile');
 Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@showCustomer');
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
@@ -119,6 +120,7 @@ Route::get('/viewestimates/{id}','ViewEstimatesController@index');
 Route::get('/joborder','JobOrderController@index');
 
 Route::resource('/addjoborder','AddJobOrderController');
+Route::get('/addjoborder/fromEstimate/{id}', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
 Route::get('/addjoborder/{id}/showEstimate', 'AddJobOrderController@showEstimate');
 Route::get('/addjoborder/{id}/searchByCustomerName', 'AddJobOrderController@searchByCustomerName');
 Route::get('/addjoborder/{id}/searchByPlateNo', 'AddJobOrderController@searchByPlateNo');

@@ -49,6 +49,7 @@
         }
     }
     </style>
+    
         <!-- CONTENT -->
         <div id="content" class="bg-container">
 
@@ -782,9 +783,21 @@ $(document).on('submit', 'form.jobForm', function(e) {
 	return false;
 });
 </script>
+
 <!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
 <script> 
 $(document).ready(function () {
+
+    var estimateID, inspectID, packageID, promoID;
+    var nah;
+    var selectProduct = [];
+    var selectedService = "";
+    var selectService;
+    var i, j, ctr, totalCounter = 0;
+    var price;
+    var grandTotal = 0;
+    var fromEstimate = false;
+
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
     $("#automobiles option[value='0']").prop("disabled",true);
@@ -812,20 +825,20 @@ $(document).ready(function () {
         }
     });
 
-    var estimateID, inspectID, packageID, promoID;
-    var nah;
-    var selectProduct = [];
-    var selectedService = "";
-    var selectService;
-    var i, j, ctr, totalCounter = 0;
-    var price;
-    var grandTotal = 0;
-
     /* $('select').on('change', function () {}); */
     window.addEventListener("beforeunload", function (e) {
     var message = "Are you sure you want to leave?";
         (e || window.event).returnValue = message;     
             return message;
+    });
+
+    $(window).on('load',function(){
+        @if(Route::current()->getName() == 'fromEstimate')
+            var estimate = {!! json_encode($estimate->EstimateID) !!};
+            fromEstimate = true;
+            showEstimate(estimate);
+        @endif
+        
     });
 
     // On Quantity Change
@@ -1030,15 +1043,20 @@ $(document).ready(function () {
     });
 
     /* SELECT RECORD via ESTIMATE ID SEARCH */
-    $("#estimates").change(function () {
+    $("#estimates").on("change", function () {
         var selectedID = $(this).val();
         estimateID = selectedID;
+        showEstimate(estimateID);
+    });
 
+    function showEstimate(id){
+        estimateID = id;
         $.ajax({
             type: "GET",
-            url: "/addjoborder/"+selectedID+"/showEstimate",
+            url: "/addjoborder/"+estimateID+"/showEstimate",
             dataType: "JSON",
             success:function(data){
+                $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
                 $('#customers').val(data.automobile.CustomerID).trigger('chosen:updated');
                 $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
                 $('#fname').val($.trim(data.customer.FirstName));
@@ -1053,9 +1071,14 @@ $(document).ready(function () {
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
+                if (fromEstimate){
+                    $("#estimates").prop("disabled","disabled").trigger('chosen:updated');
+                    $("#customers").prop("disabled", "disabled").trigger('chosen:updated');
+                    $("#automobiles").prop("disabled", "disabled").trigger('chosen:updated');
+                }
             }
         });
-    });
+    }
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
     $("#customers").change(function () {

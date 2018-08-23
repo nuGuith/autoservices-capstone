@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Route;
 use App\JobOrder;
 use App\Estimate;
 use App\InspectionHeader;
@@ -94,9 +95,85 @@ class AddJobOrderController extends Controller
         $promos->prepend('Choose a Promo', 0);
         $packages->prepend('Choose a Package', 0);
 
-        //dd($products);
-        //return response()->json(compact('products'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages'));
+        $currentRoute = Route::currentRouteName();
+        //dd(compact('currentRoute'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages', 'currentRoute'));
+    }
+
+    
+    public function fromEstimate($id)
+    {
+        $estimateids = Estimate::orderBy('estimateid', 'desc')
+        ->where('isActive', 1)
+        ->select('estimateid', DB::table('estimate')
+                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+        ->pluck('estimate_desc','estimateid');
+
+        $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
+        ->where('isActive', 1)
+        ->select('inspectionid', DB::table('inspection_header')
+                                ->raw("CONCAT('ID: ',inspectionid, ' - ', updated_at)  AS inspection_desc"))
+        ->pluck('inspection_desc','inspectionid');
+
+        $customerids = DB::table('customer AS c')
+        ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
+        ->orderBy('a.customerid', 'desc')
+        ->where('c.isActive', 1)
+        ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+        ->pluck('fullname','c.customerid');
+        
+        $automobiles = Automobile::orderBy('created_at', 'desc')
+        ->where('isActive', 1)
+        ->pluck('plateno','automobileid');
+
+        $automobile_models = DB::table('automobile_model')
+                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+                                ->where('automobile_model.isActive',1)
+                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
+
+        $service_bays = ServiceBay::where('isActive', 1)
+        ->pluck('servicebayname', 'servicebayid');
+
+        $discounts = Discount::orderBy('discountid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('discountname', 'discountid');
+
+        $services = Service::orderBy('serviceid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('servicename', 'serviceid');
+
+        $products = Product::orderBy('productid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('productname', 'productid');
+
+        $promos = PromoHeader::orderBy('promoid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('promoname', 'promoid');
+
+        $packages = PackageHeader::orderBy('packageid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('packagename', 'packageid');
+
+        $estimate = Estimate::findOrFail($id);
+        $automobile = Automobile::findOrFail($estimate->AutomobileID);
+        $customer = Customer::findOrFail($automobile->CustomerID);
+
+        $estimateids->prepend('Please choose an Estimate ID',0);
+        $inspectionids->prepend('Please choose an Inspection ID',0);
+        $customerids->prepend('Please select a customer',0);
+        $automobiles->prepend('Select a Plate Number',0);
+        $automobile_models->prepend('Select a Model',0);
+        $service_bays->prepend('Please choose a Service Bay', 0);
+        $discounts->prepend('Choose a Discount', 0);
+        $services->prepend('Choose a Service', 0);
+        $products->prepend('Choose a Product', 0);
+        $promos->prepend('Choose a Promo', 0);
+        $packages->prepend('Choose a Package', 0);
+
+        $currentRoute = Route::currentRouteName();
+
+        //dd(compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
     }
 
     /**
