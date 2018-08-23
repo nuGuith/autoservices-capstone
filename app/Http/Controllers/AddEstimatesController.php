@@ -96,8 +96,8 @@ class AddEstimatesController extends Controller
      */
     public function store(Request $request)
     {
-        $cust_id = 0;
-        $auto_id = 0;
+        $cust_id = new Customer;
+        $auto_id = new Automobile;
         try{
             DB::beginTransaction();
             if ($request->has('customerid')){
@@ -185,7 +185,11 @@ class AddEstimatesController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $automobile = Automobile::where('customerid', $customer->CustomerID)->first();
-        return response()->json(compact('automobile', 'customer'));
+        $plates = DB::table('automobile AS auto')
+                ->where(['auto.customerid' => $id, 'auto.isActive' => 1])
+                ->select('auto.plateno','auto.automobileid')
+                ->get();
+        return response()->json(compact('automobile', 'customer', 'plates'));
     }
 
     public function filterPlateNo($id)

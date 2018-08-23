@@ -79,7 +79,7 @@
                                                 }}
                                             </p>
                                         </div>
-                                        <div class="col-lg-6 ">
+                                        <div id="selectPlateNo" class="col-lg-6 ">
                                             <h5>Search Plate No:</h5>
                                             <p>
                                                 <p class="m-t-10">
@@ -224,7 +224,7 @@
                                                 </label>
                                             </div>
                                         </div>  
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-3" style="padding-bottom: 10px;">
                                             <h5 style = "padding-bottom: 10px;">Estimated by: <span style="color: red">*</span></h5>
                                                 {{ Form::select(
                                                     'personnels',
@@ -237,9 +237,9 @@
                                                     ) 
                                                 }}
                                         </div>
-                                        <div class="col-lg-3">
-                                            <h5>Service Bay: <span style="color:red"></span></h5>
-                                            <p class="m-t-10">
+                                        <div class="col-lg-3 m-t-2">
+                                            <h5 style="padding-bottom: 10px;">Service Bay: <span style="color:red"></span></h5>
+                                            <p>
                                                 {{ Form::select(
                                                         'servicebays',
                                                         $service_bays,
@@ -345,8 +345,8 @@
                                                 <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <span style="text-align: center; color: blue"></span>
                                                 </th>
-                                                <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
-                                                <th style="text-align: center; color: red"></th>
+                                                <th colspan="3" style="text-align: right;">Grand Total Price (PhP):  </th>
+                                                <th id="grandtotal" style="text-align: right; color: red">0.00</th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
@@ -401,7 +401,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- VIEW STEPS MODAL-->             
+                                <!-- VIEW STEPS MODAL-->
+                            {{ Form::close() }}             
 
                                 <!--Button: Back, Save-->
                                 <div class="card-footer bg-black">
@@ -410,13 +411,12 @@
                                             <i class="fa fa-arrow-left"></i>
                                             &nbsp;Back
                                         </button>  
-                                        <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;">
+                                        <button class="btn btn-success m-l-0 hvr-float-shadow" style="width: 85px;" onclick="validate()">
                                             <i class="fa fa-save text-white" ></i>
                                             &nbsp; Save
                                         </button>
                                     </div>
                                 </div>
-                            {{ Form::close() }}
                             </div>
                         </div>
                     </div>
@@ -452,23 +452,31 @@
 
 <script>
 $(document).on('submit', 'form.estimateForm', function() {
-	$.ajax({
-		url: $(this).attr('action'),
-		type: $(this).attr('method'),
-		dataType: 'JSON',
-		data: $(this).serialize(),
-		success: function(data) {
-			alert('Submitted');
-		},
-		error: function(xhr,err) {
-			alert('Error ', err);
-		}
-	});
-	e.PreventDefault();
-	return false;
+    var validation = validate();
+    if (validation){
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            dataType: 'JSON',
+            data: $(this).serialize(),
+            success: function(data) {
+                alert('Submitted');
+            },
+            error: function(xhr,err) {
+                alert('Error ', err);
+            }
+        });
+        e.PreventDefault();
+        return false;
+    }
 });
 </script>
 
+<script>
+function validate(){
+    return false;
+}
+</script>
 
 <!--SCRIPT FOR ESTIMATE TABLE -->
 <script> 
@@ -485,12 +493,15 @@ $(document).ready(function () {
     $("#services option[value='0']").prop("disabled",true);
     $("#products option[value='0']").prop("disabled",true);
     $("#addRow").prop("disabled",true);
+    $('#products').prop('disabled', true);
 
     var servicePrices = [];
     var selectProduct = [];
     var selectedService= "";
     var selectService;
-    var i, j, ctr;
+    var i, j, ctr, qtyCtr = 1;
+    var modelID = null;
+    var grandTotal;
 
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
@@ -516,30 +527,33 @@ $(document).ready(function () {
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                var model = Object.keys(data.plates).length;
+                if (model < 2){
+                    modelID = parseInt(data.automobile.ModelID);
+                    filterServices();
+                }
             }
         });
 
                 
-        $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
-        $('#automobiles').trigger("chosen:updated");
-        var options = '';
-
         $.ajax({
             type: "GET",
             url: "/addestimates/"+selectedID+"/filterPlateNo",
             dataType: "JSON",
             success:function(data){
                 var count = Object.keys(data.plates).length;
-                if (count>1)
+                if (count>1){
+                    $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
+                    $('#automobiles').trigger("chosen:updated");
+                    var options = '';
                     resetFieldsIfhasMultipleRecs();
-
-                for(var i = 0; i < count; i++)
-                {
-                    options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                    for(var i = 0; i < count; i++){
+                        options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                    }
+                    $('#automobiles').append(options);
+                    $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
+                    $('#automobiles').trigger("chosen:updated");
                 }
-                $('#automobiles').append(options);
-                $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
-                $('#automobiles').trigger("chosen:updated");
             }
         });
         
@@ -547,12 +561,13 @@ $(document).ready(function () {
 
     // this function resets the Vehicle Information fields if multiple vehicle records are found.
     function resetFieldsIfhasMultipleRecs(){
-        alert("This customer has more than one registered car, \nplease select using the Plate Number for the Vehicle Information. \nOr you can just register a new one! \n\nThank you.");
         $('#plateno').val(null);
         $('#chassisno').val(null);
         $('#mileage').val(null);
         $('#color').val(null);
         $('#automobile_models').val(0).trigger('chosen:updated');
+        alert("This customer has more than one registered car, \nplease select using the Plate Number for the Vehicle Information. \nOr you can just register a new one! \n\nThank you.");
+        $('#selectPlateNo').addClass('focused_input');
     }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
@@ -577,6 +592,13 @@ $(document).ready(function () {
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                modelID = parseInt(data.automobile.ModelID);
+                $('#labor').val(null);
+                $('#labor').removeClass('focused_input');
+                $('#products').val(null).trigger('chosen:updated');
+                $('#products').prop("disabled", true);
+                $('#addRow').prop('disabled', true);
+                filterServices();
                 $('#AT').prop("checked", true);
                 $('#MT').prop("checked", true);               
             }
@@ -591,24 +613,31 @@ $(document).ready(function () {
     /** CHOOSE PERSONNEL **/
     $("#personnel").change(function () {
 		var selectedID = $(this).val();
-	});
-
-    var modelID = 0;
+    });
+    
     /* CHOOSE MODEL TO FILTER SERVICE PRICE*/
     $("#automobile_models").change(function(){
         var selectedID = $(this).val();
-        $('#services').empty().append('<option value = 0> Choose a Service</option>');
-        $('#services').trigger("chosen:updated");
         modelID = selectedID;
 
+        filterServices();
+    });
+
+    function filterServices(){
         $.ajax({
             type: "GET",
-            url: "addestimates/"+selectedID+"/getServicePrice",
+            url: "addestimates/"+modelID+"/getServicePrice",
             dataType: "JSON",
             success:function(data){
                 var options = '';
                 var price ='';
                 var count = Object.keys(data.serviceprices).length;
+                if (count > 0)
+                    $('#services').empty().append('<option value = 0> Choose a Service</option>');
+                else
+                    $('#services').empty().append('<option value = 0> No services available. </option>');
+
+                $('#services').trigger("chosen:updated");
                 for(var i = 0; i < count; i++)
                 {
                     options += '<option value ="' + data.serviceprices[i].serviceid + '" data-price="' + data.serviceprices[i].price + '">' + data.serviceprices[i].servicename +'</option>';
@@ -618,7 +647,7 @@ $(document).ready(function () {
                 $('#services').trigger("chosen:updated");
             }
         });
-    });
+    }
 
 
     /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
@@ -638,6 +667,8 @@ $(document).ready(function () {
             var select = $('#products');
             var labor = $("#services :selected").data("price");
             $('#labor').val(labor);
+            $('#labor').addClass("focused_input");
+            $('#products').prop('disabled', false);
 
             $.ajax({
                 type: "GET",
@@ -696,37 +727,41 @@ $(document).ready(function () {
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="'+ selectedService +'" readonly class="form-control hidden"></td>';
                 cols += '<td style="border-right:none !important"></td>';
                 var pr = data.service.price;
+                pr = parseFloat(pr).toFixed(2);
                 cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right"  name="price" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-left:none !important"><center><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></center></td>';
+                cols += '<td style="border-left:none !important"><center><button type="button" id=" " data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></center></td>';
+                $('#labor').removeClass("focused_input");
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#footer");
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
                 selectedService = null;
                 cols = "";
+                grandTotal += parseFloat(pr).toFixed(2);
             }
         });
         
         
         counter++;
-        var newProductRow = $("<tr>");
         for(var k = 0; k < ctr; k++){
             $.ajax({
                 type: "GET",
                 url: "/addestimates/"+ selectProduct[k] +"/getProductDetails",
                 dataType: "JSON",
                 success: function (data) {
+                    var newProductRow = $("<tr>");
                     cols = "";
                     cols += '<td style="border-right:none !important"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity" name="quantity" placeholder="Quantity" class="form-control hidden"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" class="form-control hidden"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
                     var pr = data.product.price;
+                    pr = parseFloat(pr).toFixed(2);
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                    cols += '<td style="border-left:none !important"><div class="checkbox radio_Checkbox_size2"><label><center><input type="checkbox"></center><span class="cr"></span></label></div></td>';
+                    cols += '<td id="total" style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+selectedService+'" id="chkInclude" type="checkbox" checked value="'+selectProduct[k]+'"></center></td>';
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#footer");
                     if (ctr != 1){
@@ -735,20 +770,104 @@ $(document).ready(function () {
                     }
                     cols = "";
                     counter++;
+                    $("#quantity"+qtyCtr).on("keyup", function(){
+                        var qty = $(this).val();
+                        qty = parseFloat(qty).toFixed(2);
+                        if (qty == null || qty == 1){
+                            qty = 1;
+                        }
+                        var unitprice = parseFloat(pr).toFixed(2);
+                        total = parseFloat(qty * unitprice).toFixed(2);
+                        grandTotal += parseFloat(total).toFixed(2);
+                        alert("Grand total: " + grandTotal);
+                        alert("Qty: "+qty + " * Unitprice: " +unitprice + " Total: " + total);
+                        /* var tdTotal = $(this).parent().children("#total");
+                        tdTotal.childNodes[1].value = total; */
+                        document.getElementById("grandtotal").innerHTML = grandTotal;
+                        getGrandTotal();
+                    });
+                    qtyCtr++;
+
+                    $("#chkInclude").on("click", function() {
+                        if(this.checked) {
+                            alert("i'm checked, u know it");
+                        }
+                        if(!(this.checked)) {
+                            alert("oh no, now i'm not.");
+                        }
+                    });
+
+                    $("table.list").on("click", ".btnDel", function (event) {
+                        var svcID = $(this).data('serviceid');
+                        $("#itemsTable tr").each(function(){
+                            var prodSvcID = $(this).closest("#chkInclude").data('serviceid');
+                            alert(prodSvcID);
+                        });
+                        $(this).closest("tr").remove();
+                        getGrandTotal();
+                    });
+                    //grandTotal += pr;
+                    getGrandTotal();
                 }
             });
         }
         
+        document.getElementById("grandtotal").innerHTML = grandTotal;
         $("#problem").val(null);
         $("#services").val(0).trigger("chosen:updated");
         $("#products").val(null).trigger("chosen:updated");
         $("#addRow").prop("disabled", true);
+        $("#products").prop("disabled", true);
     });
+
+    function getGrandTotal(){
+        var table = document.getElementById("itemsTable");
+        var k, d, temp;
+        var i = table.rows.length;
+
+        /* for (k = 1; k <= i; k++) {
+            for (d = 0; d < 6; d++) {
+                if (d == 2) {
+                    temp = parseFloat(document.getElementById("itemsTable").rows[k].cells[2].childNodes[1].value);
+                }
+                if (d == 5) {
+                    temp = temp * parseFloat(document.getElementById("itemsTable").rows[k].cells[5].childNodes[1].value);
+                }
+                //grandTotal += temp;
+            }
+            document.getElementById("itemsTable").rows[k].cells[6].childNodes[1].value = temp;
+            document.getElementById("grandtotal").value = temp;
+        } */
+    }
 
     //Button: Delete Row
     $("table.list").on("click", ".btnDel", function (event) {
         $(this).closest("tr").remove();       
       
+    });
+
+    $("table.list").on("click", ".btnDel", function (event) {
+        $(this).closest("tr").remove();
+        var svcID = $(this).data('serviceid');
+        alert(svcID);
+        $("tr#product").each(function() {
+            var prodSvcID = $(this).data('serviceid');
+            alert(prodSvcID);   
+            if(prodSvcID == svcID)
+                $(this).closest("tr").remove();
+        });
+        /* if (this.checked) {
+            $("#checkProduct").each(function() {
+                var prodSvcID = $(this).data('serviceid').val();
+                if(prodSvcID)
+                this.checked=true;
+            });
+        } 
+        else {
+            $("#checkProduct").each(function() {
+                this.checked=false;
+            });
+        } */
     });
 
 });
