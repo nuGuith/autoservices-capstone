@@ -16,7 +16,10 @@ use App\ServiceBay;
 use App\Personnel;
 use App\Discount;
 use App\Service;
+use App\ServicePerformed;
+use App\ServicePrice;
 use App\Product;
+use App\ProductsUsed;
 use App\PersonnelHeader;
 use App\Process;
 use App\ProcessService;
@@ -168,6 +171,43 @@ class AddEstimatesController extends Controller
                 'DiscountID' => ($request->discountid)
             ]);
             $estimate = DB::table('estimate')->orderBy('estimateid', 'desc')->first();
+
+            $services = $request->service;
+            $products = $request->product;
+            $quantity = $request->quantity;
+            $untprice = $request->unitprice;
+            $productServiceID = $request->prodserviceid;
+            $subTotal = 0;
+
+            //if (is_array($service) || is_object($services))
+            foreach((array) $services as $service){
+
+                $svcprc = new ServicePrice;
+                $svcprc = ServicePrice::where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
+                ServicePerformed::create([
+                        'ServiceID' => $service,
+                        'EstimateID' => $estimate->EstimateID,
+                        'LaborCost' => $svcprc->Price,
+                    ]);
+                
+                $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();
+
+                foreach((array) $products as $key=>$product){
+                    $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
+                    if ($productServiceID[$key] == $service){
+                        ProductsUsed::create([
+                            'estimateid' => $estimate->EstimateID,
+                            'serviceperformedid' => $svcperf->ServicePerformedID,
+                            'productid' => $product,
+                            'estimateid' => $estimate->EstimateID,
+                            'dateused' => (date('Y-m-d')),
+                            'quantity' => $quantity[$key],
+                            'subtotal' => $subTotal
+                        ]);
+                    }
+                }
+            }
+
             $newRoute = "/addjoborder/fromEstimate/" . $estimate->EstimateID;
             DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
@@ -263,7 +303,7 @@ class AddEstimatesController extends Controller
                     ->join('automobile_model as am', 'sp.modelid', '=', 'am.modelid')
                     ->join('service as se', 'sp.serviceid', '=', 'se.serviceid')
                     ->where(['sp.serviceid' => $id,'sp.modelid' => 1, 'sp.isActive' => 1])
-                    ->select('se.servicename','sp.price')
+                    ->select('se.servicename','sp.price', 'se.estimatedtime')
                     ->first();
         return response()->json(compact('service'));
     }

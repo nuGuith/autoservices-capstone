@@ -28,6 +28,10 @@
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
 
+    <style>
+    span.hidden{ display:none; }
+    span.visible{ display:inline; }
+    </style>
         <!-- CONTENT -->
         <div id="content" class="bg-container">
             <header class="head">
@@ -62,7 +66,7 @@
                             <div class="card" >
                                 <div class="card-block m-t-15">
                                     <div class="row m-t-15">    
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-5">
                                             <h5>Search Customer Name:</h5>
                                             <p>
                                                 <p class="m-t-10">
@@ -79,7 +83,11 @@
                                                 }}
                                             </p>
                                         </div>
-                                        <div id="selectPlateNo" class="col-lg-6 ">
+                                        <div class="col-lg-1 m-t-20" style="margin-left:-15px;margin-right:-15px;">
+                                            <center><h3> </h3></center>
+                                            <center><h3> or </h3></center>
+                                        </div>
+                                        <div id="selectPlateNo" class="col-lg-6">
                                             <h5>Search Plate No:</h5>
                                             <p>
                                                 <p class="m-t-10">
@@ -110,7 +118,7 @@
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
-                                            <h5>Middle Name: <span style="color:red">*</span></h5>
+                                            <h5>Middle Name:</h5>
                                             <p>
                                                 <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10">
                                             </p>
@@ -343,10 +351,10 @@
                                         <tfoot id="footer">
                                             <tr class="trrow">
                                                 <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <span style="text-align: center; color: blue"></span>
+                                                    <span id="estimated" style="text-align: center; color: blue"></span>
                                                 </th>
                                                 <th colspan="3" style="text-align: right;">Grand Total Price (PhP):  </th>
-                                                <th id="grandtotal" style="text-align: right; color: red">0.00</th>
+                                                <th><h5 id="grandtotal" style="text-align: right; color: red">0.00</h5></th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
@@ -515,6 +523,23 @@ $(document).ready(function () {
     var grandTotal = 0;
     var routeID = null;
     var redirect = '';
+    var totalEstimatedTime = 0;
+
+
+    var clicked = false;
+    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #color, #MT, #AT, #personnels").on({
+        focusin: function() {
+            if($(this).val() == "") $(this).css("border-color", "lightblue");
+            else { $(this).css("border-color", "lightblue"); /* $(this).css("display", "inline"); */ }
+        },
+        focusout: function() {
+            if($(this).val() == "" && clicked){ $(this).css("border", "1.5px solid #FF3839"); /* $(this).css("display", "inline"); */ }
+            /* else{ $(this).css("display", "none"); } */
+        },
+        click: function() {
+            clicked = true;
+        }
+    });
 
 
     $("#btnProceed").on("click", function (e) {
@@ -633,9 +658,7 @@ $(document).ready(function () {
                 $('#products').val(null).trigger('chosen:updated');
                 $('#products').prop("disabled", true);
                 $('#addRow').prop('disabled', true);
-                filterServices();
-                $('#AT').prop("checked", true);
-                $('#MT').prop("checked", true);               
+                filterServices();            
             }
         });
     });	
@@ -656,6 +679,14 @@ $(document).ready(function () {
         modelID = selectedID;
 
         filterServices();
+    });
+
+    $("#AT").change(function(){
+        $("#MT").prop("checked", false);
+    });
+    
+    $("#MT").change(function(){
+        $("#AT").prop("checked", false);
     });
 
     function filterServices(){
@@ -763,13 +794,12 @@ $(document).ready(function () {
                 var pr = data.service.price;
                 pr = parseFloat(pr).toFixed(2);
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
-                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" class="form-control" value="1"></td>';
-                cols += '<td style="border-right:none !important"></td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="quantity" placeholder="" class="form-control" value="1"><input type="hidden" style="width:5px;" id="" name="prodserviceid" placeholder="" class="form-control" value="'+selectedService+'"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-left:none !important"><center><button type="button" id="" data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
-
+                cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
                 $('#labor').removeClass("focused_input");
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#footer");
@@ -790,17 +820,17 @@ $(document).ready(function () {
                 dataType: "JSON",
                 async: false,
                 success: function (data) {
-                    var newProductRow = $("<tr class='product' id='"+selectProduct[k]+"'>");
+                    var newProductRow = $("<tr class='product' id='svc"+selectedService+"'>");
                     cols = "";
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
-                    cols += '<td style="border-right:none !important"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" style="width:55px; text-align:center;" id="quantity" name="quantity" placeholder="Quantity" class="form-control" value="1"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                    cols += '<td style="border-left:none !important"><center><button type="button" id="" data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
+                    cols += '<td style="border-left:none !important"><center><button type="button" id="" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
 
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#footer");
@@ -813,28 +843,67 @@ $(document).ready(function () {
                     cols = "";
                     counter++;
 
-                    $("table.list").on("keyup", "input#quantity", function(){
+                    /* $("table.list").on("keyup", "input#quantity", function(){
                         getGrandTotal();
+                    }); */
+
+                    $("table td input").bind({
+                        keyup: function() {
+                            getGrandTotal();
+                        },
+                        mouseleave: function() {
+                            getGrandTotalNoQty();
+                        },
+                        focusout: function() {
+                            $(this).data("kendoTooltip").hide();
+                            getGrandTotalNoQty();
+                        }
                     });
 
                     $("table.list").on("click", ".btnDel", function (event) {
                         $(this).closest("tr").remove();
+                        var id = $(this).data('serviceid');
+                        removeIncludedProduct(id);
+                        getEstimatedTime();
                         getGrandTotal();
                     });
                     
                 }
             });
         }
-
+        getEstimatedTime();
         getGrandTotal();
         $("#problem").val(null);
         $("#services").val(0).trigger("chosen:updated");
         $("#products").val(null).trigger("chosen:updated");
         $("#addRow").prop("disabled", true);
+        $("#labor").val(null);
         $("#products").prop("disabled", "disabled").trigger('chosen:updated');
     });
 
     function getGrandTotal(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+
+    }
+
+    function getGrandTotalNoQty(){
         grandTotal = 0;
         var qty, price, total;
         $('table td input').each(function() {
@@ -860,19 +929,32 @@ $(document).ready(function () {
 
     }
 
-    //Button: Delete Row
-    $("table.list").on("click", ".btnDel", function (event) {
-
-        $(this).closest("tr").remove();
-        var svcID = $(this).data('serviceid');
-        //alert(svcID);
-        $("tr#product").each(function() {
-            var prodSvcID = $(this).data('serviceid');
-            alert(prodSvcID);   
-            if(prodSvcID == svcID)
-                $(this).closest("tr").remove();
+    function getEstimatedTime(){
+        totalEstimatedTime = 0;
+        var time, inHours, inMins;
+        $('table td button').each(function() {
+            if ((this.id) == "svc"){
+                time = this.name;
+                totalEstimatedTime += parseFloat(time);
+            }
         });
-    });
+        inHours = parseInt(totalEstimatedTime / 60);
+        if (inHours > 1) inHours = inHours + "hrs. ";
+        else inHours = inHours + "hr. ";
+        inMins = totalEstimatedTime % 60;
+
+        if (totalEstimatedTime != 0)
+        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
+        else
+        document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+
+    function removeIncludedProduct(id) {
+        var svcid = "svc" + id;
+        $('#itemsTable').each( function() {
+            $('table#itemsTable tr#svc1').remove();
+        });
+    }
 
 });
 </script>

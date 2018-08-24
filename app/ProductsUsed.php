@@ -16,6 +16,7 @@ class ProductsUsed extends Model
         'productid',
         'estimateid',
         'dateused',
+        'quantity',
         'subtotal',
         'isCustomerProvided',
         'isActive'

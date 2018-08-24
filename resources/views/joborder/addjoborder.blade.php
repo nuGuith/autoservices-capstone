@@ -472,7 +472,7 @@
                                                 </td>
                                             <td style="border-left:none !important">
                                                 <center>
-                                                <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button>
+                                                    <input style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="chkInclude" type="checkbox" checked value="">
                                                 </center>
                                             </td>
                                         </tr>
@@ -481,7 +481,7 @@
                                                 <tr>
                                                     <td style="border-right:none !important"></td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" style="width:55px;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" class="form-control">
+                                                        <input type="text" style="width:55px;text-align:center;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
                                                     <span style="color:red">Product:</span><br>{!!$pu->ProductName!!}
@@ -1143,13 +1143,81 @@ $(document).ready(function () {
             });
         }
 
-        $("#grandtotal").text("Php " + grandTotal);
         $("#problem").val(null);
         $("#services").val(0).trigger("chosen:updated");
         $("#products").val(null).trigger("chosen:updated");
         $("#addRow").prop("disabled", true);
         
     });
+
+    
+    function getGrandTotal(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+
+    }
+
+    function getGrandTotalNoQty(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+                if ((qty*1) == 0){
+                    qty = 1;
+                    this.value = qty;
+                }
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+
+    }
+
+    function getEstimatedTime(){
+        totalEstimatedTime = 0;
+        var time, inHours, inMins;
+        $('table td button').each(function() {
+            if ((this.id) == "svc"){
+                time = this.name;
+                totalEstimatedTime += parseFloat(time);
+            }
+        });
+        inHours = parseInt(totalEstimatedTime / 60);
+        if (inHours > 1) inHours = inHours + "hrs. ";
+        else inHours = inHours + "hr. ";
+        inMins = totalEstimatedTime % 60;
+
+        if (totalEstimatedTime != 0)
+        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
+        else
+        document.getElementById("estimated").innerHTML = "No job to do.";
+    }
 
     /* CHANGE SEARCH BY OPTION */
     $("#search").change(function () {
