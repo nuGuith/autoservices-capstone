@@ -75,10 +75,10 @@ class AddEstimatesController extends Controller
         $services->prepend('Choose a Service', 0);
         $products->prepend('Choose a Product', 0);
 
-        $estimate = new Estimate;
-        $estimate->EstimatedID = 0;
+        $estimateID = new Estimate;
+        $estimateID->EstimatedID = 0;
 
-        return view ('estimates.addestimates', compact('customerids', 'automobiles', 'automobile_models', 'service_bays', 'discounts', 'services', 'products', 'personnels', 'estimate'));
+        return view ('estimates.addestimates', compact('customerids', 'automobiles', 'automobile_models', 'service_bays', 'discounts', 'services', 'products', 'personnels', 'estimateID'));
     }
 
     /**
@@ -99,9 +99,9 @@ class AddEstimatesController extends Controller
      */
     public function store(Request $request)
     {
-        $estimateID = 0;
         $cust_id = new Customer;
         $auto_id = new Automobile;
+
         try{
             DB::beginTransaction();
             if ($request->has('customerid')){
@@ -132,7 +132,6 @@ class AddEstimatesController extends Controller
                     'completeaddress' => ($request->address)
                 ]);
                 $cust_id = DB::table('customer')->orderBy('customerid', 'desc')->first();
-                //$cust_id = Customer::orderBy('CustomerID', 'desc')->first();
             }
 
             if ($request->has('automobileid')){
@@ -157,7 +156,6 @@ class AddEstimatesController extends Controller
                     'updated_at' => (date('Y-m-d H:i:s'))
                 ]);
                 $auto_id = DB::table('automobile')->orderBy('automobileid', 'desc')->first();
-                //$auto_id = Automobile::orderBy('automobileid', 'desc')->first();
             }
             Estimate::create([
                 'CustomerID' => ($cust_id->CustomerID),
@@ -167,7 +165,8 @@ class AddEstimatesController extends Controller
                 'PersonnelID' => ($request->personnelid),
                 'DiscountID' => ($request->discountid)
             ]);
-            $estimateID = DB::table('estimate')->orderBy('estimateid', 'desc')->first();
+            $estimate = DB::table('estimate')->orderBy('estimateid', 'desc')->first();
+            $newRoute = "/addjoborder/fromEstimate/" . $estimate->EstimateID;
             DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
@@ -175,7 +174,8 @@ class AddEstimatesController extends Controller
             return response()->json($err);
         }
         //return redirect()->route('fromEstimate', $estimateID->EstimateID);
-        return response()->json(compact('estimateID'));
+        return response()->json(compact('newRoute'));
+        //return \Response::json($response)->with('estimateID', $estimateID);
     }
 
     /**

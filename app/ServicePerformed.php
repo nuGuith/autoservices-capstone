@@ -8,7 +8,7 @@ class ServicePerformed extends Model
 {
     public $timestamps = true;
     protected $table = 'service_performed';
-    protected $primaryKey = 'serviceperformedid';
+    protected $primaryKey = 'ServicePerformedID';
     protected $fillable = [
         'ServiceID',
         'JobOrderID',

@@ -448,7 +448,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- END DELETE MODAL -->
+                <!-- END SUBMIT MODAL -->
             </div>
         </div>
                    
@@ -513,24 +513,30 @@ $(document).ready(function () {
     var i, j, ctr, qtyCtr = 1;
     var modelID = null;
     var grandTotal;
+    var routeID = null;
+    var redirect = '';
 
 
     $("#btnProceed").on("click", function (e) {
-        var estFromRoute;
-        e.preventDefault();
         var formData = $('#estimateForm').serialize();
-
-        $.ajax({
-            type: "POST",
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: "/addestimates",
-            data: formData,
-            async: false,
-            success: function(data) { 
-                alert("Save Complete") 
-                document.getElementById("btnProceed").href = "{{URL::route('fromEstimate',"+estFromRoute+")}}";
-            }
-        });
+        if(routeID == 0 || routeID == null){
+            $.ajax({
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: "/addestimates",
+                data: formData,
+                async: false,
+                success: function(data) { 
+                    alert("Save complete.");
+                    routeID = 1;
+                    redirect = data.newRoute;
+                    window.location.href = redirect;
+                },
+                fail: function(data) {
+                    alert("Failed to save data.");
+                }
+            });
+        }
     });
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */

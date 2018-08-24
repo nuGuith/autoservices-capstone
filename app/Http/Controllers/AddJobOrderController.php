@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Route;
 use App\JobOrder;
 use App\Estimate;
 use App\InspectionHeader;
@@ -17,7 +18,7 @@ use App\Discount;
 use App\Service;
 use App\Product;
 use App\ServicePerformed;
-use App\ProductUsed;
+use App\ProductsUsed;
 use App\PromoHeader;
 use App\PackageHeader;
 use App\PersonnelHeader;
@@ -122,7 +123,102 @@ class AddJobOrderController extends Controller
             ->get();
 
         //dd($personnelskills);
+        
+        //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
+        //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
         return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages'));
+    }
+
+    
+    public function fromEstimate($id)
+    {
+        $estimateids = Estimate::orderBy('estimateid', 'desc')
+        ->where('isActive', 1)
+        ->select('estimateid', DB::table('estimate')
+                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+        ->pluck('estimate_desc','estimateid');
+
+        $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
+        ->where('isActive', 1)
+        ->select('inspectionid', DB::table('inspection_header')
+                                ->raw("CONCAT('ID: ',inspectionid, ' - ', updated_at)  AS inspection_desc"))
+        ->pluck('inspection_desc','inspectionid');
+
+        $customerids = DB::table('customer AS c')
+        ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
+        ->orderBy('a.customerid', 'desc')
+        ->where('c.isActive', 1)
+        ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+        ->pluck('fullname','c.customerid');
+        
+        $automobiles = Automobile::orderBy('created_at', 'desc')
+        ->where('isActive', 1)
+        ->pluck('plateno','automobileid');
+
+        $automobile_models = DB::table('automobile_model')
+                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+                                ->where('automobile_model.isActive',1)
+                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
+
+        $personnels = PersonnelHeader::where('isActive', 1)
+            ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
+            ->pluck('personnelfullname','personnelid');
+
+        $service_bays = ServiceBay::where('isActive', 1)
+        ->pluck('servicebayname', 'servicebayid');
+
+        $discounts = Discount::orderBy('discountid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('discountname', 'discountid');
+
+        $services = Service::orderBy('serviceid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('servicename', 'serviceid');
+
+        $products = Product::orderBy('productid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('productname', 'productid');
+
+        $promos = PromoHeader::orderBy('promoid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('promoname', 'promoid');
+
+        $packages = PackageHeader::orderBy('packageid', 'desc')
+        ->where('isActive', 1)
+        ->pluck('packagename', 'packageid');
+
+        $estimate = Estimate::findOrFail($id);
+        $automobile = Automobile::findOrFail($estimate->AutomobileID);
+        $customer = Customer::findOrFail($automobile->CustomerID);
+
+        
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
+
+        $estimateids->prepend('Please choose an Estimate ID',0);
+        $inspectionids->prepend('Please choose an Inspection ID',0);
+        $customerids->prepend('Please select a customer',0);
+        $automobiles->prepend('Select a Plate Number',0);
+        $automobile_models->prepend('Select a Model',0);
+        $service_bays->prepend('Please choose a Service Bay', 0);
+        $discounts->prepend('Choose a Discount', 0);
+        $services->prepend('Choose a Service', 0);
+        $products->prepend('Choose a Product', 0);
+        $promos->prepend('Choose a Promo', 0);
+        $packages->prepend('Choose a Package', 0);
+
+        $currentRoute = Route::currentRouteName();
+
+        //dd(compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'personnels', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute'));
     }
 
     /**
@@ -150,6 +246,8 @@ class AddJobOrderController extends Controller
             DB::beginTransaction();
             if ($request->has('customerid')){
                 $cust_id->CustomerID = ($request->customerid);
+                $firstname = ($request->fname). ' ';
+                $middlename = ($request->mname). ' ';
                 Customer::where(['isActive' => 1, 'customerid' => $cust_id->CustomerID])
                         ->update([
                             'firstname' => $firstname,
@@ -173,7 +271,7 @@ class AddJobOrderController extends Controller
                     'pwd_sc_no' => ($request->pwd_sc_no),
                     'completeaddress' => ($request->address)
                 ]);
-                $cust_id = Customer::orderBy('customerid', 'desc')->first();
+                $cust_id = DB::table('customer')->orderBy('customerid', 'desc')->first();
             }
 
             if ($request->has('automobileid')){
@@ -181,7 +279,6 @@ class AddJobOrderController extends Controller
                 Automobile::where(['isActive' => 1, 'automobileid' => $auto_id->AutomobileID])
                 ->update([
                     'plateno' => ($request->plateno),
-                    'customerid' => ($cust_id),
                     'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
@@ -191,13 +288,14 @@ class AddJobOrderController extends Controller
             else {
                 Automobile::create([
                     'plateno' => ($request->plateno),
-                    'customerid' => ($cust_id),
+                    'customerid' => ($cust_id->CustomerID),
                     'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
-                    'color' => ($request->color)
+                    'color' => ($request->color),
+                    'updated_at' => (date('Y-m-d H:i:s'))
                 ]);
-                $auto_id = Automobile::orderBy('automobileid', 'desc')->first();
+                $auto_id = DB::table('automobile')->orderBy('automobileid', 'desc')->first();
             }
                 
             JobOrder::create([
@@ -215,6 +313,9 @@ class AddJobOrderController extends Controller
                 'updated_at' => (date('Y-m-d H:i:s'))
             ]);
             DB::commit();
+            $response = new JobOrder;
+            $jo = DB::table('job_order')->orderBy('joborderid', 'desc')->first();
+            $response->JobOrderID = $jo->JobOrderID;
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $err = $e->getMessage();
@@ -223,7 +324,7 @@ class AddJobOrderController extends Controller
                         ->withInput();
             return response()->json(compact('err'));
         }
-        return redirect('/joborder')->with('status', 'Record saved!');
+        return response()->json(compact('response'));
     }
 
     /**
@@ -242,7 +343,15 @@ class AddJobOrderController extends Controller
         $estimate = Estimate::findOrFail($id);
         $automobile = Automobile::findOrFail($estimate->AutomobileID);
         $customer = Customer::findOrFail($automobile->CustomerID);
-        return response()->json(compact('estimate', 'customer', 'automobile'));
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*')
+            ->get();
+        $productused = DB::table('product_used AS pu')
+            ->where(['estimateid' => $id, 'isActive' => 1])
+            ->select('pu.*')
+            ->get();
+        return response()->json(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
     }
 
     public function searchByCustomerName($id)
