@@ -55,6 +55,8 @@ class AddJobOrderController extends Controller
             ->orderBy('a.customerid', 'desc')
             ->where('c.isActive', 1)
             ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+            ->groupBy('fullname')
+            ->distinct('fullname')
             ->pluck('fullname','c.customerid');
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
@@ -149,6 +151,8 @@ class AddJobOrderController extends Controller
         ->orderBy('a.customerid', 'desc')
         ->where('c.isActive', 1)
         ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+        ->groupBy('fullname')
+        ->distinct('fullname')
         ->pluck('fullname','c.customerid');
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
@@ -359,7 +363,11 @@ class AddJobOrderController extends Controller
         $automobile = Automobile::where('customerid', '=', $id)->first();
         $estimate = Estimate::where('AutomobileID', '=', $automobile->AutomobileID)->first();
         $customer = Customer::findOrFail($id);
-        return response()->json(compact('estimate', 'customer', 'automobile'));
+        $plates = DB::table('automobile AS auto')
+                ->where(['auto.customerid' => $id, 'auto.isActive' => 1])
+                ->select('auto.plateno','auto.automobileid')
+                ->get();
+        return response()->json(compact('estimate', 'customer', 'automobile', 'plates'));
     }
     
     public function searchByPlateNo($id)

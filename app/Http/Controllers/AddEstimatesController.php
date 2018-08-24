@@ -36,6 +36,8 @@ class AddEstimatesController extends Controller
         $customerids = Customer::orderBy('customerid', 'desc')
         ->where('isActive', 1)
         ->select('customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+        ->groupBy('fullname')
+        ->distinct('fullname')
         ->pluck('fullname','customerid');
         
         $automobiles = Automobile::orderBy('created_at', 'desc')

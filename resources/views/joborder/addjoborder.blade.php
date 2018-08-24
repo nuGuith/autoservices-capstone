@@ -271,12 +271,12 @@
                                         <h5>Transmission: <span style="color:red">*</span></h5>
                                         <div class="checkbox-rotate m-t-20">
                                         <label class="text-black"  style="padding-left: 45px;">
-                                            <input id="MT" type="checkbox" value="MT">
+                                            <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
                                             &nbsp;&nbsp;Manual 
                                         </label>
 
                                         <label class="text-black" style="padding-left: 60px;">
-                                            <input id="AT" type="checkbox" value="AT">
+                                            <input id="AT" type="checkbox" value="AT" style="-webkit-transform: scale(1.4);">
                                             &nbsp;&nbsp;Automatic 
                                         </label>
                                         </div>
@@ -952,10 +952,12 @@ $(document).ready(function () {
 
     var estimateID, inspectID, packageID, promoID;
     var nah;
+    var servicePrices = [];
     var selectProduct = [];
     var selectedService = "";
     var selectService;
     var i, j, ctr, totalCounter = 0;
+    var modelID = null;
     var price;
     var grandTotal = 0;
     var fromEstimate = false;
@@ -1043,7 +1045,7 @@ $(document).ready(function () {
             cols += '<td style="border-right:none !important"><a></a></td>';
             cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="unitprice" placeholder="0%" class="form-control"></td>';
             cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="price " placeholder="00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
+            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
             newDiscountRow.append(cols);
             $("tr#discount").replaceWith(newDiscountRow);
             $("#discounts").val(null).trigger("chosen:updated");
@@ -1270,6 +1272,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/addjoborder/"+selectedID+"/searchByCustomerName",
             dataType: "JSON",
+            async: false,
             success:function(data){
                 $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
                 $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
@@ -1285,9 +1288,75 @@ $(document).ready(function () {
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
+                var model = Object.keys(data.plates).length;
+                if (model < 2){
+                    modelID = parseInt(data.automobile.ModelID);
+                    filterServices();
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+selectedID+"/filterPlateNo",
+            dataType: "JSON",
+            success:function(data){
+                var count = Object.keys(data.plates).length;
+                if (count>1){
+                    $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
+                    $('#automobiles').trigger("chosen:updated");
+                    var options = '';
+                    resetFieldsIfhasMultipleRecs();
+                    for(var i = 0; i < count; i++){
+                        options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                    }
+                    $('#automobiles').append(options);
+                    $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
+                    $('#automobiles').trigger("chosen:updated");
+                }
             }
         });
     });
+
+    function filterServices(){
+        $.ajax({
+            type: "GET",
+            url: "addestimates/"+modelID+"/getServicePrice",
+            dataType: "JSON",
+            success:function(data){
+                var options = '';
+                var price ='';
+                var count = Object.keys(data.serviceprices).length;
+                if (count > 0)
+                    $('#services').empty().append('<option value = 0> Choose a Service</option>');
+                else
+                    $('#services').empty().append('<option value = 0> No services available. </option>');
+
+                $('#services').trigger("chosen:updated");
+                for(var i = 0; i < count; i++)
+                {
+                    options += '<option value ="' + data.serviceprices[i].serviceid + '" data-price="' + data.serviceprices[i].price + '">' + data.serviceprices[i].servicename +'</option>';
+                }
+                $('#services').append(options);
+                $("#services option[value='0']").prop("disabled", true, "selected", false);
+                $('#services').trigger("chosen:updated");
+            }
+        });
+    }
+
+    // this function resets the Vehicle Information fields if multiple vehicle records are found.
+    function resetFieldsIfhasMultipleRecs(){
+        alert("This customer has more than one registered car, \nplease select using the Plate Number for the Vehicle Information. \nOr you can just register a new one! :D \n\nThank you.");
+        $('#plateno').val(null);
+        $('#chassisno').val(null);
+        $('#mileage').val(null);
+        $('#color').val(null);
+        $('#automobiles').val(0).trigger('chosen:updated');
+        $('#automobile_models').val(0).trigger('chosen:updated');
+        $('#AT').prop("checked", false);
+        $('#MT').prop("checked", false);
+        //$('#selectPlateNo').addClass('focused_input');
+    }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
     $("#automobiles").change(function () {
@@ -1367,6 +1436,14 @@ $(document).ready(function () {
 	$("#servicebays").change(function () {
 		var selectedID = $(this).val();
 	});
+
+    /* CHOOSE MODEL TO FILTER SERVICE PRICE*/
+    $("#automobile_models").change(function(){
+        var selectedID = $(this).val();
+        modelID = selectedID;
+
+        filterServices();
+    });
 
     $("#pwd_sc_No").change(function(){
         autoDiscount();

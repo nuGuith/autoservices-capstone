@@ -214,13 +214,13 @@
                                             <h5>Transmission: <span style="color:red">*</span></h5>
                                             <div class="row checkbox-rotate m-t-15">
                                                 <label class="text-black"  style="padding-left: 45px;">
-                                                    <input id="MT" type="checkbox" value="MT">
+                                                    <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
                                                     &nbsp;&nbsp;Manual 
                                                 </label>
 
                                                 <label class="text-black" style="padding-left: 45px;">
-                                                    <input id="AT" type="checkbox" value="AT">
-                                                    &nbsp;&nbsp;Automatic 
+                                                    <input id="AT" type="checkbox" value="AT" style="-webkit-transform: scale(1.4);">
+                                                    &nbsp;&nbsp;Automatic
                                                 </label>
                                             </div>
                                         </div>  
@@ -334,7 +334,7 @@
                                                     </h5>
                                                 </td>
                                                 <td style="width: 3%;">
-                                                    <h5>Include<span style="color: red"></span>
+                                                    <h5>Action<span style="color: red"></span>
                                                     </h5>
                                                 </td>
                                             </tr>
@@ -512,7 +512,7 @@ $(document).ready(function () {
     var selectService;
     var i, j, ctr, qtyCtr = 1;
     var modelID = null;
-    var grandTotal;
+    var grandTotal = 0;
     var routeID = null;
     var redirect = '';
 
@@ -680,6 +680,7 @@ $(document).ready(function () {
                 $('#services').append(options);
                 $("#services option[value='0']").prop("disabled", true, "selected", false);
                 $('#services').trigger("chosen:updated");
+                $('#labor').val(null);
             }
         });
     }
@@ -756,25 +757,28 @@ $(document).ready(function () {
             type: "GET",
             url: "/addestimates/"+selectedService+"/getServiceDetails",
             dataType: "JSON",
+            async: false,
             success:function(data){
-                var newServiceRow = $("<tr id='id'>");
-                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
-                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="1" readonly class="form-control quantity"></td>';
-                cols += '<td style="border-right:none !important"></td>';
+                var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
                 var pr = data.service.price;
                 pr = parseFloat(pr).toFixed(2);
+                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" class="form-control" value="1"></td>';
+                cols += '<td style="border-right:none !important"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control unitprice"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control totalprice" value="'+ pr +'"></td>';
-                cols += '<td style="border-left:none !important"><center><button type="button" id="" data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></center></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><center><button type="button" id="" data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
+
                 $('#labor').removeClass("focused_input");
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#footer");
+
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
+
                 selectedService = null;
                 cols = "";
-                getGrandTotal();
             }
         });
         
@@ -784,56 +788,36 @@ $(document).ready(function () {
                 type: "GET",
                 url: "/addestimates/"+ selectProduct[k] +"/getProductDetails",
                 dataType: "JSON",
+                async: false,
                 success: function (data) {
-                    var newProductRow = $("<tr >");
+                    var newProductRow = $("<tr class='product' id='"+selectProduct[k]+"'>");
                     cols = "";
-                    cols += '<td style="border-right:none !important"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" class="form-control"></td>';
-                    cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
-                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control unitprice"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control totalprice" value="'+ pr +'"></td>';
-                    cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+selectedService+'" id="chkInclude" type="checkbox" checked value="'+selectProduct[k]+'"></center></td>';
+                    cols += '<td style="border-right:none !important"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px; text-align:center;" id="quantity" name="quantity" placeholder="Quantity" class="form-control" value="1"></td>';
+                    cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-left:none !important"><center><button type="button" id="" data-serviceid="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
+
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#footer");
+
                     if (ctr != 1){
                         newProductRow = $("<tr>");
                         cols = "";
                     }
+
                     cols = "";
                     counter++;
-                    $("#quantity"+qtyCtr).on("keyup", function(){
-                        var qty = $(this).val();
-                        qty = parseFloat(qty).toFixed(2);
-                        if (qty == null || qty == 1){
-                            qty = 1;
-                        }
-                        var unitprice = parseFloat(pr).toFixed(2);
-                        total = parseFloat(qty * unitprice).toFixed(2);
-                        grandTotal += parseFloat(total).toFixed(2);
-                        alert("Grand total: " + grandTotal);
-                        alert("Qty: "+qty + " * Unitprice: " +unitprice + " Total: " + total);
-                        getGrandTotal();
-                    });
-                    qtyCtr++;
 
-                    $("#chkInclude").on("click", function() {
-                        if(this.checked) {
-                            alert("I'm checked, u know it");
-                        }
-                        if(!(this.checked)) {
-                            alert("Oh no, now i'm not.");
-                        }
+                    $("table.list").on("keyup", "input#quantity", function(){
+                        getGrandTotal();
                     });
 
                     $("table.list").on("click", ".btnDel", function (event) {
-                        var svcID = $(this).data('serviceid');
-                        $("#itemsTable tr").each(function(){
-                            var prodSvcID = $(this).closest("#chkInclude").data('serviceid');
-                            alert(prodSvcID);
-                        });
                         $(this).closest("tr").remove();
                         getGrandTotal();
                     });
@@ -851,50 +835,43 @@ $(document).ready(function () {
     });
 
     function getGrandTotal(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+                if ((qty*1) == 0){
+                    qty = 1;
+                    this.value = qty;
+                }
+            }
 
-        $("#itemsTable tr").each(function() {
-            var quantity  = $(this).find("input #quantity").val();
-            var unitprice = $(this).find("input #unitprice").val();
-            quantity = parseFloat(quantity);
-            unitprice = parseFloat(unitprice);
-            var totalprice = parseFloat(quantity * unitprice);
-            $(this).find("input #totalprice").val('AAAAA');
-            grandTotal += totalprice;
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
         });
-        alert("i was here");
-        
-        document.getElementById("grandtotal").innerHTML = grandTotal;
+        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
 
     }
 
     //Button: Delete Row
     $("table.list").on("click", ".btnDel", function (event) {
-        $(this).closest("tr").remove();       
-      
-    });
 
-    $("table.list").on("click", ".btnDel", function (event) {
         $(this).closest("tr").remove();
         var svcID = $(this).data('serviceid');
-        alert(svcID);
+        //alert(svcID);
         $("tr#product").each(function() {
             var prodSvcID = $(this).data('serviceid');
             alert(prodSvcID);   
             if(prodSvcID == svcID)
                 $(this).closest("tr").remove();
         });
-        /* if (this.checked) {
-            $("#checkProduct").each(function() {
-                var prodSvcID = $(this).data('serviceid').val();
-                if(prodSvcID)
-                this.checked=true;
-            });
-        } 
-        else {
-            $("#checkProduct").each(function() {
-                this.checked=false;
-            });
-        } */
     });
 
 });
