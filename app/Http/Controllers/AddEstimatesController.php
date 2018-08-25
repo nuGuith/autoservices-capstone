@@ -121,7 +121,7 @@ class AddEstimatesController extends Controller
                             'ContactNo' => $request->contact, 
                             'emailaddress' => $request->email, 
                             'pwd_sc_no' => $request->pwd_sc_no, 
-                            'completeaddress' => $request->address
+                            'CompleteAddress' => $request->address
                         ]);
             }
             else {
@@ -134,7 +134,7 @@ class AddEstimatesController extends Controller
                     'ContactNo' => ($request->contact),
                     'emailaddress' => ($request->email),
                     'pwd_sc_no' => ($request->pwd_sc_no),
-                    'completeaddress' => ($request->address)
+                    'CompleteAddress' => ($request->address)
                 ]);
                 $cust_id = DB::table('customer')->orderBy('customerid', 'desc')->first();
             }
@@ -155,6 +155,7 @@ class AddEstimatesController extends Controller
                     'plateno' => ($request->plateno),
                     'customerid' => ($cust_id->CustomerID),
                     'modelid' => ($request->modelid),
+                    'transmission' => ($request->transmission),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
                     'color' => ($request->color),
@@ -176,11 +177,12 @@ class AddEstimatesController extends Controller
             $products = $request->product;
             $quantity = $request->quantity;
             $untprice = $request->unitprice;
-            $productServiceID = $request->prodserviceid;
-            $subTotal = 0;
+            $serviceid= $request->serviceid;
 
-            //if (is_array($service) || is_object($services))
+            //if (is_array($services) || is_object($services))
             foreach((array) $services as $service){
+                
+                $subTotal = 0;
 
                 $svcprc = new ServicePrice;
                 $svcprc = ServicePrice::where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
@@ -192,14 +194,14 @@ class AddEstimatesController extends Controller
                 
                 $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();
 
-                foreach((array) $products as $key=>$product){
-                    $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
-                    if ($productServiceID[$key] == $service){
+                foreach($serviceid as $key=>$svcid){
+                    if ($serviceid[$key] == $svcperf->ServiceID){
+                        if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key])) $quantity[$key] = 1;
+                        $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
                         ProductsUsed::create([
                             'estimateid' => $estimate->EstimateID,
                             'serviceperformedid' => $svcperf->ServicePerformedID,
-                            'productid' => $product,
-                            'estimateid' => $estimate->EstimateID,
+                            'productid' => $products[$key],
                             'dateused' => (date('Y-m-d')),
                             'quantity' => $quantity[$key],
                             'subtotal' => $subTotal
@@ -217,7 +219,6 @@ class AddEstimatesController extends Controller
         }
         //return redirect()->route('fromEstimate', $estimateID->EstimateID);
         return response()->json(compact('newRoute'));
-        //return \Response::json($response)->with('estimateID', $estimateID);
     }
 
     /**

@@ -15,6 +15,7 @@ class Estimate extends Model
         'InspectionID',
         'DiscountID',
         'PersonnelID',
+        'ServiceBayID',
         'isActive',
         'updated_at'
     ];

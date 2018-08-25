@@ -444,7 +444,7 @@
                                                 <span style="color:red">Service:</span><br>{!!$sp->ServiceName!!}<br>
                                             </td>
                                             <td  style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="" readonly class="form-control hidden">
+                                                <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
                                             </td>
                                             <td style="border-right:none !important"></td>
                                             <td style="border-right:none !important">
@@ -465,10 +465,10 @@
                                                 }}
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control">
+                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:70px;text-align: right"  name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
                                                 </td>
                                             <td style="border-left:none !important">
                                                 <center>
@@ -481,7 +481,7 @@
                                                 <tr>
                                                     <td style="border-right:none !important"></td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" style="width:55px;text-align:center;" id="quantity'+qtyCtr+'" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control">
+                                                        <input type="text" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
                                                     <span style="color:red">Product:</span><br>{!!$pu->ProductName!!}
@@ -491,10 +491,10 @@
                                                     </td>
                                                     <td style="border-right:none !important"><a></a></td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control unitprice">
+                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control totalprice" value="{!!$pu->Price!!}">
+                                                        <input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
                                                     </td>
                                                     <td style="border-left:none !important">
                                                         <center>
@@ -535,75 +535,6 @@
                                     </tbody>
                                     @elseif(Route::current()->getName() != 'fromEstimate')
                                     <tbody >
-                                            <tr>
-                                            <td style="border-right:none !important">
-                                                <span style="color:red">Service:</span><br>
-                                            </td>
-                                            <td  style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="" readonly class="form-control hidden">
-                                            </td>
-                                            <td style="border-right:none !important"></td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <select class="form-control chzn-select" multiple style="width:120px;" value="Choose Mechanic">
-                                                    <option disabled>Choose Mechanic</option>
-                                                    <optgroup label="Maintenance">
-                                                        <option>Juan Dela Cruz</option>
-                                                        <option>Pedro Dela Cruz</option>
-                                                    </optgroup>
-                                                </select>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:50px;text-align: right"  name="price" placeholder=".00" class="form-control" value="">
-                                                </td>
-                                            <td style="border-left:none !important">
-                                                <center>
-                                                <div class="checkbox radio_Checkbox_size2">
-                                                    <label>
-                                                        <input type="checkbox" value="" id="checkService">
-                                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                                                    </label>
-                                                </div>
-                                                </center>
-                                            </td>
-                                            </tr>
-                                        <!--Example for product-->
-                                            <tr>
-                                            <td style="border-right:none !important">
-                                            </td>
-                                            <td  style="border-right:none !important">
-                                                <input type="text" style="width:55px;" id="id" name="quantity" placeholder="" value=""  class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <span style="color:red">Product</span><br>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:50px; text-align:right;" id="unitprice" name="unitprice" placeholder=".00" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:50px; text-align:right;" id="price" name="price" placeholder=".00" class="form-control" value="">
-                                                </td>
-                                            <td style="border-left:none !important">
-                                                <center>
-                                                <div class="checkbox radio_Checkbox_size2">
-                                                    <label>
-                                                        <input type="checkbox" value="" id="checkProduct">
-                                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                                                    </label>
-                                                </div>
-                                                </center>
-                                            </td>
-                                            </tr>
                                             <!--Example: for Discount-->
                                             <!--Hidden Field: Quantity Labor, Assign Mechanic -->
                                             <tr id="discount">
@@ -640,7 +571,8 @@
                                     <tfoot>
                                         <tr>
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
-                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center; color: blue">3 days</span>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                             <span id="estimated" style="text-align: center; color: blue">3 days</span>
                                             </th>
 
                                             <td colspan="4" style="width: 5px; text-align: right">
@@ -671,15 +603,14 @@
                                                     </optgroup>
                                                 </select> -->
                                                 {{ Form::select(
-                                                    'personnels',
+                                                    'mechanic',
                                                     $personnels,
                                                     null,
                                                     array(
                                                         'class' => 'form-control chzn-select',
-                                                        'id' => 'personnels',
+                                                        'id' => 'mechanic',
                                                         'name' => 'personnelid',
-                                                        'style' => 'width:110px',
-                                                        'multiple')
+                                                        'style' => 'width:110px')
                                                     ) 
                                                 }}
 	                                        </p>
@@ -704,8 +635,7 @@
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'personnels',
                                                         'name' => 'personnelid',
-                                                        'style' => 'width:110px',
-                                                        'multiple')
+                                                        'style' => 'width:110px')
                                                     ) 
                                                 }}
 	                                        </p>
@@ -730,8 +660,7 @@
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'personnels',
                                                         'name' => 'personnelid',
-                                                        'style' => 'width:110px',
-                                                        'multiple')
+                                                        'style' => 'width:110px')
                                                     ) 
                                                 }}
 	                                        </p>
@@ -755,8 +684,7 @@
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'personnels',
                                                         'name' => 'personnelid',
-                                                        'style' => 'width:110px',
-                                                        'multiple')
+                                                        'style' => 'width:110px')
                                                     ) 
                                                 }}
                                                 </select>
@@ -960,6 +888,7 @@ $(document).ready(function () {
     var modelID = null;
     var price;
     var grandTotal = 0;
+    var totalEstimatedTime = 0;
     var fromEstimate = false;
 
     $("#estimates option[value='0']").prop("disabled",true);
@@ -973,7 +902,16 @@ $(document).ready(function () {
     $("#promos option[value='0']").prop("disabled",true);
     $("#packages option[value='0']").prop("disabled",true);
     $("#personnels option[value='0']").prop("disabled",true);
+    $("#mechanic option[value='0']").prop("disabled",true);
     $("#addRow").prop("disabled",true);
+
+    var estimate = {!! json_encode($estimate->toArray()) !!};
+
+    if(estimate.ServiceBayID > 0 || (estimate.ServiceBayID != null) ){
+        var servicebay = parseInt(estimate.ServiceBayID);
+        $("#servicebays").val(servicebay).trigger("chosen:updated");
+        getGrandTotal();
+    }
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#jobForm').serialize();
@@ -1070,17 +1008,9 @@ $(document).ready(function () {
             
     });
 
-    function compute(){
-        for (i = 0; i < totalCounter; i++){
-            grandTotal += price[i];
-        }
-        document.getElementById("grandtotal").innerHTML = "PhP " + grandTotal;
-    }
-
     //Button: Add Row
     var newProductRow = $("<tr/>");
     $("#addRow").on("click", function (event) {
-        compute();
         var counter = 0;
         var cols = "";
 
@@ -1088,61 +1018,89 @@ $(document).ready(function () {
             type: "GET",
             url: "/addjoborder/"+selectedService+"/getServiceDetails",
             dataType: "JSON",
+            async:false,
             success:function(data){
-                var newServiceRow = $("<tr id='id'>");
-                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
-                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="id" name="quantity" placeholder="" value="'+ selectedService +'" readonly class="form-control hidden"></td>';
-                cols += '<td style="border-right:none !important"></td>';
+                var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
                 var pr = data.service.price;
-                cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
+                pr = parseFloat(pr).toFixed(2);
+                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="quantity" name="" placeholder="" value="1" readonly class="form-control hidden"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><select id="mechanic" class="form-control chzn-select"></select></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right"  name="price" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><button type="button" id="svc" name="'+data.service.estimatedtime+'"  class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#discount");
+
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
-                selectedService = null;
-                price[totalCounter] = pr;
+
+                
                 cols = "";
-                counter++;
-                totalCounter++;
             }
         });
         
         counter++;
-        var newProductRow = $("<tr>");
+        var newProductRow = $("<trclass='product' id='svc"+selectedService+"'>");
         for(var k = 0; k < ctr; k++){
             $.ajax({
                 type: "GET",
                 url: "/addjoborder/"+ selectProduct[k] +"/getProductDetails",
                 dataType: "JSON",
+                async:false,
                 success: function (data) {
+                    var newProductRow = $("<tr class='product' id='svc"+selectedService+"'>");
                     cols = "";
-                    cols += '<td style="border-right:none !important"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px;" id="quantity" name="quantity" placeholder="Quantity" class="form-control hidden"></td>';
+                    var pr = data.product.price;
+                    pr = parseFloat(pr).toFixed(2);
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control hidden" value="1"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><a></a></td>';
-                    var pr = data.product.price;
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                     cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+selectedService+'" id="chkInclude" type="checkbox" checked value="'+selectProduct[k]+'"></center></td>';
+
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#discount");
+
                     if (ctr != 1){
                         newProductRow = $("<tr>");
                         cols = "";
                     }
-                    price[totalCounter] = pr;
+                    
                     cols = "";
                     counter++;
-                    totalCounter++;
+
+                    $("table td input").bind({
+                        keyup: function() {
+                            getGrandTotal();
+                        },
+                        mouseleave: function() {
+                            getGrandTotalNoQty();
+                        },
+                        focusout: function() {
+                            getGrandTotalNoQty();
+                        }
+                    });
+
+                    $("table.list").on("click", ".btnDel", function (event) {
+                        $(this).closest("tr").remove();
+                        var id = $(this).data('serviceid');
+                        removeIncludedProduct(id);
+                        getEstimatedTime();
+                        getGrandTotal();
+                    });
+
                 }
             });
         }
-
+        selectedService = null;
+        getEstimatedTime();
+        getGrandTotal();
         $("#problem").val(null);
         $("#services").val(0).trigger("chosen:updated");
         $("#products").val(null).trigger("chosen:updated");
@@ -1169,7 +1127,7 @@ $(document).ready(function () {
                 grandTotal += parseFloat(total);
             } 
         });
-        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
 
     }
 
@@ -1447,14 +1405,41 @@ $(document).ready(function () {
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                modelID = parseInt(data.automobile.ModelID);
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
-                $('#AT').prop("checked", true);
-                $('#MT').prop("checked", true);
+                filterServices();
             }
         });
     });
+
+    function filterServices(){
+        $.ajax({
+            type: "GET",
+            url: "addestimates/"+modelID+"/getServicePrice",
+            dataType: "JSON",
+            success:function(data){
+                var options = '';
+                var price ='';
+                var count = Object.keys(data.serviceprices).length;
+                if (count > 0)
+                    $('#services').empty().append('<option value = 0> Choose a Service</option>');
+                else
+                    $('#services').empty().append('<option value = 0> No services available. </option>');
+
+                $('#services').trigger("chosen:updated");
+                for(var i = 0; i < count; i++)
+                {
+                    options += '<option value ="' + data.serviceprices[i].serviceid + '" data-price="' + data.serviceprices[i].price + '">' + data.serviceprices[i].servicename +'</option>';
+                }
+                $('#services').append(options);
+                $("#services option[value='0']").prop("disabled", true, "selected", false);
+                $('#services').trigger("chosen:updated");
+                $('#labor').val(null);
+            }
+        });
+    }
 
     /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
     $("#services").change(function () {
@@ -1607,6 +1592,11 @@ $(document).ready(function () {
         }
         packageID = selectedID;
 	});
+
+    $("#mechanic").change(function(){
+        var selectedID = $(this).val();
+        $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+    });
 
 });
 </script>

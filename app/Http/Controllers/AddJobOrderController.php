@@ -106,7 +106,7 @@ class AddJobOrderController extends Controller
         $discounts->prepend('Choose a Discount', 0);
         $services->prepend('Choose a Service', 0);
         $products->prepend('Choose a Product', 0);
-        $personnels->prepend('Assign Personnel', 0);
+        $personnels->prepend('Assign a personnel', 0);
         $promos->prepend('Choose a Promo', 0);
         $packages->prepend('Choose a Package', 0);
 
@@ -124,11 +124,12 @@ class AddJobOrderController extends Controller
             ->select('ps.*', 'ph.*', 'sh.*')
             ->get();
 
+        $estimate = new Estimate;
         //dd($personnelskills);
         
         //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
         //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages', 'estimate'));
     }
 
     
@@ -212,6 +213,7 @@ class AddJobOrderController extends Controller
         $customerids->prepend('Please select a customer',0);
         $automobiles->prepend('Select a Plate Number',0);
         $automobile_models->prepend('Select a Model',0);
+        $personnels->prepend('Assign a personnel',0);
         $service_bays->prepend('Please choose a Service Bay', 0);
         $discounts->prepend('Choose a Discount', 0);
         $services->prepend('Choose a Service', 0);
@@ -260,7 +262,7 @@ class AddJobOrderController extends Controller
                             'ContactNo' => $request->contact, 
                             'emailaddress' => $request->email, 
                             'pwd_sc_no' => $request->pwd_sc_no, 
-                            'completeaddress' => $request->address
+                            'CompleteAddress' => $request->address
                         ]);
             }
             else {
@@ -273,7 +275,7 @@ class AddJobOrderController extends Controller
                     'ContactNo' => ($request->contact),
                     'emailaddress' => ($request->email),
                     'pwd_sc_no' => ($request->pwd_sc_no),
-                    'completeaddress' => ($request->address)
+                    'CompleteAddress' => ($request->address)
                 ]);
                 $cust_id = DB::table('customer')->orderBy('customerid', 'desc')->first();
             }
@@ -294,6 +296,7 @@ class AddJobOrderController extends Controller
                     'plateno' => ($request->plateno),
                     'customerid' => ($cust_id->CustomerID),
                     'modelid' => ($request->modelid),
+                    'transmission' => ($request->transmission),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
                     'color' => ($request->color),

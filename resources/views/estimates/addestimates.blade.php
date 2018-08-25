@@ -221,6 +221,7 @@
                                         <div class="col-lg-3">
                                             <h5>Transmission: <span style="color:red">*</span></h5>
                                             <div class="row checkbox-rotate m-t-15">
+                                            <input type="hidden" id="transmission" name="transmission">
                                                 <label class="text-black"  style="padding-left: 45px;">
                                                     <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
                                                     &nbsp;&nbsp;Manual 
@@ -544,6 +545,7 @@ $(document).ready(function () {
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#estimateForm').serialize();
+        alert(formData);
         if(routeID == 0 || routeID == null){
             $.ajax({
                 type: "POST",
@@ -552,7 +554,7 @@ $(document).ready(function () {
                 data: formData,
                 async: false,
                 success: function(data) { 
-                    alert("Save complete.");
+                    //alert("Save complete.");
                     routeID = 1;
                     redirect = data.newRoute;
                     window.location.href = redirect;
@@ -561,6 +563,9 @@ $(document).ready(function () {
                     alert("Failed to save data.");
                 }
             });
+        }
+        else{
+            window.location.href = redirect;
         }
     });
 
@@ -658,7 +663,7 @@ $(document).ready(function () {
                 $('#products').val(null).trigger('chosen:updated');
                 $('#products').prop("disabled", true);
                 $('#addRow').prop('disabled', true);
-                filterServices();            
+                filterServices();
             }
         });
     });	
@@ -683,10 +688,14 @@ $(document).ready(function () {
 
     $("#AT").change(function(){
         $("#MT").prop("checked", false);
+        $("#AT").prop("checked", true);
+        $("#transmission").val("A/T");
     });
     
     $("#MT").change(function(){
         $("#AT").prop("checked", false);
+        $("#MT").prop("checked", true);
+        $("#transmission").val("M/T");
     });
 
     function filterServices(){
@@ -794,10 +803,10 @@ $(document).ready(function () {
                 var pr = data.service.price;
                 pr = parseFloat(pr).toFixed(2);
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
-                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="quantity" placeholder="" class="form-control" value="1"><input type="hidden" style="width:5px;" id="" name="prodserviceid" placeholder="" class="form-control" value="'+selectedService+'"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" style="width:70px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
                 $('#labor').removeClass("focused_input");
@@ -807,7 +816,7 @@ $(document).ready(function () {
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
 
-                selectedService = null;
+                
                 cols = "";
             }
         });
@@ -824,11 +833,11 @@ $(document).ready(function () {
                     cols = "";
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
-                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px; text-align:center;" id="quantity" name="quantity" placeholder="Quantity" class="form-control" value="1"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                     cols += '<td style="border-left:none !important"><center><button type="button" id="" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
 
@@ -855,7 +864,6 @@ $(document).ready(function () {
                             getGrandTotalNoQty();
                         },
                         focusout: function() {
-                            $(this).data("kendoTooltip").hide();
                             getGrandTotalNoQty();
                         }
                     });
@@ -871,6 +879,7 @@ $(document).ready(function () {
                 }
             });
         }
+        selectedService = null;
         getEstimatedTime();
         getGrandTotal();
         $("#problem").val(null);
