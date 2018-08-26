@@ -422,7 +422,6 @@ CREATE TABLE `job_order` (
   `EstimateID` int(10) DEFAULT NULL,
   `AutomobileID` int(10) DEFAULT NULL,
   `InspectionID` int(10) DEFAULT NULL,
-  `PersonnelPerformedID` int(10) DEFAULT NULL,
   `ServiceBayID` int(10) NOT NULL,
   `PromoID` int(10) DEFAULT NULL,
   `PackageID` int(10) DEFAULT NULL,
@@ -1512,7 +1511,6 @@ ALTER TABLE `job_order`
   ADD KEY `FK_JobOrder_Estimate` (`EstimateID`),
   ADD KEY `FK_JobOrder_Automobile` (`AutomobileID`),
   ADD KEY `FK_JobOrder_Inspection` (`InspectionID`),
-  ADD KEY `FK_JobOrder_PersonnelJobPerformed` (`PersonnelPerformedID`),
   ADD KEY `FK_JobOrder_ServiceBay` (`ServiceBayID`),
   ADD KEY `FK_JobOrder_Promo` (`PromoID`),
   ADD KEY `FK_JobOrder_Package` (`PackageID`),
@@ -2113,7 +2111,6 @@ ALTER TABLE `job_order`
   ADD CONSTRAINT `FK_JobOrder_Estimate` FOREIGN KEY (`EstimateID`) REFERENCES `estimate` (`EstimateID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Package` FOREIGN KEY (`PackageID`) REFERENCES `package_header` (`PackageID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_JobOrder_PersonnelJobPerformed` FOREIGN KEY (`PersonnelPerformedID`) REFERENCES `personnel_job_performed` (`PersonnelPerformedID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Promo` FOREIGN KEY (`PromoID`) REFERENCES `promo_header` (`PromoID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_ServiceBay` FOREIGN KEY (`ServiceBayID`) REFERENCES `service_bay` (`ServiceBayID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_User` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON UPDATE CASCADE;
