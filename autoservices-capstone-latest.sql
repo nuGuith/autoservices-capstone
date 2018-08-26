@@ -601,7 +601,6 @@ CREATE TABLE `package_service_inclusions` (
 CREATE TABLE `payment` (
   `PaymentID` int(10) NOT NULL,
   `JobOrderID` int(10) NOT NULL,
-  `TotalCharge` decimal(14,2) NOT NULL,
   `TotalPayment` decimal(14,2) NOT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
