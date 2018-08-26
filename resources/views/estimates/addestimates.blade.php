@@ -205,7 +205,7 @@
                                             <span class="input-group-addon m-t-10">
                                                 <i class="fa fa-dashboard"></i>
                                             </span>
-                                            <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10">
+                                            <input id="mileage" name="mileage" type="number" placeholder="Miles" class="form-control m-t-10" min="1">
                                         </div>
                                     </div>                         
                                 </div>
@@ -215,13 +215,13 @@
                                     <div class="col-lg-3">
                                             <h5>Color: <span style="color: red"></span></h5>
                                             <p>
-                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10">
+                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
                                             </p>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Transmission: <span style="color:red">*</span></h5>
                                             <div class="row checkbox-rotate m-t-15">
-                                            <input type="hidden" id="transmission" name="transmission">
+                                            <input type="hidden" id="transmission" name="transmission" class="form-control m-t-10">
                                                 <label class="text-black"  style="padding-left: 45px;">
                                                     <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
                                                     &nbsp;&nbsp;Manual 
@@ -287,7 +287,7 @@
 
                                         <div class="col-lg-2 m-t-20">
                                             <h5>Labor <span style="color:red"></span></h5>
-                                            <input type="text" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control m-t-10" readonly>
+                                            <input type="number" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control m-t-10" readonly>
                                         </div>
 
                                         <div class="col-lg-4 m-t-20">
@@ -354,8 +354,8 @@
                                                 <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <span id="estimated" style="text-align: center; color: blue"></span>
                                                 </th>
-                                                <th colspan="3" style="text-align: right;">Grand Total Price (PhP):  </th>
-                                                <th><h5 id="grandtotal" style="text-align: right; color: red">0.00</h5></th>
+                                                <th colspan="3" style="text-align: right;">Grand Total:  </th>
+                                                <th><h5 id="grandtotal" style="text-align:right; color:red; padding-top: 5px;">0.00</h5></th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
@@ -488,13 +488,27 @@
 </script>
 
 <script>
-function validate(){
-    return true;
-}
-</script>
-<script>
+
+    var valid = true;
+
+    function checkAllRequired(){
+        var result = true;
+        $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
+            if($(this).val() == null || $(this).val() == 0) result = false;
+        });
+        if (result) valid = result;
+        else valid = result;
+        return result;
+    }
+
     function confirmationModal(){
-        $("#confirmationModal").modal('show');
+        var require = checkAllRequired();
+
+        if (!require)
+            alert("Fill out all the required fields first!");
+        if (valid)
+            $("#confirmationModal").modal('show');
+
     }
 </script>
 
@@ -520,7 +534,7 @@ $(document).ready(function () {
     var selectedService= "";
     var selectService;
     var i, j, ctr, qtyCtr = 1;
-    var modelID = null;
+    var modelID = 0;
     var grandTotal = 0;
     var routeID = null;
     var redirect = '';
@@ -528,7 +542,7 @@ $(document).ready(function () {
 
 
     var clicked = false;
-    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #color, #MT, #AT, #personnels").on({
+    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({
         focusin: function() {
             if($(this).val() == "") $(this).css("border-color", "lightblue");
             else { $(this).css("border-color", "lightblue"); /* $(this).css("display", "inline"); */ }
@@ -732,7 +746,7 @@ $(document).ready(function () {
         selectedService = selectedID;
 
         if (modelID < 1){
-            alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank You.');
+            alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank you.');
             $('#services').prop('selectedIndex', 0);
             $('#services').trigger("chosen:updated");
         }
@@ -741,9 +755,9 @@ $(document).ready(function () {
             $('#products').empty().append('<option value=0 >Choose a Product</option>');
             $('#products').trigger("chosen:updated");
             var select = $('#products');
-            var labor = $("#services :selected").data("price");
+            var labor = $('#services :selected').data('price');
             $('#labor').val(labor);
-            $('#labor').addClass("focused_input");
+            $('#labor').addClass('focused_input');
             $('#products').prop('disabled', false);
 
             $.ajax({
@@ -800,7 +814,7 @@ $(document).ready(function () {
             async: false,
             success:function(data){
                 var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
-                var pr = data.service.price;
+                var pr = $('#services :selected').data('price');
                 pr = parseFloat(pr).toFixed(2);
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
@@ -834,7 +848,7 @@ $(document).ready(function () {
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
+                    cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
@@ -861,6 +875,7 @@ $(document).ready(function () {
                             getGrandTotal();
                         },
                         mouseleave: function() {
+                            $(this).blur();
                             getGrandTotalNoQty();
                         },
                         focusout: function() {
@@ -869,8 +884,8 @@ $(document).ready(function () {
                     });
 
                     $("table.list").on("click", ".btnDel", function (event) {
-                        $(this).closest("tr").remove();
                         var id = $(this).data('serviceid');
+                        $(this).closest("tr").remove();
                         removeIncludedProduct(id);
                         getEstimatedTime();
                         getGrandTotal();
@@ -903,12 +918,13 @@ $(document).ready(function () {
             }
 
             if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
                 total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
             } 
         });
-        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
 
     }
 
@@ -929,12 +945,13 @@ $(document).ready(function () {
             }
 
             if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
                 total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
             } 
         });
-        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
 
     }
 

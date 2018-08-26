@@ -191,7 +191,7 @@
                                         <div class="col-lg-4 ">
                                             <h5>Senior Citizen/PWD ID: <span style="color: red"></span></h5>
                                             <p>
-                                                <input id="pwd_sc_No" name="pwd_sc_no" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
+                                                <input id="pwd_sc_no" name="pwd_sc_no" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
                                             </p>
                                         </div>                        
                                 </div>
@@ -258,13 +258,13 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-dashboard"></i>
                                                 </span>
-                                                <input id="mileage" name="mileage" type="text" placeholder="km" class="form-control"/>
+                                                <input id="mileage" name="mileage" type="number" placeholder="km" class="form-control" min="1"/>
                                             </div>
                                     </div>  
                                     <div class="col-lg-4 ">
                                         <h5>Color: <span style="color: red">*</span></h5>
                                         <p class="m-t-10">
-                                            <input id="color" name="color" type="text" placeholder="Color" class="form-control">
+                                            <input id="color" name="color" type="text" placeholder="Color" class="form-control" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
                                         </p>
                                     </div> 
                                     <div class="col-lg-4">
@@ -575,11 +575,11 @@
                                              <span id="estimated" style="text-align: center; color: blue">3 days</span>
                                             </th>
 
-                                            <td colspan="4" style="width: 5px; text-align: right">
-                                                <h5>Grand Total:<span style="color: red"></span></h5>
+                                            <td colspan="3" style="width: 5px; text-align: right">
+                                                <h5 style="padding-top:5px;">Grand Total:<span style="color: red"></span></h5>
                                             </td>
-                                            <td style="text-align:right">
-                                                <h5 id="grandtotal">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span>
+                                            <td colspan="2" style="text-align:right">
+                                                <h5 id="grandtotal" style="padding-top:5px;">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span>
                                                 </h5>
                                             </td>
                                             <td>
@@ -869,13 +869,23 @@
 </script>
 
 <script>
+    function validate(){
+        return false;
+    }
+
     function confirmationModal(){
-        $("#confirmationModal").modal('show');
+        validation = validate();
+        if (validation)
+            $("#confirmationModal").modal('show');
+        else
+            alert("Fill out all the required fields first!");
     }
 </script>
 
+
 <!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
 <script> 
+
 $(document).ready(function () {
 
     var estimateID, inspectID, packageID, promoID;
@@ -912,6 +922,21 @@ $(document).ready(function () {
         $("#servicebays").val(servicebay).trigger("chosen:updated");
         getGrandTotal();
     }
+
+    var clicked = false;
+    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #color, #MT, #AT, #personnels").on({
+        focusin: function() {
+            if($(this).val() == "") $(this).css("border-color", "lightblue");
+            else { $(this).css("border-color", "lightblue"); /* $(this).css("display", "inline"); */ }
+        },
+        focusout: function() {
+            if($(this).val() == "" && clicked){ $(this).css("border", "1.5px solid #FF3839"); /* $(this).css("display", "inline"); */ }
+            /* else{ $(this).css("display", "none"); } */
+        },
+        click: function() {
+            clicked = true;
+        }
+    });
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#jobForm').serialize();
@@ -961,14 +986,10 @@ $(document).ready(function () {
             showEstimate(estimate);
         @endif
         
-    });
-
-    // On Quantity Change
-    $("table.order-list").on("click", "input#quantity", function (event) {
-        var quantity = $(this).find("input#quantity").val();
-        var unitprice = $(this).find("input#unitprice").val();
-        alert('ey');
-        $(this).closest("input#totalprice").val(999999);
+        var PWD_SC_NO = $("#pwd_sc_no").val();
+        if(PWD_SC_NO != ""){
+            confirm("This customer has a registered PWD/SC ID, automatically add a Senior Citizen Discount?");
+        }
     });
 
     //Button: Delete Row
@@ -1088,8 +1109,8 @@ $(document).ready(function () {
                     });
 
                     $("table.list").on("click", ".btnDel", function (event) {
-                        $(this).closest("tr").remove();
                         var id = $(this).data('serviceid');
+                        $(this).closest("tr").remove();
                         removeIncludedProduct(id);
                         getEstimatedTime();
                         getGrandTotal();
@@ -1122,6 +1143,7 @@ $(document).ready(function () {
             }
 
             if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0){ qty = 1; this.id("quantity").value = 1; $(this).blur();}
                 total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
@@ -1148,12 +1170,13 @@ $(document).ready(function () {
             }
 
             if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
                 total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
             } 
         });
-        document.getElementById("grandtotal").innerHTML = parseFloat(grandTotal).toFixed(2);
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
 
     }
 
@@ -1235,7 +1258,7 @@ $(document).ready(function () {
             $('#lname').val(null);
             $('#phones').val(null);
             $('#email').val(null);
-            $('#pwd_sc_No').val(null);
+            $('#pwd_sc_no').val(null);
             $('#address').val(null);
             $('#plateno').val(null);
             $('#automobile_models').val(0).trigger('chosen:updated');
@@ -1274,7 +1297,7 @@ $(document).ready(function () {
                 $('#lname').val($.trim(data.customer.LastName));
                 $('#phones').val(data.customer.ContactNo);
                 $('#email').val(data.customer.EmailAddress);
-                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#pwd_sc_no').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
@@ -1307,7 +1330,7 @@ $(document).ready(function () {
                 $('#lname').val($.trim(data.customer.LastName));
                 $('#phones').val(data.customer.ContactNo);
                 $('#email').val(data.customer.EmailAddress);
-                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#pwd_sc_no').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
@@ -1401,7 +1424,7 @@ $(document).ready(function () {
                 $('#lname').val($.trim(data.customer.LastName));
                 $('#phones').val(data.customer.ContactNo);
                 $('#email').val(data.customer.EmailAddress);
-                $('#pwd_sc_No').val(data.customer.PWD_SC_No);
+                $('#pwd_sc_no').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
@@ -1445,25 +1468,38 @@ $(document).ready(function () {
     $("#services").change(function () {
         var selectedID = $(this).val();
         selectedService = selectedID;
-        $('#products').empty().append('<option value=0 >Choose a Product</option>');
-        $('#products').trigger("chosen:updated");
-        var select = $('#products');
 
-        $.ajax({
-            type: "GET",
-            url: "/addjoborder/"+selectedID+"/getFilteredProductList",
-            dataType: "JSON",
-            success:function(data){
-                var options = '';
-                var count = Object.keys(data.products).length;
-                for (var i = 0; i < count; i++) {
-                    options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+        if (modelID < 1){
+            alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank you.');
+            $('#services').prop('selectedIndex', 0);
+            $('#services').trigger("chosen:updated");
+        }
+
+        if (modelID > 0){
+            $('#products').empty().append('<option value=0 >Choose a Product</option>');
+            $('#products').trigger("chosen:updated");
+            var select = $('#products');
+            var labor = $('#services :selected').data('price');
+            $('#labor').val(labor);
+            $('#labor').addClass('focused_input');
+            $('#products').prop('disabled', false);
+
+            $.ajax({
+                type: "GET",
+                url: "/addjoborder/"+selectedID+"/getFilteredProductList",
+                dataType: "JSON",
+                success:function(data){
+                    var options = '';
+                    var count = Object.keys(data.products).length;
+                    for (var i = 0; i < count; i++) {
+                        options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+                    }
+                    $("#products").append(options);
+                    $("#products option[value='0']").prop("disabled",true, "selected",false);
+                    $('#products').trigger("chosen:updated");
                 }
-                $("#products").append(options);
-                $("#products option[value='0']").prop("disabled",true, "selected",false);
-                $('#products').trigger("chosen:updated");
-            }
-        });
+            });
+        }
     });
 
     $("#products").change(function () {
@@ -1498,31 +1534,46 @@ $(document).ready(function () {
         filterServices();
     });
 
-    $("#pwd_sc_No").change(function(){
+    $("#pwd_sc_no").change(function(){
         autoDiscount();
+    });
+    
+    $("#discounts").chosen().on('chosen:showing_dropdown', function () {
+        var PWD_SC_NO = $("#pwd_sc_no").val();
+        var response;
+        if(PWD_SC_NO != ""){
+            response = confirm("This customer has a registered PWD/SC ID. If the customer agrees to avail the discount, click 'OK'  and we'll automatically add a Senior Citizen Discount.");
+            if (response){
+                var newDiscountRow = $('<tr id="discount">');
+                var cols = "";
+                
+                cols += '<td style="border-right:none !important"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" name="quantity" placeholder="" readonly class="form-control hidden"></td>';
+                cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>Senior Citizen Discount </td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
+                cols += '<td style="border-right:none !important"><a></a></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" value="'+ 20 +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="discountamt" name="discountamt " placeholder=".00" class="form-control"></td>';
+                cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
+                newDiscountRow.append(cols);
+                $("tr#discount").replaceWith(newDiscountRow);
+                var discountRate = parseInt($("#discountrate").val());
+                var discountAmount = ( grandTotal % discountRate );
+                //alert("rate: " + discountRate + "amount:" + discountAmount);
+                var discounted = grandTotal - discountAmount;
+                $("#discountamt").val(discountAmount);
+                $("#grandtotal").val(""+discounted);
+            }
+            else {
+                alert("Fine.");
+            }
+        }
     });
     
 	$("#discounts").change(function () {
 		var selectedID = $(this).val();
-        var newDiscountRow = $('<tr id="discount">');
-        var cols = "";
+
         
-        cols += '<td style="border-right:none !important"></td>';
-        cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" name="quantity" placeholder="" readonly class="form-control hidden"></td>';
-        cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>Senior Citizen Discount </td>';
-        cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
-        cols += '<td style="border-right:none !important"><a></a></td>';
-        cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" value="'+ 20 +'"></td>';
-        cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="discountamt" name="discountamt " placeholder="-100" class="form-control"></td>';
-        cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-        newDiscountRow.append(cols);
-        $("tr#discount").replaceWith(newDiscountRow);
-        var discountRate = parseInt($("#discountrate").val());
-        var discountAmount = ( grandTotal % discountRate );
-        //alert("rate: " + discountRate + "amount:" + discountAmount);
-        var discounted = grandTotal - discountAmount;
-        $("#discountamt").val(discountAmount);
-        $("#grandtotal").val(""+discounted);
 	});
     
 	$("#promos").change(function () {
@@ -1595,6 +1646,8 @@ $(document).ready(function () {
 
     $("#mechanic").change(function(){
         var selectedID = $(this).val();
+        $("#personnels option").prop("disabled", false);
+        $('#personnels option[value ="0"]').prop("disabled", true)
         $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
     });
 
