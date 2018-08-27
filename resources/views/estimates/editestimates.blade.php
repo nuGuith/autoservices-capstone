@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Edit Estimate') <!-- Page Title -->
 @section('content')
     
@@ -94,19 +94,19 @@
                                     <div class="col-lg-4">
                                             <h5>First Name: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="fname" name="fname" type="text" placeholder="First Name" class="form-control m-t-10">
+                                                <input id="fname" name="fname" type="text" placeholder="First Name" class="form-control m-t-10" value="{{$customer->firstname}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
                                             <h5>Middle Name: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10">
+                                                <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10" value="{{$customer->middlename}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4 ">
                                             <h5>Last Name: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="lname" name="lname" type="text" placeholder="Last Name" class="form-control m-t-10">
+                                                <input id="lname" name="lname" type="text" placeholder="Last Name" class="form-control m-t-10" value="{{$customer->lastname}}">
                                             </p>
                                         </div>                        
                                 </div>
@@ -117,19 +117,19 @@
                                     <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask value="{{$customer->ContactNo}}" >
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
                                             <h5>Email: <span style="color:red"></span></h5>
                                             <p>
-                                                <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
+                                                <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'" value="{{$customer->EmailAddress}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-4 ">
                                             <h5>Senior Citizen/PWD ID: <span style="color: red"></span></h5>
                                             <p>
-                                                <input id="id" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
+                                                <input id="id" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10" value="{{$customer->PWD_SC_No}}">
                                             </p>
                                         </div>                        
                                 </div>
@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="col-md-12 col-lg-11">                                        
                                             <p>
-                                                <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10">
+                                                <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10" value="{{ $customer->CompleteAddress }}">
                                             </p>
                                         </div>                                                
                                 </div>
@@ -159,22 +159,28 @@
                                     <div class="col-lg-3">
                                             <h5>Plate No.: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10">
+                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10" value="{{ $automobile->PlateNo }}">
                                             </p>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Model: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose Model</option>
-                                                    <option value="Honda-City 2015-M">Honda-City 2015-MT</option>
-                                                </select>
+                                                {{ Form::select(
+	                                                    'automobile_models',
+	                                                    $automobile_models,
+	                                                    null,
+	                                                    array(
+	                                                    'class' => 'form-control chzn-select',
+	                                                    'id' => 'automobile_models',
+	                                                    'name' => 'modelid')
+	                                                    ) 
+	                                            }}
                                             </p>
                                         </div>
                                         <div class="col-lg-3 ">
                                            <h5>Chassis No.: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10">
+                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10" value="{{ $automobile->ChassisNo }}">
                                             </p>
                                         </div>
 
@@ -184,7 +190,7 @@
                                                     <span class="input-group-addon m-t-10">
                                                         <i class="fa fa-dashboard"></i>
                                                     </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10">
+                                                    <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10" value="{{ $automobile->Mileage }}">
                                                 </div>
                                         </div>                         
                                 </div>
@@ -194,41 +200,55 @@
                                     <div class="col-lg-3">
                                             <h5>Color: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10">
+                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" value="{{ $automobile->Color }}">
                                             </p>
                                         </div>
-                                        <div class="col-lg-3">
+
+                                        <div id="transwrapper" class="col-lg-3">
                                             <h5>Transmission: <span style="color:red">*</span></h5>
-                                            <div class="checkbox-rotate m-t-20">
-                                            <label class="text-black">
-                                                <input type="checkbox" value="">
-                                                &nbsp;&nbsp;Manual 
-                                            </label>
+                                            <div class="row checkbox-rotate m-t-15">
+                                            <input type="hidden" id="transmission" name="transmission" class="form-control m-t-10">
+                                            <p >
+                                                <label class="text-black"  style="padding-left: 45px;">
+                                                    <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
+                                                    &nbsp;&nbsp;Manual 
+                                                </label>
 
-                                            <label class="text-black m-l-20">
-                                                <input type="checkbox" value="">
-                                                &nbsp;&nbsp;Automatic 
-                                            </label>
+                                                <label class="text-black" style="padding-left: 45px;">
+                                                    <input id="AT" type="checkbox" value="AT" style="-webkit-transform: scale(1.4);">
+                                                    &nbsp;&nbsp;Automatic
+                                                </label>
+                                            </p>
                                             </div>
-                                        </div>  
-
+                                        </div>
                                         <div class="col-lg-3">
-                                            <h5 style = "padding-bottom: 10px;">Assign Mechanic: <span style="color: red">*</span></h5>
-                                                <select size="3" multiple class="form-control chzn-select" id="test_me_paddington" name="test_me_form" tabindex="8">
-                                                    <div>
-                                                    <option selected>Xavier</option>
-                                                    <option>Pingu</option>
-                                                    </div>
-                                                </div>
-                                                </select>
+                                            <h5 style = "padding-bottom: 10px;">Estimated By: <span style="color: red">*</span></h5>
+                                            <p id="personnelwrapper">
+                                                {{ Form::select(
+                                                    'personnels',
+                                                    $personnels,
+                                                    null,
+                                                    array(
+                                                    'class' => 'form-control chzn-select',
+                                                    'id' => 'personnels',
+                                                    'name' => 'personnelid')
+                                                    ) 
+                                                }}
+                                            </p>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Service Bay: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose Service Bay</option>
-                                                    <option value="1">1</option>
-                                                </select>
+                                                {{ Form::select(
+	                                                    'servicebays',
+	                                                    $service_bays,
+	                                                    null,
+	                                                    array(
+	                                                    'class' => 'form-control chzn-select',
+	                                                    'id' => 'servicebays',
+	                                                    'name' => 'servicebayid')
+	                                                    ) 
+	                                            }}
                                             </p>
                                         </div> 
                                     </div>
@@ -240,65 +260,58 @@
                         <!--START ESTIMATE-->
                         <h4 class="m-t-20">Estimate Details</h2>
                         <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
-
-                        
-                        <!--Start Add Service and Product  -->
-                            <div class ="row">
-
-                                <table id="myTable" class=" table order-list responsive" style="border-color: white" rules="rows" >
-                                    <thead>
-                                        <br>
-                                        <tr>
-                                            <td><h5>Service <span style="color:red">*</span></h5></td>
-                                            <td style="width: 20px;"><h5>Labor <span style="color:red"></span></h5></td>
-                                            <td><h5>Product <span style="color:red">*</span></h5></td>            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <p class="col-lg-15">
+                            <!--Start Add Service and Product  -->
+                                    <div class ="row m-t-10">
+                                        <div class="col-lg-4 m-t-20">
+                                            <h5>Service <span style="color:red">*</span></h5>
+                                            <p class="m-t-10">
                                                 {{ Form::select(
-                                                    'services',
-                                                    $services,
-                                                    null,
-                                                    array(
+                                                        'services',
+                                                        $services,
+                                                        null,
+                                                        array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'services',
                                                         'name' => 'serviceid')
-                                                    ) 
+                                                        ) 
                                                 }}
-                                            </td>
-                                            <td>
-                                                <input type="text" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control" readonly>
-                                            </td>
-                                            <td>
-                                                <p class="col-lg-15">
+                                            </p>
+                                        </div>
+
+                                        <div class="col-lg-2 m-t-20">
+                                            <h5>Labor <span style="color:red"></span></h5>
+                                            <input type="number" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control m-t-10" readonly>
+                                        </div>
+
+                                        <div class="col-lg-4 m-t-20">
+                                            <h5>Products <span style="color:red">*</span></h5>
+                                            <p class="m-t-10">
                                                 {{ Form::select(
-                                                    'products',
-                                                    $products,
-                                                    null,
-                                                    array(
+                                                        'products',
+                                                        $products,
+                                                        null,
+                                                        array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'products',
                                                         'name' => 'productid',
                                                         'multiple')
                                                     ) 
                                                 }}
-                                            </td>
-                                            <td>
-                                                <button type="button" name="addRow" id="addrow" value="Add Row" class="btn btn-success hvr-float-shadow" ><i class="fa fa-plus text-white"></i>&nbsp;Add Items</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </p>
+                                        </div>
 
-                            </div>
+                                        <div class="col-lg-2 m-t-40">
+                                            <h5></h5>
+                                            <p class="m-t-5">
+                                            <button type="button" name="addRow" id="addRow" value="Add Row" class="btn btn-outline-success" ><i class="fa fa-plus text-green"></i>&nbsp;Add Items</button>
+                                            </p>
+                                        </div>
+                                    </div>
 
 
 
                             <!--Start of estimate table-->
-                        <table id="itemsTable" class="table list table-bordered display table-hover dataTable">
+                            <table id="itemsTable" class="table list table-bordered display table-hover dataTable">
                                 <thead>
                                     <tr class="trrow">
                                         <th style="width: 20% !important">Service</th>
@@ -325,13 +338,17 @@
                                 </table><br>
 
 
-                            <!--Textfield: Problem -->
-                                <div class="row m-t-5">
-                                    <div class="col-lg-12">
-                                            <h5 style = "padding-bottom: 10px;">Problems: <span style="color: red"></span></h5>
-                                                <textarea id="remark3" class="form-control" cols="30" rows="2"></textarea>
-                                        </div>                               
-                                </div>
+                            <!--Textfield: Complaints and Diagnosis -->
+                                    <div class="row m-t-5">
+                                        <div class="col-lg-6">
+                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2"></textarea>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2"></textarea>
+                                        </div>                              
+                                    </div>
                        
                     <!--END OF ESTIMATE DETAILS -->
                     </div>
@@ -418,6 +435,13 @@
 <script> 
 $(document).ready(function () {
 
+
+    $("#automobile_models option[value='0']").prop("disabled",true);
+    $("#servicebays option[value='0']").prop("disabled",true);
+    $("#personnels option[value='0']").prop("disabled",true);
+    $("#services option[value='0']").prop("disabled",true);
+    $("#products option[value='0']").prop("disabled",true);
+    $('#products').prop('disabled', true);
 
     //TO ADD PRODUCT ROW
     $("table.order-list").on("click", ".ibtnAdd", function (event) {

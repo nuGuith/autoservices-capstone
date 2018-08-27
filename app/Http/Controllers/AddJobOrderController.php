@@ -202,6 +202,7 @@ class AddJobOrderController extends Controller
             ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
             ->select('sp.*', 'svc.*')
             ->get();
+
         $productused = DB::table('product_used AS pu')
             ->join('product as pr', 'pu.productid', '=', 'pr.productid')
             ->where(['estimateid' => $id, 'pu.isActive' => 1])

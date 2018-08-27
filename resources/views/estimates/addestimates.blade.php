@@ -270,8 +270,8 @@
 
                                     <!--START ESTIMATE-->
                                     <h4 class="m-t-20">Estimate Details</h2>
-                                    <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
-                                    <!--Start Add Service and Product  -->
+                                    <hr style="margin-top: 10px; border: 2px solid #ffb74d ">
+                                    <!--Start for Adding Service and Product  -->
                                     <div class ="row m-t-10">
                                         <div class="col-lg-4 m-t-20">
                                             <h5>Service <span style="color:red">*</span></h5>
@@ -544,11 +544,11 @@ $(document).ready(function () {
             var result = true;
             $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
                 if($(this).val() == null || $(this).val() == 0){ $(this).css("border", "1.5px solid #FF3839"); result = false };
-                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
                 if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "personnels"){ $("#personnelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
             });
-            if (result) valid = result;
-            else valid = result;
+            if (result) valid = true;
+            else valid = false;
             return result;
         }
 
@@ -556,7 +556,7 @@ $(document).ready(function () {
         var require = checkAllRequired();
         if (!require)
             alert("Fill out all the required fields first!");
-        else {
+        if (require) {
             if(serviceCtr < 1 || serviceCtr == null)
                 alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
             else if(serviceCtr >= 1){
@@ -569,7 +569,7 @@ $(document).ready(function () {
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#estimateForm').serialize();
-        alert(formData);
+        //alert(formData);
         if(routeID == 0 || routeID == null){
             $.ajax({
                 type: "POST",
@@ -616,6 +616,16 @@ $(document).ready(function () {
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                if ((data.automobile.Transmission) == "A/T")
+                    $("#AT").prop("checked", true);
+                else if ((data.automobile.Transmission) == "M/T")
+                    $("#MT").prop("checked", true);
+                else{
+                    $("#AT").prop("checked", false);
+                    $("#MT").prop("checked", false);
+                }
+                $('#transmission').val(data.automobile.Transmission);
+
                 var model = Object.keys(data.plates).length;
                 if (model < 2){
                     modelID = parseInt(data.automobile.ModelID);
@@ -687,6 +697,16 @@ $(document).ready(function () {
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                if ((data.automobile.Transmission) == "A/T")
+                    $("#AT").prop("checked", true);
+                else if ((data.automobile.Transmission) == "M/T")
+                    $("#MT").prop("checked", true);
+                else{
+                    $("#AT").prop("checked", false);
+                    $("#MT").prop("checked", false);
+                }
+                $('#transmission').val(data.automobile.Transmission);
+
                 modelID = parseInt(data.automobile.ModelID);
                 $('#labor').val(null);
                 $('#labor').removeClass('focused_input');
