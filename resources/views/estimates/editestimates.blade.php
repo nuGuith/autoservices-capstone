@@ -28,7 +28,7 @@
                     <div class="row" style = "height: 47px;">
                     <div class="col-6">
                         <h4 class="m-t-15">
-                            <i class="fa fa-plus"></i>&nbsp;
+                            <i class="fa fa-pencil"></i>&nbsp;
                             Edit Estimate
                         </h4>
                     </div>
@@ -419,6 +419,39 @@
 $(document).ready(function () {
 
 
+// TO ADD SERVICE ROW
+$("#addrow").on("click", function () {
+
+        var newRow = $("<tr>");
+        var cols = "";
+
+        //to display class chz-select property
+        $(".chzn-select").chosen();
+        
+        //Column: Problem--open if it is really necessary
+        // cols += '<td><textarea type="text" class="form-control" cols="5" rows="1" name="problem" placeholder="Problem"/></td>';
+
+        //Column: Service
+        cols += '<td><select class="form-control chzn-select" id="service" tabindex="" name="service"><option disabled selected>Choose Service</option><option value="Change Oil">Change Oil</option></select></td>';
+        //Column: Labor
+        cols += '<td><input type="text" class="form-control" name="labor" placeholder="Labor"/></td>';
+        //Column: Product
+        cols += '<td><select class="form-control chzn-select" id="product" tabindex="" name="product"><option disabled selected>Choose Product</option><option value="Dunlop 1.5mL">Dunlop 1.5mL</option></select></td>';
+        //Column: Quantity
+        cols += '<td><input type="text" class="form-control" name="quatity" placeholder="Quantity"/></td>';
+        //Column: Price
+        cols += '<td><input type="text" class="form-control" name="price" placeholder="Price"/></td>';
+        //Column: Button - To add product
+        cols += '<td><button type="button" id="addrowproduct" readonly class="ibtnAdd btn btn-info hvr-float-shadow" ><i class="fa fa-plus text-white"></i></button></td>';
+        //Column: Buton - To delete SERVICE
+        cols += '<td><input type="button" class="ibtnDel btn  btn-warning btn-md hvr-float-shadow" value ="X"/></td>';
+
+        //add new service row to the table
+        newRow.append(cols);
+        $("table.order-list").append(newRow);
+        
+    });
+
     //TO ADD PRODUCT ROW
     $("table.order-list").on("click", ".ibtnAdd", function (event) {
         var newRow = $("<tr>");
@@ -441,6 +474,7 @@ $(document).ready(function () {
         //Column: Button: Delete Product ROw
         cols += '<td><input type="button" class="ibtnDelp btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
         //Column: for delete button of service
+        cols += '<td></td>';
 
 
         //add new product row to the table

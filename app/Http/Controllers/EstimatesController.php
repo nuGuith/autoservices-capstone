@@ -79,7 +79,8 @@ class EstimatesController extends Controller
      */
     public function show($estimateid)
     {
-        //
+        $estimate = Estimate::find($estimateid);
+        return view('estimates.viewestimates')->withEstimate($estimate);
     }
 
     /**

@@ -516,7 +516,25 @@
         alert(document.getElementById("#tbl").rows[0].cols[1].innerHTML);
         document.getElementById("#productcategoryid").value = $(this).data("categoryname");
     }
-   
+     function editModal(id){
+            $.ajax({
+                type: "GET",
+                url: "/product/"+id+"/edit",
+                dataType: "JSON",
+                success:function(data){
+                    $("#producttypeid").val(data.type.ProductTypeID);
+                    $("#productbrandid").val(data.type.ProductBrandID);
+                    $("#productunittypeid").val(data.type.ProductUnitTypeID);
+                    $("#productname").val(data.type.ProductName);
+                    $("#description").val(data.type.Description);
+                    $("#price").val(data.type.Price);
+                    $("#size").val(data.type.Size);
+                    $("#duration").val(data.type.Duration);
+                    $("#durationmode").val(data.type.DurationMode);
+                }
+            });
+            $('#editModal').modal('show');
+        }
     function deleteModal(id){
             document.getElementById("deleteId").value = id;
             $('#deleteModal').modal('show');
