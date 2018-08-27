@@ -122,9 +122,9 @@
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
                                             &nbsp;Edit Product Brand</h4>
                             </div>
-                            <div class="modal-body" style="padding-left: 45px;">
+                            <div class="modal-body">
                                 <div class="row m-t-10">
-                                    <div class="col-md-11">
+                                    <div class="col-md-11 m-l-20">
                                         <h5>Brand Name: <span style="color: red">*</span></h5>
                                         <p>
                                             {!! 
@@ -189,9 +189,9 @@
                                 <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
                                             &nbsp;Add Product Brand</h4>
                             </div>
-                            <div class="modal-body" style="margin-right: 43px;">
+                            <div class="modal-body">
                                 <div class="row m-t-10">
-                                    <div class="col-md-11">
+                                    <div class="col-md-11 m-l-20">
                                         <h5>Brand Name: <span style="color: red">*</span></h5>
                                         <p>
                                             {!! 

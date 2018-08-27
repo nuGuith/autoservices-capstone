@@ -127,7 +127,7 @@
                                 <div class="row m-r-10">
                                     
                                     <!--Search Select: Service Name -->
-                                    <div class="col-md-11 m-t-10 m-l-10">
+                                    <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
                                             <select class="form-control  chzn-select" tabindex="2">
@@ -136,7 +136,7 @@
                                             </select>
                                     </div>
 
-                                    <div class="col-md-11 m-t-10 m-l-10">
+                                    <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Product Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
                                             <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
@@ -181,7 +181,7 @@
                                 <div class="row">                                   
                                     
                                     <!--Search Select: Service Name -->
-                                    <div class="col-md-11 m-t-10 m-l-10">
+                                    <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
                                             <select class="form-control  chzn-select" tabindex="2">
@@ -191,7 +191,7 @@
                                         </p>
                                     </div>
 
-                                    <div class="col-md-11 m-t-10 m-l-10">
+                                    <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Product Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
                                             <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
