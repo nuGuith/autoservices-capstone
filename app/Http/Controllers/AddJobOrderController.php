@@ -125,11 +125,12 @@ class AddJobOrderController extends Controller
             ->get();
 
         $estimate = new Estimate;
+        $automobile = new Automobile;
         //dd($personnelskills);
         
         //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
         //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages', 'estimate'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages', 'estimate', 'automobile'));
     }
 
     

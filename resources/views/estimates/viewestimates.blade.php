@@ -129,7 +129,7 @@
 
                         <!--Start of estimate table-->
                         <table class="table list table-bordered display table-hover dataTable">
-                        <thead>
+                                    <thead>
                                         <br>
                                         <tr>
                                             <td style="width: 20%;">

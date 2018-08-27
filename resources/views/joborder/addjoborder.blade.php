@@ -915,12 +915,24 @@ $(document).ready(function () {
     $("#personnels option[value='0']").prop("disabled",true);
     $("#mechanic option[value='0']").prop("disabled",true);
     $("#addRow").prop("disabled",true);
+    $("#AT").prop("checked", false);
+    $("#MT").prop("checked", false);
 
     var estimate = {!! json_encode($estimate->toArray()) !!};
 
     if(estimate.ServiceBayID > 0 || (estimate.ServiceBayID != null) ){
         var servicebay = parseInt(estimate.ServiceBayID);
         $("#servicebays").val(servicebay).trigger("chosen:updated");
+        var automobile = {!! json_encode($automobile->toArray()) !!};
+        if ((automobile.Transmission) == "A/T"){
+            $("#AT").prop("checked", true);
+            $("#MT").prop("checked", false);
+        }
+        else if ((automobile.Transmission) == "M/T"){
+            $("#MT").prop("checked", true);
+            $("#AT").prop("checked", false);
+        }
+        $('#transmission').val(automobile.Transmission);
     }
 
     getGrandTotal();
@@ -961,7 +973,7 @@ $(document).ready(function () {
     });
 
     //// Check all Checkboxes ////
-    $('input:checkbox').prop('checked', true);
+    //$('input:checkbox').prop('checked', true);
 
     $("#checkService").change( function() {
         if (this.checked) {
@@ -1304,6 +1316,7 @@ $(document).ready(function () {
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
+                modelID = data.automobile.ModelID;
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
@@ -1473,6 +1486,7 @@ $(document).ready(function () {
         selectedService = selectedID;
 
         if (modelID < 1){
+            modelID = $('#automobile_models').val();
             alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank you.');
             $('#services').prop('selectedIndex', 0);
             $('#services').trigger("chosen:updated");

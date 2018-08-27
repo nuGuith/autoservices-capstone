@@ -77,6 +77,18 @@ class EditEstimatesController extends Controller
         $products = Product::orderBy('productid', 'desc')
             ->where('isActive', 1)
             ->pluck('productname', 'productid');
+        
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
 
         $service_bays->prepend('Please choose a Bay', 0);
         $services->prepend('Choose a Service', 0);
@@ -84,7 +96,7 @@ class EditEstimatesController extends Controller
         $automobile_models->prepend('Select a Model', 0);
         $personnels->prepend('Select a Personnel', 0);
 
-        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels'));
+        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels', 'serviceperformed', 'productused'));
     }
 
     /**

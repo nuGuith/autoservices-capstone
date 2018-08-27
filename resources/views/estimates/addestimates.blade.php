@@ -332,7 +332,7 @@
                                                     <h5>Quantity <span style="color: red">*</span></h5>
                                                 </td>
                                                 <td style="width: 20%;">
-                                                    <h5>Items <span style="color: red"></span>
+                                                    <h5>Product <span style="color: red"></span>
                                                     </h5>
                                                 </td>
                                                 <td style="width: 10%;">
@@ -702,13 +702,13 @@ $(document).ready(function () {
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
-                if ((data.automobile.Transmission) == "A/T")
+                if ((data.automobile.Transmission) == "A/T"){
                     $("#AT").prop("checked", true);
-                else if ((data.automobile.Transmission) == "M/T")
-                    $("#MT").prop("checked", true);
-                else{
-                    $("#AT").prop("checked", false);
                     $("#MT").prop("checked", false);
+                }
+                else if ((data.automobile.Transmission) == "M/T"){
+                    $("#MT").prop("checked", true);
+                    $("#AT").prop("checked", false);
                 }
                 $('#transmission').val(data.automobile.Transmission);
 

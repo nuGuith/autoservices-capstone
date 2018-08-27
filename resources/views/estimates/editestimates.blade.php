@@ -98,7 +98,7 @@
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
-                                            <h5>Middle Name: <span style="color:red">*</span></h5>
+                                            <h5>Middle Name:</h5>
                                             <p>
                                                 <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10" value="{{$customer->middlename}}">
                                             </p>
@@ -159,7 +159,7 @@
                                     <div class="col-lg-3">
                                             <h5>Plate No.: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10" value="{{ $automobile->PlateNo }}">
+                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10" value="{{ $model->PlateNo }}">
                                             </p>
                                         </div>
                                         <div class="col-lg-3">
@@ -180,7 +180,7 @@
                                         <div class="col-lg-3 ">
                                            <h5>Chassis No.: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10" value="{{ $automobile->ChassisNo }}">
+                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10" value="{{ $model->ChassisNo }}">
                                             </p>
                                         </div>
 
@@ -190,7 +190,7 @@
                                                     <span class="input-group-addon m-t-10">
                                                         <i class="fa fa-dashboard"></i>
                                                     </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10" value="{{ $automobile->Mileage }}">
+                                                    <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10" value="{{ $model->Mileage }}">
                                                 </div>
                                         </div>                         
                                 </div>
@@ -200,7 +200,7 @@
                                     <div class="col-lg-3">
                                             <h5>Color: <span style="color: red">*</span></h5>
                                             <p>
-                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" value="{{ $automobile->Color }}">
+                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" value="{{ $model->Color }}" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
                                             </p>
                                         </div>
 
@@ -237,7 +237,7 @@
                                             </p>
                                         </div>
                                         <div class="col-lg-3">
-                                            <h5>Service Bay: <span style="color:red">*</span></h5>
+                                            <h5>Service Bay:</h5>
                                             <p class="m-t-10">
                                                 {{ Form::select(
 	                                                    'servicebays',
@@ -313,25 +313,99 @@
                             <!--Start of estimate table-->
                             <table id="itemsTable" class="table list table-bordered display table-hover dataTable">
                                 <thead>
-                                    <tr class="trrow">
-                                        <th style="width: 20% !important">Service</th>
-                                        <th style="width: 23% !important">Product</th>
-                                        <th>Labor</th>
-                                        <th>Unit Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total Price</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                    
+                                        <br>
+                                        <tr>
+                                            <td style="width: 18%;">
+                                                <h5>Service <span style="color: red">*</span></h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Quantity <span style="color: red">*</span></h5>
+                                            </td>
+                                            <td style="width: 20%;">
+                                                <h5>Product <span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Labor <span style="color: red">*</span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Unit Price<span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 15%;">
+                                                <h5>Total Price<span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                            <td style="width:3%;">
+                                                <h5>Action<span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($serviceperformed as $sp)
+                                        <tr class="service" id="{!!$sp->ServiceID!!}">
+                                            <td style="border-right:none !important">
+                                                {!!$sp->ServiceName!!}<br>
+                                            </td>
+                                            <td  style="border-right:none !important">
+                                                <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
+                                            </td>
+                                            <td style="border-right:none !important"><a></a></td>
+                                            <td style="border-right:none !important">
+                                                <input type="text" style="width:70px; text-align:right;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
+                                            </td>
+                                            <td style="border-right:none !important">
+                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
+                                            </td>
+                                            <td style="border-right:none !important">
+                                                <input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                </td>
+                                            <td style="border-left:none !important">
+                                                <center>
+                                                    <button type="button" id="svc" name="{!!$sp->EstimatedTime!!}" data-serviceid="{!!$sp->ServiceID!!}" class="btnDel btn btn-danger hvr-float-shadow"><i class="fa fa-times text-white"></i></button>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                            @foreach($productused as $pu)
+                                                @if($sp->ServicePerformedID == $pu->ServicePerformedID)
+                                                <tr class="product" id="{!!$sp->ServiceID!!}">
+                                                    <td style="border-right:none !important"></td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        {!!$pu->ProductName!!}
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
+                                                    </td>
+                                                    <td style="border-left:none !important">
+                                                        <center>
+                                                            <button type="button" id="productid" name="{!!$sp->ServiceID!!}" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
                                      <!--Footer: Total Price-->
                                     <tfoot>
                                         <tr class="trrow">
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
-                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center; color: blue"></span>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span id="estimated" style="text-align: center; color: blue"></span>
                                             </th>
-                                            <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
-                                            <th style="text-align: center; color: red"></th>
+                                            <th colspan="3" style="text-align: right;">Grand Total: </th>
+                                            <th><h5 id="grandtotal" style="text-align:right; color:red; padding-top: 5px;">0.00</h5></th>
                                             <th></th>
                                         </tr>
                                     </tfoot>
@@ -414,10 +488,13 @@
         <!--END CONTENT -->
 
 <!-- global scripts sweet alerts-->
+<script type="text/javascript" src="{{URL::asset('js/jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
@@ -435,6 +512,7 @@
 <script> 
 $(document).ready(function () {
 
+    var serviceCtr;
 
     $("#automobile_models option[value='0']").prop("disabled",true);
     $("#servicebays option[value='0']").prop("disabled",true);
@@ -443,61 +521,167 @@ $(document).ready(function () {
     $("#products option[value='0']").prop("disabled",true);
     $('#products').prop('disabled', true);
 
-    //TO ADD PRODUCT ROW
-    $("table.order-list").on("click", ".ibtnAdd", function (event) {
-        var newRow = $("<tr>");
-        var cols = "";
+    var estimate = {!! json_encode($estimate->toArray()) !!};
+    var automobile = {!! json_encode($model->toArray()) !!};
 
-        //to display class chz-select property
-        $(".chzn-select").chosen();
+    if((estimate.ServiceBayID > 0) || (estimate.ServiceBayID != null)){
+        $("#servicebays").val(estimate.ServiceBayID).trigger("chosen:updated");
+    }
 
-        //to move product to third column
-        cols += '<td></td>'; 
-        cols += '<td></td>';
-        cols += '<td></td>';
-
-        //Column: Product
-        cols += '<td><select class="form-control chzn-select" id="product" tabindex="" name="product"><option disabled selected>Choose Product</option><option value="Dunlop 1.5mL">Dunlop 1.5mL</option></select></td>';
-        //Column: Quantity
-        cols += '<td><input type="text" class="form-control" name="quantity" placeholder="Quantity"/></td>';
-        //Column: Price
-        cols += '<td><input type="text" readonly class="form-control" name="price" placeholder="Price"/></td>';
-        //Column: Button: Delete Product ROw
-        cols += '<td><input type="button" class="ibtnDelp btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
-        //Column: for delete button of service
-
-
-        //add new product row to the table
-        newRow.append(cols);
-        $("table.order-list").append(newRow);
-      
-    });
-
-    //Button: Delete Product Row
-    $("table.order-list").on("click", ".ibtnDelp", function (event) {
-        $(this).closest("tr").remove();       
-      
-    });
-
-    //Button Delete Service Row
-    $("table.order-list").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();       
-      
-    });
-
-});
-
-
-</script>
-
-<!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
-<script> 
-$(document).ready(function () {
+    if(estimate.PersonnelID != null)
+        $("#personnels").val(estimate.PersonnelID).trigger("chosen:updated");
     
-    //Button: Delete Row
+    if(automobile.Transmission != null){
+        if ((automobile.Transmission) == "A/T"){
+            $("#AT").prop("checked", true);
+            $("#MT").prop("checked", false);
+        }
+        else if ((automobile.Transmission) == "M/T"){
+            $("#MT").prop("checked", true);
+            $("#AT").prop("checked", false);
+        }
+        $('#transmission').val(automobile.Transmission);
+        $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
+    }
+
+    getGrandTotal();
+    getEstimatedTime();
+
+    $('table tr').each( function() {
+        if ($(this).attr('class') == 'product'){
+            serviceCtr++;
+        }
+    });
+
+    $("table td input").bind({
+        keyup: function() {
+            getGrandTotal();
+        },
+        mouseleave: function() {
+            $(this).blur();
+            getGrandTotalNoQty();
+        },
+        focusout: function() {
+            getGrandTotalNoQty();
+        }
+    });
+
     $("table.list").on("click", ".btnDel", function (event) {
-        $(this).closest("tr").remove();       
-      
+        var id = $(this).data('serviceid');
+        var svcid = "svc" + id;
+                        
+        //remove all products included in this service
+        $('table tr').each( function() {
+            if ((this.id) == svcid) 
+                $(this).closest("tr").remove();
+        });
+
+        $(this).closest("tr").remove();
+        $('#services option[value="'+id+'"]').prop("disabled", false);
+        $('#services').trigger("chosen:updated");
+        getEstimatedTime();
+        getGrandTotal();
+
+        serviceCtr--;
+        if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+    });
+
+    $("table.list").on("click", "#productid", function(event){
+        var remaining = 1;
+        var id = $(this).attr('name');
+        var this_ServiceID = "#" + id;
+        $('table tr').each( function() {
+            if ($(this).attr('class') == 'product'){
+                remaining++;
+            }
+        });
+        if(remaining == 1) {
+            $('#itemsTable').find(this_ServiceID).remove();
+            $('#services option[value="'+id+'"]').prop("disabled", false);
+            $('#services').trigger("chosen:updated");
+            serviceCtr--;
+            $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+        }
+    });
+
+    function getGrandTotal(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+    }
+
+    function getGrandTotalNoQty(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+                if ((qty*1) == 0){
+                    qty = 1;
+                    this.value = qty;
+                }
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+    }
+
+    function getEstimatedTime(){
+        totalEstimatedTime = 0;
+        var time, inHours, inMins;
+        $('table td button').each(function() {
+            if ((this.id) == "svc"){
+                time = this.name;
+                totalEstimatedTime += parseFloat(time);
+            }
+        });
+        inHours = parseInt(totalEstimatedTime / 60);
+        if (inHours > 1) inHours = inHours + "hrs. ";
+        else inHours = inHours + "hr. ";
+        inMins = totalEstimatedTime % 60;
+
+        if (totalEstimatedTime != 0)
+        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
+        else
+        document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+
+    $("#AT").change(function(){
+        $("#MT").prop("checked", false);
+        $("#AT").prop("checked", true);
+        $("#transmission").val("A/T");
+    });
+    
+    $("#MT").change(function(){
+        $("#AT").prop("checked", false);
+        $("#MT").prop("checked", true);
+        $("#transmission").val("M/T");
     });
 
 });
