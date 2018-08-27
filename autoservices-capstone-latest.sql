@@ -445,13 +445,13 @@ CREATE TABLE `job_order` (
 -- Dumping data for table `job_order`
 --
 
-INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `AutomobileID`, `InspectionID`, `PersonnelPerformedID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `Terms_Agreement`, `Diagnosis`, `Agreement_Timestamp`, `Release_Timestamp`, `LaborCharge`, `LaborDiscount_Rate`, `JobDuration`, `TotalAmountDue`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-10 00:00:00', '2018-08-19 06:38:22', '4500.00', NULL, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-10 02:04:34'),
-(15, 1, 2, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:37:27', '2018-08-19 06:38:27', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:37:27', '2018-08-14 15:37:27'),
-(16, 8, 3, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:39:45', '2018-08-19 06:38:33', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:39:45', '2018-08-14 15:39:45'),
-(20, 2, 4, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:59:22', '2018-08-19 06:38:42', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
-(22, 9, 5, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, NULL, '2018-08-15 01:53:27', '2018-08-19 06:38:49', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27'),
-(23, NULL, 15, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-24 03:50:56', '2018-08-24 03:50:56', '499.00', NULL, NULL, NULL, b'1', '2018-08-23 19:50:56', '2018-08-23 19:50:56');
+INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `AutomobileID`, `InspectionID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `Terms_Agreement`, `Diagnosis`, `Agreement_Timestamp`, `Release_Timestamp`, `LaborCharge`, `LaborDiscount_Rate`, `JobDuration`, `TotalAmountDue`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 3, 1, 1, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-10 00:00:00', '2018-08-19 06:38:22', '4500.00', NULL, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-10 02:04:34'),
+(15, 1, 2, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:37:27', '2018-08-19 06:38:27', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:37:27', '2018-08-14 15:37:27'),
+(16, 8, 3, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:39:45', '2018-08-19 06:38:33', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:39:45', '2018-08-14 15:39:45'),
+(20, 2, 4, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:59:22', '2018-08-19 06:38:42', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
+(22, 9, 5, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, NULL, '2018-08-15 01:53:27', '2018-08-19 06:38:49', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27'),
+(23, NULL, 15, NULL, 2, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-24 03:50:56', '2018-08-24 03:50:56', '499.00', NULL, NULL, NULL, b'1', '2018-08-23 19:50:56', '2018-08-23 19:50:56');
 
 -- --------------------------------------------------------
 
