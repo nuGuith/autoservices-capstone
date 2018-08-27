@@ -14,7 +14,10 @@ use App\ServiceBay;
 use App\Payment;
 use App\ServicePerformed;
 use App\ProductUsed;
+use App\Personnel_Job_Performed;
+use App\Personnel_Job;
 use App\JobDescription;
+use App\Personnel_Header;
 use Validator;
 use Session;
 use Redirect;
@@ -57,6 +60,18 @@ class ViewJobOrderController extends Controller
             ->where(['p.isActive' => 1, 'p.joborderid' => $id])
             ->get();
         
+
+        /*$jobdesc = DB::table('personnel_job_performed as pjp')
+            ->join('job_order as jo', 'pjp.joborderid', '=', 'jo.joborderid')
+            ->join('personnel_job as pj', 'pjp.personneljobid', '=', 'pj.personneljobid')
+            ->join('job_description as jd', 'pj.jobdescriptionid', '=', 'jd.jobdescriptionid')
+            ->join('personnel_header as ph', 'pj.personnelid', '=', 'ph.personnelid')
+            ->select('pjp.*', 'jo.*', 'pj.*', 'jd.*', 'ph.*')
+            ->where(['pjp.isActive' => 1, 'pjp.joborderid' => $id])
+            ->get();
+
+        dd($jobdesc);*/
+
         //$balance = ((float)$joborder->totalamountdue - (float)$totals->total);
 
         //$date = date('F j, Y', strtotime($payments->created_at));
