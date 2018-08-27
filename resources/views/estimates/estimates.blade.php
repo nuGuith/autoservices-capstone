@@ -16,8 +16,6 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/portlet.css') }}"/>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('vendors/animate/css/animate.min.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css') }}" />
     <!--End of plugin styles-->
 
         <!-- CONTENT -->
@@ -36,7 +34,7 @@
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/inspect">
+                                <a href="/estimates">
                                     <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
                                     &nbsp;Estimates
                                 </a>
@@ -63,7 +61,7 @@
                              </div>
 
 
-                            <div class="card-block m-t-35" id="user_body">
+                            <div class="card-block m-t-35">
                                 <div class="table-toolbar">
                                     <div class="btn-group">
                                     <div class="btn-group float-right users_grid_tools">
@@ -72,7 +70,7 @@
                                     </div>
                                 </div>
                             <div>
-                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="example2" role="grid">
                                             <thead>
                                                 <tr role="row">
                                                     <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>Estimate ID</b></th>
@@ -182,5 +180,16 @@
 <script type="text/javascript" src="{{ asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
-
+<script>
+$(document).ready(function() {
+    $('#example2').DataTable({
+        "pagingType": "full_numbers",
+        "order": [[3, 'desc']],
+        scrollY: true,
+        scroller: {
+            "rowHeight": 1
+        }
+    });
+});
+</script>
 @stop

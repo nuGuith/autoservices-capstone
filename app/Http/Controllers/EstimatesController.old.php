@@ -29,7 +29,8 @@ class EstimatesController extends Controller
      */
     public function index()
     {        
-        $estimates = Estimate::orderBy('estimateid', 'desc')
+        $estimates = Estimate::groupBy('estimateid')
+            ->orderBy('created_at', 'desc')
             ->where('isActive', 1)
             ->get();
         
@@ -39,10 +40,15 @@ class EstimatesController extends Controller
             ->select(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS AutomobileModel"), 'ModelID')
             ->get();
 
-        $automobiles = Automobile::where('isActive', 1)->get();
+        $automobiles = Automobile::where('isActive', 1)
+            ->groupBy('automobileid')
+            ->orderBy('automobileid', 'desc')
+            ->get();
 
         $customers = Customer::where('isActive', 1)
             ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
+            ->groupBy('CustomerID')
+            ->orderBy('CustomerID', 'desc')
             ->get();
 
        return view ('estimates.estimates', compact('estimates', 'automobiles', 'automobile_models', 'customers'));

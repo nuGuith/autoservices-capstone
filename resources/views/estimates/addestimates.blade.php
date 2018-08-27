@@ -180,7 +180,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <h5>Model: <span style="color:red">*</span></h5>
-                                            <p class="m-t-10">
+                                            <p id="modelwrapper" class="m-t-10">
                                                 {{ Form::select(
                                                     'automobile_models',
                                                     $automobile_models,
@@ -205,7 +205,7 @@
                                             <span class="input-group-addon m-t-10">
                                                 <i class="fa fa-dashboard"></i>
                                             </span>
-                                            <input id="mileage" name="mileage" type="number" placeholder="Miles" class="form-control m-t-10" min="1">
+                                            <input id="mileage" name="mileage" type="number" placeholder="Miles" class="form-control m-t-10" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1">
                                         </div>
                                     </div>                         
                                 </div>
@@ -218,10 +218,11 @@
                                                 <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
                                             </p>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div id="transwrapper" class="col-lg-3">
                                             <h5>Transmission: <span style="color:red">*</span></h5>
                                             <div class="row checkbox-rotate m-t-15">
                                             <input type="hidden" id="transmission" name="transmission" class="form-control m-t-10">
+                                            <p >
                                                 <label class="text-black"  style="padding-left: 45px;">
                                                     <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
                                                     &nbsp;&nbsp;Manual 
@@ -231,10 +232,12 @@
                                                     <input id="AT" type="checkbox" value="AT" style="-webkit-transform: scale(1.4);">
                                                     &nbsp;&nbsp;Automatic
                                                 </label>
+                                            </p>
                                             </div>
                                         </div>  
                                         <div class="col-lg-3" style="padding-bottom: 10px;">
                                             <h5 style = "padding-bottom: 10px;">Estimated by: <span style="color: red">*</span></h5>
+                                            <p id="personnelwrapper">
                                                 {{ Form::select(
                                                     'personnels',
                                                     $personnels,
@@ -245,6 +248,7 @@
                                                     'name' => 'personnelid')
                                                     ) 
                                                 }}
+                                            </p>
                                         </div>
                                         <div class="col-lg-3 m-t-2">
                                             <h5 style="padding-bottom: 10px;">Service Bay: <span style="color:red"></span></h5>
@@ -366,11 +370,11 @@
                                     <div class="row m-t-5">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" class="form-control" cols="30" rows="2"></textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2"></textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" class="form-control" cols="30" rows="2"></textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2"></textarea>
                                         </div>                              
                                     </div>
                                 <!--END OF ESTIMATE DETAILS -->
@@ -420,7 +424,7 @@
                                             <i class="fa fa-arrow-left"></i>
                                             &nbsp;Back
                                         </button>
-                                        <button id="btnSave" type="button" class="btn btn-raised btn-success" onclick="confirmationModal()" data-toggle="modal" >
+                                        <button id="btnSave" type="button" class="btn btn-raised btn-success" data-toggle="modal" >
                                             <i class="fa fa-save text-white" ></i> 
                                             &nbsp;Save
                                         </button>
@@ -487,35 +491,10 @@
     new WOW().init();
 </script>
 
-<script>
-
-    var valid = true;
-
-    function checkAllRequired(){
-        var result = true;
-        $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
-            if($(this).val() == null || $(this).val() == 0) result = false;
-        });
-        if (result) valid = result;
-        else valid = result;
-        return result;
-    }
-
-    function confirmationModal(){
-        var require = checkAllRequired();
-
-        if (!require)
-            alert("Fill out all the required fields first!");
-        if (valid)
-            $("#confirmationModal").modal('show');
-
-    }
-</script>
-
 <!--SCRIPT FOR ESTIMATE TABLE -->
 <script> 
 $(document).ready(function () {
-
+    
     $("#estimates option[value='0']").prop("disabled",true);
     $("#inspections option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -532,29 +511,60 @@ $(document).ready(function () {
     var servicePrices = [];
     var selectProduct = [];
     var selectedService= "";
-    var selectService;
     var i, j, ctr, qtyCtr = 1;
+    var serviceCtr;
     var modelID = 0;
     var grandTotal = 0;
     var routeID = null;
     var redirect = '';
-    var totalEstimatedTime = 0;
+    var totalEstimatedTime = 0; 
+    var valid = true;
 
 
     var clicked = false;
     $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({
         focusin: function() {
             if($(this).val() == "") $(this).css("border-color", "lightblue");
-            else { $(this).css("border-color", "lightblue"); /* $(this).css("display", "inline"); */ }
+            else { $(this).css("border-color", "lightblue"); }
         },
         focusout: function() {
             if($(this).val() == "" && clicked){ $(this).css("border", "1.5px solid #FF3839"); /* $(this).css("display", "inline"); */ }
-            /* else{ $(this).css("display", "none"); } */
         },
         click: function() {
             clicked = true;
         }
     });
+
+    $("#btnSave").on("click", function(){
+        confirmationModal();
+    });
+
+    
+    function checkAllRequired(){
+            var result = true;
+            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
+                if($(this).val() == null || $(this).val() == 0){ $(this).css("border", "1.5px solid #FF3839"); result = false };
+                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "personnels"){ $("#personnelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+            });
+            if (result) valid = result;
+            else valid = result;
+            return result;
+        }
+
+    function confirmationModal(){
+        var require = checkAllRequired();
+        if (!require)
+            alert("Fill out all the required fields first!");
+        else {
+            if(serviceCtr < 1 || serviceCtr == null)
+                alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
+            else if(serviceCtr >= 1){
+                if (valid)
+                    $("#confirmationModal").modal('show');
+            }
+        }
+    }
 
 
     $("#btnProceed").on("click", function (e) {
@@ -635,6 +645,12 @@ $(document).ready(function () {
                 }
             }
         });
+
+        
+        $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
+            if($(this).val() != null || $(this).val() != 0){ $(this).css("border", "1px solid lightgray"); result = false };
+            if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "none"); }
+        });
         
     });
 
@@ -688,8 +704,10 @@ $(document).ready(function () {
 	});
 
     /** CHOOSE PERSONNEL **/
-    $("#personnel").change(function () {
+    $("#personnels").change(function () {
 		var selectedID = $(this).val();
+        
+        if($(this).val() != null || $(this).val() != 0) { $("#personnelwrapper").css("border", "none"); }
     });
     
     /* CHOOSE MODEL TO FILTER SERVICE PRICE*/
@@ -819,7 +837,7 @@ $(document).ready(function () {
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" style="width:70px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:70px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
@@ -830,7 +848,9 @@ $(document).ready(function () {
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
 
-                
+                $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
+
+                serviceCtr++;
                 cols = "";
             }
         });
@@ -848,12 +868,12 @@ $(document).ready(function () {
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
-                    cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
+                    cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" onkeypress="return event.charCode >= 48 && event.charCode <= 57" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                    cols += '<td style="border-left:none !important"><center><button type="button" id="" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
+                    cols += '<td style="border-left:none !important"><center><button type="button" id="productid" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
 
                     newProductRow.append(cols);
                     $(newProductRow).insertBefore("#footer");
@@ -885,12 +905,41 @@ $(document).ready(function () {
 
                     $("table.list").on("click", ".btnDel", function (event) {
                         var id = $(this).data('serviceid');
+                        var svcid = "svc" + id;
+                        
+                        //remove all products included in this service
+                        $('table tr').each( function() {
+                            if ((this.id) == svcid) 
+                                $(this).closest("tr").remove();
+                        });
+
                         $(this).closest("tr").remove();
-                        removeIncludedProduct(id);
+                        $('#services option[value="'+id+'"]').prop("disabled", false);
+                        $('#services').trigger("chosen:updated");
                         getEstimatedTime();
                         getGrandTotal();
+
+                        serviceCtr--;
+                        if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
                     });
-                    
+
+                    $("table.list").on("click", "#productid", function(event){
+                        var remaining = 1;
+                        var id = $(this).attr('name');
+                        var this_ServiceID = "#" + id;
+                        $('table tr').each( function() {
+                            if ($(this).attr('class') == 'product'){
+                                remaining++;
+                            }
+                        });
+                        if(remaining == 1) {
+                            $('#itemsTable').find(this_ServiceID).remove();
+                            $('#services option[value="'+id+'"]').prop("disabled", false);
+                            $('#services').trigger("chosen:updated");
+                            serviceCtr--;
+                            $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+                        }
+                    });
                 }
             });
         }
@@ -973,13 +1022,6 @@ $(document).ready(function () {
         document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
         else
         document.getElementById("estimated").innerHTML = "No job to do.";
-    }
-
-    function removeIncludedProduct(id) {
-        var svcid = "svc" + id;
-        $('#itemsTable').each( function() {
-            $('table#itemsTable tr#svc1').remove();
-        });
     }
 
 });

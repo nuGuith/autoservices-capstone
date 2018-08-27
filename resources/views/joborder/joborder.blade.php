@@ -205,7 +205,8 @@
 <script>
     $(document).ready(function() {
     $('#example2').DataTable( {
-        "pagingType": "full_numbers"
+        "pagingType": "full_numbers",
+        "order": [[3, 'desc']]
     } );    
 } );
 

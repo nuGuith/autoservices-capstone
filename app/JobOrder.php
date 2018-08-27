@@ -13,7 +13,6 @@ class JobOrder extends Model
         'EstimateID',
         'AutomobileID',
         'InspectionID',
-        'PersonnelPerformedID',
         'ServiceBayID',
         'PromoID',
         'PackageID',
