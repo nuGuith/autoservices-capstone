@@ -103,10 +103,15 @@ Route::get('/viewinspect','ViewInspectController@index');
 Route::get('/estimates','EstimatesController@index');
 
 Route::resource('/addestimates','AddEstimatesController');
+Route::post('/addestimates', 'AddEstimatesController@store');
 Route::get('/addestimates/{automobile}/showAutomobile', 'AddEstimatesController@showAutomobile');
 Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@showCustomer');
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
 Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
+Route::get('/addestimates/{id}/filterPlateNo', 'AddEstimatesController@filterPlateNo');
+Route::get('/addestimates/{id}/getServiceDetails', 'AddEstimatesController@getServiceDetails');
+Route::get('/addestimates/{id}/getProductDetails', 'AddEstimatesController@getProductDetails');
+Route::get('/addestimates/{id}/getDiscountDetails', 'AddEstimatesController@getDiscountDetails');
 
 Route::get('/editestimates/{id}','EditEstimatesController@index');
 Route::get('/viewestimates/{id}','ViewEstimatesController@index');
@@ -115,8 +120,10 @@ Route::get('/viewestimates/{id}','ViewEstimatesController@index');
 Route::get('/joborder','JobOrderController@index');
 
 Route::resource('/addjoborder','AddJobOrderController');
-Route::get('/addjoborder/{inspection}/showInspection', 'AddJobOrderController@showInspection');
-Route::get('/addjoborder/{estimate}/showEstimate', 'AddJobOrderController@showEstimate');
+Route::get('/addjoborder/fromEstimate/{id}', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
+Route::get('/addjoborder/{id}/showEstimate', 'AddJobOrderController@showEstimate');
+Route::get('/addjoborder/{id}/searchByCustomerName', 'AddJobOrderController@searchByCustomerName');
+Route::get('/addjoborder/{id}/searchByPlateNo', 'AddJobOrderController@searchByPlateNo');
 Route::get('/addjoborder/{id}/getFilteredProductList', 'AddJobOrderController@getFilteredProductList');
 Route::get('/addjoborder/{id}/getServiceDetails', 'AddJobOrderController@getServiceDetails');
 Route::get('/addjoborder/{id}/getProductDetails', 'AddJobOrderController@getProductDetails');

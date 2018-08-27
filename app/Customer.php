@@ -10,6 +10,7 @@ class Customer extends Model
     protected $table = 'customer';
     protected $primaryKey = 'customerid';
     protected $fillable = [
+        'CustomerID',
         'firstname',
         'middlename',
         'lastname',

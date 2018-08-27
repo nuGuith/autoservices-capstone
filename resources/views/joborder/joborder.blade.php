@@ -109,9 +109,13 @@
                                         <ul style="padding-left: 1.2em;">
                                         <!-- @foreach($automobiles as $automobile) -->
                                             <!-- @if($joborder->AutomobileID == $automobile->AutomobileID) -->
-                                                <li>Name: {{$automobile->FullName}}</li>
-                                                <li>Contact No: {{$automobile->ContactNo}}</li>
-                                                <li>Address: {{$automobile->CompleteAddress}}</li>
+                                                <!-- @foreach($customers as $customer) -->
+                                                    <!-- @if($customer->CustomerID == $automobile->CustomerID) -->
+                                                    <li>Name: {{$customer->FullName}}</li>
+                                                    <li>Contact No: {{$customer->ContactNo}}</li>
+                                                    <li>Address: {{$customer->CompleteAddress}}</li>
+                                                    <!-- @endif -->
+                                                <!-- @endforeach -->
                                             <!-- @endif -->
                                         <!-- @endforeach -->
                                         </ul>
@@ -201,7 +205,8 @@
 <script>
     $(document).ready(function() {
     $('#example2').DataTable( {
-        "pagingType": "full_numbers"
+        "pagingType": "full_numbers",
+        "order": [[3, 'desc']]
     } );    
 } );
 

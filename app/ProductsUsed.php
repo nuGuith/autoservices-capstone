@@ -10,10 +10,13 @@ class ProductsUsed extends Model
     protected $table = 'product_used';
     protected $fillable = [
         'joborderid',
+        'estimateid',
         'salesid',
+        'serviceperformedid',
         'productid',
         'estimateid',
         'dateused',
+        'quantity',
         'subtotal',
         'isCustomerProvided',
         'isActive'

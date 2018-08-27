@@ -51,6 +51,7 @@ class ViewJobOrderController extends Controller
         $payments = DB::table('payment as p')
             ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
             ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+
             ->select('p.*', 'jo.totalamountdue')
             ->get();
 
