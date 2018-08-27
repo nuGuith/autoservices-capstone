@@ -144,7 +144,6 @@ class AddEstimatesController extends Controller
                 Automobile::where(['isActive' => 1, 'automobileid' => $auto_id->AutomobileID])
                 ->update([
                     'plateno' => ($request->plateno),
-                    'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
                     'color' => ($request->color)
@@ -154,7 +153,7 @@ class AddEstimatesController extends Controller
                 Automobile::create([
                     'plateno' => ($request->plateno),
                     'customerid' => ($cust_id->CustomerID),
-                    'modelid' => ($request->modelid),
+                    'modelid' => ($request->model),
                     'transmission' => ($request->transmission),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
@@ -166,30 +165,29 @@ class AddEstimatesController extends Controller
             Estimate::create([
                 'CustomerID' => ($cust_id->CustomerID),
                 'AutomobileID' => ($auto_id->AutomobileID),
-                'EstimateID' => ($request->estimateid),
                 'ServiceBayID' => ($request->servicebayid),
                 'PersonnelID' => ($request->personnelid),
                 'DiscountID' => ($request->discountid)
             ]);
-            $estimate = DB::table('estimate')->orderBy('estimateid', 'desc')->first();
+
+            $estimate = Estimate::orderBy('estimateid', 'desc')->first();
 
             $services = $request->service;
             $products = $request->product;
             $quantity = $request->quantity;
             $untprice = $request->unitprice;
+            $laborcost = $request->totalprice;
             $serviceid= $request->serviceid;
 
             //if (is_array($services) || is_object($services))
-            foreach((array) $services as $service){
+            foreach($services as $svckey=>$service){
                 
                 $subTotal = 0;
-
-                $svcprc = new ServicePrice;
-                $svcprc = ServicePrice::where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
+                $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
                 ServicePerformed::create([
                         'ServiceID' => $service,
                         'EstimateID' => $estimate->EstimateID,
-                        'LaborCost' => $svcprc->Price,
+                        'LaborCost' => $laborcost[$svckey]
                     ]);
                 
                 $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();

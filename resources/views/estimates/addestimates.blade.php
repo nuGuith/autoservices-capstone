@@ -180,6 +180,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <h5>Model: <span style="color:red">*</span></h5>
+                                        <input type="hidden" id="model" name="model">
                                             <p id="modelwrapper" class="m-t-10">
                                                 {{ Form::select(
                                                     'automobile_models',
@@ -189,7 +190,7 @@
                                                     'class' => 'form-control chzn-select',
                                                     'id' => 'automobile_models',
                                                     'name' => 'modelid')
-                                                    ) 
+                                                    )
                                                 }}
                                             </p>
                                     </div>
@@ -492,7 +493,7 @@
 </script>
 
 <!--SCRIPT FOR ESTIMATE TABLE -->
-<script> 
+<script>
 $(document).ready(function () {
     
     $("#estimates option[value='0']").prop("disabled",true);
@@ -559,7 +560,7 @@ $(document).ready(function () {
         if (require) {
             if(serviceCtr < 1 || serviceCtr == null)
                 alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
-            else if(serviceCtr >= 1){
+            else{
                 if (valid)
                     $("#confirmationModal").modal('show');
             }
@@ -569,7 +570,8 @@ $(document).ready(function () {
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#estimateForm').serialize();
-        //alert(formData);
+        alert(formData);
+
         if(routeID == 0 || routeID == null){
             $.ajax({
                 type: "POST",
@@ -578,7 +580,7 @@ $(document).ready(function () {
                 data: formData,
                 async: false,
                 success: function(data) { 
-                    //alert("Save complete.");
+                    alert(data);
                     routeID = 1;
                     redirect = data.newRoute;
                     window.location.href = redirect;
@@ -616,14 +618,15 @@ $(document).ready(function () {
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
-                if ((data.automobile.Transmission) == "A/T")
+                if ((data.automobile.Transmission) == "A/T"){
                     $("#AT").prop("checked", true);
-                else if ((data.automobile.Transmission) == "M/T")
-                    $("#MT").prop("checked", true);
-                else{
-                    $("#AT").prop("checked", false);
                     $("#MT").prop("checked", false);
                 }
+                else if ((data.automobile.Transmission) == "M/T"){
+                    $("#MT").prop("checked", true);
+                    $("#AT").prop("checked", false);
+                }
+
                 $('#transmission').val(data.automobile.Transmission);
 
                 var model = Object.keys(data.plates).length;
@@ -673,6 +676,8 @@ $(document).ready(function () {
         $('#automobile_models').val(0).trigger('chosen:updated');
         alert("This customer has more than one registered car, \nplease select using the Plate Number for the Vehicle Information. \nOr you can just register a new one! \n\nThank you.");
         $('#selectPlateNo').addClass('focused_input');
+        $("#AT").prop("checked", false);
+        $("#MT").prop("checked", false);
     }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
@@ -734,6 +739,7 @@ $(document).ready(function () {
     $("#automobile_models").change(function(){
         var selectedID = $(this).val();
         modelID = selectedID;
+        $('#model').val(modelID);
 
         filterServices();
     });
@@ -859,7 +865,7 @@ $(document).ready(function () {
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:70px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
                 $('#labor').removeClass("focused_input");
                 newServiceRow.append(cols);
