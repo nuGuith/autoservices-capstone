@@ -521,6 +521,11 @@ $(document).ready(function () {
     var totalEstimatedTime = 0; 
     var valid = true;
 
+    window.addEventListener("beforeunload", function (e) {
+    var message = "Are you sure you want to leave?";
+        (e || window.event).returnValue = message;     
+            return message;
+    });
 
     var clicked = false;
     $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({

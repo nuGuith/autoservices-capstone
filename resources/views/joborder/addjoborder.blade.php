@@ -501,7 +501,7 @@
                                                     </td>
                                                     <td style="border-left:none !important">
                                                         <center>
-                                                            <input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="prodInclude" type="checkbox" checked value="">
+                                                            <input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="prodInclude" type="checkbox" checked value="true">
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -595,7 +595,7 @@
                             <!-- Assigning of SA, QA, IM, Mechanic -->
                             <div class="row m-t-15">
                                 <div class="col-lg-3">
-	                                <h5>Mechanic:</h5>
+	                                <h5>Mechanic: <span style="color: red">*</span></h5>
 	                                    <p class="m-t-10">
                                             <p id="mechanicwrapper">
                                                 {{ Form::select(
@@ -613,9 +613,9 @@
                                         </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Service Advisor:</h5>
-	                                    <p>
-	                                        <p class="m-t-10">
+	                                <h5>Service Advisor: <span style="color: red">*</span></h5>
+	                                    <p class="m-t-10">
+                                            <p id="SAwrapper">
                                                 {{ Form::select(
                                                     'SA',
                                                     $personnels,
@@ -631,9 +631,9 @@
 	                                    </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Quality Analyst:</h5>
-	                                    <p>
-	                                        <p class="m-t-10">
+	                                <h5>Quality Analyst: <span style="color: red">*</span></h5>
+	                                    <p class="m-t-10">
+                                            <p id="QAwrapper">
                                                 {{ Form::select(
                                                     'QA',
                                                     $personnels,
@@ -649,9 +649,9 @@
 	                                    </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Inventory Manager:</h5>
-	                                    <p>
-	                                        <p class="m-t-10">
+	                                <h5>Inventory Manager: <span style="color: red">*</span></h5>
+	                                    <p class="m-t-10">
+                                            <p id="IMwrapper">
                                                     {{ Form::select(
                                                     'IM',
                                                     $personnels,
@@ -858,7 +858,7 @@ $(document).ready(function () {
     var selectService;
     var i, j, ctr, totalCounter = 0;
     var modelID = null;
-    var mechanicID = null;
+    var mechanicID = null, saID = null, qaID = null, imID = null;
     var price;
     var grandTotal = 0;
     var totalEstimatedTime = 0;
@@ -947,7 +947,7 @@ $(document).ready(function () {
                 if(mechanicID == null || mechanicID == 0 && $(this).attr('id') == "mechanic"){ $("#mechanicwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
                 if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
                 if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "IM"){ $("IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
+                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "IM"){ $("#IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
             });
             if (result) valid = true;
             else valid = false;
@@ -1657,38 +1657,6 @@ $(document).ready(function () {
 
         filterServices();
     });
-
-    
-    /* $("#discounts").chosen().on('chosen:showing_dropdown', function () {
-        var response;
-        if(PWD_SC_NO != ""){
-            response = confirm("This customer has a registered PWD/SC ID. If the customer agrees to avail the discount, click 'OK'  and we'll automatically add a Senior Citizen Discount.");
-            if (response){
-                var newDiscountRow = $('<tr id="discount">');
-                var cols = "";
-                
-                cols += '<td style="border-right:none !important"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" name="quantity" placeholder="" readonly class="form-control hidden"></td>';
-                cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>Senior Citizen Discount </td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
-                cols += '<td style="border-right:none !important"><a></a></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" value="'+ 20 +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="discountamt" name="discountamt " placeholder=".00" class="form-control"></td>';
-                cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-                newDiscountRow.append(cols);
-                $("tr#discount").replaceWith(newDiscountRow);
-                var discountRate = parseInt($("#discountrate").val());
-                var discountAmount = ( grandTotal % discountRate );
-                //alert("rate: " + discountRate + "amount:" + discountAmount);
-                var discounted = grandTotal - discountAmount;
-                $("#discountamt").val(discountAmount);
-                $("#grandtotal").val(""+discounted);
-            }
-            else {
-                alert("Fine.");
-            }
-        }
-    }); */
     
 	$("#discounts").change(function () {
 		var selectedID = $(this).val();
@@ -1794,39 +1762,83 @@ $(document).ready(function () {
         packageID = selectedID;
 	});
 
+    var old = null;
     $("#mechanic").change(function(){
         var selectedID = $(this).val();
         mechanicID = selectedID;
-        if($(this).val() != null || $(this).val() != 0) { $("#mechanicwrapper").css("border", "none"); }
 
+        if($(this).val() != null || $(this).val() != 0) { 
+            $("#mechanicwrapper").css("border", "none");
+        }
+
+        if(mechanicID == saID || mechanicID == qaID || mechanicID == imID){
+            var res = confirm("It seems like you have already assigned this personnel to a task. Proceeding would reset the assignment of other personnels. Continue?");
+            if (res){
+                disablePersonnels(selectedID);
+            }
+            else{
+                old = $("#personnels option:selected").val();
+                $('#mechanic').prop('selectedIndex', old);
+                $('#mechanic').trigger("chosen:updated");
+            }
+        }
+        else {
+            disablePersonnels(selectedID);
+        }
+    });
+
+    function disablePersonnels(selectedID){
         $("#personnels option").prop("disabled", false);
-        $('#personnels option[value ="0"]').prop("disabled", true)
-        $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
-        
-        $("#SA option").prop("disabled", false);
-        $('#SA option[value ="0"]').prop("disabled", true)
-        $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true);
-        $("#SA").prop("disabled", false);
-        $("#SA").trigger("chosen:updated");
+            $('#personnels option[value ="0"]').prop("disabled", true)
+            $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+            
+            $("#SA option").prop("disabled", false);
+            $('#SA option[value ="0"]').prop("disabled", true)
+            $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $('#SA').val(0);
+            $("#SA").prop("disabled", false);
+            $("#SA").trigger("chosen:updated");
 
-        $("#QA option").prop("disabled", false);
-        $('#QA option[value ="0"]').prop("disabled", true)
-        $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true);
-        $("#QA").prop("disabled", false);
-        $("#QA").trigger("chosen:updated");
-        
-        $("#IM option").prop("disabled", false);
-        $('#IM option[value ="0"]').prop("disabled", true)
-        $('#IM option[value ="'+ selectedID+'"]').prop("disabled", true);
-        $("#IM").prop("disabled", false);
-        $("#IM").trigger("chosen:updated");
+            $("#QA option").prop("disabled", false);
+            $('#QA option[value ="0"]').prop("disabled", true)
+            $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $('#QA').val(0);
+            $("#QA").prop("disabled", false);
+            $("#QA").trigger("chosen:updated");
+            
+            $("#IM option").prop("disabled", false);
+            $('#IM option[value ="0"]').prop("disabled", true)
+            $('#IM option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $('#IM').val(0);
+            $("#IM").prop("disabled", false);
+            $("#IM").trigger("chosen:updated");
 
-        $('table tr select').each(function(){
-            if(this.id == "personnels")
-                $(this).val(selectedID);
-                $(this).prop("disabled", false);
-                $(this).trigger("chosen:updated");
-        });
+            $('table tr select').each(function(){
+                if(this.id == "personnels")
+                    $(this).val(selectedID);
+                    $(this).prop("disabled", false);
+                    $(this).trigger("chosen:updated");
+            });
+    }
+
+    $("#SA").change(function(){
+        var selectedID = $(this).val();
+        saID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#SAwrapper").css("border", "none"); }
+        $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+    });
+
+    $("#QA").change(function(){
+        var selectedID = $(this).val();
+        qaID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#QAwrapper").css("border", "none"); }
+        $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+    });
+
+    $("#IM").change(function(){
+        var selectedID = $(this).val();
+        imID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#IMwrapper").css("border", "none"); }
     });
 
     $("#personnels").change(function(){
