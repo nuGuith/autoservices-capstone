@@ -355,6 +355,36 @@
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
 <script>
+    $(window).on('load',function(){
+        @if($errors->add->any())
+            $('#addModal').modal('show');
+        @endif
+        @if($errors->update->any())
+            $('#editModal').modal('show');
+        @endif
+    });
+</script>
+<script>
+     function editModal(id){
+            $.ajax({
+                type: "GET",
+                url: "/inspectionchecklist/"+id+"/edit",
+                dataType: "JSON",
+                success:function(data){
+                }
+            });
+            $('#editModal').modal('show');
+        }
+    function deleteModal(id){
+            document.getElementById("deleteId").value = id;
+            $('#deleteModal').modal('show');
+        }
+</script>
+
+<!-- global scripts modals-->
+<script type="text/javascript" src="js/pages/modals.js"></script>
+<!--End of global scripts-->
+<script>
 
 
 $("#addform").on("click", function () {

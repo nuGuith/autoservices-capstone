@@ -22,8 +22,23 @@ class ServiceStepsController extends Controller
      */
     public function index()
     {
-       
-        return view ('service.servicesteps');
+        $ser = DB::table('service')
+            ->WHERE('isActive',1)
+            ->GET();
+
+        $srcount = DB::table('service_steps as ss')
+            ->LEFTJOIN('service as s','ss.ServiceID','=','s.ServiceID')
+            ->groupby('ss.ServiceID')
+            ->WHERE('ss.isActive',1)
+            ->GET();
+
+        $view = DB::table('service_steps as ss')
+            ->LEFTJOIN('service as s','ss.ServiceID','=','s.ServiceID')
+            ->WHERE('ss.isActive',1)
+            ->GET();
+
+
+        return view ('service.servicesteps',compact('ser','srcount','view'));
     }
 
     /**
@@ -33,7 +48,22 @@ class ServiceStepsController extends Controller
      */
     public function create()
     {
-        //
+        $service = Input::get('serv');
+        $step = Input::get('step');
+        $arr = Input::get('arr');
+
+        $st = array("ServiceID"=>$service,"Step"=>$step);
+        DB::table('service_steps')->insert($st);
+
+        for($i=0;$i<count($arr);$i++)
+      {
+        $sr = array("ServiceID"=>$service,"Step"=>$arr[$i]);
+        DB::table('service_steps')->insert($sr);
+
+      }
+
+      
+
     }
 
     /**
@@ -53,9 +83,14 @@ class ServiceStepsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $stp = DB::table('service_steps')
+            ->WHERE('ServiceID',Input::get('id'))
+            ->GET();
+
+        return \Response::json(['stp'=>$stp]);
+
     }
 
     /**
@@ -64,8 +99,21 @@ class ServiceStepsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
+        $id = Input::get('id');
+        $step = Input::get('step');
+        $service = Input::get('service');
+
+      for($i=0;$i<count($step);$i++)
+      {
+
+      DB::table('service_steps')
+      ->WHERE('ServiceStepID',$id[$i])
+      ->UPDATE(['ServiceID'=>$service,'Step'=>$step[$i]]);
+
+      }
+
         
     }
 
@@ -87,8 +135,16 @@ class ServiceStepsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request)
+    public function delete()
     {
+
+         DB::table('service_steps')
+        ->WHERE('ServiceID',Input::get('id'))
+        ->UPDATE(['isActive'=>0]);
+
+   
+
+
        
     }
 }

@@ -90,8 +90,7 @@
 
                         <td>
 
-                            <img src = "{{$view->image}}" style="width:150px;height:150px">
-
+                            <img src = "img/{{$view->image}}" style="width:150px;height:150px">
                         </td>
                         <td class="center">
                             <ul style="padding-left: 1.2em;">
@@ -138,6 +137,7 @@
     <!-- END EXAMPLE TABLE PORTLET-->
 
    <!-- ADD MODAL -->
+    <form id="addper" enctype="multipart/form-data">
     <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -163,13 +163,14 @@
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">Change</span>
-                                                    <input type="file" id='image' name="..."></span>
+                                                    <input type="file" id='image' name="image"></span>
                                                 <a href="#" class="btn btn-warning fileinput-exists"
                                                            data-dismiss="fileinput">Remove</a>
                                             </div>
                                         </div>
 
 
+                                <input type="hidden" id="__token" value="{{ csrf_token() }}">
                                         <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
 
                                         @foreach($jt as $jobt)
@@ -256,11 +257,14 @@
                         </div>
                     </div>
                 </div>
+            </form>
             <!--END OF ADD MODAL -->
 
 
 
     <!-- EDIT MODAL -->
+
+    <form id="editper" enctype="multipart/form-data">
     <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -286,7 +290,7 @@
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">Change</span>
-                                                    <input id="eimage" type="file" name="..."></span>
+                                                    <input id="eimage" type="file" name="eimage"></span>
                                                 <a href="#" class="btn btn-warning fileinput-exists"
                                                            data-dismiss="fileinput">Remove</a>
                                             </div>
@@ -412,7 +416,7 @@
                     </div>
                 </div>
             <!--END OF EDIT MODAL -->
-
+            </form>
 
 
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
@@ -496,6 +500,8 @@
 
      $("#addform").on("click", function () {
 
+
+    var form_data = $('#addper').serialize();     
        var pic = $('#image').val();
        var fname = $('#fname').val();
        var mname = $('#mname').val();
@@ -507,14 +513,12 @@
 
 
 
-
-
+// alert(jtarr)
        $.ajax({
          type:"POST",
          url:"/addpersonnel",
          data:
          {
-           pic:pic,
            fname:fname,
            mname:mname,
            sname:sname,
@@ -526,12 +530,40 @@
            '_token': $('#token').val()
          },
          success: function(data){
-                         location.reload();
 
+       var pic = $('#image').val();
+
+       if(pic==null||pic==""){
+             window.location.href = "personnel"
+       }
+       else{
+                    var formd = new FormData($('#addper')[0]);
+                    var file = document.getElementById("image").files[0];
+                    formd.append("pic", file);
+                    formd.append("_token", $('#__token').val());
+                    $.ajax({
+                        type: "POST",
+                        url: '/perph',
+                        data: formd,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            // alert("succ")
+                            window.location.href = "personnel"; 
+                        },
+                        error:function(xhr){
+
+                            // window.location.href = "driver_info"; 
+                            // alert("errorr");
+                        }
+
+                    });
+             }       
                    },
                          error: function(xhr)
                        {
-                       location.reload();
+                        alert("error")
+                       // location.reload();
                        }
 
                      });
@@ -561,7 +593,7 @@
                  document.getElementById('eimage').value = data['per'][0]['image'];
 
 
-                alert('qwe');
+                // alert('qwe');
 
 
 
@@ -577,6 +609,7 @@
 
      $("#editform").on("click", function () {
 
+    var form_data = $('#editper').serialize();    
        var epic = $('#eimage').val();
        var efname = $('#efname').val();
        var emname = $('#emname').val();
@@ -606,7 +639,34 @@
            '_token': $('#token').val()
          },
          success: function(data){
-                         location.reload();
+                          var pic = $('#eimage').val();
+
+       if(pic==null||pic==""){
+             window.location.href = "personnel"
+       }
+       else{
+                         var formd = new FormData($('#editper')[0]);
+                    var file = document.getElementById("eimage").files[0];
+                    formd.append("pic", file);
+                    formd.append("_token", $('#__token').val());
+                    $.ajax({
+                        type: "POST",
+                        url: '/perph',
+                        data: formd,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            // alert("succ")
+                            window.location.href = "personnel"; 
+                        },
+                        error:function(xhr){
+
+                            // window.location.href = "driver_info"; 
+                            // alert("errorr");
+                        }
+
+                    });
+             }  
 
                    },
                          error: function(xhr)
@@ -689,7 +749,6 @@
          // alert('push1st')
 
        }
-
 
 
 

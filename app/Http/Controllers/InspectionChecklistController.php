@@ -147,7 +147,7 @@ class InspectionChecklistController extends Controller
       //edit inspection checklist type
       DB::table('inspection_type')
       ->WHERE('InspectionTypeID',Input::get('Inid'))
-      ->UPDATE(['InspectionType'=>Input::get('type')]);
+      ->UPDATE(['InspectionTypeName'=>Input::get('type')]);
 
       //edit inspection Items
       $items = Input::get('item');
@@ -175,5 +175,4 @@ class InspectionChecklistController extends Controller
 
 
       }
-
-}
+    }

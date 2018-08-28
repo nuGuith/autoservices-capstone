@@ -71,12 +71,25 @@ Route::patch('/service', 'ServiceController@delete');
 
 //Maintenance - Service Steps
 Route::resource('servicesteps','ServiceStepsController');
+Route::POST('/addsteps','ServiceStepsController@create');
+Route::GET('/retsteps','ServiceStepsController@show');
+Route::POST('/editsteps','ServiceStepsController@edit');
+Route::POST('/deletesteps','ServiceStepsController@delete');
 
 //Maintenance - Service Price
 Route::resource('/serviceprice', 'ServicePriceController');
+Route::post('/addsprice', 'ServicePriceController@create');
+Route::GET('/RetrieveSP', 'ServicePriceController@show');
+Route::post('/editsprice', 'ServicePriceController@edit');
+Route::post('/delsprice', 'ServicePriceController@delete');
+
 
 //Maintenance - Service Product
 Route::resource('/serviceproduct', 'ServiceProductController');
+Route::post('/addsproduct', 'ServiceProductController@create');
+Route::GET('/retSP', 'ServiceProductController@show');
+Route::post('/editSP', 'ServiceProductController@edit');
+Route::post('/delSP', 'ServiceProductController@delete');
 
 //Maintenance - Service Bay
 Route::resource('servicebay','ServiceBayController');
@@ -115,6 +128,7 @@ Route::POST('/delskills', 'SkillsController@delete');
 //Maintenance - Personnel
 Route::resource('/personnel','PersonnelController');
 Route::POST('/addpersonnel','PersonnelController@create');
+Route::POST('/perph','PersonnelController@perph');
 Route::GET('/retpersonnel','PersonnelController@show');
 Route::POST('/editpersonnel','PersonnelController@edit');
 Route::POST('/delpersonnel','PersonnelController@delete');
@@ -130,12 +144,15 @@ Route::POST('/delmskills','MechanicSkillsController@delete');
 Route::get('/package','packageController@package');
 Route::POST('/savePackage','AddPackageController@savePackage');
 Route::get('/addpackage','AddPackageController@addpackage');
-Route::get('/editpackage','EditPackageController@editpackage');
+Route::GET('/retpagkage','packageController@packageshow');
+Route::POST('/editpackage','packageController@editpackage');
 
 //Maintenance - Promo
 Route::get('/promo','PromoController@promo');
 Route::get('/addpromo','AddPromoController@addpromo');
-Route::get('/editpromo','EditPromoController@editpromo');
+Route::POST('/savePromo','AddPromoController@savePromo');
+Route::GET('/retpromo','PromoController@promoshow');
+Route::POST('/editpromo','PromoController@editpromo');
 
 //Maintenance - Free Items
 Route::get('/freeitems','FreeItemsController@freeitems');

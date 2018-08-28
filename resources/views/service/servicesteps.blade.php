@@ -80,27 +80,32 @@
                                                     <th class="sorting wid-15" tabindex="0" rowspan="1" colspan="1" style="width: ;"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>             
+                                            <tbody> 
+                                                @foreach($srcount as $scount)            
                                                 <tr>
                                                     <td>
-                                                        Change Oil
+                                                        {{$scount->ServiceName}}
                                                     </td>
                                                     <td>
                                                         <ol style="padding-left: 1.2em;">
-                                                            <li>Open the filter</li>
-                                                            <li>Clean the filter</li>
+                                                            @foreach($view as $vw)
+                                                            @if($scount->ServiceID == $vw->ServiceID)
+                                                            <li>{{$vw->Step}}</li>
+                                                            @endif
+                                                            @endforeach
                                                         </ol>
                                                     </td>
                                                     <td>
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" onclick="editMod()" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" name="{{$scount->ServiceID}}" onclick="editMod(this.name)" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                                         </button>
                                                               
                                                         <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" onclick="deleteModal()" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                                        <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" name="{{$scount->ServiceID}}" onclick="deleteModal(this.name)" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
+                                                @endforeach
                 
                                             </tbody>
                                         </table>
@@ -124,9 +129,13 @@
                                     <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" tabindex="2">
+                                            <select id="eservice" class="form-control  chzn-select" tabindex="2">
                                                 <option disabled selected>Choose Service Name</option>
-                                                <option value="">Change Oil</option>
+
+                                                 @foreach($ser as $sv)
+                                                <option value="{{$sv->ServiceID}}">{{$sv->ServiceName}}</option>
+                                                @endforeach
+                                                
                                             </select>
                                     </div>
                                 </div>
@@ -142,13 +151,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                            <!--Seach Select: Product-->
+                                            <!-- <tr>
+                                            Seach Select: Product
                                             <td  >
-                                                <input type="text" name="item" placeholder="Steps" class="form-control" style="width:350px;"/>                                   
+                                                <input type="text" id="estep" name="item" placeholder="Steps" class="form-control" style="width:350px;"/>                                   
                                             </td>
                                              
-                                            <!--ADD ROW FOR EDIT MODAL-->                          
+                                            ADD ROW FOR EDIT MODAL                          
                                             <td style="border-color: white" rules="rows">
                                                 <div class="examples transitions m-t-0">
                                                 <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
@@ -157,7 +166,7 @@
                                             <td style="border-color: white" rules="rows"><i class="deleteeditRow "></i>
                                             </td>
                                             </tr>
-                                        </tbody>
+ -->                                        </tbody>
                                     <tfoot>
                                      </tfoot>
                                     </table>
@@ -183,7 +192,7 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp;Save Changes
+                                    <button id="editform" class="btn btn-success   source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp;Save Changes
                                     </button>
                                 </div>
                             </div>
@@ -207,9 +216,13 @@
                                     <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" tabindex="2">
+
+                                            <select id="service" class="form-control  chzn-select" tabindex="2">
+
                                                 <option disabled selected>Choose Service Name</option>
-                                                <option value="">Change Oil</option>
+                                                 @foreach($ser as $serv)
+                                                <option value="{{$serv->ServiceID}}">{{$serv->ServiceName}}</option>
+                                                @endforeach
                                             </select>
                                     </div>
                                 </div>
@@ -227,8 +240,8 @@
                                             <tbody>
                                             <tr>
                                             <!--Seach Select: Product-->
-                                            <td  >
-                                                <input type="text" name="item" placeholder="Steps" class="form-control" style="width:350px;"/>                                   
+                                            <td >
+                                                <input type="text" id="step" name="item" placeholder="Steps" class="form-control" style="width:350px;"/>                                   
                                             </td>
                                              
                                             <!--ADD ROW FOR EDIT MODAL-->                          
@@ -245,7 +258,7 @@
                                      </tfoot>
                                     </table>
                                 </div>
-                               
+                               <!-- 
                                     <div id="show-errors" class="m-t-5">
                                         @if ($errors->add->any())
                                             <div class="alert alert-danger">
@@ -257,7 +270,7 @@
                                             </div>
                                             <br>
                                         @endif
-                                    </div>
+                                    </div> -->
                                 </div>
                                 
                     
@@ -269,21 +282,20 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
-                                        'type'=>'submit',
-                                        'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal',
-                                    ]) !!}
+                                     <input type="hidden" id="token" value="{{ csrf_token() }}">
+                                    <button id= "addform" type="submit" class='btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn'data-dismiss='modal',><i class="fa fa-save text-white"></i>&nbsp;Save
+                                    </button>
+                                   
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
+               
                 <!-- END ADD MODAL -->
 
                 <!-- START DELETE MODAL -->
-                {!! Form::open(array('id' => 'deleteForm', 'url' => 'inspectionchecklist', 'action' => 'InspectionChecklistController@delete', 'method' => 'PATCH')) !!}
+               
                 <!-- {!! csrf_field() !!} -->
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
@@ -308,17 +320,14 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;OK', [
-                                        'type'=>'submit',
-                                        'class'=>'btn btn-success warning source confirm m-l-10 adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal',
-                                    ]) !!}
+                                    <button id="deletebutt" type='submit' class='btn btn-success warning source danger m-l-10 adv_cust_mod_btn' data-dismiss='modal'><i class="fa fa-trash text-white"></i>&nbsp;OK
+                                    </button>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
                 <!-- END DELETE MODAL -->
                 <!-- END MODAL-->
 
@@ -369,7 +378,11 @@
             $('#editModal').modal('show');
         }
     function deleteModal(id){
-            document.getElementById("deleteId").value = id;
+            
+    
+            $('#deleteId').val(id);
+
+    
             $('#deleteModal').modal('show');
         }
 </script>
@@ -381,38 +394,212 @@
 <!--script for add modal steps -->
 <script> 
 $(document).ready(function () {
-    var counter = 0;
+    addcounter = 0;
 
     $("#addrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
 
-        cols += '<td><input type="text" class="form-control" name="item" placeholder="Steps"' + counter + '"/></td>';
+        cols += '<td><input type="text" id="step'+addcounter+'"class="form-control" name="item" placeholder="Steps' + addcounter + '"/></td>';
         cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
 
         newRow.append(cols);
         $("table.order-list").append(newRow);
-        counter++;
+        addcounter++;
     });
 
 
 
-    $("table.order-list").on("click", ".ibtnDel", function (event) {
+$("table.order-list").on("click", ".ibtnDel", function (event) {
         $(this).closest("tr").remove();       
-        counter -= 1
+        addcounter -= 1
     });
 
 });
+
+   $("#addform").on("click", function () {
+       // alert(addcounter)
+       
+       var service = $('#service').val();
+       var step = $('#step').val();
+       var arr = [];
+
+       for(var x=0;x<addcounter;x++){
+
+        arr.push( $('#step'+x+'').val() )
+
+
+       }
+       // alert(arr);
+
+      $.ajax({
+        url: "/addsteps",
+        type: "POST",
+        data:{
+
+        serv:service,
+        step:step,
+        arr:arr,
+
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                            // alert("Add Successful!");
+                             location.reload();
+                            },
+                        error: function(xhr)
+                        {
+                          alert('error')
+                         //  location.reload();
+                        }
+
+
+
+
+      });
+
+    });
+
+   function editMod(id){
+
+
+      $.ajax({
+        url: "/retsteps",
+        type: "GET",
+        data:{
+
+        id:id,  
+
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                $('#eservice').val(data['stp'][0]['ServiceID']).trigger('chosen:updated');
+                // $('#estep').val(data['stp'][0]['Step']);
+                idarr=[];
+
+                            
+        for (var i=0;i<data.stp.length;i++){
+
+        var newRow = $("<tr>");
+        var cols = "";
+
+        var val =  data['stp'][i]['Step']
+        idarr.push(data['stp'][i]['ServiceStepID']);
+
+
+        cols += '<td><input type="text" id="estep'+ecounter+'" value="'+val+'" class="form-control" name="item" placeholder="Steps'+ ecounter +'" style="width:350px;" /></td>';
+
+
+        cols += '<td><input type="button" class="ibtneDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
+
+        newRow.append(cols);
+        $("table.edit-order-list").append(newRow);
+        ecounter++;
+
+        }
+
+                            },
+                        error: function(xhr)
+                        {
+                          alert('error')
+                         //  location.reload();
+                        }
+
+
+
+
+      });
+
+    
+   }
+
+    $("#editform").on("click", function () {
+
+       
+        var starr = [];
+        var service = $('#eservice').val()
+        for(var x=0;x<ecounter;x++){
+
+            starr.push( $('#estep'+x+'').val() )
+        }
+         // alert(idarr);
+         // alert(starr);
+         // alert(service);
+
+         $.ajax({
+        url: "/editsteps",
+        type: "POST",
+        data:{
+
+        id:idarr,
+        step:starr,
+        service:service,
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                            // alert("edit Successful!");
+                             location.reload();
+                            },
+                        error: function(xhr)
+                        {
+                          alert('error')
+                         //  location.reload();
+                        }
+
+
+
+
+      });
+        
+
+
+       
+    });
+
+      $("#deletebutt").on("click", function () {
+
+        var did = $('#deleteId').val()
+        // alert(did)
+        
+
+         $.ajax({
+        url: "/deletesteps",
+        type: "POST",
+        data:{
+
+        id:did,
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                             location.reload();
+                            },
+                        error: function(xhr)
+                        {
+                          alert('error')
+                         //  location.reload();
+                        }
+
+
+
+
+      });
+        
+
+
+       
+    });
+
+
 
 </script>
 
 <!--script for edit modal steps-->
 <script> 
 $(document).ready(function () {
-    var counter = 0;
+    ecounter = 0;
 
 
-    $("#editrow").on("click", function () {
+    $("#editrow").on("click", function ( ) {
         var newRow = $("<tr>");
         var cols = "";
 
