@@ -190,7 +190,7 @@
                                                     <span class="input-group-addon m-t-10">
                                                         <i class="fa fa-dashboard"></i>
                                                     </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="Miles" class="form-control m-t-10" value="{{ $model->Mileage }}">
+                                                    <input id="mileage" name="mileage" type="number" placeholder="Miles" class="form-control m-t-10" value="{{ $model->Mileage }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 </div>
                                         </div>                         
                                 </div>
@@ -345,7 +345,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($serviceperformed as $sp)
-                                        <tr class="service" id="{!!$sp->ServiceID!!}">
+                                        <tr class="service" id="{!!$sp->ServiceID!!}" name="{!!$sp->ServicePerformedID!!}">
                                             <td style="border-right:none !important">
                                                 {!!$sp->ServiceName!!}<br>
                                             </td>
@@ -370,7 +370,7 @@
                                         </tr>
                                             @foreach($productused as $pu)
                                                 @if($sp->ServicePerformedID == $pu->ServicePerformedID)
-                                                <tr class="product" id="{!!$sp->ServiceID!!}">
+                                                <tr class="product" id="svc{!!$sp->ServiceID!!}">
                                                     <td style="border-right:none !important"></td>
                                                     <td style="border-right:none !important">
                                                         <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
@@ -512,7 +512,8 @@
 <script> 
 $(document).ready(function () {
 
-    var serviceCtr;
+    var serviceCtr = 0;
+    var deleted = [];
 
     $("#automobile_models option[value='0']").prop("disabled",true);
     $("#servicebays option[value='0']").prop("disabled",true);
@@ -547,8 +548,81 @@ $(document).ready(function () {
     getGrandTotal();
     getEstimatedTime();
 
+    var clicked = false;
+    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({
+        focusin: function() {
+            if($(this).val() == "") $(this).css("border-color", "lightblue");
+            else { $(this).css("border-color", "lightblue"); }
+        },
+        focusout: function() {
+            if($(this).val() == "" && clicked){ $(this).css("border", "1.5px solid #FF3839"); /* $(this).css("display", "inline"); */ }
+        },
+        click: function() {
+            clicked = true;
+        }
+    });
+
+    $("#btnSave").on("click", function(){
+        confirmationModal();
+    });
+
+    
+    function checkAllRequired(){
+            var result = true;
+            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
+                if($(this).val() == null || $(this).val() == 0){ $(this).css("border", "1.5px solid #FF3839"); result = false };
+                if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "personnels"){ $("#personnelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+            });
+            if (result) valid = true;
+            else valid = false;
+            return result;
+        }
+
+    function confirmationModal(){
+        var require = checkAllRequired();
+        if (!require)
+            alert("Fill out all the required fields first!");
+        if (require) {
+            if(serviceCtr < 1 || serviceCtr == null)
+                alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
+            else{
+                if (valid)
+                    $("#confirmationModal").modal('show');
+            }
+        }
+    }
+
+
+    $("#btnProceed").on("click", function (e) {
+        var formData = $('#estimateForm').serialize();
+        alert(formData);
+
+        if(routeID == 0 || routeID == null){
+            $.ajax({
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: "/addestimates",
+                data: formData,
+                async: false,
+                success: function(data) { 
+                    alert(data);
+                    routeID = 1;
+                    redirect = data.newRoute;
+                    window.location.href = redirect;
+                },
+                fail: function(data) {
+                    alert("Failed to save data.");
+                }
+            });
+        }
+        else{
+            window.location.href = redirect;
+        }
+    });
+
     $('table tr').each( function() {
-        if ($(this).attr('class') == 'product'){
+        if ($(this).attr('class') == 'service'){
             serviceCtr++;
         }
     });
@@ -576,6 +650,8 @@ $(document).ready(function () {
                 $(this).closest("tr").remove();
         });
 
+        deleted.push($(this).closest("tr").attr('name'));
+        //alert(deleted);
         $(this).closest("tr").remove();
         $('#services option[value="'+id+'"]').prop("disabled", false);
         $('#services').trigger("chosen:updated");
@@ -589,9 +665,10 @@ $(document).ready(function () {
     $("table.list").on("click", "#productid", function(event){
         var remaining = 1;
         var id = $(this).attr('name');
+        var svcid = "svc" + id;
         var this_ServiceID = "#" + id;
         $('table tr').each( function() {
-            if ($(this).attr('class') == 'product'){
+            if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid ){
                 remaining++;
             }
         });
@@ -602,6 +679,9 @@ $(document).ready(function () {
             serviceCtr--;
             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         }
+        
+        getEstimatedTime();
+        getGrandTotal();
     });
 
     function getGrandTotal(){

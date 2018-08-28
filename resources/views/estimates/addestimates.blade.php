@@ -561,8 +561,11 @@ $(document).ready(function () {
             if(serviceCtr < 1 || serviceCtr == null)
                 alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
             else{
-                if (valid)
-                    $("#confirmationModal").modal('show');
+                if (valid){
+                    var resp = confirm("Save this record?");
+                    if (resp)
+                        $("#confirmationModal").modal('show');
+                }
             }
         }
     }
@@ -952,9 +955,10 @@ $(document).ready(function () {
                     $("table.list").on("click", "#productid", function(event){
                         var remaining = 1;
                         var id = $(this).attr('name');
+                        var svcid = "svc" + id;
                         var this_ServiceID = "#" + id;
                         $('table tr').each( function() {
-                            if ($(this).attr('class') == 'product'){
+                            if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid){
                                 remaining++;
                             }
                         });
@@ -965,6 +969,8 @@ $(document).ready(function () {
                             serviceCtr--;
                             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
                         }
+                        getEstimatedTime();
+                        getGrandTotal();
                     });
                 }
             });
@@ -1000,7 +1006,6 @@ $(document).ready(function () {
             } 
         });
         document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
-
     }
 
     function getGrandTotalNoQty(){
