@@ -231,7 +231,7 @@
 
                                         <!--Package Details Product Table-->
                                         <div class ="m-t-15">
-                                            <table class="table  table-striped table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">   
+                                            <table class="table     table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">   
                                             <thead>
                                                 <tr style="background-color: #f5f5f5">
                                                     <th>Product</th>
@@ -485,6 +485,59 @@
             
 </script> 
 <!--End Service table 1 to Service Table 2-->
+<script type="text/javascript">
+$(document).ready(function() {
+    var table = $('#producttab1').DataTable(
+    {"bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+    "paging": false,//Dont want paging                
+    "bPaginate": false,
+    "bFilter": false,
+    }
+        );
+} );
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var table = $('#producttab2').DataTable(
+    {"bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+    "paging": false,//Dont want paging                
+    "bPaginate": false,
+    "bFilter": false,
+    "ordering": false,
+    "oLanguage": {"sZeroRecords": "", "sEmptyTable": "",}
+    }
+        );
+} );
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var table = $('#servicetab1').DataTable(
+    {"bInfo": false,
+    "paging": false,              
+    "bPaginate": false,
+    "bFilter": false,
+
+
+    }
+        );
+} );
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+var table = $('#servicetab2').DataTable(
+    {"bInfo": false, 
+    "paging": false,                
+    "bPaginate": false,
+    "bFilter": false,
+    "oLanguage": {"sZeroRecords": "", "sEmptyTable": ""}} 
+    
+
+        );
+} );
+</script>
 
 
 @stop

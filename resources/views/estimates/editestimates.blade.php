@@ -28,7 +28,7 @@
                     <div class="row" style = "height: 47px;">
                     <div class="col-6">
                         <h4 class="m-t-15">
-                            <i class="fa fa-plus"></i>&nbsp;
+                            <i class="fa fa-pencil"></i>&nbsp;
                             Edit Estimate
                         </h4>
                     </div>
@@ -515,12 +515,14 @@ $(document).ready(function () {
     var serviceCtr = 0;
     var deleted = [];
 
+
     $("#automobile_models option[value='0']").prop("disabled",true);
     $("#servicebays option[value='0']").prop("disabled",true);
     $("#personnels option[value='0']").prop("disabled",true);
     $("#services option[value='0']").prop("disabled",true);
     $("#products option[value='0']").prop("disabled",true);
     $('#products').prop('disabled', true);
+
 
     var estimate = {!! json_encode($estimate->toArray()) !!};
     var automobile = {!! json_encode($model->toArray()) !!};
