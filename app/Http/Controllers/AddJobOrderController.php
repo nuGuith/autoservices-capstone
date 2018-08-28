@@ -125,11 +125,12 @@ class AddJobOrderController extends Controller
             ->get();
 
         $estimate = new Estimate;
+        $automobile = new Automobile;
         //dd($personnelskills);
         
         //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
         //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages', 'estimate'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'promos','packages', 'estimate', 'automobile'));
     }
 
     
@@ -202,6 +203,7 @@ class AddJobOrderController extends Controller
             ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
             ->select('sp.*', 'svc.*')
             ->get();
+
         $productused = DB::table('product_used AS pu')
             ->join('product as pr', 'pu.productid', '=', 'pr.productid')
             ->where(['estimateid' => $id, 'pu.isActive' => 1])

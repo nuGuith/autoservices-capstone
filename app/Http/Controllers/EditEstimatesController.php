@@ -33,33 +33,42 @@ class EditEstimatesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
        
-        $customerids = Customer::orderBy('customerid', 'desc')
-        ->where('isActive', 1)
-        ->select('customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
-        ->pluck('fullname','customerid');
+        $estimate = Estimate::findOrFail($id);
+        $model = Automobile::findOrFail($estimate->AutomobileID);
         
-        $automobiles = Automobile::orderBy('created_at', 'desc')
-        ->where('isActive', 1)
-        ->pluck('plateno','automobileid');
+        $automobile = DB::table('automobile_model AS md')
+                    ->where('md.ModelID', $model->ModelID)
+                    ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+                    ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+                    ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo', 'auto.Color')
+                    ->first();
 
         $automobile_models = DB::table('automobile_model')
             ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
             ->where('automobile_model.isActive',1)
             ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
 
-        $personnels = PersonnelHeader::where('isActive', 1)
-            ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
-            ->pluck('personnelfullname','personnelid');
+        $customer = DB::table('customer')
+                    ->where('customerid', $model->CustomerID)
+                    ->select('firstname', 'middlename', 'lastname', 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->first();
         
         $service_bays = ServiceBay::where('isActive', 1)
             ->pluck('servicebayname', 'servicebayid');
 
-        $discounts = Discount::orderBy('discountid', 'desc')
-            ->where('isActive', 1)
-            ->pluck('discountname', 'discountid');
+        if($estimate->ServiceBayID != null)
+            $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
+        else{
+            $servicebay = new ServiceBay;
+            $servicebay->ServiceBayName = null;
+        }
+
+        $personnels = PersonnelHeader::where('isActive', 1)
+            ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
+            ->pluck('personnelfullname','personnelid');
 
         $services = Service::orderBy('serviceid', 'desc')
             ->where('isActive', 1)
@@ -68,17 +77,26 @@ class EditEstimatesController extends Controller
         $products = Product::orderBy('productid', 'desc')
             ->where('isActive', 1)
             ->pluck('productname', 'productid');
-       
-        $customerids->prepend('Please select a customer',0);
-        $automobiles->prepend('Select a Plate Number', 0);
-        $automobile_models->prepend('Select a Model', 0);
-        $personnels->prepend('Select a Personnel', 0);
+        
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
+
         $service_bays->prepend('Please choose a Bay', 0);
-        $discounts->prepend('Choose a Discount', 0);
         $services->prepend('Choose a Service', 0);
         $products->prepend('Choose a Product', 0);
+        $automobile_models->prepend('Select a Model', 0);
+        $personnels->prepend('Select a Personnel', 0);
 
-        return view ('estimates.editestimates', compact('customerids', 'automobiles', 'automobile_models', 'service_bays', 'discounts', 'services', 'products', 'personnels'));
+        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels', 'serviceperformed', 'productused'));
     }
 
     /**

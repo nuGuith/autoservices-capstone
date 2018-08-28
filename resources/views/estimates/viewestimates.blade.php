@@ -127,149 +127,128 @@
                         </div>
 
 
-                            <!--Start of estimate table-->
+                        <!--Start of estimate table-->
                         <table class="table list table-bordered display table-hover dataTable">
-                                <thead>
-                                    <tr class="trrow">
-                                        <th style="width: 15% !important">Problem</th>
-                                        <th style="width: 20% !important">Service</th>
-                                        <th style="width: 23% !important">Product</th>
-                                        <th>Labor</th>
-                                        <th>Unit Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total Price</th>
-                                    </tr>
-                                </thead>
+                                    <thead>
+                                        <br>
+                                        <tr>
+                                            <td style="width: 20%;">
+                                                <h5>Service <span style="color: red">*</span></h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Labor <span style="color: red">*</span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 20%;">
+                                                <h5>Product <span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Quantity <span style="color: red">*</span></h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Unit Price<span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <h5>Total Price<span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                            <td style="width: 5%;">
+                                                <h5>Included<span style="color: red"></span>
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        <tr role="row" class="odd">
-                                            <!--Column: Problem -->
-                                            <td style="width: 15% !important">Engine become to hot<b>
+                                        @foreach($serviceperformed as $sp)
+                                        <tr>
+                                            <td style="border-right:none !important">
+                                                {!!$sp->ServiceName!!}<br>
                                             </td>
-                                            <!--Column: Service -->
-                                            <td style="width: 20% !important">
-                                                <span class="badge badge-pill badge-primary float-right calendar_badge" data-toggle="modal" data-href="#responsive" href="#viewModal">?</span>
-                                                <b>Change Oil<b>    
+                                            <td style="border-right:none !important">
+                                                <input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
                                             </td>
-                                            <!--Column: Product-->
-                                            <td style="width: 23% !important">
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px;">Dunlop 1.5mL</li>
-                                                  <li style="padding-bottom: 7px;">Shell Helix Ulta 2.5m</li>
-                                                <ul>
+                                            <td style="border-right:none !important"><a></a></td>
+                                            <td  style="border-right:none !important">
+                                                <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
                                             </td>
-                                            <!--Column: Labor-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 1.2em;">
-                                                  <li style="text-align: right">350</li>
-                                                  <li>&nbsp;</li>
-                                                  <li>&nbsp;</li>
-                                                <ul>
+                                            <td style="border-right:none !important">
+                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
                                             </td>
-                                            <!--Column: Unit Price-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">700</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">650</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Quantity -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">3</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Total Price -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px; text-align: center">350</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2100</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">1300</li>
-                                                <ul>            
+                                            <td style="border-right:none !important">
+                                                <input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                </td>
+                                            <td style="border-left:none !important">
+                                                <center>
+                                                    <input style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="chkInclude" type="checkbox" checked disabled value="">
+                                                    <button type="button" id="svc" name="{!!$sp->EstimatedTime!!}"  class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button>
+                                                </center>
                                             </td>
                                         </tr>
-
-                                    <!-- TO SHOW HOW IT LOOKS LIKE: another row -->
-                                        <tr class="even">
-                                            <!--Column: Problem -->
-                                            <td style="width: 15% !important">Engine become to hot Engine become to hot Engine become to hot Engine become
-                                            </td>
-                                            <!--Column: Service -->
-                                            <td style="width: 20% !important">
-                                                <span class="badge badge-pill badge-primary float-right calendar_badge" data-toggle="modal" data-href="#responsive" href="#viewModal">?</span>
-                                                <b>Balance Wheel <b>
-                                            
-                                            </td>
-                                            <!--Column: Product-->
-                                            <td style="width: 23% !important">
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px;">Dunlop 1.5mL</li>
-                                                  <li style="padding-bottom: 7px;">Shell Helix Ulta 2.5m</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Labor-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 1.2em;">
-                                                  <li style="text-align: right">350</li>
-                                                  <li>&nbsp;</li>
-                                                  <li>&nbsp;</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Unit Price-->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0.5em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">700</li>
-                                                  <li style="padding-bottom: 7px; text-align: right">650</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Quantity -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px;">&nbsp;</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">3</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2</li>
-                                                <ul>
-                                            </td>
-                                            <!--Column: Total Price -->
-                                            <td>
-                                                <ul style="list-style-type: none; padding-left: 0em;">
-                                                  <li style="padding-bottom: 7px; text-align: center">350</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">2100</li>
-                                                  <li style="padding-bottom: 7px; text-align: center">1300</li>
-                                                <ul>            
-                                            </td>
-                                        </tr>
-                                    <!--END: TO SHOW HOW IT LOOKS LIKE -->
+                                            @foreach($productused as $pu)
+                                                @if($sp->ServicePerformedID == $pu->ServicePerformedID)
+                                                <tr>
+                                                    <td style="border-right:none !important"></td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        {!!$pu->ProductName!!}
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" readonly>
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
+                                                    </td>
+                                                    <td style="border-left:none !important">
+                                                        <center>
+                                                            <input style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="chkInclude" type="checkbox" checked disabled value="">
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                     </tbody>
 
                                      <!--Footer: Total Price-->
                                     <tfoot>
                                         <tr class="trrow">
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
-                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center; color: blue">3 days</span>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span id="estimated" style="text-align: center; color: blue">3 days</span>
                                             </th>
                                             
-                                            <th colspan="4" style="text-align: right;">Grand Total Price (Php): </th>
-                                            <th style="text-align: center; color: red">7500</th>
+                                            <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
+                                            <th colspan="2" style="text-align: center; color: red">
+                                                <h5  style="padding-top:5px;">&nbsp;&nbsp;&nbsp;
+                                                <span id="grandtotal" style="color:red">&nbsp;&nbsp;&nbsp;0.00</span>
+                                                </h5>
+                                            </th>
                                         </tr>
                                     </tfoot>
                                 </table>
 
 
 
-                                <div class="row m-t-20" style="padding-bottom:20px">  
-                                    <div class="col-lg-12 m-t-0">
-                                            <h5><span style="color:gray">Remarks:
-                                            <p class="m-t-20">
-                                            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The quick brown fox jump over the lazy dog.</h5>
-                                            </p>
-                                    </div>                         
-                                </div>
+
+
+                                    <div class="row m-t-20">
+                                        <div class="col-lg-6">
+                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly></textarea>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly></textarea>
+                                        </div>                              
+                                    </div>
+
 
 
                                 <!--VIEW STEPS MODAL -->
@@ -315,12 +294,12 @@
                             </div>
                            
                                 <!--Button: Back, Save-->
-                             <div class="card-footer bg-black disabled">
+                             <div class="card-footer bg-black">
                                <div class="examples transitions m-t-5 pull-right">
                                     <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  
                                                   
-                                    <button class="btn btn-info source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
+                                    <button class="btn btn-info btn-raised" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
                                 </div>
                             </div>
             
@@ -356,5 +335,55 @@
 <!-- global scripts modals-->
 <script type="text/javascript" src="{{ URL::asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
+
+<script>
+$(document).ready(function(){
+    
+    getGrandTotal();
+    getEstimatedTime();
+
+    function getGrandTotal(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0){ qty = 1; this.id("quantity").value = 1; $(this).blur();}
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+    }
+
+    function getEstimatedTime(){
+        totalEstimatedTime = 0;
+        var time, inHours, inMins;
+        $('table td button').each(function() {
+            if ((this.id) == "svc"){
+                time = this.name;
+                totalEstimatedTime += parseFloat(time);
+            }
+        });
+        inHours = parseInt(totalEstimatedTime / 60);
+        if (inHours > 1) inHours = inHours + "hrs. ";
+        else inHours = inHours + "hr. ";
+        inMins = totalEstimatedTime % 60;
+
+        if (totalEstimatedTime != 0)
+        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
+        else
+        document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+});
+</script>
 
 @stop

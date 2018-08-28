@@ -56,8 +56,21 @@ class ViewEstimatesController extends Controller
                     ->where('personnelid',$estimate->PersonnelID)
                     ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
                     ->first();
+
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
+
         //dd($estimate);
-        return View('estimates.viewestimates',compact('estimate','customer', 'model', 'automobile', 'servicebay', 'personnel'));
+        return View('estimates.viewestimates',compact('estimate','customer', 'model', 'automobile', 'servicebay', 'personnel', 'productused', 'serviceperformed'));
     }
 
     /**
