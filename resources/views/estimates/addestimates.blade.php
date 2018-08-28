@@ -37,6 +37,7 @@
             <header class="head">
                 <div class="main-bar">
                     <div class="row" style = "height: 47px;">
+
                         <div class="col-6">
                             <h4 class="m-t-15">
                                 <i class="fa fa-plus"></i>&nbsp;
@@ -54,6 +55,7 @@
                                 <li class="active breadcrumb-item">&nbsp;Add Estimate</li>
                             </ol>
                         </div>
+
                     </div>
                 </div>
             </header>
@@ -137,6 +139,7 @@
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
                                                 <input id="phones" name="contact" placeholder="(9999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(9999) 999-9999"' data-mask>
+
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -193,6 +196,8 @@
                                                     )
                                                 }}
                                             </p>
+
+
                                     </div>
                                     <div class="col-lg-3 ">
                                         <h5>Chassis No.: <span style="color: red">*</span></h5>

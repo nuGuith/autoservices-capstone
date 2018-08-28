@@ -62,7 +62,7 @@
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                         <i class="fa fa-plus"></i>
-                                            &nbsp;Add Service                                   
+                                            &nbsp;Add Service
                                          </a>
                                     </div>
                              </div>
@@ -80,19 +80,19 @@
                                         <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                             <thead>
                                                 <tr role="row">
-                                                    
+
                                                     <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Service Name</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Service Category</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Estimated Time</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Initial Price</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 10%;"><b>Actions</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Actions</b></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
                                                 @foreach ($services as $service)
                                                 <tr>
-                                                    
+
                                                     <td>{!!$service->ServiceName!!}</td>
                                                     <td>{!!$service->ServiceCategoryName!!}</td>
                                                     <td>{!!$service->EstimatedTime!!}mins</td>
@@ -102,7 +102,7 @@
                                                         <!--EDIT BUTTON-->
                                                         <button id="editBtn({!!$service->ServiceID!!})"class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" onclick="editModal({!!$service->ServiceID!!})" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                                              
+
                                                         <!--DELETE BUTTON-->
                                                         <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" onclick="deleteModal({!!$service->ServiceID!!})"data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
@@ -150,7 +150,7 @@
                                             'class' => 'form-control chzn-select',
                                             'id' => 'servicecategoryid',
                                             'name' => 'servicecategoryid')
-                                            ) 
+                                            )
                                             }}
                                         </p>
                                     </div>
@@ -213,17 +213,22 @@
                                     </div>
                                 </div>
 
-                                <!--Textfield: Steps -->
+                                <!--Textfield: Mechanic Skills -->
                                 <div class="row m-t-5">
-                                    <div class="col-md-11">
-                                        <h5>Steps: <span style="color: red"></span></h5>
-                                        <textarea id="remark3" class="form-control m-t-10" cols="30" rows="2"></textarea>
-                                    </div>                               
+                                <div class="col-md-11">
+                                        <h5>Service Skills: <span style="color: red">*</span></h5>
+                                        <p class ="m-t-10">
+                                            <select class="form-control chzn-select" id="eproduct" name="eproduct"  tabindex="3" multiple="">
+                                                    <option disabled>Choose Service Skills</option>
+                                                    <option value="Change Oil">Maintenace</option>
+                                                    <option value="Change Oil">Aircon</option>
+                                                </select>
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <br>
 
-                                <div id="show-errors" style ="margin-right: 40px;">
+                                <div id="show-errors" style ="margin-right: 40px;" class="m-t-5">
                                     @if ($errors->update->any())
                                         <div class="alert alert-danger">
                                             <ul>
@@ -272,7 +277,7 @@
                                     <div class="col-md-11">
                                         <h5>Service Name: <span style="color:red;">*</span></h5>
                                         <p>
-                                            {!! 
+                                            {!!
                                                 Form::input ('servicename','text', Input::old('servicename'), [
                                                 'id'=>'servicename',
                                                 'name'=>'servicename',
@@ -299,7 +304,7 @@
                                             'class' => 'form-control chzn-select',
                                             'id' => 'servicecategoryid',
                                             'name' => 'servicecategoryid')
-                                            ) 
+                                            )
                                             }}
                                         </p>
                                     </div>
@@ -309,7 +314,7 @@
                                     <div class="col-md-11">
                                         <h5>Estimated Time: <span style="color:red;">*</span></h5>
                                         <p>
-                                            {!! 
+                                            {!!
                                             Form::input ('estimatedtime','text', Input::old('estimatedtime'), [
                                             'id'=>'estimatedtime',
                                             'name'=>'estimatedtime',
@@ -345,7 +350,7 @@
                                     <div class="col-md-11">
                                         <h5>Initial Price: <span style="color:red;">*</span></h5>
                                         <p>
-                                            {!! 
+                                            {!!
                                                 Form::input ('initialprice','text', Input::old('initialprice'), [
                                                 'id'=>'initialprice',
                                                 'name'=>'initialprice',
@@ -364,7 +369,16 @@
                                     <div class="col-md-6">
                                         <h5>Warranty: <span style="color: red"></span></h5>
                                         <p>
-                                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10"/>
+                                          {!!
+                                              Form::input ('Warranty','text', Input::old('Warranty'), [
+                                              'id'=>'Warranty',
+                                              'name'=>'Warranty',
+                                              'type'=>'text',
+                                              'placeholder'=>'Warranty',
+                                              'class'=>'form-control m-t-10',
+                                              'required'
+                                              ])
+                                          !!}
                                         </p>
                                     </div>
 
@@ -376,20 +390,36 @@
                                                 <option value="Months">Month(s)</option>
                                                 <option value="Years">Year(s)</option>
                                             </select>
+
+
                                         </p>
                                     </div>
                                 </div>
 
 
-                                <!--Textfield: Steps -->
+                                 <!--Textfield: Mechanic Skills -->
                                 <div class="row m-t-5">
-                                    <div class="col-md-11">
-                                        <h5>Steps: <span style="color: red"></span></h5>
-                                        <textarea id="remark3" class="form-control m-t-10" cols="30" rows="2"></textarea>
-                                    </div>                               
+                                <div class="col-md-11">
+                                        <h5>Service Skills: <span style="color: red">*</span></h5>
+                                        <p class ="m-t-10">
+                                          {{ Form::select(
+                                          'skill[]',
+                                          $skills,
+                                          null,
+                                          array(
+                                          'multiple'=>true,
+                                          'class' => 'form-control chzn-select',
+                                          'id' => 'product',
+                                          'name' => 'product',
+                                          'onchange'=>'samp()')
+                                          )
+                                          }}
+
+                                        </p>
+                                    </div>
                                 </div>
 
-                            
+
                                     <br>
                                     <div id="show-errors" style ="margin-right: 43px;">
                                         @if ($errors->add->any())
@@ -495,14 +525,19 @@
     });
 </script>
 <script>
+function samp(){
+  var vr = $('#product').val();
+  alert(vr.length);
+}
      function editModal(id){
             $.ajax({
                 type: "GET",
                 url: "/service/"+id+"/edit",
                 dataType: "JSON",
                 success:function(data){
+                    $(".chzn-select").chosen();
                     $("#servicename").val(data.service.ServiceName);
-                    $("#servicecategoryid").val(data.service.ServiceCategoryID).trigger("chosen:updated");
+                    $("#servicecategoryid").val(data.service.ServiceCategoryID).trigger('chosen:updated');
                     $("#estimatedtime").val(data.service.EstimatedTime);
                     $("#sizetype").val(data.service.SizeType);
                     $("#class").val(data.service.Class);

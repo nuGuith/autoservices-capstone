@@ -12,6 +12,12 @@ use App\Customer;
 use App\Automobile;
 use App\ServiceBay; 
 use App\Payment;
+use App\ServicePerformed;
+use App\ProductUsed;
+use App\Personnel_Job_Performed;
+use App\Personnel_Job;
+use App\JobDescription;
+use App\Personnel_Header;
 use Validator;
 use Session;
 use Redirect;
@@ -45,12 +51,48 @@ class ViewJobOrderController extends Controller
         $payments = DB::table('payment as p')
             ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
             ->where(['p.isActive' => 1, 'p.joborderid' => $id])
-            ->select('p.*')
+
+            ->select('p.*', 'jo.totalamountdue')
+            ->get();
+
+        $totals = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
             ->get();
         
-        //dd($automobile, $customer);
-        return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay','payments'));
+
+        /*$jobdesc = DB::table('personnel_job_performed as pjp')
+            ->join('job_order as jo', 'pjp.joborderid', '=', 'jo.joborderid')
+            ->join('personnel_job as pj', 'pjp.personneljobid', '=', 'pj.personneljobid')
+            ->join('job_description as jd', 'pj.jobdescriptionid', '=', 'jd.jobdescriptionid')
+            ->join('personnel_header as ph', 'pj.personnelid', '=', 'ph.personnelid')
+            ->select('pjp.*', 'jo.*', 'pj.*', 'jd.*', 'ph.*')
+            ->where(['pjp.isActive' => 1, 'pjp.joborderid' => $id])
+            ->get();
+
+        dd($jobdesc);*/
+
+        //$balance = ((float)$joborder->totalamountdue - (float)$totals->total);
+
+        //$date = date('F j, Y', strtotime($payments->created_at));
+
+        $startdate = date('F j, Y', strtotime($joborder->created_at));
+        $enddate = date('F j, Y', strtotime($joborder->agreement_timestamp));
+
+        return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay','payments', 'startdate', 'enddate', 'totals'));
     }
+
+    /*public function getServices($id)
+    {
+        $service = DB::table('service_performed as sp')
+            ->join('job_order as jo', 'sp.joborderid', '=', 'jo.joborderid')
+            ->join('service as s', 'sp.serviceid', '=', 's.serviceid')
+            ->join('product_used as pu', 'sp.productusedid')
+            ->get();
+
+        return response()->json(compact('services', 'joborder'));
+    }*/
 
     /**
      * Show the form for creating a new resource.

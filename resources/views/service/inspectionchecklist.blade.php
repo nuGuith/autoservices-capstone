@@ -2,20 +2,20 @@
 @section('Title','Inspection Checklist') <!-- Page Title -->
 @section('content')
 
-    <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/sweet_alert.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/sweetalert/css/sweetalert2.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/sweet_alert.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/animate/css/animate.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/hover/css/hover-min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/wow/css/animate.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/animate/css/animate.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/hover/css/hover-min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/wow/css/animate.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/modal/css/component.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css"/>
-    <link rel="stylesheet" type="text/css" href="vendors/animate/css/animate.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/modal/css/component.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('vendors/animate/css/animate.min.css')}}" />
     <!-- end of plugin styles -->
-    <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/animations.css')}}"/>
 
-    <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
+    <link type="text/css" rel="stylesheet" href="{{URL::asset('css/pages/portlet.css')}}"/>
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
 
         <!-- CONTENT -->
@@ -27,7 +27,7 @@
                     <div class="col-6">
                         <h4 class="m-t-5" style="margin-top: 2.5%;">
                             <i class="fa fa-wrench"></i>
-                            Inspection Checklist
+                            Inspection Items
                         </h4>
                     </div>
                     <div class="col-sm-6 col-12"  >
@@ -40,7 +40,7 @@
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="inspectionchecklist">
-                                        Inspection Checklist
+                                        Inspection Items
                                 </a>
                             </li>
                         </ol>
@@ -130,11 +130,11 @@
                                             &nbsp;Edit Inspection Checklist</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="row m-r-10">
-                                    <div class="col-md-11 m-t-10" style="padding-left: 40px;">
+                                <div class="row m-t-10">
+                                    <div class="col-md-11" style="padding-left: 40px;">
                                         <h5>Inspection Name: <span style="color: red">*</span></h5>
                                         <p>
-                                            <input type='text' id='INid' hidden>
+                                            <input type='text' id='INid' hidden class="form-control m-t-10">
                                             <input type="text" id='Einame'name="type" placeholder="Item" class="form-control m-t-10"/>
 
                                         </p>
@@ -142,8 +142,8 @@
                                 </div>
 
                                 <!--Table: edit-order-list -->
-                                    <div class="col-md-12">
-                                        <table id="myTable" class="table edit-order-list" style="border-color: white" rules="rows">
+                                    <div class="col-md-11">
+                                        <table id="myTable" class="table edit-order-list" style="border-color: white; width: 468px;" rules="rows">
                                             <thead>
                                                 <!-- <tr>
                                                     <td><h5>Inspection Items <span style="color: red">*</span></h5>
@@ -151,6 +151,7 @@
                                                 </tr> -->
                                             </thead>
                                             <tbody>
+                                            <h5 class="m-l-10 m-b-10">Inspection Items: <span style="color: red">*</span></h5>
                                             <!-- <tr>
                                             Seach Select: Product
                                             <td  style="width:500px;">
@@ -204,7 +205,7 @@
 
                         <div class="modal-body">
                             <div class="row m-t-10">
-                                    <div class="col-md-11 m-t-10" style="padding-left: 40px;">
+                                    <div class="col-md-11 m-t-10 m-l-10" style="padding-left: 40px;">
                                         <h5>Inspection Name: <span style="color: red">*</span></h5>
                                         <p>
                                             <input id="Iname" type="text" name="item" placeholder="Item" class="form-control m-t-10"/>
@@ -213,8 +214,8 @@
                                 </div>
 
                                 <!--Table: edit-order-list -->
-                                    <div class="col-md-12">
-                                        <table id="myTable" class="table order-list" style="border-color: white" rules="rows">
+                                    <div class="col-md-12 m-l-10">
+                                        <table id="myTable" class="table order-list" style="border-color: white; width: 450px;" rules="rows">
                                             <thead>
                                                 <tr>
                                                     <td><h5>Inspection Items <span style="color: red">*</span></h5>
@@ -323,6 +324,36 @@
 <script>
     new WOW().init();
 </script>
+<script>
+    $(window).on('load',function(){
+        @if($errors->add->any())
+            $('#addModal').modal('show');
+        @endif
+        @if($errors->update->any())
+            $('#editModal').modal('show');
+        @endif
+    });
+</script>
+<script>
+     function editModal(id){
+            $.ajax({
+                type: "GET",
+                url: "/inspectionchecklist/"+id+"/edit",
+                dataType: "JSON",
+                success:function(data){
+                }
+            });
+            $('#editModal').modal('show');
+        }
+    function deleteModal(id){
+            document.getElementById("deleteId").value = id;
+            $('#deleteModal').modal('show');
+        }
+</script>
+
+<!-- global scripts modals-->
+<script type="text/javascript" src="js/pages/modals.js"></script>
+<!--End of global scripts-->
 <script>
     $(window).on('load',function(){
         @if($errors->add->any())

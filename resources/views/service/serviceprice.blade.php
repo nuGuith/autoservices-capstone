@@ -83,31 +83,46 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    @foreach($sname as $sr)
+                                   
                                 <tr role="row" class="even">
+                                   
                                     <td>
-                                        Change Oil
+                                        {{$sr->ServiceName}}
                                     </td>
+
                                     <td class="center">
                                         <ul style="padding-left: 1.7em;">
-                                            <li>Honda City 2015 - AT/MT</li>
-                                            <li>Honda City 2005 - MT</li>
+
+                                    @foreach($view as $vw)
+                                    @if($vw->ServiceID == $sr->ServiceID)
+
+                                    <li>{{$vw->Make}} {{$vw->Model}} {{$vw->Year}} {{$vw->Transmission}}</li>
+
+                                    @endif
+
+                                    @endforeach
+
+                                           
+
                                     </td>
                                     <td class="center">
-                                        300
+                                        {{$sr->Price}}
                                     </td>
                                     <td class="examples transitions">
 
                                         <!--EDIT BUTTON-->
-                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
+                                        <button name ="{{$sr->ServiceID}}" onclick = "edit(this.name)"class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                         </button>
                                         
                                         
                                         <!--DELETE BUTTON-->
-                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                        <button name="{{$sr->ServiceID}}" onclick='del(this.name)'class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                         </button>
                                        
                                     </td>
-                                </tr>
+                                 </tr> 
+                                @endforeach
 
                                
                             </tbody>
@@ -134,9 +149,13 @@
                                     <div class="col-md-11 ">
                                         <h5>Service Name: <span style="color: red">*</span></h5>
                                         <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" tabindex="4">
+                                            <select class="form-control  chzn-select" id= 'service' tabindex="4">
                                                 <option disabled selected>Choose Service</option>
-                                                <option value="Change Oil">Change Oil</option>
+                                                @foreach($service as $ser)
+
+                                                <option value="{{$ser->ServiceID}}">{{$ser->ServiceName}}</option>
+
+                                                @endforeach
                                             </select>
                                         </p>
                                     </div>
@@ -147,10 +166,13 @@
                                     <div class="col-md-11 ">
                                         <h5>Vehicle Model: <span style="color: red">*</span></h5>
                                         <p class ="m-t-10">
-                                        <select size="9" multiple class="form-control chzn-select " id="test_me_paddington" name="test_me_form" tabindex="8" placeholder="Choose Model">
+                                        <select size="9" multiple class="form-control chzn-select " id="vehicle" name="test_me_form" tabindex="8" placeholder="Choose Model">
                                             <div>
-                                                <option>Honda City 2015 - AT/MT</option>
-                                                <option>Honda City 2005 - MT</option>
+                                                @foreach($vehicle as $veh)
+
+                                                <option value = "{{$veh->ModelID}}">{{$veh->Make}} {{$veh->Model}} {{$veh->Year}} {{$veh->Transmission}}</option>
+                                               
+                                                @endforeach
                                             </div>
                                         </select>
                                     </div>
@@ -175,7 +197,8 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                     <input type="hidden" id="token" value="{{ csrf_token() }}">
+                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal" id ="addform"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
@@ -204,9 +227,13 @@
                                     <div class="col-md-11 ">
                                         <h5>Service Name: <span style="color: red">*</span></h5>
                                         <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" tabindex="4">
-                                                <option disabled selected>Choose Service</option>
-                                                <option value="Change Oil">Change Oil</option>
+                                            <input type='text' id='eser' hidden>
+                                            <select id="eservice" class="form-control  chzn-select" tabindex="4">
+                                                @foreach($service as $eser)
+
+                                                <option value="{{$eser->ServiceID}}">{{$eser->ServiceName}}</option>
+
+                                                @endforeach
                                             </select>
                                         </p>
                                     </div>
@@ -217,10 +244,13 @@
                                     <div class="col-md-11 ">
                                         <h5>Vehicle Model: <span style="color: red">*</span></h5>
                                         <p class ="m-t-10">
-                                        <select size="9" multiple class="form-control chzn-select " id="test_me_paddington" name="test_me_form" tabindex="8" placeholder="Choose Model">
+                                        <select size="9" multiple class="form-control chzn-select " id="evehicle" onchange="change()"name="test_me_form" tabindex="8" placeholder="Choose Model">
                                             <div>
-                                                <option>Honda City 2015 - AT/MT</option>
-                                                <option>Honda City 2005 - MT</option>
+                                                  @foreach($vehicle as $eveh)
+
+                                                <option value = "{{$eveh->ModelID}}">{{$eveh->Make}} {{$eveh->Model}} {{$eveh->Year}} {{$eveh->Transmission}}</option>
+                                               
+                                                @endforeach
                                             </div>
                                         </select>
                                     </div>
@@ -231,7 +261,7 @@
                                     <div class="col-md-11 ">
                                         <h5>Price: <span style="color: red">*</span></h5>
                                             <p class ="m-t-10">
-                                                <input id="price" name="price" type="text" placeholder="Price"class="form-control">
+                                                <input id="eprice" name="eprice" type="text" placeholder="Price"class="form-control">
                                             </p>
                                     </div>
                                  </div>
@@ -244,7 +274,7 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button id ='editform'class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
@@ -276,6 +306,189 @@
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
+$("#addform").on("click", function () {
+
+           var veh = $('#vehicle').val();
+           var ser =  $('#service').val();
+           var pr = $('#price').val();
+
+
+
+
+           $.ajax({
+             type:"POST",
+             url:"/addsprice",
+             data:
+             {
+               veh:veh,
+               ser:ser,
+               pr:pr,
+               '_token': $('#token').val()
+             },
+             success: function(data){
+                             location.reload();
+
+                       },
+                             error: function(xhr)
+                           {
+                                alert("Error!");
+                             // location.reload();
+
+                           }
+
+                         });
+
+
+
+         });
+
+function edit(id){
+    $.ajax({
+  type: "GET",
+  url:  "/RetrieveSP",
+  data:
+  {
+  id: id,
+  },
+  success: function(data){
+
+  var sid = data['ty'][0]['ServiceID'];
+  var eprice = data['ty'][0]['Price'];
+  modarr = []
+  mdcount = 0
+  idarr = []
+
+  // document.getElementById('eservice').value = sid;
+
+  $('#eservice').val(sid).trigger('chosen:updated');
+  $('#eprice').val(eprice);
+  $('#eser').val(sid);
+
+
+
+  for(var i=0;i<data.ty.length;i++){
+    model=data['ty'][i]['ModelID'];
+    mid = data['ty'][i]['ServicePriceID'];
+    modarr.push(model);
+    idarr.push(mid);
+    mdcount += 1;
+  }
+
+  $('#evehicle').val(modarr).trigger('chosen:updated');
+
+  
+  },
+  error: function(xhr)
+  {
+  alert("Error");
+  alert($.parseJSON(xhr.responseText)['error']['message']);
+  }
+  });
+}
+
+$("#editform").on("click", function () {
+
+           var eveh = $('#evehicle').val();
+           var eser =  $('#eservice').val();
+           var epr = $('#eprice').val();
+
+           
+
+
+
+              $.ajax({
+               type:"POST",
+               url:"/editsprice",
+               data:
+               {
+                 
+                 eveh:eveh,
+                 eser:eser,
+                 epr:epr,
+                 idarr:idarr,
+                 arr:arr,
+                 darr:darr,
+                 cnt:mdcount,
+                 '_token': $('#token').val()
+               },
+               success: function(data){
+                               location.reload();
+
+                         },
+                               error: function(xhr)
+                             {
+                                  alert("Error!");
+                               location.reload();
+
+                             }
+
+                           });
+
+
+
+         });
+
+function change(){
+
+    var cnt = $('#evehicle').val();
+    darr = [];
+     arr = [];
+
+     if(cnt.length > mdcount)
+             {
+                
+              for(var x=mdcount;x<cnt.length;x++)
+               {
+                 arr.push(cnt[x])
+               }
+
+               // alert(arr)
+             }
+
+     else if (cnt.length < mdcount) {
+
+                
+               for(var i=cnt.length;i<mdcount;i++)
+                {
+                  
+                  darr.push(idarr[i])
+                }
+
+                alert(darr);
+                
+
+             }
+
+}
+
+function del(id){
+
+     $.ajax({
+               type:"POST",
+               url:"/delsprice",
+               data:
+               {
+                 
+               id:id,
+                 '_token': $('#token').val()
+               },
+               success: function(data){
+                               location.reload();
+
+                         },
+                               error: function(xhr)
+                             {
+                                  alert("Error!");
+                               location.reload();
+
+                             }
+
+                           });
+
+}
+
+
+
 </script>
 
 

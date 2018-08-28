@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
 use App\Service;
 use App\ServiceCategory;
+use App\Http\Controllers\Controller;
 use Validator;
 use Redirect;
 use Session;
 
 class ServiceController extends Controller
-{	
+{
 
     /**
      * This serves as the index hehe
@@ -26,7 +26,11 @@ class ServiceController extends Controller
                     ->get();
         $categories = ServiceCategory::where('isActive', 1)->pluck('servicecategoryname', 'servicecategoryid');
         $categories->prepend('Please choose a category',0);
-        return view('service.service', ['services' => $services, 'categories' => $categories]);
+
+        $skills = DB::table('skill_header')->pluck('Skill','SkillID');
+        $skills->prepend('Please choose a category',0);
+
+        return view('service.service', ['services' => $services, 'categories' => $categories, 'skills' => $skills]);
     }
 
     /**
@@ -47,6 +51,10 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
+
+
+
+
         $customNames = [
                 'servicename' => 'Service Name',
                 'servicecategoryid' => 'Service Category',
@@ -54,14 +62,16 @@ class ServiceController extends Controller
                 'sizetype' => 'Size Type',
                 'class' => 'Class',
                 'initialprice' => 'Initial Price',
-        ]; 
-            /** this is an array of custom variable names you could set so that in case there is an Exception, 
-            * the variable name displayed in the view is a decent one and not a name straight from the database hahahha. */
+                'WarrantyDuration'=>'Warranty',
+                'WarrantyDurationMode'=>'durationmode'
+        ];
+            /** This is an array of custom variable names you could set so that in case there is an Exception,
+            * the variable name displayed in the view is a decent one and not a name straight from the database. */
         $customMessages = [
                 'servicename.regex' => 'You cannot input special characters into :attribute field. Sorry. :(',
                 'servicename.unique' => 'The :attribute you entered is already taken.',
             ];
-            /** This is an array of custom messages you could set so aside from the default ones by laravel. UwU */
+            /** This is an array of custom messages you could set so aside from the default ones by laravel. */
         $validation = Validator::make($request->all(), [
             'servicename' => [
                 'bail',
@@ -77,7 +87,7 @@ class ServiceController extends Controller
             /** The $validation variable using the 'Validator' facade takes the arguments $request->all() getting all the data sent over the Request
              * from the view/user input, next argument is an array of rules for validation and finally the $customMessages.
              */
-        
+
         $validation->setAttributeNames($customNames);
             /** setting the custom names */
 
@@ -90,7 +100,7 @@ class ServiceController extends Controller
         else{
             try{
                 DB::beginTransaction();
-                Service::create([ 
+                Service::create([
                     'servicename' => trim($request->servicename),
                     'servicecategoryid' => ($request->servicecategoryid),
                     'estimatedtime' => trim($request->estimatedtime),
@@ -99,13 +109,37 @@ class ServiceController extends Controller
                     'initialprice' => ($request->initialprice)
                 ]);
                 DB::commit();
+
+                $skill = $request->skill;
+
+                $SID = DB::table('service')->max('ServiceID');
+
+                  for($x=0;$x<count($skill);$x++){
+
+                    $sskill = array("ServiceID"=>$SID,"SkillID"=>$skill[$x]);
+                    DB::table('service_skill')->insert($sskill);
+
+                  }
+
+
+
+
             }catch(\Illuminate\Database\QueryException $e){
                 DB::rollBack();
                 $errors = $e->getMessage();
                 return redirect('service')
                     ->withErrors($errors, 'add');
             }
-            $request->session()->flash('success', 'Record successfully added.');  
+
+
+
+
+
+
+
+
+
+            $request->session()->flash('success', 'Record successfully added.');
             return redirect('service');
         }
     }
@@ -131,6 +165,12 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::findOrFail($id);
+        /*  DB::table('service as se')
+                ->leftJoin('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
+                ->where('se.serviceid', $id)
+                ->get(); */
+
+
         return response()->json(compact('service')); /** returns the response result data as JSON */
     }
 
@@ -156,7 +196,7 @@ class ServiceController extends Controller
             'estimatedtime' => ['required','numeric','between:1,999'],
             'initialprice' => ['bail','required','numeric','between:0.00,99999.9999']
         ], $customMessages);
-        
+
         $validation->setAttributeNames($customNames);
         if ($validation->fails()) {
             return redirect('service')
@@ -175,7 +215,7 @@ class ServiceController extends Controller
                 return redirect('service')
                     ->withErrors($errors, 'update');
             }
-            $request->session()->flash('success', 'Record successfully updated.');  
+            $request->session()->flash('success', 'Record successfully updated.');
             return redirect('service');
         }
     }
@@ -188,7 +228,7 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        /* try{
+        try{
             Service::findOrFail($id);
             Service::destroy($id);
         }
@@ -197,7 +237,7 @@ class ServiceController extends Controller
                 return redirect('service')
                     ->withErrors($err);
         }
-        return redirect('service'); */
+        return redirect('service');
     }
 
     public function delete(Request $request)
