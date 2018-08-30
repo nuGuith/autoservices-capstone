@@ -268,10 +268,10 @@
                                     <div class="col-md-11 ">
                                         <h4>Steps: <span style="color: red">Change Oil</span></h4>
                                         <p class="m-t-15" style="padding-left: 20px;">
-                                            1. Ikiss ni Xavier </br>
-                                            2. Matapos ito. </br>
-                                            3. Mapasa kay Vhel. </br>
-                                            4. Para makiss si Xavier </br>
+                                            1. Open Oil Gauge </br>
+                                            2. Check Air Pump </br>
+                                            3. Clean oil filter. </br>
+                                            4. Clean valves. </br>
                                         </p>
                                     </div>
                                  </div>
@@ -299,7 +299,7 @@
                                     <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  
                                                   
-                                    <button class="btn btn-info btn-raised" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
+                                    <button onclick="window.location='{{ url("/estimateform") }}'" class="btn btn-info btn-raised" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
                                 </div>
                             </div>
             

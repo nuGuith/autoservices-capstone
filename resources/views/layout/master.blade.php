@@ -334,7 +334,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
 
@@ -389,10 +389,43 @@ z-index: 999999">
                     
                 </li>
                 <li {!! (Request::is('reports')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/reports" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-bar-chart-o"></i>
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-bookmark"></i>
                         <span class="link-title">&nbsp; Reports</span>
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul>
+                        <li {!! (Request::is('estimate_report') ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/estimate_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Estimate Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('inspection_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/inspection_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Inspection Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('joborder_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/joborder_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Job Order Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('jobordersales_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/jobordersales_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Job Order Sales Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('payment_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/payment_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Payment Report
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 </br>

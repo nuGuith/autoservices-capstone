@@ -42,7 +42,20 @@ class UpdateJobOrderController extends Controller
                     ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
                     ->first();
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
-        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay'));
+
+        $payments = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+
+            ->select('p.*', 'jo.totalamountdue')
+            ->get();
+
+        $totals = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+            ->get();
+        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay', 'payments', 'totals'));
     }
 
     /**

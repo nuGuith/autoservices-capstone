@@ -173,7 +173,7 @@
                                         <div class="col-lg-4">
                                             <h5>
                                                 <span style="color:gray">End:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;{{ $enddate }}
+                                                &nbsp;&nbsp;&nbsp;&nbsp;{{ $joborder->release_timestamp }}
                                             </h5>               
                                         </div>
                                         <div class="col-lg-4">
@@ -209,8 +209,7 @@
                                             <thead>
                                                 <tr class="trrow">
                                                     <th>Items</th>
-                                                    <th>Quantity</th>
-                                                    <th>Completed</th>
+                                                    <th>Steps</th>
                                                     <th>Mechanic</th>
                                                     <th>Status</th>
                                                 </tr>
@@ -220,17 +219,13 @@
                                                 <tr role="row" class="odd">
                                                     <!--Column: Service -->
                                                     <td>
-                                                        Change Oil
+                                                        Engine Overhaul
                                                     </td>
                                                     <!--Column: Quantity-->
                                                     <td style="text-align: center">
-                                                        1
+                                                        Step <span style="color:red"><b>10</b></span> of 16
                                                     </td>
                                                     <!--Column: Completed-->
-                                                    <td style="text-align: center">
-                                                        0
-                                                    </td>
-                                                    <!--Column: Mechanic -->
                                                     <td>
                                                         Juan Dela Cruz
                                                     </td>
@@ -243,23 +238,19 @@
                                                 <tr role="row" class="odd">
                                                     <!--Column: Service -->
                                                     <td>
-                                                        Dunlop 1.5mL
+                                                        Change Oil
                                                     </td>
                                                     <!--Column: Quantity-->
                                                     <td style="text-align: center">
-                                                        3
-                                                    </td>
-                                                    <!--Column: Completed-->
-                                                    <td style="text-align: center">
-                                                        2
+                                                        Step <span style="color:red"><b>0</b></span> of 4
                                                     </td>
                                                     <!--Column: Mechanic -->
                                                     <td>
-                                                        Pedro Penduko
+                                                        John Paul Repolona
                                                     </td>
                                                     <!--Column: Status -->
                                                     <td>
-                                                        On going        
+                                                        Pending        
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -354,10 +345,10 @@
                                 <i class="fa fa-arrow-left" ></i>
                                 &nbsp;Back
                             </button>           
-                            <!--<button class="btn btn-info source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"  >
+                            <button onclick="window.location='{{ url("/joborderform") }}'" class="btn btn-info btn-raised" style ="width: 80px;"  >
                                 <i class="fa fa-print text-white" ></i>
                                 &nbsp; Print
-                            </button>-->
+                            </button>
                         </div>
                     </div>    
                 </div>
@@ -406,7 +397,7 @@
         balance = parseFloat(balance).toFixed(2);
 
         //balance = document.getElementById("balance");
-        alert("Balance: " + balance);
+        //alert("Balance: " + balance);
     }
 </script>
 
