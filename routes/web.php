@@ -188,6 +188,10 @@ Route::get('/addestimates/{automobile}/showAutomobile', 'AddEstimatesController@
 Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@showCustomer');
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
 Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
+Route::get('/addestimates/{id}/filterPlateNo', 'AddEstimatesController@filterPlateNo');
+Route::get('/addestimates/{id}/getServiceDetails', 'AddEstimatesController@getServiceDetails');
+Route::get('/addestimates/{id}/getProductDetails', 'AddEstimatesController@getProductDetails');
+Route::get('/addestimates/{id}/getDiscountDetails', 'AddEstimatesController@getDiscountDetails');
 
 Route::get('/editestimates/{id}','EditEstimatesController@index');
 Route::get('/viewestimates/{id}','ViewEstimatesController@index');
@@ -196,6 +200,7 @@ Route::get('/viewestimates/{id}','ViewEstimatesController@index');
 Route::get('/joborder','JobOrderController@index');
 
 Route::resource('/addjoborder','AddJobOrderController');
+Route::get('/addjoborder/fromEstimate/{id}', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
 Route::get('/addjoborder/{id}/showEstimate', 'AddJobOrderController@showEstimate');
 Route::get('/addjoborder/{id}/searchByCustomerName', 'AddJobOrderController@searchByCustomerName');
 Route::get('/addjoborder/{id}/searchByPlateNo', 'AddJobOrderController@searchByPlateNo');
@@ -207,3 +212,17 @@ Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDis
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
 Route::get('/updatejoborder/{id}', 'UpdateJobOrderController@index');
+
+// Output Forms - Sample
+Route::get('/indexx','SampleController@inspect');
+Route::get('/inspectform','SampleController@inspect_pdf');
+Route::get('/estimateform','SampleController@estimate_pdf');
+Route::get('/receipt','SampleController@receipt_pdf');
+Route::get('/joborderform','SampleController@joborder_pdf');
+
+//Reports - Sample
+Route::get('/estimate_report', 'ReportsController@estimate');
+Route::get('/inspection_report', 'ReportsController@inspection');
+Route::get('/joborder_report', 'ReportsController@joborder');
+Route::get('/jobordersales_report', 'ReportsController@jobordersales');
+Route::get('/payment_report', 'ReportsController@payment');

@@ -306,7 +306,7 @@ class AddJobOrderController extends Controller
                 ]);
                 $auto_id = DB::table('automobile')->orderBy('automobileid', 'desc')->first();
             }
-                
+
             JobOrder::create([
                 'AutomobileID' => ($auto_id->AutomobileID),
                 'InspectionID' => ($request->inspectionid),
@@ -321,10 +321,56 @@ class AddJobOrderController extends Controller
                 'LaborCharge' => (499),
                 'updated_at' => (date('Y-m-d H:i:s'))
             ]);
-            DB::commit();
-            $response = new JobOrder;
+
+            
             $jo = DB::table('job_order')->orderBy('joborderid', 'desc')->first();
-            $response->JobOrderID = $jo->JobOrderID;
+            
+            if($request->has('serviceperformed')){
+                $svcperf = $request->serviceperformed;
+                $personnelperf = $request->personnelperf;
+                $include = $request->include;
+                $laborcost = $request->laborcost;
+                //$services = $request->service;
+                $products = $request->product;
+                $prodservperf = $request->prodservperf;
+                $productused = $request->productused;
+                $quantity = $request->quantity;
+                $untprice = $request->unitprice;
+    
+                //if (is_array($services) || is_object($services))
+                foreach($svcperf as $spKey=>$sp){
+                    
+                    $subTotal = 0;
+                    $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
+                    if ($include[$spKey] == 'True')
+                        $i = 1;
+                    else 
+                        $i = 0;
+                    ServicePerformed::where(['isActive' => 1, 'serviceperformedid' => $svcperf[$spKey]])
+                    ->update([
+                            'JobOrderID' => $jo->JobOrderID,
+                            'PersonnelPerformedID' => $personnelperf[$spKey],
+                            'isPerformed' => $i,
+                            'LaborCost' => $laborcost[$spKey]
+                        ]);
+    
+                    foreach($productused as $key=>$pu){
+                        if ($prodservperf[$key] == $svcperf[$spKey]){
+                            if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key])) $quantity[$key] = 1;
+                            $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
+                            ProductsUsed::where(['isActive' => 1, 'productusedid' => $productused[$key]])
+                            ->update([
+                                'dateused' => (date('Y-m-d')),
+                                'quantity' => $quantity[$key],
+                                'subtotal' => $subTotal
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            DB::commit();
+            $newRoute = "/joborder/";
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $err = $e->getMessage();
@@ -333,7 +379,8 @@ class AddJobOrderController extends Controller
                         ->withInput();
             return response()->json(compact('err'));
         }
-        return response()->json(compact('response'));
+        return redirect('/joborder');
+        //return response()->json(compact('err'));
     }
 
     /**

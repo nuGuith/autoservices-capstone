@@ -37,7 +37,6 @@
             <header class="head">
                 <div class="main-bar">
                     <div class="row" style = "height: 47px;">
-
                         <div class="col-6">
                             <h4 class="m-t-15">
                                 <i class="fa fa-plus"></i>&nbsp;
@@ -55,7 +54,6 @@
                                 <li class="active breadcrumb-item">&nbsp;Add Estimate</li>
                             </ol>
                         </div>
-
                     </div>
                 </div>
             </header>
@@ -139,7 +137,6 @@
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
                                                 <input id="phones" name="contact" placeholder="(9999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(9999) 999-9999"' data-mask>
-
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -196,8 +193,6 @@
                                                     )
                                                 }}
                                             </p>
-
-
                                     </div>
                                     <div class="col-lg-3 ">
                                         <h5>Chassis No.: <span style="color: red">*</span></h5>
@@ -403,10 +398,10 @@
                                                     <div class="col-md-11 ">
                                                         <h4>Steps: <span style="color: red">Change Oil</span></h4>
                                                         <p class="m-t-15" style="padding-left: 20px;">
-                                                            1. Ikiss ni Xavier </br>
-                                                            2. Matapos ito. </br>
-                                                            3. Mapasa kay Vhel. </br>
-                                                            4. Para makiss si Xavier </br>
+                                                        1. Open Oil Gauge </br>
+                                                        2. Check Air Pump </br>
+                                                        3. Clean oil filter. </br>
+                                                        4. Clean valves. </br>
                                                         </p>
                                                     </div>
                                                 </div>                                                
@@ -526,6 +521,11 @@ $(document).ready(function () {
     var totalEstimatedTime = 0; 
     var valid = true;
 
+    window.addEventListener("beforeunload", function (e) {
+    var message = "Are you sure you want to leave?";
+        (e || window.event).returnValue = message;     
+            if (routeID != 1 || routeID == null) return message;
+    });
 
     var clicked = false;
     $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({
@@ -578,7 +578,7 @@ $(document).ready(function () {
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#estimateForm').serialize();
-        alert(formData);
+        //alert(formData);
 
         if(routeID == 0 || routeID == null){
             $.ajax({
@@ -588,7 +588,7 @@ $(document).ready(function () {
                 data: formData,
                 async: false,
                 success: function(data) { 
-                    alert(data);
+                    //alert(data);
                     routeID = 1;
                     redirect = data.newRoute;
                     window.location.href = redirect;

@@ -349,7 +349,8 @@
                             <div class="col-lg-4">
                                 <h5>Service Bay: <span style="color:red">*</span></h5>
                                 <p class="m-t-10">
-                                    {{Form::select(
+                                    <p id="svcbaywrapper">
+                                        {{Form::select(
 	                                        'servicebays',
 	                                        $service_bays,
 	                                        null,
@@ -358,7 +359,8 @@
 	                                            'id' => 'servicebays',
 	                                            'name' => 'servicebayid')
 	                                        ) 
-	                                }}
+	                                    }}
+                                    </p>
                                 </p>
                             </div>   
                             <div class="col-lg-4">
@@ -444,10 +446,10 @@
                                             <td style="border-right:none !important">
                                                 <span style="color:red">Service:</span><br>{!!$sp->ServiceName!!}<br>
                                                 <input type="hidden" id="svsperf{!!$sp->ServicePerformedID!!}" name="serviceperformed[]" value="{!!$sp->ServicePerformedID!!}">
-                                                <input type="hidden" id="include" name="include[]">
+                                                <input type="hidden" id="include" name="include[]" value="True">
                                             </td>
                                             <td  style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
+                                                <input type="hidden" style="width:55px;" id="quantity" name="" placeholder="" value="1" readonly class="form-control hidden">
                                             </td>
                                             <td style="border-right:none !important"></td>
                                             <td style="border-right:none !important">
@@ -461,16 +463,16 @@
                                                     array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'personnels',
-                                                        'name' => 'personnelid',
+                                                        'name' => 'personnelperf[]',
                                                         'style' => 'width:110px')
                                                     ) 
                                                 }}
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:90px;text-align: right"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="text" readonly style="width:90px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
                                                 </td>
                                             <td style="border-left:none !important">
                                                 <center>
@@ -482,9 +484,9 @@
                                             @foreach($productused as $pu)
                                                 @if($sp->ServicePerformedID == $pu->ServicePerformedID)
                                                 <tr class="product" id="svc{!!$sp->ServiceID!!}">
-                                                    <td style="border-right:none !important"></td>
+                                                    <td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="{!!$pu->ProductID!!}"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="{!!$pu->ProductUsedID!!}"><input type="hidden" style="width:50px; text-align:right;" name="prodservperf[]" placeholder="" class="form-control" value="{!!$sp->ServicePerformedID!!}"></td>
                                                     <td style="border-right:none !important">
-                                                        <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" data-serviceid="{!!$sp->ServiceID!!}" class="form-control">
+                                                        <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="{!!$pu->Quantity!!}" data-serviceid="{!!$sp->ServiceID!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
                                                     <span style="color:red">Product:</span><br>{!!$pu->ProductName!!}
@@ -494,14 +496,14 @@
                                                     </td>
                                                     <td style="border-right:none !important"><a></a></td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
+                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:90px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->SubTotal!!}">
+                                                        <input type="text" readonly style="width:90px;text-align: right" id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="{!!$pu->SubTotal!!}">
                                                     </td>
                                                     <td style="border-left:none !important">
                                                         <center>
-                                                            <input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="prodInclude" type="checkbox" checked value="">
+                                                            <input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="prodInclude" type="checkbox" checked value="true">
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -511,7 +513,7 @@
                                         <tr id="discount">
                                             <td style="border-right:none !important"></td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;" name="quantity" placeholder="Quantity" class="form-control">
+                                                <input type="hidden" style="width:55px;" name="" placeholder="Quantity" class="form-control">
                                             </td>   
                                             <td style="border-right:none !important">  
                                                 <span style="color:red">Discount:</span>
@@ -519,16 +521,16 @@
                                             </p>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control">
+                                                <input type="hidden" style="width:50px;" name="" placeholder="Labor" class="form-control">
                                             </td>
                                             <td style="border-right:none !important">
                                                <a></a>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:50px; text-align: right" name="unitprice" readonly placeholder="0%" class="form-control">
+                                                <input type="text" style="width:50px; text-align: right" name="" readonly placeholder="0%" class="form-control">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:90px; text-align: right;color:red" name="price" readonly placeholder=".00" class="form-control">
+                                                <input type="text" style="width:90px; text-align: right;color:red" name="" readonly placeholder=".00" class="form-control">
                                             </td>
                                             <!--Delete Row Inside Job Order Table -->
                                             <td style="border-left:none !important">
@@ -595,7 +597,7 @@
                             <!-- Assigning of SA, QA, IM, Mechanic -->
                             <div class="row m-t-15">
                                 <div class="col-lg-3">
-	                                <h5>Mechanic:</h5>
+	                                <h5>Mechanic: <span style="color: red">*</span></h5>
 	                                    <p class="m-t-10">
                                             <p id="mechanicwrapper">
                                                 {{ Form::select(
@@ -605,7 +607,7 @@
                                                     array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'mechanic',
-                                                        'name' => 'personnelid',
+                                                        'name' => 'mechanic',
                                                         'style' => 'width:110px')
                                                     ) 
                                                 }}
@@ -613,9 +615,9 @@
                                         </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Service Advisor:</h5>
-	                                    <p>
-	                                        <p class="m-t-10">
+	                                <h5>Service Advisor: <span style="color: red">*</span></h5>
+	                                    <p class="m-t-10">
+                                            <p id="SAwrapper">
                                                 {{ Form::select(
                                                     'SA',
                                                     $personnels,
@@ -631,9 +633,9 @@
 	                                    </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Quality Analyst:</h5>
-	                                    <p>
-	                                        <p class="m-t-10">
+	                                <h5>Quality Analyst: <span style="color: red">*</span></h5>
+	                                    <p class="m-t-10">
+                                            <p id="QAwrapper">
                                                 {{ Form::select(
                                                     'QA',
                                                     $personnels,
@@ -649,9 +651,9 @@
 	                                    </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Inventory Manager:</h5>
-	                                    <p>
-	                                        <p class="m-t-10">
+	                                <h5>Inventory Manager: <span style="color: red">*</span></h5>
+	                                    <p class="m-t-10">
+                                            <p id="IMwrapper">
                                                     {{ Form::select(
                                                     'IM',
                                                     $personnels,
@@ -781,7 +783,7 @@
                                     <button onclick="window.location='{{ url("/joborder") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/joborder"><i class="fa fa-arrow-left">
                                     </i>&nbsp;Back</button>  
 
-                                    <button id="btnSave" type="button" class="btn btn-raised btn-success" onclick="confirmationModal()" data-toggle="modal" >
+                                    <button id="btnSave" type="button" class="btn btn-raised btn-success" data-toggle="modal" >
                                             <i class="fa fa-save text-white" ></i> 
                                             &nbsp;Save
                                     </button>
@@ -852,13 +854,14 @@ $(document).ready(function () {
 
     var estimateID, inspectID, packageID, promoID;
     var nah;
+    var routeID = null;
     var servicePrices = [];
     var selectProduct = [];
     var selectedService = "";
     var selectService;
     var i, j, ctr, totalCounter = 0;
     var modelID = null;
-    var mechanicID = null;
+    var mechanicID = null, saID = null, qaID = null, imID = null, svcbayID = null;
     var price;
     var grandTotal = 0;
     var totalEstimatedTime = 0;
@@ -919,7 +922,7 @@ $(document).ready(function () {
     getEstimatedTime();
 
     var clicked = false;
-    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels, #mechanic").on({
+    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels, #mechanic, #servicebays").on({
         focusin: function() {
             if($(this).val() == "") $(this).css("border-color", "lightblue");
             else { $(this).css("border-color", "lightblue"); }
@@ -941,13 +944,14 @@ $(document).ready(function () {
     
     function checkAllRequired(){
             var result = true;
-            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #mechanic, #SA, #QA #IM").each(function() {
+            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #mechanic, #SA, #QA, #IM, #servicebays").each(function() {
                 if($(this).val() == null || $(this).val() == 0){ $(this).css("border", "1.5px solid #FF3839"); result = false; };
                 if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
                 if(mechanicID == null || mechanicID == 0 && $(this).attr('id') == "mechanic"){ $("#mechanicwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "IM"){ $("IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
+                if(saID == null || $(this).val() == 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
+                if(qaID == null || $(this).val() == 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
+                if(imID == null || $(this).val() == 0 && $(this).attr('id') == "IM"){ $("#IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
+                if(svcbayID == null || $(this).val() == 0 && $(this).attr('id') == "servicebays"){ $("#svcbaywrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
             });
             if (result) valid = true;
             else valid = false;
@@ -974,7 +978,7 @@ $(document).ready(function () {
 
     $("#btnProceed").on("click", function (e) {
         var formData = $('#jobForm').serialize();
-        alert(formData);
+        //alert(formData);
 
         if(routeID == 0 || routeID == null){
             $.ajax({
@@ -984,10 +988,10 @@ $(document).ready(function () {
                 data: formData,
                 async: false,
                 success: function(data) { 
-                    alert(data);
-                    /* routeID = 1;
+                    //alert(data);
+                    routeID = 1;
                     redirect = data.newRoute;
-                    window.location.href = redirect; */
+                    window.location.href = "/joborder";
                 },
                 fail: function(data) {
                     alert("Failed to save data.");
@@ -1094,11 +1098,14 @@ $(document).ready(function () {
     });
 
     /* $('select').on('change', function () {}); */
-    window.addEventListener("beforeunload", function (e) {
-    var message = "Are you sure you want to leave?";
-        (e || window.event).returnValue = message;     
-            return message;
-    });
+    if (routeID != 1 || routeID == null){
+        window.addEventListener("beforeunload", function (e) {
+        var message = "Are you sure you want to leave?";
+            (e || window.event).returnValue = message;     
+                return message;
+        });
+    }
+
 
     $(window).on('load',function(){
         @if(Route::current()->getName() == 'fromEstimate')
@@ -1648,6 +1655,8 @@ $(document).ready(function () {
 
 	$("#servicebays").change(function () {
 		var selectedID = $(this).val();
+        svcbayID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#svcbaywrapper").css("border", "none"); }
 	});
 
     /* CHOOSE MODEL TO FILTER SERVICE PRICE*/
@@ -1657,38 +1666,6 @@ $(document).ready(function () {
 
         filterServices();
     });
-
-    
-    /* $("#discounts").chosen().on('chosen:showing_dropdown', function () {
-        var response;
-        if(PWD_SC_NO != ""){
-            response = confirm("This customer has a registered PWD/SC ID. If the customer agrees to avail the discount, click 'OK'  and we'll automatically add a Senior Citizen Discount.");
-            if (response){
-                var newDiscountRow = $('<tr id="discount">');
-                var cols = "";
-                
-                cols += '<td style="border-right:none !important"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" name="quantity" placeholder="" readonly class="form-control hidden"></td>';
-                cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>Senior Citizen Discount </td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
-                cols += '<td style="border-right:none !important"><a></a></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" value="'+ 20 +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="discountamt" name="discountamt " placeholder=".00" class="form-control"></td>';
-                cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-                newDiscountRow.append(cols);
-                $("tr#discount").replaceWith(newDiscountRow);
-                var discountRate = parseInt($("#discountrate").val());
-                var discountAmount = ( grandTotal % discountRate );
-                //alert("rate: " + discountRate + "amount:" + discountAmount);
-                var discounted = grandTotal - discountAmount;
-                $("#discountamt").val(discountAmount);
-                $("#grandtotal").val(""+discounted);
-            }
-            else {
-                alert("Fine.");
-            }
-        }
-    }); */
     
 	$("#discounts").change(function () {
 		var selectedID = $(this).val();
@@ -1794,39 +1771,83 @@ $(document).ready(function () {
         packageID = selectedID;
 	});
 
+    var old = null;
     $("#mechanic").change(function(){
         var selectedID = $(this).val();
         mechanicID = selectedID;
-        if($(this).val() != null || $(this).val() != 0) { $("#mechanicwrapper").css("border", "none"); }
 
+        if($(this).val() != null || $(this).val() != 0) { 
+            $("#mechanicwrapper").css("border", "none");
+        }
+
+        if(mechanicID == saID || mechanicID == qaID || mechanicID == imID){
+            var res = confirm("It seems like you have already assigned this personnel to a task. Proceeding would reset the assignment of other personnels. Continue?");
+            if (res){
+                disablePersonnels(selectedID);
+            }
+            else{
+                old = $("#personnels option:selected").val();
+                $('#mechanic').prop('selectedIndex', old);
+                $('#mechanic').trigger("chosen:updated");
+            }
+        }
+        else {
+            disablePersonnels(selectedID);
+        }
+    });
+
+    function disablePersonnels(selectedID){
         $("#personnels option").prop("disabled", false);
-        $('#personnels option[value ="0"]').prop("disabled", true)
-        $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
-        
-        $("#SA option").prop("disabled", false);
-        $('#SA option[value ="0"]').prop("disabled", true)
-        $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true);
-        $("#SA").prop("disabled", false);
-        $("#SA").trigger("chosen:updated");
+            $('#personnels option[value ="0"]').prop("disabled", true)
+            $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+            
+            $("#SA option").prop("disabled", false);
+            $('#SA option[value ="0"]').prop("disabled", true)
+            $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $('#SA').val(0);
+            $("#SA").prop("disabled", false);
+            $("#SA").trigger("chosen:updated");
 
-        $("#QA option").prop("disabled", false);
-        $('#QA option[value ="0"]').prop("disabled", true)
-        $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true);
-        $("#QA").prop("disabled", false);
-        $("#QA").trigger("chosen:updated");
-        
-        $("#IM option").prop("disabled", false);
-        $('#IM option[value ="0"]').prop("disabled", true)
-        $('#IM option[value ="'+ selectedID+'"]').prop("disabled", true);
-        $("#IM").prop("disabled", false);
-        $("#IM").trigger("chosen:updated");
+            $("#QA option").prop("disabled", false);
+            $('#QA option[value ="0"]').prop("disabled", true)
+            $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $('#QA').val(0);
+            $("#QA").prop("disabled", false);
+            $("#QA").trigger("chosen:updated");
+            
+            $("#IM option").prop("disabled", false);
+            $('#IM option[value ="0"]').prop("disabled", true)
+            $('#IM option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $('#IM').val(0);
+            $("#IM").prop("disabled", false);
+            $("#IM").trigger("chosen:updated");
 
-        $('table tr select').each(function(){
-            if(this.id == "personnels")
-                $(this).val(selectedID);
-                $(this).prop("disabled", false);
-                $(this).trigger("chosen:updated");
-        });
+            $('table tr select').each(function(){
+                if(this.id == "personnels")
+                    $(this).val(selectedID);
+                    $(this).prop("disabled", false);
+                    $(this).trigger("chosen:updated");
+            });
+    }
+
+    $("#SA").change(function(){
+        var selectedID = $(this).val();
+        saID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#SAwrapper").css("border", "none"); }
+        $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+    });
+
+    $("#QA").change(function(){
+        var selectedID = $(this).val();
+        qaID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#QAwrapper").css("border", "none"); }
+        $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+    });
+
+    $("#IM").change(function(){
+        var selectedID = $(this).val();
+        imID = selectedID;
+        if($(this).val() != null || $(this).val() != 0) { $("#IMwrapper").css("border", "none"); }
     });
 
     $("#personnels").change(function(){

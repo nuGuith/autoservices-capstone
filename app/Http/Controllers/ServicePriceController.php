@@ -26,6 +26,7 @@ class ServicePriceController extends Controller
     {
         $vehicle = DB::table('automobile_make as mak')
                 ->LEFTJOIN('automobile_model as mod','mak.MakeID','=','mod.MakeID')
+                ->LEFTJOIN('automobile as a', 'mod.ModelID', '=', 'a.ModelID')
                 ->where('mak.isActive',1)
                 ->GET();
 
@@ -38,6 +39,7 @@ class ServicePriceController extends Controller
                 ->LEFTJOIN('service as sr','sp.ServiceID','=','sr.ServiceID')
                 ->LEFTJOIN('automobile_model as mod','sp.ModelID','=','mod.ModelID')
                 ->LEFTJOIN('automobile_make as mk','mod.MakeID','=','mk.MakeID')
+                ->LEFTJOIN('automobile as a', 'mod.ModelID', '=', 'a.ModelID')
                 ->WHERE('sp.isActive',1)
                 ->GET();
 
