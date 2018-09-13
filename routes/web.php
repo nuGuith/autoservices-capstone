@@ -199,8 +199,8 @@ Route::get('/viewestimates/{id}','ViewEstimatesController@index');
 //Transaction - Job Order
 Route::get('/joborder','JobOrderController@index');
 
-Route::resource('/addjoborder','AddJobOrderController');
-Route::get('/addjoborder/fromEstimate/{id}', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
+Route::resource('/addjoborder', 'AddJobOrderController');
+Route::get('/addjoborder/{id}/fromEstimate', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
 Route::get('/addjoborder/{id}/showEstimate', 'AddJobOrderController@showEstimate');
 Route::get('/addjoborder/{id}/searchByCustomerName', 'AddJobOrderController@searchByCustomerName');
 Route::get('/addjoborder/{id}/searchByPlateNo', 'AddJobOrderController@searchByPlateNo');

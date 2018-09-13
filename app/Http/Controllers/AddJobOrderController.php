@@ -61,6 +61,8 @@ class AddJobOrderController extends Controller
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
             ->where('isActive', 1)
+            ->groupBy('plateno')
+            ->distinct('plateno')
             ->pluck('plateno','automobileid');
 
         $automobile_models = DB::table('automobile_model')
@@ -95,7 +97,6 @@ class AddJobOrderController extends Controller
             ->where('isActive', 1)
             ->pluck('packagename', 'packageid');
 
-        
 
         $estimateids->prepend('Please choose an Estimate ID',0);
         $inspectionids->prepend('Please choose an Inspection ID',0);
@@ -159,6 +160,8 @@ class AddJobOrderController extends Controller
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
         ->where('isActive', 1)
+        ->groupBy('plateno')
+        ->distinct('plateno')
         ->pluck('plateno','automobileid');
 
         $automobile_models = DB::table('automobile_model')
@@ -287,7 +290,6 @@ class AddJobOrderController extends Controller
                 Automobile::where(['isActive' => 1, 'automobileid' => $auto_id->AutomobileID])
                 ->update([
                     'plateno' => ($request->plateno),
-                    'modelid' => ($request->modelid),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
                     'color' => ($request->color)
@@ -306,11 +308,14 @@ class AddJobOrderController extends Controller
                 ]);
                 $auto_id = DB::table('automobile')->orderBy('automobileid', 'desc')->first();
             }
+            $estimateid = $request->estimateid;
+            if ($estimateid === null)
+                $estimateid = $request->estimateID;
 
             JobOrder::create([
                 'AutomobileID' => ($auto_id->AutomobileID),
                 'InspectionID' => ($request->inspectionid),
-                'EstimateID' => ($request->estimateid),
+                'EstimateID' => ($estimateid),
                 'ServiceBayID' => ($request->servicebayid),
                 'PromoID' => ($request->promoid),
                 'PackageID' => ($request->packageid),
@@ -327,7 +332,7 @@ class AddJobOrderController extends Controller
             
             if($request->has('serviceperformed')){
                 $svcperf = $request->serviceperformed;
-                $personnelperf = $request->personnelperf;
+                $personnelperf = $request->personnelperformed;
                 $include = $request->include;
                 $laborcost = $request->laborcost;
                 //$services = $request->service;
@@ -341,11 +346,10 @@ class AddJobOrderController extends Controller
                 foreach($svcperf as $spKey=>$sp){
                     
                     $subTotal = 0;
-                    $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
-                    if ($include[$spKey] == 'True')
-                        $i = 1;
-                    else 
-                        $i = 0;
+
+                    if ($include[$spKey] == 'True') $i = 1;
+                    else $i = 0;
+
                     ServicePerformed::where(['isActive' => 1, 'serviceperformedid' => $svcperf[$spKey]])
                     ->update([
                             'JobOrderID' => $jo->JobOrderID,
@@ -370,17 +374,19 @@ class AddJobOrderController extends Controller
             }
 
             DB::commit();
-            $newRoute = "/joborder/";
+            $newRoute = "/joborder";
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $err = $e->getMessage();
-            return redirect('/addjoborder')
-                        ->withErrors($err)
-                        ->withInput();
+            //return redirect('/addjoborder')->withErrors($err)->withInput();
             return response()->json(compact('err'));
         }
-        return redirect('/joborder');
-        //return response()->json(compact('err'));
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Record saved successfully!',
+        );
+        //return redirect('/joborder');
+        return response()->json(compact('response'));
     }
 
     /**

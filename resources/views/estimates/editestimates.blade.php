@@ -279,8 +279,8 @@
                                         </div>
 
                                         <div class="col-lg-2 m-t-20">
-                                            <h5>Labor <span style="color:red"></span></h5>
-                                            <input type="number" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control m-t-10" readonly>
+                                            <h5>Labor Cost <span style="color:red"></span></h5>
+                                            <input type="number" style="width:120px;" name="labor" id="labor" placeholder="Labor Cost" class="form-control m-t-10" readonly>
                                         </div>
 
                                         <div class="col-lg-4 m-t-20">
@@ -326,7 +326,7 @@
                                                 </h5>
                                             </td>
                                             <td style="width: 10%;">
-                                                <h5>Labor <span style="color: red">*</span>
+                                                <h5>Labor Cost <span style="color: red">*</span>
                                                 </h5>
                                             </td>
                                             <td style="width: 10%;">
@@ -508,7 +508,7 @@
 
 
 
-<!--SCRIPT FOR ESTIMATE TABLE -->
+<!--SCRIPT FOR ESTIMATE-->
 <script> 
 $(document).ready(function () {
 

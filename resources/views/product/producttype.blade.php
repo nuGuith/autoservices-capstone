@@ -151,9 +151,9 @@
                                     <div class="col-md-11">
                                         <h5>Product Category: <span style="color: red">*</span></h5>
                                             <p class="m-t-10">
-                                                {{ Form::select('productcategoryid', $categories, null, array(
+                                                {{ Form::select('productcategories-A', $categories, null, array(
                                                     'class' => 'form-control chzn-select',
-                                                    'id' => 'categoryid',
+                                                    'id' => 'productcategories-A',
                                                     'name' => 'productcategoryid')
                                                     ) 
                                                 }}
@@ -233,9 +233,9 @@
                                     <div class="col-md-11">
                                         <h5>Product Category: <span style="color: red">*</span></h5>
                                             <p class="m-t-10">
-                                                {{ Form::select('productcategoryid', $categories, null, array(
+                                                {{ Form::select('productcategories-E', $categories, null, array(
                                                 'class' => 'form-control chzn-select',
-                                                'id' => 'categoryid',
+                                                'id' => 'productcategories-E',
                                                 'name' => 'productcategoryid')
                                                 ) 
                                                 }}
@@ -349,11 +349,6 @@
     });
 </script>
 <script>
-    /*function setSelected(id){
-        var btn = "editBtn" + id;
-        alert(document.getElementById("#tbl").rows[0].cols[1].innerHTML);
-        document.getElementById("#productcategoryid").value = $(this).data("categoryname");
-    }*/
      function editModal(id){
             $.ajax({
                 type: "GET",
@@ -371,6 +366,11 @@
             document.getElementById("deleteId").value = id;
             $('#deleteModal').modal('show');
         }
+
+$(document).ready(function(){
+    $('#productcategories-A option[value=0]').prop("disabled", "disabled");
+    $('#productcategories-E option[value=0]').prop("disabled", "disabled");
+});
 </script>
 
 <!-- global scripts modals-->

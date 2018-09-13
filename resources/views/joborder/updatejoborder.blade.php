@@ -206,11 +206,11 @@
                                     <table class="table table-bordered table-hover dataTable" id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:30px;" >
                                         <thead>
                                             <tr class="trrow">
-                                                <th>Items</th>
-                                                <th>Mechanic</th>
-                                                <th>Steps</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
+                                                <th style="width: 27%;">Items</th>
+                                                <th style="width: 28%;">Mechanic</th>
+                                                <th style="width: 21%;">Steps</th>
+                                                <th style="width: 15%;">Status</th>
+                                                <th style="width: 8%;">Actions</th>
                                             </tr>
                                         </thead>
                                             <tbody>

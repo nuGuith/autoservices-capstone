@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Add Job Order') <!-- Page Title -->
 @section('content')
     
@@ -91,6 +91,7 @@
                                         <!--Search Existing Records using Estimate ID -->
                                         <div class="col-lg-4">
 	                                            <h5>Search Estimate ID:</h5>
+                                                <input type="hidden" id="formEstimateID" name="estimateID">
 	                                            <p>
 	                                                <p class="m-t-10">
 	                                                {{ Form::select(
@@ -227,6 +228,7 @@
                                         <div class="col-lg-4">
                                             <h5>Model: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
+                                            <input type="hidden" id="model" name="modelid">
                                                 {{ Form::select(
 	                                                    'automobile_models',
 	                                                    $automobile_models,
@@ -412,12 +414,12 @@
                                             <td style="width: 10%;">
                                                 <h5>Quantity <span style="color: red">*</span></h5>
                                             </td>
-                                            <td style="width: 17%;">
-                                                <h5>Items <span style="color: red"></span>
+                                            <td style="width: 12%;">
+                                                <h5>Product <span style="color: red"></span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 10%;">
-                                                <h5>Labor <span style="color: red">*</span>
+                                            <td style="width: 13%;">
+                                                <h5>Labor Cost <span style="color: red">*</span>
                                                 </h5>
                                             </td>
                                             <td style="width: 23%;">
@@ -425,11 +427,11 @@
                                                 <span class="badge badge-pill badge-primary float-right calendar_badge" data-toggle="modal" data-href="#responsive" href="#viewModal">?</span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 10%;">
+                                            <td style="width: 12%;">
                                                 <h5>Unit Price<span style="color: red"></span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 15%;">
+                                            <td style="width: 13%;">
                                                 <h5>Total Price<span style="color: red"></span>
                                                 </h5>
                                             </td>
@@ -453,7 +455,7 @@
                                             </td>
                                             <td style="border-right:none !important"></td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:50px;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="text" style="width:75px; text-align:right;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
                                             </td>
                                             <td style="border-right:none !important">
                                                 {{ Form::select(
@@ -463,16 +465,16 @@
                                                     array(
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'personnels',
-                                                        'name' => 'personnelperf[]',
+                                                        'name' => 'personnelperformed[]',
                                                         'style' => 'width:110px')
                                                     ) 
                                                 }}
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="hidden" style="width:60px;" id="unitprice" name="" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:90px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="text" readonly style="width:80px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
                                                 </td>
                                             <td style="border-left:none !important">
                                                 <center>
@@ -496,10 +498,10 @@
                                                     </td>
                                                     <td style="border-right:none !important"><a></a></td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
+                                                        <input type="text" readonly style="width:60px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:90px;text-align: right" id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="{!!$pu->SubTotal!!}">
+                                                        <input type="text" readonly style="width:80px;text-align: right" id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="{!!$pu->SubTotal!!}">
                                                     </td>
                                                     <td style="border-left:none !important">
                                                         <center>
@@ -527,10 +529,10 @@
                                                <a></a>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:50px; text-align: right" name="" readonly placeholder="0%" class="form-control">
+                                                <input type="text" style="width:60px; text-align: right" name="" readonly placeholder="0%" class="form-control">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:90px; text-align: right;color:red" name="" readonly placeholder=".00" class="form-control">
+                                                <input type="text" style="width:80px; text-align: right;color:red" name="" readonly placeholder=".00" class="form-control">
                                             </td>
                                             <!--Delete Row Inside Job Order Table -->
                                             <td style="border-left:none !important">
@@ -559,10 +561,10 @@
                                                <a></a>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:50px; text-align: right" name="unitprice" readonly placeholder="0%" class="form-control">
+                                                <input type="text" style="width:60px; text-align: right" name="unitprice" readonly placeholder="0%" class="form-control" value="">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:90px; text-align: right;color:red" name="price" readonly placeholder=".00" class="form-control">
+                                                <input type="text" style="width:80px; text-align: right;color:red" name="price" readonly placeholder=".00" class="form-control" value="">
                                             </td>
                                             <!--Delete Row Inside Job Order Table -->
                                             <td style="border-left:none !important">
@@ -580,12 +582,20 @@
                                              <span id="estimated" style="text-align: center; color: blue">3 days</span>
                                             </th>
 
+                                            
                                             <td colspan="3" style="width: 5px; text-align: right">
-                                                <h5 style="padding-top:5px;">Grand Total:<span style="color: red"></span></h5>
+                                                <div class="cols">
+                                                    <h5 style="padding-top:5px;">Grand Total:</h5>
+                                                    <h5 style="padding-top:5px;">Less Discount:</h5>
+                                                    <h5 style="padding-top:5px;">Total Amount Due:</h5>
+                                                </div>
                                             </td>
                                             <td colspan="2" style="text-align:right">
-                                                <h5 id="grandtotal" style="padding-top:5px;">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span>
-                                                </h5>
+                                                <div class="cols">
+                                                    <h5 id="grandtotal" style="padding-top:5px;">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="lessdiscount" style="padding-top:5px;">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 style="padding-top:5px;">&nbsp;&nbsp;&nbsp;<span id="totalamountdue" style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                </div>
                                             </td>
                                             <td>
                                             </td>  
@@ -665,7 +675,6 @@
                                                         'style' => 'width:110px')
                                                     ) 
                                                 }}
-                                                </select>
 	                                        </p>
 	                                    </p>
 	                            </div>
@@ -775,7 +784,7 @@
                     </div>
                 </div>
                 <!-- VIEW STEPS MODAL-->  
-                {!!Form::close()!!}
+                {{ Form::close() }}
 
                              <!--Button: Back, Save-->
                              <div class="card-footer bg-black">
@@ -799,11 +808,12 @@
                             <div class="modal-header bg-success">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-save"></i>
-                                            &nbsp;Record Saved</h4>
+                                            &nbsp;Confirmation</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="col m-t-15">
-                                    <h5>Done. We've already saved this record. Do you want to proceed to viewing the Job Order now?</h5>
+                                    <h4>We are about to save this record.</h4><br>
+                                    <h5 style="font-weight:light; line-height:16px;"> If you just want to save it click &nbsp;<i class="fa fa-save text-black" ></i><strong> Save</strong> but if you want to proceed to viewing the Job Order now, click <strong>Save & Proceed </strong>.</h5>
                                 </div>
                             </div>
                             <div class="modal-footer m-t-10">
@@ -811,8 +821,13 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <a id="btnProceed" type="submit" class="btn btn-success">
-                                        &nbsp;Proceed &rarr;
+                                    <a id="btnJustSave" style="background-color:#00BF86; color:white;" type="submit" class="btn btn-success">
+                                    <i class="fa fa-save text-white" ></i>&nbsp;Save
+                                    </a>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <a id="btnSaveProceed" style="background-color:#00BF86; color:white;" type="submit" class="btn btn-success">
+                                    <i class="fa fa-save text-white" ></i>&nbsp;Save & Proceed &rarr;
                                     </a>
                                 </div>
                             </div>
@@ -869,6 +884,7 @@ $(document).ready(function () {
     var serviceCtr = 0;
     var deleted = [];
     var PWD_SC_NO = $("#pwd_sc_no").val();
+    var cloneCtr = 0;
 
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -888,6 +904,7 @@ $(document).ready(function () {
     $("#SA").prop("disabled", "disabled");
     $("#QA").prop("disabled", "disabled");
     $("#IM").prop("disabled", "disabled");
+    $("#products").prop("disabled","disabled");
     $("#addRow").prop("disabled",true);
     $("#AT").prop("checked", false);
     $("#MT").prop("checked", false);
@@ -900,8 +917,17 @@ $(document).ready(function () {
     var estimate = {!! json_encode($estimate->toArray()) !!};
     var automobile = {!! json_encode($automobile->toArray()) !!};
 
+    if((estimate.EstimateID > 0) || (estimate.EstimateID != null)){
+        estimateID = (estimate.EstimateID);
+        $('#formEstimateID').val(estimateID);
+        getGrandTotal();
+        getEstimatedTime();
+        getDiscountedPrice();
+    }
+
     if((estimate.ServiceBayID > 0) || (estimate.ServiceBayID != null)){
-        $("#servicebays").val(estimate.ServiceBayID).trigger("chosen:updated");
+        svcbayID = (estimate.ServiceBayID);
+        $("#servicebays").val(svcbayID).trigger("chosen:updated");
     }
 
     if(automobile.Transmission != null){
@@ -915,11 +941,10 @@ $(document).ready(function () {
         }
         $('#transmission').val(automobile.Transmission);
         $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
-        modelID = automobile.ModelID;
+        modelID = (automobile.ModelID);
+        $('#model').val(modelID);
     }
 
-    getGrandTotal();
-    getEstimatedTime();
 
     var clicked = false;
     $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels, #mechanic, #servicebays").on({
@@ -945,17 +970,22 @@ $(document).ready(function () {
     function checkAllRequired(){
             var result = true;
             $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #mechanic, #SA, #QA, #IM, #servicebays").each(function() {
-                if($(this).val() == null || $(this).val() == 0){ $(this).css("border", "1.5px solid #FF3839"); result = false; };
-                if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if(mechanicID == null || mechanicID == 0 && $(this).attr('id') == "mechanic"){ $("#mechanicwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if(saID == null || $(this).val() == 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if(qaID == null || $(this).val() == 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if(imID == null || $(this).val() == 0 && $(this).attr('id') == "IM"){ $("#IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
-                if(svcbayID == null || $(this).val() == 0 && $(this).attr('id') == "servicebays"){ $("#svcbaywrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false; }
+                if($(this).val() == null || $(this).val() == 0){ 
+                    $(this).css("border", "1.5px solid #FF3839"); 
+                    result = false; 
+                };
+                if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(mechanicID == null || mechanicID < 0 && $(this).attr('id') == "mechanic"){ $("#mechanicwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(saID == null || saID < 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(qaID == null || qaID < 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(imID == null || imID < 0 && $(this).attr('id') == "IM"){ $("#IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(svcbayID == null || svcbayID < 0 && $(this).attr('id') == "servicebays"){ $("#svcbaywrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(modelID > 0 && mechanicID > 0 && saID > 0 && qaID > 0 && imID > 0 && svcbayID > 0)
+                    result = true;
             });
             if (result) valid = true;
             else valid = false;
-            return result;
+            return valid;
         }
 
     function confirmationModal(){
@@ -976,19 +1006,20 @@ $(document).ready(function () {
     }
 
 
-    $("#btnProceed").on("click", function (e) {
+    $("#btnSaveProceed").on("click", function (e) {
         var formData = $('#jobForm').serialize();
-        //alert(formData);
+        alert(formData);
+        //alert(estimateID);
 
         if(routeID == 0 || routeID == null){
             $.ajax({
-                type: "POST",
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                url: "/addjoborder",
+                url: '/addjoborder',
                 data: formData,
+                type: 'post',
                 async: false,
                 success: function(data) { 
-                    //alert(data);
+                    alert(data);
                     routeID = 1;
                     redirect = data.newRoute;
                     window.location.href = "/joborder";
@@ -1012,13 +1043,16 @@ $(document).ready(function () {
     $("table td input").bind({
         keyup: function() {
             getGrandTotal();
+            getDiscountedPrice();
         },
         mouseleave: function() {
             $(this).blur();
             getGrandTotalNoQty();
+            getDiscountedPrice();
         },
         focusout: function() {
             getGrandTotalNoQty();
+            getDiscountedPrice();
         }
     });
 
@@ -1039,6 +1073,7 @@ $(document).ready(function () {
         $('#services').trigger("chosen:updated");
         getEstimatedTime();
         getGrandTotal();
+        getDiscountedPrice();
 
         serviceCtr--;
         if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
@@ -1064,6 +1099,7 @@ $(document).ready(function () {
         
         getEstimatedTime();
         getGrandTotal();
+        getDiscountedPrice();
     });
 
 
@@ -1131,12 +1167,14 @@ $(document).ready(function () {
             cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br> </td>';
             cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
             cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="unitprice" placeholder="0%" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="price " placeholder="00" class="form-control"></td>';
+            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px;text-align: right" name="unitprice" placeholder="0%" class="form-control"></td>';
+            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" name="price " placeholder=".00" class="form-control"></td>';
             cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
             newDiscountRow.append(cols);
             $("tr#discount").replaceWith(newDiscountRow);
             $("#discounts").val(null).trigger("chosen:updated");
+            getGrandTotal();
+            getDiscountedPrice();
         }
         
         $(this).closest("tr").remove();
@@ -1158,6 +1196,21 @@ $(document).ready(function () {
             
     });
 
+    function createChosen(){
+        $('table td select').each(function(){
+            if ($(this).attr('id') == 'mechanic'){ 
+                $(this).chosen();
+                $(this).prop("disabled", "disabled");
+                $("#mechanic option[value='0']").prop("disabled", false);
+                if(mechanicID > 0){
+                    $(this).prop("selectedIndex", mechanicID);
+                    $(this).prop("disabled", false);
+                }
+                $(this).trigger("chosen:updated");
+            }
+        });
+    }
+
     //Button: Add Row
     var newProductRow = $("<tr/>");
     $("#addRow").on("click", function (event) {
@@ -1173,27 +1226,31 @@ $(document).ready(function () {
                 var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
                 var pr = data.service.price;
                 pr = parseFloat(pr).toFixed(2);
+
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:55px;" id="quantity" name="" placeholder="" value="1" readonly class="form-control hidden"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" style="width:50px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-right:none !important"><select id="mechanic" class="form-control chzn-select"></select></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:90px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
-                cols += '<td style="border-left:none !important"><button type="button" id="svc" name="'+data.service.estimatedtime+'"  class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
+                cols += '<td style="border-right:none !important"><input type="text" style="width:75px; text-align:right;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
+                cols += '<td  style="border-right:none !important">{{ Form::select("mechanic", $personnels, null, array("class" => "form-control chzn-select", "id" => "mechanic", "name" => "personnelperformed[]", "style" => "width:110px", "disabled", "disabled")) }}</td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:60px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right"  id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'"  class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
+
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#discount");
+                createChosen();
 
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
 
                 
                 cols = "";
+                serviceCtr++;
             }
         });
         
         counter++;
-        var newProductRow = $("<trclass='product' id='svc"+selectedService+"'>");
+        var newProductRow = $("<tr class='product' id='svc"+selectedService+"'>");
         for(var k = 0; k < ctr; k++){
             $.ajax({
                 type: "GET",
@@ -1210,8 +1267,8 @@ $(document).ready(function () {
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><a></a></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:90px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                     cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+selectedService+'" id="chkInclude" type="checkbox" checked value="'+selectProduct[k]+'"></center></td>';
 
                     newProductRow.append(cols);
@@ -1228,21 +1285,37 @@ $(document).ready(function () {
                     $("table td input").bind({
                         keyup: function() {
                             getGrandTotal();
+                            getDiscountedPrice();
                         },
                         mouseleave: function() {
                             getGrandTotalNoQty();
+                            getDiscountedPrice();
                         },
                         focusout: function() {
                             getGrandTotalNoQty();
+                            getDiscountedPrice();
                         }
                     });
 
-                    $("table.list").on("click", ".btnDel", function (event) {
+                    $("table.order-list").on("click", ".btnDel", function (event) {
                         var id = $(this).data('serviceid');
+                        var svcid = "svc" + id;
+                        
+                        //remove all products included in this service
+                        $('table tr').each( function() {
+                            if ((this.id) == svcid) 
+                                $(this).closest("tr").remove();
+                        });
+
                         $(this).closest("tr").remove();
-                        removeIncludedProduct(id);
+                        $('#services option[value="0"]').prop("disabled", "disabled");
+                        $('#services option[value="'+id+'"]').prop("disabled", false);
+                        $('#services').trigger("chosen:updated");
                         getEstimatedTime();
                         getGrandTotal();
+
+                        serviceCtr--;
+                        if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
                     });
 
                 }
@@ -1251,9 +1324,13 @@ $(document).ready(function () {
         selectedService = null;
         getEstimatedTime();
         getGrandTotal();
+        getDiscountedPrice();
         $("#problem").val(null);
-        $("#services").val(0).trigger("chosen:updated");
+        $("#mechanic").chosen();
+        $("#services option[value='0']").prop("disabled",true);
+        $("#services").val(null).trigger("chosen:updated");
         $("#products").val(null).trigger("chosen:updated");
+        $("#products").prop("disabled", "disabled").trigger("chosen:updated");
         $("#addRow").prop("disabled", true);
         
     });
@@ -1613,7 +1690,7 @@ $(document).ready(function () {
             var labor = $('#services :selected').data('price');
             $('#labor').val(labor);
             $('#labor').addClass('focused_input');
-            $('#products').prop('disabled', false);
+            $('#products').prop("disabled", false);
 
             $.ajax({
                 type: "GET",
@@ -1685,8 +1762,8 @@ $(document).ready(function () {
                 cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>'+discountName+' </td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" name="labor" placeholder="Labor" class="form-control"></td>';
                 cols += '<td style="border-right:none !important"><a></a></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" data-rate="'+data.discount.discountrate+'" value="'+ data.discount.discountrate +'%"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:90px;text-align: right" id="discountamt" name="discountamt " placeholder=".00" class="form-control"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" data-rate="'+data.discount.discountrate+'" value="'+ data.discount.discountrate +'%"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="discountamt" name="discountamt " placeholder=".00" class="form-control" value="0"></td>';
                 cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
                 newDiscountRow.append(cols);
                 $("tr#discount").replaceWith(newDiscountRow);
@@ -1697,10 +1774,18 @@ $(document).ready(function () {
     }); 
 
     function getDiscountedPrice(){
-        var discountRate = $("#discountrate").data('rate');
-        var discountedAmt = (parseFloat(grandTotal) / 100) * parseFloat(discountRate);
+        var discountRate, discountedAmt, totalAmtDue;
+        discountRate = $("#discountrate").data('rate');
+        discountedAmt = (parseFloat(grandTotal) / 100) * parseFloat(discountRate);
+        if (isNaN(discountedAmt)) discountedAmt = 0;
+        totalAmtDue = grandTotal - discountedAmt;
         discountedAmt = discountedAmt.toFixed(2);
-        $("#discountamt").val("PhP " + discountedAmt);
+        totalAmtDue = totalAmtDue.toFixed(2);
+        if (!(isNaN(totalAmtDue))){
+            $("#discountamt").val(discountedAmt);
+            $("#lessdiscount").html("- PhP " + discountedAmt);
+        }
+            $("#totalamountdue").html("PhP " + totalAmtDue);
     }
     
 	$("#promos").change(function () {
@@ -1775,6 +1860,10 @@ $(document).ready(function () {
     $("#mechanic").change(function(){
         var selectedID = $(this).val();
         mechanicID = selectedID;
+        $('table td select').each(function(){
+            $('#mechanic').prop('selectedIndex', selectedID);
+            $('#mechanic').trigger("chosen:updated");
+        });
 
         if($(this).val() != null || $(this).val() != 0) { 
             $("#mechanicwrapper").css("border", "none");
@@ -1787,8 +1876,8 @@ $(document).ready(function () {
             }
             else{
                 old = $("#personnels option:selected").val();
-                $('#mechanic').prop('selectedIndex', old);
-                $('#mechanic').trigger("chosen:updated");
+                    $('#mechanic').prop('selectedIndex', old);
+                    $('#mechanic').trigger("chosen:updated");
             }
         }
         else {
@@ -1797,9 +1886,10 @@ $(document).ready(function () {
     });
 
     function disablePersonnels(selectedID){
-        $("#personnels option").prop("disabled", false);
-            $('#personnels option[value ="0"]').prop("disabled", true)
-            $('#personnels option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+            
+            $("#mechanic option").prop("disabled", false);
+            $('#mechanic option[value ="0"]').prop("disabled", true)
+            $('#mechanic option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
             
             $("#SA option").prop("disabled", false);
             $('#SA option[value ="0"]').prop("disabled", true)
@@ -1834,6 +1924,9 @@ $(document).ready(function () {
         var selectedID = $(this).val();
         saID = selectedID;
         if($(this).val() != null || $(this).val() != 0) { $("#SAwrapper").css("border", "none"); }
+        $("#QA option").prop("disabled", false);
+        $('#QA option[value ="0"]').prop("disabled", true)
+        $('#QA option[value ="'+ mechanicID+'"]').prop("disabled", true).trigger("chosen:updated");
         $('#QA option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
     });
 
@@ -1841,6 +1934,9 @@ $(document).ready(function () {
         var selectedID = $(this).val();
         qaID = selectedID;
         if($(this).val() != null || $(this).val() != 0) { $("#QAwrapper").css("border", "none"); }
+        $("#SA option").prop("disabled", false);
+        $('#SA option[value ="0"]').prop("disabled", true)
+        $('#SA option[value ="'+ mechanicID+'"]').prop("disabled", true).trigger("chosen:updated");
         $('#SA option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
     });
 

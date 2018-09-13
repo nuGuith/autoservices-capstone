@@ -291,8 +291,8 @@
                                         </div>
 
                                         <div class="col-lg-2 m-t-20">
-                                            <h5>Labor <span style="color:red"></span></h5>
-                                            <input type="number" style="width:120px;" name="labor" id="labor" placeholder="Labor" class="form-control m-t-10" readonly>
+                                            <h5>Labor Cost<span style="color:red"></span></h5>
+                                            <input type="number" style="width:120px;" name="labor" id="labor" placeholder="Labor Cost" class="form-control m-t-10" readonly>
                                         </div>
 
                                         <div class="col-lg-4 m-t-20">
@@ -336,7 +336,7 @@
                                                     </h5>
                                                 </td>
                                                 <td style="width: 10%;">
-                                                    <h5>Labor <span style="color: red">*</span>
+                                                    <h5>Labor Cost <span style="color: red">*</span>
                                                     </h5>
                                                 </td>
                                                 <td style="width: 10%;">
@@ -871,7 +871,7 @@ $(document).ready(function () {
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:70px;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" min="1" style="width:70px; text-align:right;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
@@ -919,10 +919,6 @@ $(document).ready(function () {
 
                     cols = "";
                     counter++;
-
-                    /* $("table.list").on("keyup", "input#quantity", function(){
-                        getGrandTotal();
-                    }); */
 
                     $("table td input").bind({
                         keyup: function() {
