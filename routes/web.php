@@ -135,3 +135,13 @@ Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
 Route::get('/updatejoborder/{id}', 'UpdateJobOrderController@index');
 
+//Back Job
+Route::resource('/backjob','BackJobController');
+Route::resource('/addbackjob','AddBackJobController');
+Route::resource('/editbackjob','EditBackJobController');
+Route::resource('/updatebackjob','UpdateBackJobController');
+Route::resource('/viewbackjob','ViewBackJobController');
+
+//Customer Information
+Route::resource('/vehicleinformation','VehicleInformationController');
+Route::resource('/viewvehiclehistory','VehicleHistoryController');
