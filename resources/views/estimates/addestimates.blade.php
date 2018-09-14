@@ -213,7 +213,7 @@
 
                                 <!--Textfield: Assign Mechanic, Service Bay -->
                                 <div class="row m-t-5">
-                                    <div class="col-lg-3">
+                                        <div class="col-lg-3">
                                             <h5>Color: <span style="color: red"></span></h5>
                                             <p>
                                                 <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">

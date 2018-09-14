@@ -579,7 +579,7 @@
                                         <tr>
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                             <span id="estimated" style="text-align: center; color: blue">3 days</span>
+                                             <span id="estimated" style="text-align: center; color: blue"></span>
                                             </th>
 
                                             
@@ -592,9 +592,9 @@
                                             </td>
                                             <td colspan="2" style="text-align:right">
                                                 <div class="cols">
-                                                    <h5 id="grandtotal" style="padding-top:5px;">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
-                                                    <h5 id="lessdiscount" style="padding-top:5px;">Php&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
-                                                    <h5 style="padding-top:5px;">&nbsp;&nbsp;&nbsp;<span id="totalamountdue" style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="lessdiscount" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="totalamountdue" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                 </div>
                                             </td>
                                             <td>
@@ -879,6 +879,7 @@ $(document).ready(function () {
     var mechanicID = null, saID = null, qaID = null, imID = null, svcbayID = null;
     var price;
     var grandTotal = 0;
+    var discountRate, discountedAmt, totalAmtDue;
     var totalEstimatedTime = 0;
     var fromEstimate = false;
     var serviceCtr = 0;
@@ -1355,8 +1356,8 @@ $(document).ready(function () {
                 grandTotal += parseFloat(total);
             } 
         });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
-
+        document.getElementById("grandtotal").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
+        document.getElementById("totalamountdue").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
     }
 
     function getGrandTotalNoQty(){
@@ -1382,7 +1383,7 @@ $(document).ready(function () {
                 grandTotal += parseFloat(total);
             } 
         });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+        document.getElementById("grandtotal").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
 
     }
 
@@ -1774,7 +1775,6 @@ $(document).ready(function () {
     }); 
 
     function getDiscountedPrice(){
-        var discountRate, discountedAmt, totalAmtDue;
         discountRate = $("#discountrate").data('rate');
         discountedAmt = (parseFloat(grandTotal) / 100) * parseFloat(discountRate);
         if (isNaN(discountedAmt)) discountedAmt = 0;
@@ -1783,9 +1783,9 @@ $(document).ready(function () {
         totalAmtDue = totalAmtDue.toFixed(2);
         if (!(isNaN(totalAmtDue))){
             $("#discountamt").val(discountedAmt);
-            $("#lessdiscount").html("- PhP " + discountedAmt);
+            $("#lessdiscount").html("- PHP " + discountedAmt);
         }
-            $("#totalamountdue").html("PhP " + totalAmtDue);
+            $("#totalamountdue").html("PHP " + totalAmtDue);
     }
     
 	$("#promos").change(function () {
