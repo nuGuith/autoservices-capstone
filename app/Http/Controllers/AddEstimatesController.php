@@ -45,6 +45,8 @@ class AddEstimatesController extends Controller
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
         ->where('isActive', 1)
+        ->groupBy('plateno')
+        ->distinct('plateno')
         ->pluck('plateno','automobileid');
 
         $automobile_models = DB::table('automobile_model')
@@ -208,7 +210,7 @@ class AddEstimatesController extends Controller
                 }
             }
 
-            $newRoute = "/addjoborder/fromEstimate/" . $estimate->EstimateID;
+            $newRoute = "/addjoborder/" . $estimate->EstimateID. "/fromEstimate";
             DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();

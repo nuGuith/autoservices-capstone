@@ -213,9 +213,9 @@
                                                 </p>
                                           </div>
                                         </div>
-                                    </div>
+
                                     <br>
-                                    <div id="show-errors" style="margin-right: 43px;">
+                                    <div id="show-errors" style="padding-right:9%;">
                                         @if ($errors->add->any())
                                             <div class="alert alert-danger">
                                                 <ul>
@@ -226,6 +226,7 @@
                                             </div>
                                             <br>
                                         @endif
+                                    </div>
                             </div>
 
                             <div class="modal-footer">

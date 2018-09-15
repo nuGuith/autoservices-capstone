@@ -10,5 +10,4 @@ class DashboardIndexController extends Controller
     	return view('dashboard.index');
     }
 
- 
 }

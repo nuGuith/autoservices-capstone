@@ -346,7 +346,7 @@
         @endif
         @if($errors->update->any())
             $('#editModal').modal('show');
-         @endif
+        @endif
     });
 </script>
 <script>

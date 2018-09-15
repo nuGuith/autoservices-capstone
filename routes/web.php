@@ -199,8 +199,8 @@ Route::get('/viewestimates/{id}','ViewEstimatesController@index');
 //Transaction - Job Order
 Route::get('/joborder','JobOrderController@index');
 
-Route::resource('/addjoborder','AddJobOrderController');
-Route::get('/addjoborder/fromEstimate/{id}', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
+Route::resource('/addjoborder', 'AddJobOrderController');
+Route::get('/addjoborder/{id}/fromEstimate', 'AddJobOrderController@fromEstimate')->name('fromEstimate');
 Route::get('/addjoborder/{id}/showEstimate', 'AddJobOrderController@showEstimate');
 Route::get('/addjoborder/{id}/searchByCustomerName', 'AddJobOrderController@searchByCustomerName');
 Route::get('/addjoborder/{id}/searchByPlateNo', 'AddJobOrderController@searchByPlateNo');
@@ -213,6 +213,16 @@ Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
 Route::get('/updatejoborder/{id}', 'UpdateJobOrderController@index');
 
+//Back Job
+Route::resource('/backjob','BackJobController');
+Route::resource('/addbackjob','AddBackJobController');
+Route::resource('/editbackjob','EditBackJobController');
+Route::resource('/updatebackjob','UpdateBackJobController');
+Route::resource('/viewbackjob','ViewBackJobController');
+
+//Customer Information
+Route::resource('/vehicleinformation','VehicleInformationController');
+Route::resource('/viewvehiclehistory','VehicleHistoryController');
 // Output Forms - Sample
 Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
