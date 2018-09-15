@@ -38,12 +38,6 @@
                         <div class="col-sm-6 col-12"  >
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item">
-                                    <a href="/">
-                                        <i class="fa fa-home"></i>
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">
                                     <a href="#">
                                         <i class="fa fa-pencil-square-o"></i>
                                         Product Listing
@@ -86,11 +80,11 @@
                                         <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                             <thead>
                                                 <tr role="row">
-                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 30%;">Unit of Measurement
+                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>Unit of Measurement</b>
                                                     </th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;">Abbreviation
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Abbreviation</b>
                                                     </th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;">Actions
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b>
                                                     </th>    
                                                 </tr>
                                             </thead>
@@ -102,14 +96,18 @@
                                                     <td><?php echo $productunittype->UnitTypeName; ?></td>
                                                     <td><?php echo $productunittype->Unit; ?></td>
                                                     <td>
+                                                      
+                                               
                                                         <!--EDIT BUTTON-->
-                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" onclick="editModal(<?php echo $productunittype->ProductUnitTypeID; ?>)"><i class="fa fa-pencil text-white"></i>
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn"onclick="editModal(<?php echo $productunittype->ProductUnitTypeID; ?>)"data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-                                                        
-                                                        
-                                                        <!--DELETE BUTTON-->
-                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal(<?php echo $productunittype->ProductUnitTypeID; ?>)"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+
+                                                         <!--DELETE BUTTON-->
+                                                        <button class="btn btn-danger hvr-float-shadow tipso_bounceIn" onclick="deleteModal(<?php echo $productunittype->ProductUnitTypeID; ?>)" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
+
+
+
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -131,20 +129,16 @@
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
                                             &nbsp;&nbsp;Edit Product Unit Type</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <h4>Product Unit Type</h4>
-                                        <br><hr>
-                                        <div class="row">
-                                            <div class="col-xl-8">
+                            <div class="modal-body" style="padding-left: 45px; padding-right: 50px;">
+                                        <div class="row m-t-10">
+                                            <div class="col-lg-7">
+                                            <h5>Product Unit Type: <span style="color: red">*</span></h5>
                                                 <p>
                                                     <?php echo e(Form::input('unittypename', 'text', 
                                                         Input::old('unittypename'), [
                                                         'id' => 'unittypename',
                                                         'name' => 'unittypename',
-                                                        'class' => 'form-control',
+                                                        'class' => 'form-control m-t-10',
                                                         'type' => 'text',
                                                         'placeholder' => 'Unit',
                                                         'required'
@@ -152,24 +146,25 @@
 
                                                 </p>
                                             </div>
-                                            <div class="col-xl-4" style="text-align:right;">
+                                            <div class="col-lg-5">
+                                                <h5>Abbreviation: <span style="color: red">*</span></h5>
                                                 <p>
                                                     <?php echo e(Form::input('unit', 'text',
                                                         Input::old('unit'), [
                                                         'id' => 'unit',
                                                         'name' => 'unit',
-                                                        'class' => 'form-control',
+                                                        'class' => 'form-control m-t-10',
                                                         'type' => 'text',
-                                                        'style' => 'width:65px; text-align:right',
+                                                        'style' => 'text-align:right',
                                                         'placeholder' => 'abbrv',
                                                         'required'
                                                         ])); ?>
 
                                                 </p>
+
+                                                <input id="productunittypeid" name="productunittypeid" type="hidden" value=null>
                                             </div>
-                                        </div>
-                                        <input id="productunittypeid" name="productunittypeid" type="hidden" value=null>
-                                    </div>
+                                        </div>                         
                                     <br>
                                     <div id="show-errors">
                                         <?php if($errors->update->any()): ?>
@@ -184,7 +179,6 @@
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                            </div>
 
 
 
@@ -213,32 +207,22 @@
                 <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Add New Product Unit Type</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Product Unit Type</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-xl-8">
-                                                <h4>Product Unit Type Name<span style="color:red;font-size:14px;">*</span></h4>
-                                            </div>
-                                            <div class="col-xl-4" style="text-align:right;">
-                                                <h6>Required field(s)<span style="color:red;font-size:14px;">*</span></h6>
-                                            </div>
-                                        </div>
-                                        <br><hr>
-                                        <div class="row">
-                                            <div class="col-xl-8">
+                            <div class="modal-body" style="padding-left: 45px; padding-right: 50px;">
+                                        <div class="row m-t-10">
+                                            <div class="col-lg-7">
+                                            <h5>Product Unit Type: <span style="color: red">*</span></h5>
+                                            
                                                 <p>
                                                     <?php echo e(Form::input('unittypename', 'text',
                                                         Input::old('unittypename'), [
                                                         'id' => 'unittypename',
                                                         'name' => 'unittypename',
-                                                        'class' => 'form-control',
+                                                        'class' => 'form-control m-t-10',
                                                         'type' => 'text',
                                                         'placeholder' => 'Unit',
                                                         'required'
@@ -246,15 +230,17 @@
 
                                                 </p>
                                             </div>
-                                            <div class="col-xl-4" style="text-align:right;">
+
+                                            <div class="col-lg-5">
+                                                <h5>Abbreviation: <span style="color: red">*</span></h5>
                                                 <p>
                                                     <?php echo e(Form::input('unit', 'text',
                                                         Input::old('unit'), [
                                                         'id' => 'unit',
                                                         'name' => 'unit',
-                                                        'class' => 'form-control',
+                                                        'class' => 'form-control m-t-10',
                                                         'type' => 'text',
-                                                        'style' => 'width:65px; text-align:right',
+                                                        'style' => 'text-align:right',
                                                         'placeholder' => 'abbrv',
                                                         'required'
                                                         ])); ?>
@@ -262,7 +248,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    
                                     <br>
                                     <div id="show-errors">
                                         <?php if($errors->add->any()): ?>
@@ -275,8 +261,7 @@
                                             </div>
                                             <br>
                                         <?php endif; ?>
-                                    </div>
-                                </div>
+                                 </div>
                             </div>
 
                             <div class="modal-footer">
@@ -306,36 +291,19 @@
                 <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-danger">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Delete this record?</h4>
+                                <h4 class="modal-title text-white"><i class="fa fa-trash"></i>
+                                            &nbsp;Delete Record</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="col">
-                                    <div class="col-xl-12" style="padding-right:25px;">
-                                        <br>
-                                        <p>
-                                            Are you sure you want to delete this record?
-                                        </p>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <table id="myTable" class="table order-list" >
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="deleteId" name="deleteId" type="hidden" value=null>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="col m-t-15">
+                                    <h5>Are you sure do you want to delete this record?</h5>
+                                    <input id="deleteId" name="deleteId" type="hidden" value=null>
                                 </div>
                             </div>
 
-
-
-                            <div class="modal-footer">
+                            <div class="modal-footer m-t-10">
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>

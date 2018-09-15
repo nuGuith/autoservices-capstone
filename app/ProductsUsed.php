@@ -10,10 +10,13 @@ class ProductsUsed extends Model
     protected $table = 'product_used';
     protected $fillable = [
         'joborderid',
+        'estimateid',
         'salesid',
+        'serviceperformedid',
         'productid',
         'estimateid',
         'dateused',
+        'quantity',
         'subtotal',
         'isCustomerProvided',
         'isActive'
@@ -25,5 +28,9 @@ class ProductsUsed extends Model
 
     public function joborder(){
         return $this->belongsTo('App\JobOrder', 'joborderid');
+    }
+
+    public function estimate(){
+        return $this->belongsTo('App\Estimate', 'estimateid');
     }
 }

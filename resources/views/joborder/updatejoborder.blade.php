@@ -206,76 +206,55 @@
                                     <table class="table table-bordered table-hover dataTable" id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:30px;" >
                                         <thead>
                                             <tr class="trrow">
-                                                <th>Items</th>
-                                                <th>Quantity</th>
-                                                <th colspan="2" style="text-align: center">Completed</th>
-                                                <th>Mechanic</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
+                                                <th style="width: 27%;">Items</th>
+                                                <th style="width: 28%;">Mechanic</th>
+                                                <th style="width: 21%;">Steps</th>
+                                                <th style="width: 15%;">Status</th>
+                                                <th style="width: 8%;">Actions</th>
                                             </tr>
                                         </thead>
                                             <tbody>
-                                                <!--example for servoice -->
-                                                <tr role="row" class="odd">
+                                            <tr role="row" class="odd">
                                                     <!--Column: Service -->
                                                     <td>
-                                                        Change Oil
-                                                    </td>
-                                                    <!--Column: Quantity-->
-                                                    <td style="text-align: center">
-                                                        1
-                                                    </td>
-                                                    <!--Column: Completed-->
-                                                    <td style="text-align: center">
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" style="width:60px;" name="completed" placeholder="" class="form-control" value="">
-                                                        </div>
-                                                    </td>   
+                                                        Engine Overhaul
+                                                    </td> 
                                                     <!--Column: Mechanic -->
                                                     <td>
                                                         Juan Dela Crusz
                                                     </td>
+                                                    <td style="text-align: center">
+                                                        Step <span style="color:red"><b>10</b></span> of 16
+                                                    </td>
                                                     <!--Column: Status -->
                                                     <td>
                                                         On going        
                                                     </td>
                                                     <!--Column: Actions: Refresh-->
                                                     <td>
-                                                        <button type="button" id=" " class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
+                                                        <button type="button" id="updateBtn1" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
                                                     </td>
                                                 </tr>
-
-                                                 <!--example for product -->
+                                                <!--example for service -->
                                                 <tr role="row" class="odd">
                                                     <!--Column: Service -->
                                                     <td>
-                                                        Dunlop 1.5mL
-                                                    </td>
-                                                    <!--Column: Quantity-->
-                                                    <td style="text-align: center">
-                                                        3
-                                                    </td>
-                                                    <!--Column: Completed-->
-                                                    <td style="text-align: center">
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" style="width:60px;" name="completed" placeholder="" class="form-control" value="">
-                                                        </div>
-                                                    </td>
+                                                        Change Oil
+                                                    </td> 
                                                     <!--Column: Mechanic -->
                                                     <td>
-                                                        Pedro Penduko
+                                                        Juan Dela Crusz
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        Step <span style="color:red"><b>0</b></span> of 4
                                                     </td>
                                                     <!--Column: Status -->
                                                     <td>
-                                                        On going        
+                                                        Pending        
                                                     </td>
                                                     <!--Column: Actions: Refresh-->
                                                     <td>
-                                                        <button type="button" id=" " class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>         
+                                                        <button type="button" id="updateBtn2" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -289,7 +268,7 @@
                                     <div class="row m-t-20">  
                                         <div class="col-lg-12 m-t-0">
                                             <h5><span style="color:gray">Remarks:
-                                            </span>&nbsp;&nbsp;The quick brown fox jump over the lazy dog.</h5>
+                                            </span>&nbsp;&nbsp;The client wants to be updated of the progress all the time.</h5>
                                             </p>
                                         </div>                         
                                     </div>
@@ -302,10 +281,13 @@
                                         <div class="card">
                                             <div class="card-header" role="tab" id="headingOne">
                                                 <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
-                                                    <!--Lablel: balance -->
+                                                    <!--Label: balance -->
                                                     <h5 class="mb-0">
-                                                        <span style="color:gray">Balance:<i style="padding-left: 380px; color:red">Php 3750.00</i></span><i class="fa fa-angle-down rotate-icon pull-right"></i>
-                                                    </h5>
+                                                                <span style="color:gray">Balance:
+                                                                    <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
+                                                                </span>
+                                                                <i class="fa fa-angle-down rotate-icon pull-right"></i>
+                                                            </h5>
                                                 </a>
                                             </div>
 
@@ -339,37 +321,36 @@
                                                         <th>Amount</th>   
                                                     </tr>
                                                 </thead>
-                                                    <tbody>
-                                                        <tr role="row" class="odd">
-                                                            <!--Column: Date -->
-                                                            <td>
-                                                               June 28, 2018
-                                                            </td>
-                                                            <!--Column: Amount-->
-                                                            <td style="text-align: center">
-                                                                50.00
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                     
-                                                    <tfoot>
-                                                        <tr>
-                                                            <!--Row: Total Amount-->
-                                                            <th style="text-align: right">
-                                                                Total Amount:
-                                                            </th> 
-                                                            <th style="color:blue; text-align: center">
-                                                                50.00
-                                                            </th>   
-                                                        </tr> 
-                                                    </tfoot>
+                                                <tbody>
+                                                                @foreach($payments as $payment)
+                                                                    <tr role="row" class="odd" id="row">
+                                                                        <!--Column: Date -->
+                                                                        <td>{{ $payment->Date }}</td>
+                                                                            <!--Column: Amount-->
+                                                                        <td class="payment" id="payment" style="text-align: center">
+                                                                            {{ $payment->TotalPayment }}
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                    @foreach($totals as $t)
+                                                                        <!--Row: Total Amount-->
+                                                                        <th style="text-align: right">
+                                                                            Total Amount:&nbsp;&nbsp;(Php)
+                                                                        </th> 
+                                                                        <th style="color:blue; text-align: center" id="totalamountpaid" name="totalamountpaid">{{ $t->total }}</th>
+                                                                    @endforeach
+                                                                    </tr> 
+                                                                </tfoot>
                                                 </table>
 
                                                 <!--Lable: Overl All Total -->
                                                 <div class="row m-t-20" style="padding-bottom:15px">  
                                                     <div class="col-lg-12 m-t-0 pull-right">
                                                         <h5 style="padding-left: 240px;"><span style="color:gray">Over All Total:
-                                                        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3800.00</h5>
+                                                        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">{{ $joborder->TotalAmountDue }}</span></h5>
                                                         </p>
                                                     </div>                         
                                                 </div>
@@ -380,12 +361,173 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
 
-                    
+                    <!-- START SUBMIT MODAL -->
+                <div class="modal fade in " id="updateModal1" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Update</h4>
+                            </div>
+                            <div class="modal-body">
+                                    <h3 style="padding:2% 2% 0%;">Engine Overhaul</h3>
+                                <div class="row m-t-5">
+                                    <div class ="col-lg-6" style="margin: 2% 1% 2% 3%; padding:2%; border: 1px solid #ECECEC;border-radius: 7px;">
+                                        <div class="row m-t-5">
+                                            <div class="col-lg-6"><h4>Steps: </h4></div>
+                                            <div class="col-lg-2"><button class="btn btn-info" style="font-size: 12px; padding: 2px 10px;" id="checkAll">Select all</button></div>&nbsp;&nbsp;&nbsp;
+                                            <div class="col-lg-2"><button class="btn btn-warning" style="font-size: 12px; padding: 2px 10px;" id="uncheckAll">Unselect all</button></div>
+                                            <div class="col-lg-1"></div>
+                                        </div>
+                                        <table class="table order-list display nowrap table-hover dataTable">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);"></td>
+                                                    <td>Step 1: Prepare engine for removal.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);"></td>
+                                                    <td>Step 2: Remove the engine.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input id="chk" name="3" type="checkbox" value="3" style="-webkit-transform: scale(1.4);"></td>
+                                                    <td>Step 3: Removal of the accessories - Carburetor.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table><!-- 
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 1: Prepare engine for removal.
+                                        </label><br>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 2: Remove the engine.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="3" type="checkbox" value="3" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 3: Removal of the accessories - Carburetor.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="4" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 4: Removal of the accessories - Muffler.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="5" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 5: Removal of the accessories - Flywheel.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="6" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 6: Removal of the accessories - Ignition.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="6" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 7: Removal of the accessories - Cylinder head.
+                                        </label><br> -->
+                                    </div>
+                                    <div class="col-lg-5"  style="margin: 2% 3% 2% 1%; padding:2%; border: 1px solid #ECECEC; border-radius: 7px;">
+                                        <h4>Products: </h4>
+                                        <table class="table list table-bordered display nowrap table-hover dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <td style="width: 30%;">
+                                                        <h5>Quantity <span style="color: red">*</span></h5>
+                                                    </td>
+                                                    <td style="width: 50%;">
+                                                        <h5>Product</h5>
+                                                    </td>
+                                                    <td style="width: 20%;">
+                                                        <h5>Action<span style="color: red"></span></h5>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="border-right:none !important">
+                                                        <input type="number" style="width:55px; text-align:center; " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="5">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        Piston
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" id="update" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-plus text-green"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border-right:none !important">
+                                                        <input type="number" style="width:55px; text-align:center;   " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="7">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        Crank Rods
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" id="update" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-plus text-green"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button class="btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SUBMIT MODAL -->
+                <div class="modal fade in " id="updateModal2" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Update</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h3><span style="color: green">Change Oil</span></h3>
+                                    <h4>Steps: </h4><br>
+                                    <table id="steps2">
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 1: Open Oil Gauge.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 2: Check Air Pump.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="3" type="checkbox" value="3" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 3: Clean oil filter.
+                                        </label>
+                                        <label class="text-black"  style="padding-left: 10px;">
+                                            <input id="chk" name="4" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
+                                            &nbsp;&nbsp;Step 4: Clean valves.
+                                        </label>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                <button class="btn btn-info source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SUBMIT MODAL -->
                     </div>
                 </div>
             </div>
@@ -394,7 +536,7 @@
 
                            
                                 <!--Button: Back, Save-->
-                             <div class="card-footer bg-black disabled m-t-20" >
+                             <div class="card-footer bg-black m-t-20" >
                                <div class="examples transitions m-t-5 pull-right">
                                     <button onclick="window.location='{{ url("/joborder") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  
@@ -435,7 +577,42 @@
 <!-- global scripts modals-->
 <script type="text/javascript" src="{{URL::asset('js/pages/modals.js')}}"></script>
 <!--End of global scripts-->
+<script>
+$(document).ready(function(){
+    $("#updateBtn1").on("click", function(){
+        $("#updateModal1").modal('show');
+    });
+    $("#updateBtn2").on("click", function(){
+        $("#updateModal2").modal('show');
+    });
 
+    var clicks = 0;
+    $("table.order-list").on("click", "#chk", function (event){
+        var id = $(this).attr('name');
+            //check all the steps preceding the selected step
+            $('table.order-list tr td input').each( function(){
+                var chk = $(this).attr('name');
+                chk = parseInt(chk);
+                if ((this.id) == "chk" && chk <= id )
+                    $(this).prop("checked", "checked");
+                else
+                    $(this).prop("checked", false);
+            });
+    });
+
+    $("#checkAll").on("click", function(){
+        $('table.order-list tr td input').each( function(){
+            $(this).prop("checked", "checked");
+        });
+    });
+
+    $("#uncheckAll").on("click", function(){
+        $('table.order-list tr td input').each( function(){
+            $(this).prop("checked", false);
+        });
+    });
+});
+</script>
 
 
 @stop

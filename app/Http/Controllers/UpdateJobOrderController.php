@@ -35,10 +35,27 @@ class UpdateJobOrderController extends Controller
                     ->where('md.ModelID', $model->ModelID)
                     ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
                     ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
-                    ->select('mk.Make', 'md.Model', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->first();
+        $customer = DB::table('customer')
+                    ->where('customerid', $model->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
                     ->first();
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
-        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay'));
+
+        $payments = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+
+            ->select('p.*', 'jo.totalamountdue')
+            ->get();
+
+        $totals = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+            ->get();
+        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay', 'payments', 'totals'));
     }
 
     /**

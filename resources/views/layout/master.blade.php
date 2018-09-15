@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('Title')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="{{URL::asset('img/icon.png')}}"/>
 
@@ -80,6 +81,8 @@ z-index: 999999">
                     <span class="toggle-left" id="menu-toggle">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-bars text-white"></i>
                     </span>
+
+
                 </div>
 
                 
@@ -95,12 +98,12 @@ z-index: 999999">
                         <div class="user-settings no-bg">
 
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
-                                <img src="{{URL::asset('img/admin.jpeg')}}" class="media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
+                                <img src="{{URL::asset('/img/admin.jpeg')}}" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
 
                             <div class="dropdown-menu admire_admin">
-                                <a class="dropdown-item title" href="#">
+                                <a class="dropdown-item title" href="">
                                     Admin</a>
                                 <a class="dropdown-item" href="{{URL::asset('edit_user.html')}}"><i class="fa fa-cogs"></i>
                                     Account Settings</a>
@@ -138,7 +141,7 @@ z-index: 999999">
                 <div class="user-wrapper bg-dark">
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
-                             src="{{URL::asset('img/admin.jpeg')}}">
+                             src="img/admin.jpeg">
                         <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
                     </a>
                 </div>
@@ -204,28 +207,7 @@ z-index: 999999">
                         </li>
                     </ul>
                 </li>
-                <li {!! (Request::is('jobdescription')|| Request::is('personnel') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
-                    <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
-                        <i class="fa fa-group"></i>
-                            &nbsp;Personnel
-                            <span class="fa arrow"></span>
-                    </a>
-                    <ul>
-                        <li {!! (Request::is('jobdescription')  ? 'class="active"' : '') !!} >
-                            <a href="/jobdescription" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                    &nbsp;Job Description
-                            </a>
-                        </li>  
-                        <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
-                            <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                    &nbsp;Personnel
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                <li {!! (Request::is('servicecategory')|| Request::is('service')|| Request::is('servicesteps')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-wrench"></i>
                         <span class="link-title">&nbsp; Service</span>
@@ -242,6 +224,16 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Services
                             </a>
                         </li>
+                        <li {!! (Request::is('servicesteps')  ? 'class="active"' : '') !!} >
+                            <a href="/servicesteps" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Steps
+                            </a>
+                        </li>
+                        <li {!! (Request::is('serviceskills')  ? 'class="active"' : '') !!} >
+                        <!--     <a href="/serviceskills" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Skills
+                            </a>
+                        </li> -->
                         <li {!! (Request::is('serviceprice')  ? 'class="active"' : '') !!} >
                             <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Price
@@ -257,8 +249,8 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
-                        <li {!! (Request::is('transact')  ? 'class="active"' : '') !!} >
-                            <a href="/transact" style="padding-left:10%; padding-right: 10%;">
+                        <li {!! (Request::is('inspectionchecklist')  ? 'class="active"' : '') !!} >
+                            <a href="/inspectionchecklist" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
                             </a>
                         </li>
@@ -269,18 +261,73 @@ z-index: 999999">
                         </li> -->
                     </ul>
                 </li>
+                <li {!! (Request::is('jobtitle')|| Request::is('skills') || Request::is('personnel') || Request::is('mechanicskills') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
+                    <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-group"></i>
+                            &nbsp;Personnel
+                            <span class="fa arrow"></span>
+                    </a>
+                    <ul>
+                        <li {!! (Request::is('jobtitle')  ? 'class="active"' : '') !!} >
+                            <a href="/jobtitle" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Job Title
+                            </a>
+                        </li>
+
+                        <li {!! (Request::is('skills')  ? 'class="active"' : '') !!} >
+                            <a href="/skills" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Skills
+                            </a>
+                        </li>
+                         
+                        <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
+                            <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Personnel
+                            </a>
+                        </li>
+
+                        <li {!! (Request::is('mechanicskills')  ? 'class="active"' : '') !!} >
+                            <a href="/mechanicskills" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Mechanic Skills
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li {!! (Request::is('package')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/package" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa  fa-gift"></i>
                         <span class="link-title">&nbsp; Package</span>
                     </a>
                 </li>
-                <li {!! (Request::is('promo')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/promo" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa  fa-bookmark"></i>
+
+
+                 <li {!! (Request::is('freeitems')|| Request::is('promo')? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-bookmark"></i>
                         <span class="link-title">&nbsp; Promo</span>
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul>
+                        <li {!! (Request::is('freeitems') ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/freeitems')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Free Items
+                            </a>
+                        </li>
+                        <li {!! (Request::is('promo')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/promo')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Promo
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
+
                 <li {!! (Request::is('discount')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/discount" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-ticket"></i>
@@ -288,7 +335,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
                 <li {!! (Request::is('customerinformation')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -326,7 +373,7 @@ z-index: 999999">
                     </a>
                 </li>
 
-                    </br>
+                    <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; QUERIES AND REPORTS</span>
                 
                 <li {!! (Request::is('queries')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -337,13 +384,46 @@ z-index: 999999">
                     
                 </li>
                 <li {!! (Request::is('reports')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/reports" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-bar-chart-o"></i>
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-bookmark"></i>
                         <span class="link-title">&nbsp; Reports</span>
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul>
+                        <li {!! (Request::is('estimate_report') ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/estimate_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Estimate Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('inspection_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/inspection_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Inspection Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('joborder_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/joborder_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Job Order Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('jobordersales_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/jobordersales_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Job Order Sales Report
+                            </a>
+                        </li>
+                        <li {!! (Request::is('payment_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/payment_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Payment Report
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                </br>
+                <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; UTILITIES</span>
                 
 
@@ -493,6 +573,7 @@ z-index: 999999">
 <script type="text/javascript" src="{{URL::asset('js/pages/fixed_menu.js')}}"></script>
 
 
+<script type="text/javascript" src="{{URL::asset('js/pages/radio_checkbox.js')}}"></script>
 
 
 <script type="text/javascript">

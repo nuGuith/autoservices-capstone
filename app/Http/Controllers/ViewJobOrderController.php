@@ -11,6 +11,13 @@ use App\JobOrder;
 use App\Customer;
 use App\Automobile;
 use App\ServiceBay; 
+use App\Payment;
+use App\ServicePerformed;
+use App\ProductUsed;
+use App\Personnel_Job_Performed;
+use App\Personnel_Job;
+use App\JobDescription;
+use App\Personnel_Header;
 use Validator;
 use Session;
 use Redirect;
@@ -25,22 +32,67 @@ class ViewJobOrderController extends Controller
     public function index($id)
     {
         $joborder = JobOrder::findOrFail($id);
-        $customer = DB::table('customer')
-                    ->where('customerid',$joborder->CustomerID)
-                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
-                    ->first();
         $model = Automobile::findOrFail($joborder->AutomobileID);
         
         $automobile = DB::table('automobile_model AS md')
-                    ->where('md.ModelID', $model->ModelID)
-                    ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
-                    ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
-                    ->select('mk.Make', 'md.Model', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
-                    ->first();
+            ->where('md.ModelID', $model->ModelID)
+            ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+            ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+            ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+            ->first();
+
+        $customer = DB::table('customer')
+            ->where('customerid', $model->CustomerID)
+            ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+            ->first();
+
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
-        //dd($automobile);
-        return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay'));
+
+        $payments = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+
+            ->select('p.*', 'jo.totalamountdue')
+            ->get();
+
+        $totals = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+            ->get();
+        
+
+        /*$jobdesc = DB::table('personnel_job_performed as pjp')
+            ->join('job_order as jo', 'pjp.joborderid', '=', 'jo.joborderid')
+            ->join('personnel_job as pj', 'pjp.personneljobid', '=', 'pj.personneljobid')
+            ->join('job_description as jd', 'pj.jobdescriptionid', '=', 'jd.jobdescriptionid')
+            ->join('personnel_header as ph', 'pj.personnelid', '=', 'ph.personnelid')
+            ->select('pjp.*', 'jo.*', 'pj.*', 'jd.*', 'ph.*')
+            ->where(['pjp.isActive' => 1, 'pjp.joborderid' => $id])
+            ->get();
+
+        dd($jobdesc);*/
+
+        //$balance = ((float)$joborder->totalamountdue - (float)$totals->total);
+
+        //$date = date('F j, Y', strtotime($payments->created_at));
+
+        $startdate = date('F j, Y', strtotime($joborder->created_at));
+        $enddate = date('F j, Y', strtotime($joborder->agreement_timestamp));
+
+        return View('joborder.viewjoborder',compact('joborder','customer','automobile','servicebay','payments', 'startdate', 'enddate', 'totals'));
     }
+
+    /*public function getServices($id)
+    {
+        $service = DB::table('service_performed as sp')
+            ->join('job_order as jo', 'sp.joborderid', '=', 'jo.joborderid')
+            ->join('service as s', 'sp.serviceid', '=', 's.serviceid')
+            ->join('product_used as pu', 'sp.productusedid')
+            ->get();
+
+        return response()->json(compact('services', 'joborder'));
+    }*/
 
     /**
      * Show the form for creating a new resource.

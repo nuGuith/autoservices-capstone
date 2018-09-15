@@ -15,7 +15,7 @@ class AutomobileMake extends Model
         'isActive'
     ];
 
-    public function automobilemodel(){
-        return $this->hasMany('App\AutomobileModel', 'modelid');
-    }
+    /*public function automobilemodels(){
+        return $this->hasOne('App\AutomobileModel', 'modelid');
+    }*/
 }

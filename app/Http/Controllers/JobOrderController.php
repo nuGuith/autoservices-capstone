@@ -24,17 +24,20 @@ class JobOrderController extends Controller
     public function index()
     {
        $joborders = JobOrder::orderBy('joborderid', 'desc')
-       ->where('isActive', 1)
-       ->get();
-       $automobiles = Automobile::where('isActive', 1)->get();
+            ->where('isActive', 1)
+            ->get();
+       $automobiles = DB::table('automobile as auto')
+            ->join('customer as c', 'auto.customerid', '=', 'c.customerid')
+            ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'c.ContactNo','c.CompleteAddress','auto.AutomobileID', 'auto.CustomerID', 'auto.PlateNo', 'auto.ModelID', 'auto.Mileage', 'auto.Transmission', 'auto.Color', 'ChassisNo')
+            ->get();
        $automobile_models = DB::table('automobile_model')
-                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
-                                ->where('automobile_model.isActive',1)
-                                ->select(DB::raw("CONCAT(make, ' - ', model, ' (', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2), ')')  AS AutomobileModel"), 'ModelID')
-                                ->get();
+            ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
+            ->where('automobile_model.isActive',1)
+            ->select(DB::raw("CONCAT(make, ' - ', model, ' (', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2), ')')  AS AutomobileModel"), 'ModelID')
+            ->get();
        $customers = Customer::where('isActive', 1)
-       ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
-       ->get();
+            ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
+            ->get();
 
        //dd($joborders, $automobiles, $customers);
        return view ('joborder.joborder', compact('joborders','automobiles','automobile_models', 'customers'));

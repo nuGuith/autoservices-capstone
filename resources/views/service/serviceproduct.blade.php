@@ -31,7 +31,7 @@
                         </h4>
                     </div>
 
-                    <div class="col-sm-6 col-12"  >
+                    <div class="col-sm-6 col-12">
                         <ol  class="breadcrumb float-right   ">
                             <li class="breadcrumb-item " >
                                 <a href="/serviceproduct">
@@ -82,29 +82,35 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($cnt as $count)
                                 <tr role="row" class="even">
                                     <td>
-                                        Change Oil
+                                        {{$count->ServiceName}}
                                     </td>
                                     <td class="center">
                                         <ul style="padding-left: 1.7em;">
-                                            <li>Dunlop 1.5ml</li>
-                                            <li>Shell 1L</li>
+                                            @foreach($view as $vw)
+                                                @if($count->ServiceID == $vw->ServiceID)
+                                                    <li>{{$vw->ProductName}} - {{$vw->Size}}{{$vw->Unit }}</li>
+                                                    
+                                                @endif
+                                            @endforeach
                                         </ul>
                                     </td>
                                     <td class="examples transitions">
 
                                         <!--EDIT BUTTON-->
-                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
+                                        <button name="{{$count->ServiceID}}" onclick="ret(this.name)"class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                         </button>
                                         
                                         
                                         <!--DELETE BUTTON-->
-                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                        <button name="{{$count->ServiceID}}" onclick="del(this.name)" class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                         </button>
                                        
                                     </td>
                                 </tr>
+                                @endforeach
 
                                
                             </tbody>
@@ -127,48 +133,31 @@
                                 <div class="row m-r-10">
                                     
                                     <!--Search Select: Service Name -->
-                                    <div class="col-md-11 m-t-10 m-l-10">
+                                    <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" tabindex="2">
+                                            <select id="service" class="form-control  chzn-select" tabindex="2">
                                                 <option disabled selected>Choose Service Name</option>
-                                                <option value="1">1</option>
+                                                @foreach($service as $ser)
+
+                                                <option value="{{$ser->ServiceID}}">{{$ser->ServiceName}}</option>
+
+                                                @endforeach
                                             </select>
                                     </div>
 
-                                    <!--Table: add-order-list -->
-                                    <div class="col-md-12">
-                                        <table id="myTable" class="table add-order-list" style="border-color: white" rules="rows" >
-                                            <thead>
-                                                <tr>
-                                                <td><h5>Product <span style="color: red">*</span></h5>
-                                                </td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                            <!--Seach Select: Product-->
-                                            <td  style="width:500px;">
-                                                <select class="form-control chzn-select" id="product" name="product"  tabindex="2">
-                                                    <option disabled selected>Choose Product</option>
-                                                    <option value="Change Oil">Dunlop 1.5mL</option>
-                                                </select>                                       
-                                            </td>
-                                             
-                                            <!--ADD ROW FOR ADD MODAL-->
-                                            <td style="border-color: white" rules="rows">
-                                                <div class="examples transitions m-t-0">
-                                                <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
-                                             </div>
-                                            </td>
-                                            <td style="border-color: white" rules="rows"><i class="deleteRow "></i>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    <tfoot>
-                                     </tfoot>
-                                    </table>
-                                </div>
+                                    <div class="col-md-11 m-t-10 m-l-20">
+                                        <h5>Product Name: <span style="color: red">*</span>
+                                        <p class ="m-t-10">
+                                            <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
+                                                    <option disabled>Choose Product</option>
+                                                    @foreach($product as $prod)
+                                                    <option value="{{$prod->ProductID}}">{{$prod->ProductName}} - {{$prod->Size}}{{$prod->Unit}}</option>
+                                                    @endforeach
+                                                    
+                                                </select>
+                                        </p>
+                                    </div>
 
                              </div>
                         </div>
@@ -179,8 +168,10 @@
                               <div class="examples transitions m-t-5">
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
+
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <input type="hidden" id="token" value="{{ csrf_token() }}">
+                                    <button id="addform"class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
@@ -197,7 +188,7 @@
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Vehicle Type</h4>                  
+                                            &nbsp;&nbsp;Edit Service Product</h4>                  
                             </div>
 
 
@@ -205,48 +196,29 @@
                                 <div class="row">                                   
                                     
                                     <!--Search Select: Service Name -->
-                                    <div class="col-md-11 m-t-10 m-l-10">
+                                    <div class="col-md-11 m-t-10 m-l-20">
                                         <h5>Service Name: <span style="color: red">*</span>
                                         <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" tabindex="2">
-                                                <option disabled selected>Choose Service Bay</option>
-                                                <option value="1">1</option>
+                                            <select id="eservice"class="form-control  chzn-select" tabindex="2">
+                                                <option disabled selected>Choose Service Name</option>
+                                                @foreach($service as $sr)
+                                                    <option value="{{$sr->ServiceID}}">{{$sr->ServiceName}}      </option>
+                                                @endforeach
                                             </select>
+                                        </p>
                                     </div>
 
-                                    <!--Table: edit-order-list -->
-                                    <div class="col-md-12">
-                                        <table id="myTable" class="table edit-order-list" style="border-color: white" rules="rows" >
-                                            <thead>
-                                                <tr>
-                                                    <td><h5>Product <span style="color: red">*</span></h5>
-                                                    </td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                            <!--Seach Select: Product-->
-                                            <td  style="width:500px;">
-                                                <select class="form-control chzn-select" id="product" name="product"  tabindex="2">
-                                                    <option disabled selected>Choose Product</option>
-                                                    <option value="Change Oil">Dunlop 1.5mL</option>
-                                                </select>                                       
-                                            </td>
-                                             
-                                            <!--ADD ROW FOR EDIT MODAL-->                          
-                                            <td style="border-color: white" rules="rows">
-                                                <div class="examples transitions m-t-0">
-                                                <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white" ></i></button>
-                                             </div>
-                                            </td>
-                                            <td style="border-color: white" rules="rows"><i class="deleteeditRow "></i>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    <tfoot>
-                                     </tfoot>
-                                    </table>
-                                </div>
+                                    <div class="col-md-11 m-t-10 m-l-20">
+                                        <h5>Product Name: <span style="color: red">*</span>
+                                        <p class ="m-t-10">
+                                            <select class="form-control chzn-select" id="eproduct" name="eproduct"  tabindex="3" multiple="">
+                                                    <option disabled>Choose Product</option>
+                                                    @foreach($product as $pr)
+                                                    <option value="{{$pr->ProductID}}">{{$pr->ProductName}} - {{$pr->Size}}{{$pr->Unit}}</option>
+                                                    @endforeach
+                                                </select>
+                                        </p>
+                                    </div>
 
 
                              </div>
@@ -259,7 +231,7 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
@@ -292,81 +264,176 @@
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
+
+$("#addform").on("click", function () {
+
+      var ser = $('#service').val();
+      var prod = $('#product').val();
+        
+        // alert(prod)
+
+
+
+
+      $.ajax({
+        url: "/addsproduct",
+        type: "POST",
+        data:{
+
+        ser:ser,
+        prod:prod,
+
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                            // alert("Success");
+                      location.reload();
+                            },
+                        error: function(xhr)
+                        {
+                          location.reload();
+                        }
+
+
+
+
+      });
+
+});
+
+function ret(id){
+
+  $.ajax({
+  type: "GET",
+  url:  "/retSP",
+  data:
+  {
+  id: id,
+  },
+  success: function(data){
+  
+  arr =[];
+  aid=[];
+  pscnt=0;
+  
+  $('#eservice').val(data['ret'][0]['ServiceID']).trigger('chosen:updated');
+
+  
+  for (var i=0;i<data.ret.length;i++){
+    arr.push(data['ret'][i]['ProductID']);
+    aid.push(data['ret'][i]['ProductServiceID'])
+    pscnt += 1;
+   
+
+  }
+  // alert(pscnt)
+
+  $('#eproduct').val(arr).trigger('chosen:updated');
+
+  },
+  error: function(xhr)
+  {
+  alert("Error");
+  alert($.parseJSON(xhr.responseText)['error']['message']);
+  }
+  });
+
+
+
+}
+
+$("#editform").on("click", function () {
+
+      var darr = [];
+      var eser = $('#eservice').val();
+      var eprod = $('#eproduct').val();
+      var ecnt = eprod.length;
+        
+    if(eprod.length < pscnt){
+
+        for(var x=eprod.length;x<pscnt;x++){
+            darr.push(aid[x]);
+        }
+
+        // alert(darr);
+    }
+
+
+
+
+      $.ajax({
+        url: "/editSP",
+        type: "POST",
+        data:{
+
+        ser:eser,
+        prod:eprod,
+        id:aid,
+        darr:darr,
+        pscnt:ecnt,
+
+
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                            // alert("Success");
+                      location.reload();
+                            },
+                        error: function(xhr)
+                        {
+                            // alert("Error");
+                          location.reload();
+                        }
+
+
+
+
+      });
+
+});
+
+function del(id){
+
+$.ajax({
+        url: "/delSP",
+        type: "POST",
+        data:{
+
+        
+        id:id,
+
+
+        '_token': $('#token').val()
+      },
+      success: function(data){
+                            // alert("Success");
+                      location.reload();
+                            },
+                        error: function(xhr)
+                        {
+                            alert("Error");
+                          // location.reload();
+                        }
+
+
+
+
+      });
+
+
+
+
+}
+
+
+
+
+
 </script>
 
 
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->
-
-
-
-<!--script for table add brand-->
-<script> 
-$(document).ready(function () {
-    var counter = 0;
-
-    
-
-    $("#addrow").on("click", function () {
-        var newRow = $("<tr>");
-        var cols = "";
-
-        $(".chzn-select").chosen();
-
-        cols += '<td><select class="form-control chzn-select" id="product" tabindex="" name="product"><option disabled selected>Choose Product</option><option value="Dunlop 1.5mL">Dunlop 1.5mL</option></select></td>';
-        cols += '<td><input type="button" class="ibtnDel btn  btn-danger btn-md" value ="X"></td>';
-
-        newRow.append(cols);
-        $("table.add-order-list").append(newRow);
-        counter++;
-    });
-
-
-
-    $("table.add-order-list").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();       
-        counter -= 1
-    });
-
-
-});
-</script>
-<!--end script of table edit brand-->
-
-
-
-
-
-<!--script for table edit brand-->
-<script> 
-$(document).ready(function () {
-    var counter = 0;
-
-
-    $("#editrow").on("click", function () {
-        var newRow = $("<tr>");
-        var cols = "";
-
-    $(".chzn-select").chosen();
-
-        cols += '<td><select class="form-control chzn-select" id="product" tabindex="" name="product"><option disabled selected>Choose Product</option><option value="Dunlop 1.5mL">Dunlop 1.5mL</option></select></td>';
-        cols += '<td><input type="button" class="ibtneDel btn  btn-danger btn-md" value ="X"></td>';
-
-        newRow.append(cols);
-        $("table.edit-order-list").append(newRow);
-        counter++;
-    });
-
-
-    $("table.edit-order-list").on("click", ".ibtneDel", function (event) {
-        $(this).closest("tr").remove();       
-        counter -= 1
-    });
-
-
-});
-</script>
-<!--end script of table edit brand-->
 
 @stop

@@ -54,7 +54,7 @@
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
                                                     href="/addjoborder">
-                                        <i class="fa fa-plus"></i> &nbsp;  Add Job Order                                  
+                                        <i class="fa fa-plus"></i> &nbsp;  Add Job Order
                                         </a>
                                 </div>
                             </div>
@@ -107,11 +107,15 @@
                                     </td>
                                     <td class="center">
                                         <ul style="padding-left: 1.2em;">
-                                        <!-- @foreach($customers as $customer) -->
-                                            <!-- @if($joborder->CustomerID == $customer->CustomerID) -->
-                                                <li>Name: {{$customer->FullName}}</li>
-                                                <li>Contact No: {{$customer->ContactNo}}</li>
-                                                <li>Address: {{$customer->CompleteAddress}}</li>
+                                        <!-- @foreach($automobiles as $automobile) -->
+                                            <!-- @if($joborder->AutomobileID == $automobile->AutomobileID) -->
+                                                <!-- @foreach($customers as $customer) -->
+                                                    <!-- @if($customer->CustomerID == $automobile->CustomerID) -->
+                                                    <li>Name: {{$customer->FullName}}</li>
+                                                    <li>Contact No: {{$customer->ContactNo}}</li>
+                                                    <li>Address: {{$customer->CompleteAddress}}</li>
+                                                    <!-- @endif -->
+                                                <!-- @endforeach -->
                                             <!-- @endif -->
                                         <!-- @endforeach -->
                                         </ul>
@@ -201,7 +205,8 @@
 <script>
     $(document).ready(function() {
     $('#example2').DataTable( {
-        "pagingType": "full_numbers"
+        "pagingType": "full_numbers",
+        "order": [[3, 'desc']]
     } );    
 } );
 

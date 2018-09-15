@@ -142,10 +142,16 @@
                                         <div class="col-lg-4">
                                             <h5>Model: <span style="color:red">*</span></h5>
                                             <p class="m-t-10">
-                                                <select class="form-control  chzn-select" tabindex="2">
-                                                    <option disabled selected>Choose Model</option>
-                                                    <option value="Honda-City 2015-M">Honda-City 2015-MT</option>
-                                                </select>
+                                                {{ Form::select(
+	                                                    'automobile_models',
+	                                                    $automobile_models,
+	                                                    null,
+	                                                    array(
+	                                                    'class' => 'form-control chzn-select',
+	                                                    'id' => 'automobile_models',
+	                                                    'name' => 'modelid')
+	                                                    ) 
+	                                            }}
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -160,31 +166,34 @@
                                     <div class="row m-t-5">
                                         <div class="col-lg-4 ">
                                             <h5>Mileage.: <span style="color: red">*</span></h5>
-                                                <div class="input-group m-t-10" style="padding-bottom: 20px;">
-                                                    <span class="input-group-addon">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon m-t-10">
                                                         <i class="fa fa-dashboard"></i>
                                                     </span>
-                                                    <input id="mileage" name="mileage" type="text" placeholder="km" class="form-control"/>
+                                                    <input id="mileage" name="mileage" type="number" placeholder="Miles" class="form-control m-t-10" value="{{ $model->Mileage }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 </div>
                                         </div>  
                                         <div class="col-lg-4 ">
                                             <h5>Color: <span style="color: red">*</span></h5>
                                             <p class="m-t-10">
-                                                <input id="color" name="color" type="text" placeholder="Color" class="form-control">
+                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" value="{{ $model->Color }}" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
                                             </p>
                                         </div> 
                                         <div class="col-lg-4">
                                             <h5>Transmission: <span style="color:red">*</span></h5>
-                                            <div class="checkbox-rotate m-t-20">
-                                            <label class="text-black"  style="padding-left: 45px;">
-                                                <input type="checkbox" value="">
-                                                &nbsp;&nbsp;Manual 
-                                            </label>
+                                            <div class="row checkbox-rotate m-t-15">
+                                            <input type="hidden" id="transmission" name="transmission" class="form-control m-t-10">
+                                            <p >
+                                                <label class="text-black"  style="padding-left: 45px;">
+                                                    <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
+                                                    &nbsp;&nbsp;Manual 
+                                                </label>
 
-                                            <label class="text-black" style="padding-left: 60px;">
-                                                <input type="checkbox" value="">
-                                                &nbsp;&nbsp;Automatic 
-                                            </label>
+                                                <label class="text-black" style="padding-left: 45px;">
+                                                    <input id="AT" type="checkbox" value="AT" style="-webkit-transform: scale(1.4);">
+                                                    &nbsp;&nbsp;Automatic
+                                                </label>
+                                            </p>
                                             </div>
                                         </div>
                                     </div>
@@ -198,67 +207,106 @@
 
                         <!--Select Button: Service Bay, Discount-->
                         <div class="row m-t-15">
-                           <div class="col-lg-6">
-                                <h5>Service Bay: <span style="color:red">*</span></h5>
-                                <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Service Bay</option>
-                                        <option value="">1</option>
-                                    </select>
-                                </p>
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <h5>Discount: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Discount</option>
-                                        <option value="">Senior Citizen</option>
-                                        <option value="">PWD</option>
-                                    </select>
+                                    {{Form::select(
+	                                        'discounts',
+	                                        $discounts,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'discounts',
+	                                            'name' => 'discountid')
+	                                        ) 
+	                                }}
+                                </p>
+                            </div>
+                            <div class="col-lg-4">
+                                <h5>Search Promo: <span style="color:red"></span></h5>
+                                <p class="m-t-10">
+                                    {{Form::select(
+	                                        'promos',
+	                                        $promos,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'promos',
+	                                            'name' => 'promoid')
+	                                        ) 
+	                                }}
+                                </p>
+                            </div>
+                            <div class="col-lg-4">
+                                <h5>Search Package: <span style="color:red"></span></h5>
+                                <p class="m-t-10">
+                                    {{Form::select(
+	                                        'packages',
+	                                        $packages,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'packages',
+	                                            'name' => 'packageid')
+	                                        ) 
+	                                }}
                                 </p>
                             </div>                                                    
                         </div>
 
-
                         <!--Select Button: Service, Proodcut, Promo, Package-->
-                        <div class="row m-t-15">
-                            <div class="col-lg-3">
+                        <div class="row m-t-10">
+                            <div class="col-lg-4">
+                                <h5>Service Bay: <span style="color:red">*</span></h5>
+                                <p class="m-t-10">
+                                    <p id="svcbaywrapper">
+                                        {{Form::select(
+	                                        'servicebays',
+	                                        $service_bays,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'servicebays',
+	                                            'name' => 'servicebayid')
+	                                        ) 
+	                                    }}
+                                    </p>
+                                </p>
+                            </div>   
+                            <div class="col-lg-4">
                                 <h5>Search Service: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Service</option>
-                                        <option value="">Change Oil</option>
-                                    </select>
+                                    {{Form::select(
+	                                        'services',
+	                                        $services,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'services',
+	                                            'name' => 'serviceid')
+	                                        ) 
+	                                }}
                                 </p>
                             </div>
                             <div class="col-lg-3">
                                 <h5>Search Product: <span style="color:red"></span></h5>
                                 <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Product</option>
-                                        <option value="">Dunlop 1.5mL</option>
-                                    </select>
+                                    {{Form::select(
+	                                        'products',
+	                                        $products,
+	                                        null,
+	                                        array(
+	                                            'class' => 'form-control chzn-select',
+	                                            'id' => 'products',
+	                                            'name' => 'productid',
+	                                            'multiple')
+	                                        ) 
+	                                }}
                                 </p>
                             </div>
-                            <div class="col-lg-3">
-                                <h5>Search Promo: <span style="color:red"></span></h5>
-                                <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Promo</option>
-                                        <option value="">Summer Promo</option>
-                                    </select>
-                                </p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h5>Search Package: <span style="color:red"></span></h5>
-                                <p class="m-t-10">
-                                    <select class="form-control  chzn-select" tabindex="2">
-                                        <option disabled selected>Choose Package</option>
-                                        <option value="">Summer Package</option>
-                                    </select>
-                                </p>
-                            </div>
-                                                      
+                            <div class="col-lg-1">
+                                <button type="button" id="addRow" class="ibtnAdd btn btn-info m-t-25" ><i class="fa fa-plus text-white"></i></button>
+                            </div>           
                         </div>
 
 
@@ -267,142 +315,117 @@
                                 <table class="table order-list table-bordered display nowrap table-hover dataTable" >
                                     <thead>
                                         <br>
-                                        <tr >
-                                            <td style="width: 5px;">
+                                        <tr>
+                                            <td style="width: 18%;">
+                                                <h5>Service <span style="color: red">*</span></h5>
+                                            </td>
+                                            <td style="width: 10%;">
                                                 <h5>Quantity <span style="color: red">*</span></h5>
                                             </td>
-                                            <td style="width: 250px;">
-                                                <h5>Items <span style="color: red"></span>
+                                            <td style="width: 10%;">
+                                                <h5>Product <span style="color: red"></span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 10px;">
-                                                <h5>Labor <span style="color: red">*</span>
+                                            <td style="width: 10%;">
+                                                <h5>Labor Cost <span style="color: red">*</span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 250px;">
-                                                <h5>Assign Mechanic <span style="color: red">*</span>
+                                            <td style="width: 18%;">
+                                                <h5>Assigned Mechanic <span style="color: red">*</span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 30px;">
+                                            <td style="width: 10%;">
                                                 <h5>Unit Price<span style="color: red"></span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 5px;">
+                                            <td style="width: 12%;">
                                                 <h5>Total Price<span style="color: red"></span>
                                                 </h5>
                                             </td>
-                                            <td style="width: 30px;">
+                                            <td style="width:3%;">
                                                 <h5>Action<span style="color: red"></span>
                                                 </h5>
                                             </td>
                                         </tr>
                                     </thead>
-                                    <tbody >
-                                        <!--Example: for SERVICE-->
-                                            <!--Hidden Field: Quantity, Unit Price -->
-                                        <tr >
+                                    <tbody>
+                                        @foreach($serviceperformed as $sp)
+                                        <tr class="service" id="{!!$sp->ServiceID!!}" name="{!!$sp->ServicePerformedID!!}">
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name="quantity" placeholder="" readonly class="form-control hidden">
-                                            </td>   
-                                            <td style="border-right:none !important">  
-                                                Change Oil 
+                                                {!!$sp->ServiceName!!}<br>
+                                            </td>
+                                            <td  style="border-right:none !important">
+                                                <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
+                                            </td>
+                                            <td style="border-right:none !important"><a></a></td>
+                                            <td style="border-right:none !important">
+                                                <input type="text" style="width:70px; text-align:right;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control">
+                                                {{ Form::select(
+                                                    'personnels',
+                                                    $personnels,
+                                                    null,
+                                                    array(
+                                                        'class' => 'form-control chzn-select',
+                                                        'id' => 'personnels',
+                                                        'name' => 'personnelperformed[]',
+                                                        'style' => 'width:110px')
+                                                    ) 
+                                                }}
                                             </td>
                                             <td style="border-right:none !important">
-                                                <select class="form-control chzn-select" multiple style="width:170px;" value="Choose Mechanic">
-                                                    <option disabled>Choose Mechanic</option>
-                                                    <optgroup label="Maintenace">
-                                                        <option>Juan Dela Cruz</option>
-                                                        <option>Pedro Penduko</option>
-                                                    </optgroup>
-                                                </select>
+                                                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name="unitprice" placeholder="" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:70px;text-align: right" name="price " placeholder=".00" class="form-control">
-                                            </td>
-                                            <!--Delete Row Inside Job Order Table -->
+                                                <input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                </td>
                                             <td style="border-left:none !important">
-                                                <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button>
-                                            </td> 
-                                           </tr>
-
-
-                                           <!--Example: for PRODUCT-->
-                                            <!--Hidden Field: Labor, Assign Mechanic -->
-                                           <tr >
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
-                                            </td>   
-                                            <td style="border-right:none !important">  
-                                                Dumlop 1.5mL
+                                                <center>
+                                                    <button type="button" id="svc" name="{!!$sp->EstimatedTime!!}" data-serviceid="{!!$sp->ServiceID!!}" class="btnDel btn btn-danger hvr-float-shadow"><i class="fa fa-times text-white"></i></button>
+                                                </center>
                                             </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name="labor" placeholder="Labor" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                               <a></a>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:70px; text-align: right" name="unitprice" readonly placeholder=".00" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:70px; text-align: right" name="price" readonly placeholder=".00" class="form-control">
-                                            </td>
-                                            <!--Delete Row Inside Job Order Table -->
-                                            <td style="border-left:none !important">
-                                                <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button>
-                                            </td> 
-                                           </tr>
-
-
-
-                                           <!--Example: for Discount-->
-                                            <!--Hidden Field: Quantity Labor, Assign Mechanic -->
-                                           <tr >
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name="quantity" placeholder="Quantity" class="form-control">
-                                            </td>   
-                                            <td style="border-right:none !important">  
-                                                <span style="color:red">Discount:
-                                            </span>&nbsp;&nbsp;Senior Citizen
-                                            </p>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:70px;" name="labor" placeholder="Labor" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                               <a></a>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:70px; text-align: right" name="unitprice" readonly placeholder="10%" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:70px; text-align: left;color:red" name="price" readonly placeholder="-100" class="form-control">
-                                            </td>
-                                            <!--Delete Row Inside Job Order Table -->
-                                            <td style="border-left:none !important">
-                                                <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button>
-                                            </td> 
-                                           </tr>
-
-                                        </tbody>
+                                        </tr>
+                                            @foreach($productused as $pu)
+                                                @if($sp->ServicePerformedID == $pu->ServicePerformedID)
+                                                <tr class="product" id="svc{!!$sp->ServiceID!!}">
+                                                    <td style="border-right:none !important"></td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        {!!$pu->ProductName!!}
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control">
+                                                    </td>
+                                                    <td style="border-right:none !important"><a></a></td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
+                                                    </td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
+                                                    </td>
+                                                    <td style="border-left:none !important">
+                                                        <center>
+                                                            <button type="button" id="productid" name="{!!$sp->ServiceID!!}" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
                                         <!--Over All Total -->
                                     <tfoot>
-                                        <tr>
-                                            <td colspan="5" style="width: 5px; text-align: right">
-                                                <h5>Overall Total:<span style="color: red"></span></h5>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <h5><span style="color:blue">3750</span>
-                                                </h5>
-                                            </td>
-                                            <td>
-                                            </td>  
+                                        <tr class="trrow">
+                                            <th colspan="2" style="text-align: left;">Estimated Time: 
+                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span id="estimated" style="text-align: center; color: blue"></span>
+                                            </th>
+                                            <th colspan="3" style="text-align: right;">Grand Total: </th>
+                                            <th><h5 id="grandtotal" style="text-align:right; color:red; padding-top: 5px;">0.00</h5></th>
+                                            <th></th>
                                         </tr>
                                      </tfoot>
                                     </table> 
@@ -455,27 +478,265 @@
     new WOW().init();
 </script>
 
-<!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
+<!--SCRIPT FOR JOB ORDER EDIT-->
 <script> 
 $(document).ready(function () {
+
+    var serviceCtr = 0;
+    var deleted = [];
+
+
+    $("#automobile_models option[value='0']").prop("disabled",true);
+    $("#servicebays option[value='0']").prop("disabled",true);
+    $("#personnels option[value='0']").prop("disabled",true);
+    $("#services option[value='0']").prop("disabled",true);
+    $("#products option[value='0']").prop("disabled",true);
+    $("#discounts option[value='0']").prop("disabled",true);
+    $("#promos option[value='0']").prop("disabled",true);
+    $("#packages option[value='0']").prop("disabled",true);
+    $('#products').prop('disabled', true);
+
+
+    var estimate = {!! json_encode($estimate->toArray()) !!};
+    var automobile = {!! json_encode($model->toArray()) !!};
+
+    if((estimate.ServiceBayID > 0) || (estimate.ServiceBayID != null)){
+        $("#servicebays").val(estimate.ServiceBayID).trigger("chosen:updated");
+    }
     
-    //Button: Delete Row
-    $("table.order-list").on("click", ".btnDel", function (event) {
-        $(this).closest("tr").remove();       
-      
+    if(automobile.Transmission != null){
+        if ((automobile.Transmission) == "A/T"){
+            $("#AT").prop("checked", true);
+            $("#MT").prop("checked", false);
+        }
+        else if ((automobile.Transmission) == "M/T"){
+            $("#MT").prop("checked", true);
+            $("#AT").prop("checked", false);
+        }
+        $('#transmission').val(automobile.Transmission);
+        $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
+    }
+
+    getGrandTotal();
+    getEstimatedTime();
+
+    var clicked = false;
+    $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({
+        focusin: function() {
+            if($(this).val() == "") $(this).css("border-color", "lightblue");
+            else { $(this).css("border-color", "lightblue"); }
+        },
+        focusout: function() {
+            if($(this).val() == "" && clicked){ $(this).css("border", "1.5px solid #FF3839"); /* $(this).css("display", "inline"); */ }
+        },
+        click: function() {
+            clicked = true;
+        }
+    });
+
+    $("#btnSave").on("click", function(){
+        confirmationModal();
+    });
+
+    
+    function checkAllRequired(){
+            var result = true;
+            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #personnels").each(function() {
+                if($(this).val() == null || $(this).val() == 0){ $(this).css("border", "1.5px solid #FF3839"); result = false };
+                if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if($(this).val() == null || $(this).val() == 0 && $(this).attr('id') == "personnels"){ $("#personnelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+            });
+            if (result) valid = true;
+            else valid = false;
+            return result;
+        }
+
+    function confirmationModal(){
+        var require = checkAllRequired();
+        if (!require)
+            alert("Fill out all the required fields first!");
+        if (require) {
+            if(serviceCtr < 1 || serviceCtr == null)
+                alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
+            else{
+                if (valid)
+                    $("#confirmationModal").modal('show');
+            }
+        }
+    }
+
+
+    $("#btnProceed").on("click", function (e) {
+        var formData = $('#estimateForm').serialize();
+        alert(formData);
+
+        if(routeID == 0 || routeID == null){
+            $.ajax({
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: "/addestimates",
+                data: formData,
+                async: false,
+                success: function(data) { 
+                    alert(data);
+                    routeID = 1;
+                    redirect = data.newRoute;
+                    window.location.href = redirect;
+                },
+                fail: function(data) {
+                    alert("Failed to save data.");
+                }
+            });
+        }
+        else{
+            window.location.href = redirect;
+        }
+    });
+
+    $('table tr').each( function() {
+        if ($(this).attr('class') == 'service'){
+            serviceCtr++;
+        }
+    });
+
+    $("table td input").bind({
+        keyup: function() {
+            getGrandTotal();
+        },
+        mouseleave: function() {
+            $(this).blur();
+            getGrandTotalNoQty();
+        },
+        focusout: function() {
+            getGrandTotalNoQty();
+        }
+    });
+
+    $("table.list").on("click", ".btnDel", function (event) {
+        var id = $(this).data('serviceid');
+        var svcid = "svc" + id;
+                        
+        //remove all products included in this service
+        $('table tr').each( function() {
+            if ((this.id) == svcid) 
+                $(this).closest("tr").remove();
+        });
+
+        deleted.push($(this).closest("tr").attr('name'));
+        //alert(deleted);
+        $(this).closest("tr").remove();
+        $('#services option[value="'+id+'"]').prop("disabled", false);
+        $('#services').trigger("chosen:updated");
+        getEstimatedTime();
+        getGrandTotal();
+
+        serviceCtr--;
+        if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+    });
+
+    $("table.list").on("click", "#productid", function(event){
+        var remaining = 1;
+        var id = $(this).attr('name');
+        var svcid = "svc" + id;
+        var this_ServiceID = "#" + id;
+        $('table tr').each( function() {
+            if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid ){
+                remaining++;
+            }
+        });
+        if(remaining == 1) {
+            $('#itemsTable').find(this_ServiceID).remove();
+            $('#services option[value="'+id+'"]').prop("disabled", false);
+            $('#services').trigger("chosen:updated");
+            serviceCtr--;
+            $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+        }
+        
+        getEstimatedTime();
+        getGrandTotal();
+    });
+
+    function getGrandTotal(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+    }
+
+    function getGrandTotalNoQty(){
+        grandTotal = 0;
+        var qty, price, total;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+                if ((qty*1) == 0){
+                    qty = 1;
+                    this.value = qty;
+                }
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            } 
+        });
+        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+    }
+
+    function getEstimatedTime(){
+        totalEstimatedTime = 0;
+        var time, inHours, inMins;
+        $('table td button').each(function() {
+            if ((this.id) == "svc"){
+                time = this.name;
+                totalEstimatedTime += parseFloat(time);
+            }
+        });
+        inHours = parseInt(totalEstimatedTime / 60);
+        if (inHours > 1) inHours = inHours + "hrs. ";
+        else inHours = inHours + "hr. ";
+        inMins = totalEstimatedTime % 60;
+
+        if (totalEstimatedTime != 0)
+        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
+        else
+        document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+
+    $("#AT").change(function(){
+        $("#MT").prop("checked", false);
+        $("#AT").prop("checked", true);
+        $("#transmission").val("A/T");
+    });
+    
+    $("#MT").change(function(){
+        $("#AT").prop("checked", false);
+        $("#MT").prop("checked", true);
+        $("#transmission").val("M/T");
     });
 
 });
-</script>
-
-<!--SCRIPT CHOOSE SEARCH BY- will display to next field-->
-<script type="text/javascript">
- function searchChange(selectObj) {
-   var selectIndex=selectObj.selectedIndex;
-   var selectValue=selectObj.options[selectIndex].text;
-   var by=document.getElementById("by");
-   by.innerHTML=selectValue;
- }
 </script>
 
 @stop

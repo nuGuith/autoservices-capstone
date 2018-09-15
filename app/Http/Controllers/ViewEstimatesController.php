@@ -34,25 +34,43 @@ class ViewEstimatesController extends Controller
     public function index($id)
     {
         $estimate = Estimate::findOrFail($id);
-        $customer = DB::table('customer')
-                    ->where('customerid',$estimate->CustomerID)
-                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
-                    ->first();
         $model = Automobile::findOrFail($estimate->AutomobileID);
         
         $automobile = DB::table('automobile_model AS md')
                     ->where('md.ModelID', $model->ModelID)
                     ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
                     ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
-                    ->select('mk.Make', 'md.Model', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo', 'auto.Color')
                     ->first();
-        $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
+        $customer = DB::table('customer')
+                    ->where('customerid', $model->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->first();
+        if($estimate->ServiceBayID != null)
+            $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
+        else{
+            $servicebay = new ServiceBay;
+            $servicebay->ServiceBayName = null;
+        }
         $personnel = DB::table('personnel_header')
                     ->where('personnelid',$estimate->PersonnelID)
                     ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
                     ->first();
 
-        return view('joborder.viewjoborder', compact('estimate','customer', 'model', 'automobile','servicebay','personnel'));
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
+
+        //dd($estimate);
+        return View('estimates.viewestimates',compact('estimate','customer', 'model', 'automobile', 'servicebay', 'personnel', 'productused', 'serviceperformed'));
     }
 
     /**
@@ -121,3 +139,4 @@ class ViewEstimatesController extends Controller
        
     }
 }
+

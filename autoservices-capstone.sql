@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2018 at 01:10 AM
+-- Generation Time: Aug 19, 2018 at 10:47 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -27,18 +27,17 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `automobile`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `automobile` (
   `AutomobileID` int(10) NOT NULL,
+  `CustomerID` int(10) NOT NULL,
   `PlateNo` varchar(10) NOT NULL,
   `ModelID` int(10) NOT NULL,
   `Mileage` int(6) DEFAULT NULL,
-  `Transmission` char(3) NULL DEFAULT 'A/T',
+  `Transmission` char(3) DEFAULT 'A/T',
   `Color` varchar(50) DEFAULT NULL,
   `ChassisNo` varchar(30) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `isActive` int(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -47,19 +46,17 @@ CREATE TABLE `automobile` (
 -- Dumping data for table `automobile`
 --
 
-INSERT INTO `automobile` (`AutomobileID`, `PlateNo`, `ModelID`, `Mileage`, `Color`, `ChassisNo`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'ABC123', 1, 10000, 'Black', 'JMDKSFIENV1223', b'1', '2018-08-03 08:20:23', '2018-08-03 07:51:12'),
-(2, 'DEF456', 2, 20000, 'Black', 'JNCVJKSD12209MKD', b'1', '2018-08-03 08:20:37', '2018-08-03 07:51:12'),
-(3, 'XHR321', 2, 15000, 'Gray', 'JNCVJKSD12209MKF', b'1', '2018-08-15 00:04:32', '2018-08-14 15:59:22'),
-(4, 'YES555', 3, 10000, NULL, 'HNCVJKSD15209JPN', b'1', '2018-08-15 00:11:50', '2018-08-14 16:10:52'),
-(5, 'VAMP19', 3, 12000, 'Red', 'VAMPJKSD15209J', b'1', '2018-08-15 01:53:55', '2018-08-14 17:53:27');
+INSERT INTO `automobile` (`AutomobileID`, `CustomerID`, `PlateNo`, `ModelID`, `Mileage`, `Transmission`, `Color`, `ChassisNo`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 23, 'ABC123', 1, 10000, 'A/T', 'Black', 'JMDKSFIENV1223', 1, '2018-08-18 03:03:54', '2018-08-03 07:51:12'),
+(2, 24, 'DEF456', 2, 20000, 'A/T', 'Black', 'JNCVJKSD12209MKD', 1, '2018-08-18 03:03:54', '2018-08-03 07:51:12'),
+(3, 25, 'XHR321', 2, 15000, 'A/T', 'Gray', 'JNCVJKSD12209MKF', 1, '2018-08-18 03:03:54', '2018-08-14 15:59:22'),
+(4, 26, 'YES555', 3, 10000, 'A/T', 'Pink', 'HNCVJKSD15209JPN', 1, '2018-08-19 05:52:16', '2018-08-14 16:10:52'),
+(5, 30, 'VAMP19', 3, 12000, 'A/T', 'Red', 'VAMPJKSD15209J', 1, '2018-08-19 06:18:26', '2018-08-14 17:53:27');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `automobile_make`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `automobile_make` (
@@ -84,15 +81,13 @@ INSERT INTO `automobile_make` (`MakeID`, `Make`, `isActive`, `created_at`, `upda
 --
 -- Table structure for table `automobile_model`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `automobile_model` (
   `ModelID` int(10) NOT NULL,
   `MakeID` int(10) NOT NULL,
   `Model` varchar(255) NOT NULL,
   `Year` date NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `isActive` int(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -102,16 +97,32 @@ CREATE TABLE `automobile_model` (
 --
 
 INSERT INTO `automobile_model` (`ModelID`, `MakeID`, `Model`, `Year`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 'Range Rover', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
-(2, 2, 'Beetle', '0000-00-00', b'1', '0000-00-00 00:00:00', '2018-08-03 07:49:45'),
-(3, 3, 'City', '2015-01-00', b'1', '0000-00-00 00:00:00', '2018-08-15 00:08:39');
+(1, 1, 'Range Rover', '2015-10-00', 1, '2018-08-19 07:07:12', '2018-08-03 07:49:45'),
+(2, 2, 'Beetle', '2012-01-00', 1, '2018-08-19 07:07:07', '2018-08-03 07:49:45'),
+(3, 3, 'City', '2015-05-00', 1, '2018-08-19 07:06:59', '2018-08-15 00:08:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `complaint`
+--
+
+CREATE TABLE `complaint` (
+  `ComplaintID` int(10) NOT NULL,
+  `JobOrderID` int(10) NOT NULL,
+  `EstimateID` int(10) DEFAULT NULL,
+  `Problem` varchar(8000) NOT NULL,
+  `Diagnosis` varchar(8000) DEFAULT NULL,
+  `isPerformed` tinyint(1) NOT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `customer`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `customer` (
@@ -136,28 +147,26 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`CustomerID`, `FirstName`, `MiddleName`, `LastName`, `ContactNo`, `PWD_SC_No`, `CompleteAddress`, `Barangay`, `City`, `Province`, `EmailAddress`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Sofia ', 'Aguirre ', 'Wabe ', '09155810953', NULL, '18 C Blk A. Sto. Nino St. SFDM Qezon City', 'San Antonio', 'Quezon City', 'Metro Manila', 'sofia18.sw@gmail.com', b'1', '2018-08-10 04:29:47', '2018-08-03 07:46:20'),
-(2, 'John Ray ', 'Ramos ', 'Palatino ', '09959608509', NULL, '13 San Vicente St. SFDM Quezon City', 'Damayan', 'Quezon City', 'Metro Manila', 'johnraypalatino08@gmail.com', b'1', '2018-08-10 04:29:50', '2018-08-03 07:46:20'),
-(3, 'Ivann Ashley ', 'Reyes ', 'Nuguid', '09104327718', NULL, '002 P. Lucas St., Napindan, Taguig City', 'Napindan', 'Taguig', 'MM', 'nuguidivannxx@gmail.com', b'1', '2018-08-12 17:23:55', '2018-08-10 04:27:06'),
-(16, 'Guesshee ', 'Orteza ', 'Almario', '09999999999', NULL, 'FilInvest City, Alabang, Muntinlupa City', NULL, '', '', 'guesshee@email.com', b'1', '2018-08-15 00:03:08', '2018-08-14 15:28:47'),
-(18, 'Danice Joy ', 'Escano ', 'Tanguilan', '(0999) 999-99', NULL, 'Bulacan', NULL, '', '', 'da_nice@email.com', b'1', '2018-08-14 23:45:38', '2018-08-14 15:45:16'),
-(20, 'Dodge Samuel ', 'Nerizon ', 'Culaniban', '(0999) 999-99', NULL, 'Sto. Tomas, Pasig City', NULL, '', '', 'dodgekun@weeabmail.com', b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
-(21, 'Rena Eznaira ', 'Carino ', 'Era', '(0915) 000-00', NULL, 'Imus City, Cavite', NULL, '', '', 'iamzegryffindor@gmail.com', b'1', '2018-08-14 16:10:52', '2018-08-14 16:10:52'),
-(22, 'Sharmil Joy ', 'Ballera ', 'Pamatian', '(092) 342-020', NULL, '', NULL, '', '', 'sharmmms19@gmail.com', b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27');
+(23, 'Ma. Sofia Vheliza ', 'Aguirre ', 'Wabe', '09155810953', NULL, '18 C Blk A Sto Nino St. SFDM Quezon City', NULL, NULL, NULL, 'sofia18.sw@gmail.com', b'1', '2018-08-19 06:15:09', '2018-08-18 02:54:18'),
+(24, 'John Ray ', 'Ramos ', 'Palatino', '09381109091', NULL, '13 San Vicente St Brgy Damayan Quezon City', NULL, NULL, NULL, 'johnraypalatino08@gmail.com', b'1', '0000-00-00 00:00:00', '2018-08-18 02:54:18'),
+(25, 'Ivann Ashley ', 'Reyes ', 'Nuguid', '09104327718', NULL, '002 P. Lucas St. Napindan, Taguig City', NULL, NULL, NULL, 'nuguidivannxx@gmail.com', b'1', '2018-08-19 06:15:24', '2018-08-18 02:54:18'),
+(26, 'Guesshee ', 'Orteza ', 'Almario', '09999999999', NULL, 'Filinvest City, Alabang, Muntinlupa City', NULL, NULL, NULL, 'guesshee@gmail.com', b'1', '0000-00-00 00:00:00', '2018-08-18 02:54:18'),
+(27, 'Danice Joy ', 'Escano ', 'Tanguilan', '09111111111', NULL, 'Sta Maria, Bulacan', NULL, NULL, NULL, 'da_nice@mail.com', b'1', '0000-00-00 00:00:00', '2018-08-18 02:54:18'),
+(28, 'Dodge Samuel', 'Nerizon ', 'Culaniban', '09222222222', NULL, 'Sto Tomas, Pasig City', NULL, NULL, NULL, 'dodgekun@weeabmail.com', b'1', '0000-00-00 00:00:00', '2018-08-18 02:54:18'),
+(29, 'Rena Eznaira ', 'Carino ', 'Era', '09333333333', NULL, 'Imus City, Cavite', NULL, NULL, NULL, 'iamzegryffindor@gmail.com', b'1', '0000-00-00 00:00:00', '2018-08-18 02:54:18'),
+(30, 'Sharmil Joy ', 'Ballera ', 'Pamatian', '092342020', NULL, '', NULL, NULL, NULL, 'sharmmms19@gmail.com', b'1', '0000-00-00 00:00:00', '2018-08-18 02:54:18');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `discount`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `discount` (
   `DiscountID` int(10) NOT NULL,
   `DiscountName` varchar(255) NOT NULL,
   `DiscountRate` smallint(3) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `isActive` int(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -167,19 +176,19 @@ CREATE TABLE `discount` (
 --
 
 INSERT INTO `discount` (`DiscountID`, `DiscountName`, `DiscountRate`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Senior Citizen', 20, b'1', '0000-00-00 00:00:00', '2018-08-12 17:24:21');
+(1, 'Senior Citizen', 20, 1, '0000-00-00 00:00:00', '2018-08-12 17:24:21'),
+(2, 'PWD', 20, 1, '0000-00-00 00:00:00', '2018-08-17 05:55:09'),
+(3, 'Twenty Five Percent', 25, 1, '0000-00-00 00:00:00', '2018-08-17 05:55:09'),
+(4, 'Thirty Percent', 30, 1, '0000-00-00 00:00:00', '2018-08-17 05:55:09');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `estimate`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `estimate` (
   `EstimateID` int(10) NOT NULL,
-  `CustomerID` int(10) NOT NULL,
   `AutomobileID` int(10) NOT NULL,
   `InspectionID` int(10) DEFAULT NULL,
   `DiscountID` int(10) DEFAULT NULL,
@@ -187,24 +196,24 @@ CREATE TABLE `estimate` (
   `ServiceBayID` int(10) DEFAULT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `estimate`
 --
 
-INSERT INTO `estimate` (`EstimateID`, `CustomerID`, `AutomobileID`, `InspectionID`, `DiscountID`,`PersonnelID`,`ServiceBayID`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 2, NULL, NULL, 1, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
-(2, 2, 2, NULL, NULL, 1, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00'),
-(3, 3, 1, NULL, NULL, 1, NULL, b'1', '2018-08-03 07:53:02', '0000-00-00 00:00:00');
+INSERT INTO `estimate` (`EstimateID`, `AutomobileID`, `InspectionID`, `DiscountID`, `PersonnelID`, `ServiceBayID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 2, NULL, NULL, 3, NULL, b'1', '2018-08-18 02:41:21', '0000-00-00 00:00:00'),
+(2, 4, NULL, NULL, 2, NULL, b'1', '2018-08-18 02:41:21', '0000-00-00 00:00:00'),
+(3, 1, NULL, NULL, 3, NULL, b'1', '2018-08-18 02:41:21', '0000-00-00 00:00:00'),
+(8, 3, NULL, NULL, 3, NULL, b'1', '2018-08-18 02:41:21', '2018-08-17 06:18:59'),
+(9, 5, NULL, NULL, 2, NULL, b'1', '2018-08-18 02:41:21', '2018-08-17 06:18:59');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `inspection`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `inspection` (
@@ -231,14 +240,12 @@ INSERT INTO `inspection` (`InspectionID`, `InspectionChecklistID`, `isWorking`, 
 --
 -- Table structure for table `inspection_checklist`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `inspection_checklist` (
   `InspectionChecklistID` int(10) NOT NULL,
   `InspectionTypeID` int(10) NOT NULL,
   `InspectionItem` varchar(100) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `isActive` int(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -248,46 +255,34 @@ CREATE TABLE `inspection_checklist` (
 --
 
 INSERT INTO `inspection_checklist` (`InspectionChecklistID`, `InspectionTypeID`, `InspectionItem`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 'Weather Strip', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14'),
-(2, 1, 'Door Lining', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14'),
-(3, 1, 'Step Garnish', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:42');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `inspection_checklist_type`
---
--- Creation: Aug 13, 2018 at 01:14 AM
---
-
-CREATE TABLE `inspection_checklist_type` (
-  `InspectionTypeID` int(10) NOT NULL,
-  `InspectionTypeName` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `inspection_checklist_type`
---
-
-INSERT INTO `inspection_checklist_type` (`InspectionTypeID`, `InspectionTypeName`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Open Door', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
+(1, 1, 'Weather Strip', 1, '0000-00-00 00:00:00', '2018-08-10 01:55:14'),
+(2, 1, 'Door Lining', 1, '0000-00-00 00:00:00', '2018-08-10 01:55:14'),
+(3, 1, 'Step Garnish', 1, '0000-00-00 00:00:00', '2018-08-10 01:55:42'),
+(4, 2, 'Instrument Panel', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(5, 2, 'Horn', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(6, 2, 'Dashboard', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(7, 2, 'Stereo Unit', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(8, 2, 'Console Box', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(9, 2, 'Cigarette Lighter', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(10, 2, 'Sunvisor', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(11, 2, 'RR View Mirror', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(12, 2, 'Roof Lining - FR Side', 1, '0000-00-00 00:00:00', '2018-08-17 06:23:00'),
+(13, 3, 'Roof Panel - LH Side', 1, '0000-00-00 00:00:00', '2018-08-17 06:24:56'),
+(14, 3, 'Door Panel - RR LH', 1, '0000-00-00 00:00:00', '2018-08-17 06:24:56'),
+(15, 3, 'Weatherstrip', 1, '0000-00-00 00:00:00', '2018-08-17 06:24:56'),
+(16, 3, 'Door Lining - RR LH', 1, '0000-00-00 00:00:00', '2018-08-17 06:24:56'),
+(17, 3, 'Step Garnish', 1, '0000-00-00 00:00:00', '2018-08-17 06:24:56'),
+(18, 3, 'RR Seat/Back FR Seat', 1, '0000-00-00 00:00:00', '2018-08-17 06:24:56');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `inspection_header`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `inspection_header` (
   `InspectionID` int(10) NOT NULL,
   `JobOrderID` int(10) DEFAULT NULL,
-  `CustomerID` int(10) DEFAULT NULL,
-  `AutomobileID` int(10) DEFAULT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -298,37 +293,66 @@ CREATE TABLE `inspection_header` (
 -- Dumping data for table `inspection_header`
 --
 
-INSERT INTO `inspection_header` (`InspectionID`, `JobOrderID`, `CustomerID`, `AutomobileID`, `Date`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 3, 1, '2018-08-10 02:05:02', b'1', '2018-08-12 17:25:17', '2018-08-10 02:05:02');
+INSERT INTO `inspection_header` (`InspectionID`, `JobOrderID`, `Date`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, '2018-08-10 02:05:02', b'1', '2018-08-18 14:07:58', '2018-08-10 02:05:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inspection_type`
+--
+
+CREATE TABLE `inspection_type` (
+  `InspectionTypeID` int(10) NOT NULL,
+  `InspectionTypeName` varchar(50) NOT NULL,
+  `isActive` int(1) NOT NULL DEFAULT '1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inspection_type`
+--
+
+INSERT INTO `inspection_type` (`InspectionTypeID`, `InspectionTypeName`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Open Door', 1, '0000-00-00 00:00:00', '2018-08-10 01:55:14'),
+(2, 'Get Inside Open Trunk And Fuel Lid', 1, '0000-00-00 00:00:00', '2018-08-17 06:20:36'),
+(3, 'Close Door Open Next Door', 1, '0000-00-00 00:00:00', '2018-08-17 06:20:36');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `job_description`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `job_description` (
   `JobDescriptionID` int(10) NOT NULL,
   `JobDescription` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `isActive` int(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `job_description`
+--
+
+INSERT INTO `job_description` (`JobDescriptionID`, `JobDescription`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Service Advisor', 1, '0000-00-00 00:00:00', '2018-08-17 05:59:51'),
+(2, 'Checklister', 1, '0000-00-00 00:00:00', '2018-08-17 05:59:51'),
+(3, 'Inventory', 1, '0000-00-00 00:00:00', '2018-08-17 05:59:51'),
+(4, 'Quality Tester', 1, '0000-00-00 00:00:00', '2018-08-17 05:59:51'),
+(5, 'Mechanic', 1, '0000-00-00 00:00:00', '2018-08-17 05:59:51');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `job_order`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `job_order` (
   `JobOrderID` int(10) NOT NULL,
   `EstimateID` int(10) DEFAULT NULL,
-  `CustomerID` int(10) DEFAULT NULL,
   `AutomobileID` int(10) DEFAULT NULL,
   `InspectionID` int(10) DEFAULT NULL,
   `PersonnelPerformedID` int(10) DEFAULT NULL,
@@ -339,6 +363,7 @@ CREATE TABLE `job_order` (
   `UserID` int(10) NOT NULL,
   `Status` varchar(20) NOT NULL,
   `Terms_Agreement` varchar(8000) DEFAULT NULL,
+  `Diagnosis` varchar(8000) DEFAULT NULL,
   `Agreement_Timestamp` datetime NOT NULL,
   `Release_Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `LaborCharge` decimal(14,2) NOT NULL,
@@ -354,21 +379,17 @@ CREATE TABLE `job_order` (
 -- Dumping data for table `job_order`
 --
 
-INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `CustomerID`, `AutomobileID`, `InspectionID`, `PersonnelPerformedID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `Terms_Agreement`, `Agreement_Timestamp`, `Release_Timestamp`, `LaborCharge`, `LaborDiscount_Rate`, `JobDuration`, `TotalAmountDue`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-10 00:00:00', '2018-08-12 17:25:43', '4500.00', NULL, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-10 02:04:34'),
-(15, 3, 3, 1, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-14 23:37:27', '2018-08-14 23:37:27', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:37:27', '2018-08-14 15:37:27'),
-(16, 1, 1, 2, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-14 23:39:45', '2018-08-14 23:39:45', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:39:45', '2018-08-14 15:39:45'),
-(19, NULL, 18, NULL, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-14 23:45:16', '2018-08-14 23:45:16', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:45:16', '2018-08-14 15:45:16'),
-(20, NULL, 20, 2, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, '2018-08-14 23:59:22', '2018-08-14 23:59:22', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
-(21, NULL, 21, 4, NULL, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, '2018-08-15 00:10:52', '2018-08-15 00:12:04', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 16:10:52', '2018-08-14 16:10:52'),
-(22, NULL, 22, 5, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, '2018-08-15 01:53:27', '2018-08-15 01:54:11', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27');
+INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `AutomobileID`, `InspectionID`, `PersonnelPerformedID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `Terms_Agreement`, `Diagnosis`, `Agreement_Timestamp`, `Release_Timestamp`, `LaborCharge`, `LaborDiscount_Rate`, `JobDuration`, `TotalAmountDue`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-10 00:00:00', '2018-08-19 06:38:22', '4500.00', NULL, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-10 02:04:34'),
+(15, 1, 2, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:37:27', '2018-08-19 06:38:27', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:37:27', '2018-08-14 15:37:27'),
+(16, 8, 3, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:39:45', '2018-08-19 06:38:33', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:39:45', '2018-08-14 15:39:45'),
+(20, 2, 4, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, NULL, '2018-08-14 23:59:22', '2018-08-19 06:38:42', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 15:59:22', '2018-08-14 15:59:22'),
+(22, 9, 5, NULL, NULL, 1, 1, 1, 1, 1, 'Ongoing', NULL, NULL, '2018-08-15 01:53:27', '2018-08-19 06:38:49', '499.00', NULL, NULL, NULL, b'1', '2018-08-14 17:53:27', '2018-08-14 17:53:27');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `job_schedule`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `job_schedule` (
@@ -389,8 +410,6 @@ CREATE TABLE `job_schedule` (
 --
 -- Table structure for table `maintenance`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `maintenance` (
   `MaintenanceID` int(10) NOT NULL,
@@ -410,8 +429,6 @@ CREATE TABLE `maintenance` (
 --
 -- Table structure for table `maintenance_checklist`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `maintenance_checklist` (
   `MaintenanceChecklistID` int(10) NOT NULL,
@@ -427,8 +444,6 @@ CREATE TABLE `maintenance_checklist` (
 --
 -- Table structure for table `maintenance_header`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `maintenance_header` (
   `MaintenanceID` int(10) NOT NULL,
@@ -443,8 +458,6 @@ CREATE TABLE `maintenance_header` (
 
 --
 -- Table structure for table `package_backjob`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `package_backjob` (
@@ -463,8 +476,6 @@ CREATE TABLE `package_backjob` (
 --
 -- Table structure for table `package_header`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `package_header` (
   `PackageID` int(10) NOT NULL,
@@ -478,18 +489,16 @@ CREATE TABLE `package_header` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `inspection_checklist_type`
+-- Dumping data for table `package_header`
 --
 
 INSERT INTO `package_header` (`PackageID`, `PackageName`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Summer Package', '999.00', '3', 'weeks', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
+(1, 'Summer Package', '999.00', 3, 'weeks', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `package_product_inclusions`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `package_product_inclusions` (
@@ -506,8 +515,6 @@ CREATE TABLE `package_product_inclusions` (
 --
 -- Table structure for table `package_service_inclusions`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `package_service_inclusions` (
   `PackageID` int(10) NOT NULL,
@@ -521,8 +528,6 @@ CREATE TABLE `package_service_inclusions` (
 
 --
 -- Table structure for table `payment`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `payment` (
@@ -541,14 +546,13 @@ CREATE TABLE `payment` (
 --
 -- Table structure for table `personnel_header`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `personnel_header` (
   `PersonnelID` int(10) NOT NULL,
   `FirstName` varchar(100) NOT NULL,
   `MiddleName` varchar(100) DEFAULT NULL,
   `LastName` varchar(100) NOT NULL,
+  `Birthday` date NOT NULL,
   `Position` varchar(50) NOT NULL,
   `ContactNo` varchar(13) NOT NULL,
   `CompleteAddress` varchar(255) NOT NULL,
@@ -556,6 +560,7 @@ CREATE TABLE `personnel_header` (
   `City` varchar(40) DEFAULT NULL,
   `Province` varchar(40) DEFAULT NULL,
   `EmailAddress` varchar(40) NOT NULL,
+  `image` int(50) NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -565,15 +570,15 @@ CREATE TABLE `personnel_header` (
 -- Dumping data for table `personnel_header`
 --
 
-INSERT INTO `personnel_header` (`PersonnelID`, `FirstName`, `MiddleName`, `LastName`, `ContactNo`, `CompleteAddress`, `Barangay`, `City`, `Province`, `EmailAddress`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Sofia ', 'Aguirre ', 'Wabe ', '09155810953', '18 C Blk A. Sto. Nino St. SFDM Qezon City', 'San Antonio', 'Quezon City', 'Metro Manila', 'sofia18.sw@gmail.com', b'1', '2018-08-10 04:29:47', '2018-08-03 07:46:20');
+INSERT INTO `personnel_header` (`PersonnelID`, `FirstName`, `MiddleName`, `LastName`, `Birthday`, `Position`, `ContactNo`, `CompleteAddress`, `Barangay`, `City`, `Province`, `EmailAddress`, `image`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'John Paul ', '', 'Repoloma', '0000-00-00', '', '09155810953', 'Fairview, Quezon City', '', '', '', 'jpr@gmail.com', 0, b'1', '2018-08-17 06:03:58', '2018-08-03 07:46:20'),
+(2, 'Juan ', 'Crisostomo ', 'Dela Cruz', '0000-00-00', '', '09348110091', 'Intramuros, Manila City', NULL, NULL, NULL, 'juan@mail.com', 0, b'1', '0000-00-00 00:00:00', '2018-08-17 05:58:37'),
+(3, 'Pedro', 'Cruz', 'Mayo', '0000-00-00', '', '09381109091', 'Quezon City', NULL, NULL, NULL, 'perdro@mail.com', 0, b'1', '0000-00-00 00:00:00', '2018-08-17 05:58:37');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `personnel_job`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `personnel_job` (
@@ -585,12 +590,24 @@ CREATE TABLE `personnel_job` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `personnel_job`
+--
+
+INSERT INTO `personnel_job` (`PersonnelJobID`, `PersonnelID`, `JobDescriptionID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 2, 5, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(2, 2, 4, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(3, 2, 3, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(4, 2, 2, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(5, 3, 5, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(6, 3, 4, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(7, 3, 2, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:20'),
+(8, 1, 1, b'1', '0000-00-00 00:00:00', '2018-08-17 06:06:36');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `personnel_job_performed`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `personnel_job_performed` (
@@ -607,8 +624,6 @@ CREATE TABLE `personnel_job_performed` (
 --
 -- Table structure for table `personnel_skill`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `personnel_skill` (
   `SkillID` int(10) NOT NULL,
@@ -623,8 +638,6 @@ CREATE TABLE `personnel_skill` (
 
 --
 -- Table structure for table `personnel_workload`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `personnel_workload` (
@@ -641,53 +654,66 @@ CREATE TABLE `personnel_workload` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `problem`
---
--- Creation: Aug 13, 2018 at 01:14 AM
---
-
-CREATE TABLE `problem` (
-  `ProblemID` int(10) NOT NULL,
-  `JobOrderID` int(10) NOT NULL,
-  `EstimateID` int(10) DEFAULT NULL,
-  `Problem` varchar(8000) NOT NULL,
-  `isPerformed` tinyint(1) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `process`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `process` (
   `ProcessID` int(10) NOT NULL,
-  `ServiceID` int(10) NOT NULL,
   `ProcessName` varchar(100) NOT NULL,
-  `EstimatedTime` int(4) NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `process`
+--
+
+INSERT INTO `process` (`ProcessID`, `ProcessName`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Warm up the engine', b'1', '0000-00-00 00:00:00', '2018-08-16 16:40:23'),
+(2, 'Find and unscrew the drain plug', b'1', '0000-00-00 00:00:00', '2018-08-16 16:40:23'),
+(3, 'Unscrew the oil filter and empty it', b'1', '0000-00-00 00:00:00', '2018-08-16 16:40:23'),
+(4, 'Attach the new filter', b'1', '0000-00-00 00:00:00', '2018-08-16 16:40:23'),
+(5, 'Screw the oil drain plug', b'1', '0000-00-00 00:00:00', '2018-08-16 16:40:23'),
+(6, 'Pour the oil and check the level', b'1', '0000-00-00 00:00:00', '2018-08-16 16:40:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `process_service`
+--
+
+CREATE TABLE `process_service` (
+  `ProcessID` int(10) NOT NULL,
+  `ServiceID` int(10) NOT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `process_service`
+--
+
+INSERT INTO `process_service` (`ProcessID`, `ServiceID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 2, b'1', '0000-00-00 00:00:00', '2018-08-16 16:44:10'),
+(2, 2, b'1', '0000-00-00 00:00:00', '2018-08-16 16:44:10'),
+(3, 2, b'1', '0000-00-00 00:00:00', '2018-08-16 16:44:10'),
+(4, 2, b'1', '0000-00-00 00:00:00', '2018-08-16 16:44:10'),
+(5, 2, b'1', '0000-00-00 00:00:00', '2018-08-16 16:44:10'),
+(6, 2, b'1', '0000-00-00 00:00:00', '2018-08-16 16:44:10');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `product`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `product` (
   `ProductID` int(10) NOT NULL,
   `ProductTypeID` int(10) NOT NULL,
   `ProductBrandID` int(10) NOT NULL,
-  `ProductUnitTypeID` int(10),
+  `ProductUnitTypeID` int(10) DEFAULT NULL,
   `ProductName` varchar(100) NOT NULL,
   `Description` varchar(200) DEFAULT NULL,
   `Price` decimal(14,2) NOT NULL,
@@ -714,8 +740,6 @@ INSERT INTO `product` (`ProductID`, `ProductTypeID`, `ProductBrandID`, `ProductU
 --
 -- Table structure for table `product_backjob`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `product_backjob` (
   `ProductBackjobID` int(10) NOT NULL,
@@ -733,8 +757,6 @@ CREATE TABLE `product_backjob` (
 
 --
 -- Table structure for table `product_brand`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `product_brand` (
@@ -762,8 +784,6 @@ INSERT INTO `product_brand` (`ProductBrandID`, `BrandName`, `isActive`, `updated
 
 --
 -- Table structure for table `product_category`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `product_category` (
@@ -803,8 +823,6 @@ INSERT INTO `product_category` (`ProductCategoryID`, `CategoryName`, `isActive`,
 --
 -- Table structure for table `product_damaged`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `product_damaged` (
   `ProductDamagedID` int(10) NOT NULL,
@@ -822,8 +840,6 @@ CREATE TABLE `product_damaged` (
 
 --
 -- Table structure for table `product_service`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `product_service` (
@@ -847,8 +863,6 @@ INSERT INTO `product_service` (`ProductID`, `ServiceID`, `isActive`, `created_at
 
 --
 -- Table structure for table `product_type`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `product_type` (
@@ -886,8 +900,6 @@ INSERT INTO `product_type` (`ProductTypeID`, `ProductCategoryID`, `ProductTypeNa
 --
 -- Table structure for table `product_unit_type`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `product_unit_type` (
   `ProductUnitTypeID` int(10) NOT NULL,
@@ -905,14 +917,14 @@ CREATE TABLE `product_unit_type` (
 INSERT INTO `product_unit_type` (`ProductUnitTypeID`, `UnitTypeName`, `Unit`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'Liter', 'l', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00'),
 (2, 'Meter', 'm', b'1', '2018-07-31 15:17:40', '0000-00-00 00:00:00'),
-(3, 'Piece', 'pc', b'1', '0000-00-00 00:00:00', '2018-08-13 09:16:18');
+(3, 'Piece', 'pc', b'1', '0000-00-00 00:00:00', '2018-08-13 09:16:18'),
+(4, 'Millimeter', 'ml', b'1', '0000-00-00 00:00:00', '2018-08-17 06:27:44'),
+(5, 'Grams', 'g', b'1', '0000-00-00 00:00:00', '2018-08-17 06:27:44');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `product_used`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `product_used` (
@@ -933,8 +945,6 @@ CREATE TABLE `product_used` (
 --
 -- Table structure for table `product_vehicle`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `product_vehicle` (
   `ProductID` int(11) DEFAULT NULL,
@@ -949,8 +959,6 @@ CREATE TABLE `product_vehicle` (
 
 --
 -- Table structure for table `promo_backjob`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `promo_backjob` (
@@ -968,8 +976,6 @@ CREATE TABLE `promo_backjob` (
 
 --
 -- Table structure for table `promo_header`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `promo_header` (
@@ -990,14 +996,12 @@ CREATE TABLE `promo_header` (
 --
 
 INSERT INTO `promo_header` (`PromoID`, `PromoName`, `StartDate`, `EndDate`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Summer Package', '2018-08-01', '2018-08-21', '999.00', '3', 'weeks', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
+(1, 'Summer Package', '2018-08-01', '2018-08-21', '999.00', 3, 'weeks', b'1', '0000-00-00 00:00:00', '2018-08-10 01:55:14');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `promo_product_inclusions`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `promo_product_inclusions` (
@@ -1015,8 +1019,6 @@ CREATE TABLE `promo_product_inclusions` (
 --
 -- Table structure for table `promo_service_inclusions`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `promo_service_inclusions` (
   `PromoID` int(10) NOT NULL,
@@ -1030,8 +1032,6 @@ CREATE TABLE `promo_service_inclusions` (
 
 --
 -- Table structure for table `sales`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `sales` (
@@ -1049,8 +1049,6 @@ CREATE TABLE `sales` (
 
 --
 -- Table structure for table `service`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `service` (
@@ -1075,14 +1073,16 @@ CREATE TABLE `service` (
 
 INSERT INTO `service` (`ServiceID`, `ServiceCategoryID`, `ServiceName`, `SizeType`, `Class`, `EstimatedTime`, `InitialPrice`, `Quantity`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 1, 'Engine Overhaul', '', '', 360, '2500.00', 0, NULL, NULL, b'1', '2018-08-09 17:59:00', '2018-08-09 17:59:00'),
-(2, 3, 'Change Oil', NULL, NULL, 90, '250.00', 4, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-13 10:32:49');
+(2, 3, 'Change Oil', NULL, NULL, 90, '250.00', 4, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-13 10:32:49'),
+(3, 2, 'Carwash', NULL, NULL, 10, '100.00', 0, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-17 06:41:42'),
+(4, 2, 'Interior Detailing', NULL, NULL, 200, '1300.00', 0, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-17 06:41:42'),
+(5, 2, 'Exterior Detailing', NULL, NULL, 200, '1200.00', 0, NULL, NULL, b'1', '0000-00-00 00:00:00', '2018-08-17 06:41:42'),
+(6, 1, 'Underchassis', NULL, NULL, 180, '5000.00', 0, NULL, NULL, b'1', '2018-08-17 06:42:19', '2018-08-17 06:41:42');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `service_backjob`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `service_backjob` (
@@ -1102,8 +1102,6 @@ CREATE TABLE `service_backjob` (
 --
 -- Table structure for table `service_bay`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `service_bay` (
   `ServiceBayID` int(10) NOT NULL,
@@ -1119,14 +1117,14 @@ CREATE TABLE `service_bay` (
 --
 
 INSERT INTO `service_bay` (`ServiceBayID`, `ServiceBayName`, `Description`, `isActive`, `created_at`, `updated_at`) VALUES
-(1, 'Bay 1', '', b'1', '2018-08-09 17:58:31', '2018-08-09 17:58:31');
+(1, 'Bay 1', 'Right Bay', b'1', '2018-08-17 06:43:17', '2018-08-09 17:58:31'),
+(2, 'Bay 2', 'Right Bay', b'1', '2018-08-17 06:43:03', '0000-00-00 00:00:00'),
+(3, 'Bay 3', 'Left Bay', b'1', '2018-08-17 06:43:03', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `service_category`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `service_category` (
@@ -1153,8 +1151,6 @@ INSERT INTO `service_category` (`ServiceCategoryID`, `ServiceCategoryName`, `Des
 --
 -- Table structure for table `service_performed`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `service_performed` (
   `ServicePerformedID` int(10) NOT NULL,
@@ -1172,8 +1168,6 @@ CREATE TABLE `service_performed` (
 --
 -- Table structure for table `service_price`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `service_price` (
   `ServiceID` int(10) NOT NULL,
@@ -1184,12 +1178,22 @@ CREATE TABLE `service_price` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `service_price`
+--
+
+INSERT INTO `service_price` (`ServiceID`, `ModelID`, `Price`, `isActive`, `created_at`, `updated_at`) VALUES
+(1, 1, '50000.00', b'1', '2018-08-16 12:09:18', '0000-00-00 00:00:00'),
+(1, 2, '30000.00', b'1', '2018-08-16 12:09:18', '0000-00-00 00:00:00'),
+(1, 3, '35000.00', b'1', '2018-08-16 12:09:18', '0000-00-00 00:00:00'),
+(2, 1, '3000.00', b'1', '2018-08-16 12:09:18', '0000-00-00 00:00:00'),
+(2, 2, '2000.00', b'1', '2018-08-16 12:09:18', '0000-00-00 00:00:00'),
+(2, 3, '1000.00', b'1', '2018-08-16 12:09:18', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `service_skill`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `service_skill` (
@@ -1200,28 +1204,44 @@ CREATE TABLE `service_skill` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `service_skill`
+--
+
+INSERT INTO `service_skill` (`ServiceID`, `SkillID`, `isActive`, `created_at`, `updated_at`) VALUES
+(4, 1, b'1', '2018-08-17 06:55:15', '0000-00-00 00:00:00'),
+(5, 1, b'1', '2018-08-17 06:55:15', '0000-00-00 00:00:00'),
+(6, 3, b'1', '2018-08-17 06:56:55', '0000-00-00 00:00:00'),
+(1, 3, b'1', '2018-08-17 06:56:55', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `skill_header`
 --
--- Creation: Aug 13, 2018 at 01:14 AM
---
 
 CREATE TABLE `skill_header` (
   `SkillID` int(10) NOT NULL,
   `Skill` varchar(50) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'1',
+  `isActive` int(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `skill_header`
+--
+
+INSERT INTO `skill_header` (`SkillID`, `Skill`, `isActive`, `created_at`, `updated_at`) VALUES
+(1, 'Auto Detailing', 1, '2018-08-17 06:52:13', '0000-00-00 00:00:00'),
+(2, 'Suspension', 1, '2018-08-17 06:52:13', '0000-00-00 00:00:00'),
+(3, 'Mechanical', 1, '2018-08-17 06:52:13', '0000-00-00 00:00:00'),
+(5, 'Electrical', 1, '2018-08-17 06:52:13', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `user`
---
--- Creation: Aug 13, 2018 at 01:14 AM
 --
 
 CREATE TABLE `user` (
@@ -1254,7 +1274,8 @@ INSERT INTO `user` (`UserID`, `FirstName`, `MiddleName`, `LastName`, `Position`,
 --
 ALTER TABLE `automobile`
   ADD PRIMARY KEY (`AutomobileID`),
-  ADD KEY `FK_Automobile_Model` (`ModelID`);
+  ADD KEY `FK_Automobile_Model` (`ModelID`),
+  ADD KEY `FK_Automobile_Customer` (`CustomerID`);
 
 --
 -- Indexes for table `automobile_make`
@@ -1268,6 +1289,14 @@ ALTER TABLE `automobile_make`
 ALTER TABLE `automobile_model`
   ADD PRIMARY KEY (`ModelID`),
   ADD KEY `FK_Model_Make` (`MakeID`);
+
+--
+-- Indexes for table `complaint`
+--
+ALTER TABLE `complaint`
+  ADD PRIMARY KEY (`ComplaintID`),
+  ADD KEY `FK_Problem_JobOrder` (`JobOrderID`),
+  ADD KEY `FK_Problem_Estimate` (`EstimateID`);
 
 --
 -- Indexes for table `customer`
@@ -1286,7 +1315,6 @@ ALTER TABLE `discount`
 --
 ALTER TABLE `estimate`
   ADD PRIMARY KEY (`EstimateID`),
-  ADD KEY `FK_Estimate_Customer` (`CustomerID`),
   ADD KEY `FK_Estimate_Automobile` (`AutomobileID`),
   ADD KEY `FK_Estimate_Inspection` (`InspectionID`),
   ADD KEY `FK_Estimate_Discount` (`DiscountID`),
@@ -1308,19 +1336,17 @@ ALTER TABLE `inspection_checklist`
   ADD KEY `FK_InspectionChecklist_InspectionType` (`InspectionTypeID`);
 
 --
--- Indexes for table `inspection_checklist_type`
---
-ALTER TABLE `inspection_checklist_type`
-  ADD PRIMARY KEY (`InspectionTypeID`);
-
---
 -- Indexes for table `inspection_header`
 --
 ALTER TABLE `inspection_header`
   ADD PRIMARY KEY (`InspectionID`),
-  ADD KEY `FK_Inspection_JobOrder` (`JobOrderID`),
-  ADD KEY `FK_JobOrder_Customer` (`CustomerID`),
-  ADD KEY `FK_JobOrder_Automobile` (`AutomobileID`);
+  ADD KEY `FK_Inspection_JobOrder` (`JobOrderID`);
+
+--
+-- Indexes for table `inspection_type`
+--
+ALTER TABLE `inspection_type`
+  ADD PRIMARY KEY (`InspectionTypeID`);
 
 --
 -- Indexes for table `job_description`
@@ -1334,7 +1360,6 @@ ALTER TABLE `job_description`
 ALTER TABLE `job_order`
   ADD PRIMARY KEY (`JobOrderID`),
   ADD KEY `FK_JobOrder_Estimate` (`EstimateID`),
-  ADD KEY `FK_JobOrder_Customer` (`CustomerID`),
   ADD KEY `FK_JobOrder_Automobile` (`AutomobileID`),
   ADD KEY `FK_JobOrder_Inspection` (`InspectionID`),
   ADD KEY `FK_JobOrder_PersonnelJobPerformed` (`PersonnelPerformedID`),
@@ -1444,19 +1469,17 @@ ALTER TABLE `personnel_workload`
   ADD KEY `FK_PersonnelWorkload_PersonnelHeader` (`PersonnelID`);
 
 --
--- Indexes for table `problem`
---
-ALTER TABLE `problem`
-  ADD PRIMARY KEY (`ProblemID`),
-  ADD KEY `FK_Problem_JobOrder` (`JobOrderID`),
-  ADD KEY `FK_Problem_Estimate` (`EstimateID`);
-
---
 -- Indexes for table `process`
 --
 ALTER TABLE `process`
-  ADD PRIMARY KEY (`ProcessID`),
-  ADD KEY `FK_Process_Service` (`ServiceID`);
+  ADD PRIMARY KEY (`ProcessID`);
+
+--
+-- Indexes for table `process_service`
+--
+ALTER TABLE `process_service`
+  ADD KEY `FK_ProcessSvc_Process` (`ProcessID`),
+  ADD KEY `FK_ProcessSvc_Service` (`ServiceID`);
 
 --
 -- Indexes for table `product`
@@ -1596,7 +1619,8 @@ ALTER TABLE `service_category`
 ALTER TABLE `service_performed`
   ADD PRIMARY KEY (`ServicePerformedID`),
   ADD KEY `FK_ServicePerformed_Service` (`ServiceID`),
-  ADD KEY `FK_ServicePerformed_JobOrder` (`JobOrderID`);
+  ADD KEY `FK_ServicePerformed_JobOrder` (`JobOrderID`),
+  ADD KEY `FK_ServicePerformed_Estimate` (`EstimateID`);
 
 --
 -- Indexes for table `service_price`
@@ -1632,49 +1656,49 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `automobile`
 --
 ALTER TABLE `automobile`
-  MODIFY `AutomobileID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `AutomobileID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `automobile_make`
 --
 ALTER TABLE `automobile_make`
-  MODIFY `MakeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `MakeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `automobile_model`
 --
 ALTER TABLE `automobile_model`
-  MODIFY `ModelID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ModelID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `complaint`
+--
+ALTER TABLE `complaint`
+  MODIFY `ComplaintID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `CustomerID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `discount`
 --
 ALTER TABLE `discount`
-  MODIFY `DiscountID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `DiscountID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `estimate`
 --
 ALTER TABLE `estimate`
-  MODIFY `EstimateID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `EstimateID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `inspection_checklist`
 --
 ALTER TABLE `inspection_checklist`
-  MODIFY `InspectionChecklistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `inspection_checklist_type`
---
-ALTER TABLE `inspection_checklist_type`
-  MODIFY `InspectionTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `InspectionChecklistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `inspection_header`
@@ -1683,16 +1707,22 @@ ALTER TABLE `inspection_header`
   MODIFY `InspectionID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `inspection_type`
+--
+ALTER TABLE `inspection_type`
+  MODIFY `InspectionTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `job_description`
 --
 ALTER TABLE `job_description`
-  MODIFY `JobDescriptionID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `JobDescriptionID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `job_order`
 --
 ALTER TABLE `job_order`
-  MODIFY `JobOrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `JobOrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `job_schedule`
@@ -1722,7 +1752,7 @@ ALTER TABLE `package_backjob`
 -- AUTO_INCREMENT for table `package_header`
 --
 ALTER TABLE `package_header`
-  MODIFY `PackageID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PackageID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -1734,13 +1764,13 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `personnel_header`
 --
 ALTER TABLE `personnel_header`
-  MODIFY `PersonnelID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PersonnelID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `personnel_job`
 --
 ALTER TABLE `personnel_job`
-  MODIFY `PersonnelJobID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PersonnelJobID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `personnel_job_performed`
@@ -1749,22 +1779,16 @@ ALTER TABLE `personnel_job_performed`
   MODIFY `PersonnelPerformedID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `problem`
---
-ALTER TABLE `problem`
-  MODIFY `ProblemID` int(10) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `process`
 --
 ALTER TABLE `process`
-  MODIFY `ProcessID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProcessID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_backjob`
@@ -1776,13 +1800,13 @@ ALTER TABLE `product_backjob`
 -- AUTO_INCREMENT for table `product_brand`
 --
 ALTER TABLE `product_brand`
-  MODIFY `ProductBrandID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ProductBrandID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `ProductCategoryID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ProductCategoryID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `product_damaged`
@@ -1794,13 +1818,13 @@ ALTER TABLE `product_damaged`
 -- AUTO_INCREMENT for table `product_type`
 --
 ALTER TABLE `product_type`
-  MODIFY `ProductTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ProductTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product_unit_type`
 --
 ALTER TABLE `product_unit_type`
-  MODIFY `ProductUnitTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ProductUnitTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `promo_backjob`
@@ -1812,7 +1836,7 @@ ALTER TABLE `promo_backjob`
 -- AUTO_INCREMENT for table `promo_header`
 --
 ALTER TABLE `promo_header`
-  MODIFY `PromoID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PromoID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sales`
@@ -1824,7 +1848,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `ServiceID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ServiceID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `service_backjob`
@@ -1836,7 +1860,7 @@ ALTER TABLE `service_backjob`
 -- AUTO_INCREMENT for table `service_bay`
 --
 ALTER TABLE `service_bay`
-  MODIFY `ServiceBayID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ServiceBayID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `service_category`
@@ -1854,7 +1878,7 @@ ALTER TABLE `service_performed`
 -- AUTO_INCREMENT for table `skill_header`
 --
 ALTER TABLE `skill_header`
-  MODIFY `SkillID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `SkillID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -1870,6 +1894,7 @@ ALTER TABLE `user`
 -- Constraints for table `automobile`
 --
 ALTER TABLE `automobile`
+  ADD CONSTRAINT `FK_Automobile_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`),
   ADD CONSTRAINT `FK_Automobile_Model` FOREIGN KEY (`ModelID`) REFERENCES `automobile_model` (`ModelID`) ON UPDATE CASCADE;
 
 --
@@ -1879,11 +1904,17 @@ ALTER TABLE `automobile_model`
   ADD CONSTRAINT `FK_Model_Make` FOREIGN KEY (`MakeID`) REFERENCES `automobile_make` (`MakeID`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `complaint`
+--
+ALTER TABLE `complaint`
+  ADD CONSTRAINT `FK_Problem_Estimate` FOREIGN KEY (`EstimateID`) REFERENCES `estimate` (`EstimateID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Problem_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `estimate`
 --
 ALTER TABLE `estimate`
   ADD CONSTRAINT `FK_Estimate_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Estimate_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Estimate_Discount` FOREIGN KEY (`DiscountID`) REFERENCES `discount` (`DiscountID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Estimate_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Estimate_Personnel` FOREIGN KEY (`PersonnelID`) REFERENCES `personnel_header` (`PersonnelID`) ON UPDATE CASCADE,
@@ -1900,14 +1931,12 @@ ALTER TABLE `inspection`
 -- Constraints for table `inspection_checklist`
 --
 ALTER TABLE `inspection_checklist`
-  ADD CONSTRAINT `FK_InspectionChecklist_InspType` FOREIGN KEY (`InspectionTypeID`) REFERENCES `inspection_checklist_type` (`InspectionTypeID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_InspectionChecklist_InspType` FOREIGN KEY (`InspectionTypeID`) REFERENCES `inspection_type` (`InspectionTypeID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inspection_header`
 --
 ALTER TABLE `inspection_header`
-  ADD CONSTRAINT `FK_Inspection_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Inspection_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Inspection_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE;
 
 --
@@ -1915,7 +1944,6 @@ ALTER TABLE `inspection_header`
 --
 ALTER TABLE `job_order`
   ADD CONSTRAINT `FK_JobOrder_Automobile` FOREIGN KEY (`AutomobileID`) REFERENCES `automobile` (`AutomobileID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_JobOrder_Customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Discount` FOREIGN KEY (`DiscountID`) REFERENCES `discount` (`DiscountID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Estimate` FOREIGN KEY (`EstimateID`) REFERENCES `estimate` (`EstimateID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_JobOrder_Inspection` FOREIGN KEY (`InspectionID`) REFERENCES `inspection_header` (`InspectionID`) ON UPDATE CASCADE,
@@ -2000,17 +2028,11 @@ ALTER TABLE `personnel_workload`
   ADD CONSTRAINT `FK_PersonnelWorkload_PersonnelHeader` FOREIGN KEY (`PersonnelID`) REFERENCES `personnel_header` (`PersonnelID`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `problem`
+-- Constraints for table `process_service`
 --
-ALTER TABLE `problem`
-  ADD CONSTRAINT `FK_Problem_Estimate` FOREIGN KEY (`EstimateID`) REFERENCES `estimate` (`EstimateID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Problem_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE;
-
---
--- Constraints for table `process`
---
-ALTER TABLE `process`
-  ADD CONSTRAINT `FK_Process_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE;
+ALTER TABLE `process_service`
+  ADD CONSTRAINT `FK_ProcessSvc_Process` FOREIGN KEY (`ProcessID`) REFERENCES `process` (`ProcessID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_ProcessSvc_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product`
@@ -2099,6 +2121,7 @@ ALTER TABLE `service_backjob`
 -- Constraints for table `service_performed`
 --
 ALTER TABLE `service_performed`
+  ADD CONSTRAINT `FK_ServicePerformed_Estimate	` FOREIGN KEY (`EstimateID`) REFERENCES `estimate` (`EstimateID`),
   ADD CONSTRAINT `FK_ServicePerformed_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_ServicePerformed_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE;
 

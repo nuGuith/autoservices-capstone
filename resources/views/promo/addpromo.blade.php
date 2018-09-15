@@ -30,6 +30,7 @@
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
 
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
 
         <!-- CONTENT -->
@@ -60,22 +61,22 @@
                     </div>
                 </div>
             </header>
-            
+
             <div class="outer">
                 <div class="inner bg-container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card" >
 
-                                    
+
                             <div class="card-header bg-primary disabled text-white" ><i class= "fa fa-plus-square"></i>&nbsp;&nbsp;Add Promo</div>
                             <div class="card-block">
-                                                    
+
 
                             <div class="row m-t-5">
-                                   
-                          
-                        <!--PRODUCT, SERVICE, FREE ITEM TAB-->     
+
+
+                        <!--PRODUCT, SERVICE, FREE ITEM TAB-->
                          <div class="col-lg-6 m-t-10">
                             <div class="card">
                                 <div class="card-header bg-white">
@@ -88,125 +89,123 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#tab3" data-toggle="tab">Free Items</a>
-                                        </li>                   
+                                        </li>
                                     </ul>
                                 </div>
-    
+
     <div class="card-block">
     <div class="tab-content m-t-15">
 
-        <!--PRODUCT TAB-->  
+        <!--PRODUCT TAB-->
         <div class="tab-pane active" id="tab1">
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="producttab1" role="grid">                                       
-                    <tr>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                    <tr>
-                        <td>Petron Ultron</td>
-                        <td>
-                            <ul>
-                                <li>Oil</li>
-                                <li>500 mL</li>
-                            </ul>
-                        </td>
-                        <td><input type="checkbox" name="prodcheck-tab1"></td>
-                    </tr>
-                    <tr>
-                        <td>Motolite- 4500</td>
-                        <td>
-                            <ul>
-                                <li>Batteries</li>
-                                <li>4500 watts</li>
-                            </ul>
-                        </td>
-                        <td><input type="checkbox" name="prodcheck-tab1"></td>
-                    </tr>
-            </table>
+          <table class="table  table-bordered table-hover dataTable no-footer" id="producttab1" role="grid">
+              <thead>
+                  <tr style="background-color: #f5f5f5">
+                      <th>#</th>
+                      <th><b>Product</b></th>
+                      <th><b>Description</b></th>
+                      <th><b>Price</b></th>
+                      <th style="width: 5%;"><b>Select</b></th>
+                  </tr>
+              </thead>
+              <tbody>
+                @foreach($product as $prod)
+                <tr>
+                  <td>{{$prod->ProductID}}</td>
+                  <td>{{$prod->ProductName}}</td>
+                  <td>{{$prod->ProductTypeName}} {{$prod->Size}} - {{$prod->UnitTypeName}}</td>
+                  <td>{{$prod->Price}}</td>
+                  <td><input type="checkbox" name="prodcheck-tab1"></td>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
+
+              </tfoot>
+          </table>
 
              <div class="tab tab-btn">
-                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="prodtab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
+                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="prodtab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
             </div>
         </div>
-        <!--END PRODUCT TAB--> 
-                                                        
+        <!--END PRODUCT TAB-->
 
-        <!--SERVICE TAB--> 
+
+        <!--SERVICE TAB-->
         <div class="tab-pane" id="tab2">
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="servicetab1" role="grid">                         
-                    <tr>
-                        <th>Service</th>
-                        <th>Category</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                    <tr>
-                        <td>Replace Bell Crank - Sedan</td>
-                        <td>
-                            Suspension
-                        </td>
-                        <td><input type="checkbox" name="servicecheck-tab1"></td>
-                    </tr>
-                    <tr>
-                        <td>Change Oil - Large</td>
-                        <td>
-                            Maintenance
-                        </td>
-                        <td><input type="checkbox" name="servicecheck-tab1"></td>
-                    </tr>
+          <table class="table table-bordered table-hover dataTable no-footer" id="servicetab1" role="grid">
+              <thead>
+                  <tr style="background-color: #f5f5f5">
+                      <th>#</th>
+                      <th><b>Service</b></th>
+                      <th><b>Category</b></th>
+                      <th><b>Price</b></th>
+                      <th style="width: 5%;"><b>Select</b></th>
+                  </tr>
+              </thead>
+              <tbody>
+                @foreach($service as $serv)
+                <tr>
+                  <td>{{$serv->ServiceID}}</td>
+                  <td>{{$serv->ServiceName}}</td>
+                  <td>{{$serv->ServiceCategoryName}}</td>
+                  <td>{{$serv->InitialPrice}}</td>
+                  <td><input type="checkbox" name="servicecheck-tab1"></td>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
 
-            </table>
- 
+              </tfoot>
+          </table>
+
             <div class="tab tab-btn">
-                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="servicetab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
+                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="servicetab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
             </div>
         </div>
-        <!--END SERVICE TAB--> 
-        
+        <!--END SERVICE TAB-->
 
-        <!--FREE ITEM TAB--> 
+
+        <!--FREE ITEM TAB-->
         <div class="tab-pane" id="tab3">
 
-            <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="itemtab1" role="grid">                         
-                    <tr>
-                        <th>Free Items</th>
-                        <th>Description</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                    <tr>
-                        <td>Petron Ultron</td>
-                        <td>
-                            <ul>
-                                <li>Oil</li>
-                                <li>500 mL</li>
-                            </ul>
-                        </td>
-                        <td><input type="checkbox" name="itemcheck-tab1"></td>
-                    </tr>
-                    <tr>
-                        <td>Replace Compressor-Sedan</td>
-                        <td>
-                            Aircon
-                        </td>
-                        <td><input type="checkbox" name="itemcheck-tab1"></td>
-                    </tr>
-
+            <table class="table table-bordered table-hover no-footer" id="itemtab1" role="grid">
+              <thead>
+                <tr style="background-color: #f5f5f5">
+                    <th>#</th>
+                    <th>Free Items</th>
+                    <th>Description</th>
+                    <th style="width: 5%;">Select</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($items as $item)
+                <tr>
+                  <td>{{$item->FreeItemsID}}</td>
+                  <td>{{$item->ItemName}}</td>
+                  <td>{{$item->Description}}</td>
+                  <td><input type="checkbox" name="itemcheck-tab1"></td>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
+              </tfoot>
             </table>
- 
+
             <div class="tab tab-btn">
-                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="itemtab1_To_tab2();">Move&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></button>
+                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="itemtab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
             </div>
         </div>
-        <!--END FREE ITEM TAB--> 
-                                                       
-    
+        <!--END FREE ITEM TAB-->
+
+
                 </div>
             </div>
         </div>
     </div>
-                      
+
 
     <!--PROMO DETAILS-->
     <div class="col-lg-6 m-t-10">
@@ -214,23 +213,23 @@
             <div class="card-header bg-black">
                 Promo Details
             </div>
-        
+
             <div class="card-block">
             <div class="tab">
-                
+
                 <div class="input-group">
                     <div class="col-md-7 m-t-15">
                         <h5 style = "">Promo:</h5>
                         <p>
-                            <input id="name" name="promoname" type="text" placeholder="Promo Name" class="form-control  m-t-5" style = "width: 210px;" >
+                            <input id="promoName" type="text" placeholder="Promo Name" class="form-control  m-t-5" style = "width: 210px;" >
                         </p>
                     </div>
 
 
                     <div class="col-md-5 m-t-15">
                         <h5 style = "">Computed Price:</h5>
-                        <div class="input-group m-t-5" style = "width: 139px;" >
-                            <input type="text" class="form-control" disabled="disabled" placeholder ="Php.">
+                        <div class="input-group m-t-5">
+                            <input type="text" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice">
                             <span class="input-group-addon">.00</span>
                         </div>
                     </div>
@@ -238,60 +237,54 @@
 
 
 
-                <div class="input-group lter form_elements_datepicker" id="dateRangePickerBlock">
-                    <div class="col-md-7 m-t-5">
-                        <h5 style = "">Date Range:</h5>
-                    <form>
-                         <div class="input-group">
-                            <span class="input-group-addon m-t-5">
-                                <i class="fa fa-calendar"></i>
-                            </span>
-                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
-                        </div>
-                    </form>
-                    </div>
 
-
-                    <div class="col-md-5 m-t-5">
-                    <h5 style = "">Stock Range:</h5>
-                        <div class="input-group m-t-5" style = "width: 139px;">
-                            <span class="input-group-addon"><i class="fa fa-bar-chart-o"></i></i></span>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
             </div>
 
 
             <!--Promo Details Product Table-->
             <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="producttab2" role="grid">   
-                    <tr>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                </table>   
+              <table class="table  table-striped table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">
+              <thead>
+                  <tr style="background-color: #f5f5f5">
+                      <th>#</th>
+                      <th>Product</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th style="width: 5%;">Select</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+              <tfoot>
+
+              </tfoot>
+              </table>
 
                 <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="prodtab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
+                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="prodtab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
                 </div>
             </div>
             <!--End Promo Details Product Table-->
-            
+
 
             <!--Promo Details Service Table-->
             <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="servicetab2" role="grid">   
-                    <tr>
-                        <th>Service</th>
-                        <th>Category</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                </table>   
+              <table class="table table-bordered table-hover dataTable no-footer" id="servicetab2" role="grid">
+              <thead>
+                  <tr style="background-color: #f5f5f5">
+                      <th>#</th>
+                      <th>Service</th>
+                      <th>Category</th>
+                      <th>Price</th>
+                      <th style="width: 5%;">Select</th>
+                  </tr>
+              </thead>
+              </table>
 
                 <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="servicetab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
+                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="servicetab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
                 </div>
             </div>
             <!--End Promo Details Service Table-->
@@ -299,43 +292,99 @@
 
             <!--Promo Details Free Item Table-->
             <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover table-advance dataTable no-footer" id="itemtab2" role="grid">   
-                    <tr>
+                <table class="table table-bordered table-hover dataTable no-footer" id="itemtab2" role="grid">
+                <thead>
+                    <tr style="background-color: #f5f5f5">
+                        <th>#</th>
                         <th>Free Items</th>
                         <th>Description</th>
                         <th style="width: 5%;">Select</th>
                     </tr>
-                </table>   
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </thead>
+                </table>
 
                 <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5" style = "width: 80px; left: 330px;" onclick="itemtab2_To_tab1();">Move&nbsp;&nbsp;<i class="fa fa-arrow-left" ></i></button>
+                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" onclick="itemtab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
                 </div>
             </div>
              <!--End Promo Details Free Item Table-->
 
+
+
+                <div class="input-group lter form_elements_datepicker" id="dateRangePickerBlock">
+                    <div class="col-md-12 m-t-5">
+                        <h5 style = "">Date Range:</h5>
+                    <form>
+                         <div class="input-group">
+
+                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                             <span class="input-group-addon m-t-5">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+
+            <!-- <div class="col-md-5 m-t-5">
+            <h5 style = "">Stock Range:</h5>
+                <div class="input-group m-t-5" style = "width: 139px;">
+                    <span class="input-group-addon"><i class="fa fa-bar-chart-o"></i></i></span>
+                    <input type="text" class="form-control">
+                </div>
+            </div> -->
+
+
+            <div class="input-group">
+                    <div class="col-md-7 m-t-10">
+                        <h5>Warranty: <span style="color: red"></span></h5>
+                        <p>
+                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
+                        </p>
+                    </div>
+
+                    <div class="col-md-5 m-t-10">
+                        <p class="m-t-25">
+                            <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option value="Days">Day(s)</option>
+                                <option value="Weeks">Week(s)</option>
+                                <option value="Months">Month(s)</option>
+                                <option value="Years">Year(s)</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+
         </div>
-                                 
+
             <div class="card-footer bg-black">
                 <div class="input-group">
 
                     <div class="col-md-8 m-t-5">
-                    
+
                         <div class="input-group" >
                             <h5 style = "width: 90px;"class="m-t-10">Promo Price:</h5>
-                            <input type="text" class="form-control" style = "width: 100px;" placeholder ="Php";>
+                            <input type="text" class="form-control" id="promoPrice" style = "width: 100px;" placeholder ="Php";>
                             <span class="input-group-addon">.00</span>
                         </div>
                     </div>
 
                     <div class="col-md-2 m-t-5">
                         <div class="input-group examples transitions" >
-                            <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn " style ="width: 150px; left: 35px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                            <button class="btn btn-success" id="submitForm" style ="width: 150px; left: 35px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                  <!-- ETO YUNG CLASS NG SUBMIT BUTTON --> <!-- btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn  -->
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-                             
+
         </div>
      </div>
     <!--END PROMO DETAILS-->
@@ -343,16 +392,16 @@
 
                     </div>
                </div>
-                         
+
 
                  <div class="card-footer bg-black disabled"></div>
 
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-                   
+
     <!-- /.outer -->
     <!--END CONTENT -->
 
@@ -395,41 +444,131 @@
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
 
 
+<script>
+$(document).ready(function(){
+  // $("#dateRangePickerBlock").datepicker({
+  //      format: 'yyyy-mm-dd',
+  //      autoclose: true
+  //    });
+  $("#submitForm").click(function(){
+    var submitProdIdVal = []
+    var submitServiceIdVal = []
+    var submitItemIdVal = []
+    var qtyArr = []
+    var rangeDate = $('#reportrange').val().replace(/ /g,'')
+    var temporary
+    producttab2 = document.getElementById("producttab2")
+    servicetab2 = document.getElementById("servicetab2")
+    itemtab2 = document.getElementById("itemtab2")
 
+    for (var i = 1; i < producttab2.rows.length; i++) {
+      submitProdIdVal.push(producttab2.rows[i].cells[0].innerHTML)
+      temporary = producttab2.rows[i].cells[1].innerHTML
+      temporary = temporary.replace(/'/g,'').replace(/ /g,'')
+      qtyArr[i-1] = $("#qty"+temporary).val()
+    }
+    for (var i = 1; i < servicetab2.rows.length; i++) {
+      submitServiceIdVal.push(servicetab2.rows[i].cells[0].innerHTML)
+    }
+    for (var i = 1; i < itemtab2.rows.length; i++) {
+      submitItemIdVal.push(itemtab2.rows[i].cells[0].innerHTML)
+    }
+    var splitDate = rangeDate.split("-")
+    var startDate = splitDate[0]
+    var endDate = splitDate[1]
+    $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/savePromo',
+        type: 'POST',
+        data: {
+          promoName : $('#promoName').val(),
+          price : $('#promoPrice').val(),
+          warranty : $('#warranty').val(),
+          durationMode : $('#durationmode').val(),
+          StartDate : startDate,
+          EndDate : endDate,
+          productId : submitProdIdVal,
+          serviceId : submitServiceIdVal,
+          itemId : submitItemIdVal,
+          qty : qtyArr
+        },
+        success: function()
+        {
+          alert('success')
+          window.location.href = '/promo';
+        }
+    });
+  });
+});
+</script>
 
 
 <!--Product table 1 to Product Table 2-->
-<script> 
-            function prodtab1_To_tab2()
+<script>
+function prodtab1_To_tab2()
+{
+
+    var producttab1 = document.getElementById("producttab1"),
+        producttab2 = document.getElementById("producttab2"),
+        checkboxes = document.getElementsByName("prodcheck-tab1");
+     for(var i = 0; i < checkboxes.length; i++)
+         if(checkboxes[i].checked)
             {
-                var producttab1 = document.getElementById("producttab1"),
-                    producttab2 = document.getElementById("producttab2"),
-                    checkboxes = document.getElementsByName("prodcheck-tab1");
-            console.log("Val1 = " + checkboxes.length);
-                 for(var i = 0; i < checkboxes.length; i++)
-                     if(checkboxes[i].checked)
-                        {
-                            // create new row and cells
-                            var newRow = producttab2.insertRow(producttab2.length),
-                                cell1 = newRow.insertCell(0),
-                                cell2 = newRow.insertCell(1),
-                                cell3 = newRow.insertCell(2);
-                            // add values to the cells
-                            cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
-                            cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
-                           
-                            // remove the transfered rows from the first table [producttab1]
-                            var index = producttab1.rows[i+1].rowIndex;
-                            producttab1.deleteRow(index);
-                            // we have deleted some rows so the checkboxes.length have changed
-                            // so we have to decrement the value of i
-                            i--;
-                           console.log(checkboxes.length);
-                        }
+               // create new row and cells
+                var newRow = producttab2.insertRow(producttab2.length),
+                    cell1 = newRow.insertCell(0),
+                    cell2 = newRow.insertCell(1),
+                    cell3 = newRow.insertCell(2);
+                    cell4 = newRow.insertCell(3);
+                    cell5 = newRow.insertCell(4);
+                    cell6 = newRow.insertCell(5);
+
+                //compute on add
+                    var compTempPrice = $("#computePrice").val()
+                if (compTempPrice == '') {
+                   compTempPrice = 0
+                }
+                else {
+                  compTempPrice = parseFloat(compTempPrice)
+                }
+                var tempPrice = parseFloat(producttab1.rows[i+1].cells[3].innerHTML)
+                var totalTempPrice = tempPrice + compTempPrice * 1
+
+                // add values to the cells
+                cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
+                cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
+                cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
+                cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
+                $("#computePrice").val(parseFloat(totalTempPrice))
+                cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" id="qty'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" class="form-control" style="width: 20px;";>'
+                cell6.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
+
+                // remove the transfered rows from the first table [producttab1]
+                var index = producttab1.rows[i+1].rowIndex;
+                producttab1.deleteRow(index);
+                // we have deleted some rows so the checkboxes.length have changed
+                // so we have to decrement the value of i
+                i--;
+               console.log(checkboxes.length);
             }
-            
-            
+}
+
+function computeQty(id){
+  var hidPriceId = id.replace('qty','hidprice')
+  var hidTotalId = id.replace('qty','hidTotal')
+  var compPrice = $("#computePrice").val()
+  var pricee = $('#'+hidPriceId).val()
+  var qtyVal = $('#'+id).val()
+  var multiplyQty = qtyVal * pricee
+  $('#'+hidTotalId).val(multiplyQty)
+  var totalMultiplyPrice = $('#'+hidTotalId).val()
+  var newPrice = compPrice - pricee
+  var finalPrice = parseInt(newPrice) + parseInt(totalMultiplyPrice)
+  $("#computePrice").val(finalPrice)
+}
+
             function prodtab2_To_tab1()
             {
                 var producttab1 = document.getElementById("producttab1"),
@@ -448,7 +587,7 @@
                             cell1.innerHTML = producttab2.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = producttab2.rows[i+1].cells[1].innerHTML;
                             cell3.innerHTML = "<input type='checkbox' name='prodcheck-tab1'>";
-                           
+
                             // remove the transfered rows from the second table [producttab2]
                             var index = producttab2.rows[i+1].rowIndex;
                             producttab2.deleteRow(index);
@@ -458,78 +597,112 @@
                            console.log(checkboxes.length);
                         }
             }
-            
-</script> 
+
+</script>
 <!--End Product Table 1 to Product Table 2-->
 
 <!--Service table 1 to Service Table 2-->
 <script>
-            
-            function servicetab1_To_tab2()
+
+function servicetab1_To_tab2()
+{
+    var servicetab1 = document.getElementById("servicetab1"),
+        servicetab2 = document.getElementById("servicetab2"),
+        checkboxes = document.getElementsByName("servicecheck-tab1");
+        // console.log("Val1 = " + checkboxes.length);
+     for(var i = 0; i < checkboxes.length; i++)
+         if(checkboxes[i].checked)
             {
-                var servicetab1 = document.getElementById("servicetab1"),
-                    servicetab2 = document.getElementById("servicetab2"),
-                    checkboxes = document.getElementsByName("servicecheck-tab1");
-            console.log("Val1 = " + checkboxes.length);
-                 for(var i = 0; i < checkboxes.length; i++)
-                     if(checkboxes[i].checked)
-                        {
-                            // create new row and cells
-                            var newRow = servicetab2.insertRow(servicetab2.length),
-                                cell1 = newRow.insertCell(0),
-                                cell2 = newRow.insertCell(1),
-                                cell3 = newRow.insertCell(2);
-                            // add values to the cells
-                            cell1.innerHTML = servicetab1.rows[i+1].cells[0].innerHTML;
-                            cell2.innerHTML = servicetab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='servicecheck-tab2'>";
-                           
-                            // remove the transfered rows from the first table [servicetab1]
-                            var index = servicetab1.rows[i+1].rowIndex;
-                            servicetab1.deleteRow(index);
-                            // we have deleted some rows so the checkboxes.length have changed
-                            // so we have to decrement the value of i
-                            i--;
-                           console.log(checkboxes.length);
-                        }
+                // create new row and cells
+                var newRow = servicetab2.insertRow(servicetab2.length),
+                    cell1 = newRow.insertCell(0),
+                    cell2 = newRow.insertCell(1),
+                    cell3 = newRow.insertCell(2);
+                    cell4 = newRow.insertCell(3);
+                    cell5 = newRow.insertCell(4);
+
+                    //compute on price
+                    var compTempPrice = $("#computePrice").val()
+                    if (compTempPrice == '') {
+                       compTempPrice = 0
+                    }
+                    else {
+                      compTempPrice = parseFloat(compTempPrice)
+                    }
+                    var tempPrice = parseFloat(servicetab1.rows[i+1].cells[3].innerHTML)
+                    var totalTempPrice = compTempPrice + tempPrice * 1
+
+                // add values to the cells
+                cell1.innerHTML = servicetab1.rows[i+1].cells[0].innerHTML;
+                cell2.innerHTML = servicetab1.rows[i+1].cells[1].innerHTML;
+                cell3.innerHTML = servicetab1.rows[i+1].cells[2].innerHTML;
+                cell4.innerHTML = servicetab1.rows[i+1].cells[3].innerHTML;
+                $("#computePrice").val(parseFloat(totalTempPrice))
+                cell5.innerHTML = "<input type='checkbox' name='servicecheck-tab2'>";
+
+                // remove the transfered rows from the first table [servicetab1]
+                var index = servicetab1.rows[i+1].rowIndex;
+                servicetab1.deleteRow(index);
+                // we have deleted some rows so the checkboxes.length have changed
+                // so we have to decrement the value of i
+                i--;
+               // console.log(checkboxes.length);
             }
-            
-            
-            function servicetab2_To_tab1()
-            {   
-                var servicetab1 = document.getElementById("servicetab1"),
-                    servicetab2 = document.getElementById("servicetab2"),
-                    checkboxes = document.getElementsByName("servicecheck-tab2");
-            console.log("Val1 = " + checkboxes.length);
-                 for(var i = 0; i < checkboxes.length; i++)
-                     if(checkboxes[i].checked)
-                        {
-                            // create new row and cells
-                            var newRow = servicetab1.insertRow(servicetab1.length),
-                                cell1 = newRow.insertCell(0),
-                                cell2 = newRow.insertCell(1),
-                                cell3 = newRow.insertCell(2);
-                            // add values to the cells
-                            cell1.innerHTML = servicetab2.rows[i+1].cells[0].innerHTML;
-                            cell2.innerHTML = servicetab2.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='servicecheck-tab1'>";
-                           
-                            // remove the transfered rows from the second table [servicetab2]
-                            var index = servicetab2.rows[i+1].rowIndex;
-                            servicetab2.deleteRow(index);
-                            // we have deleted some rows so the checkboxes.length have changed
-                            // so we have to decrement the value of i
-                            i--;
-                           console.log(checkboxes.length);
-                        }
+}
+
+
+function servicetab2_To_tab1()
+{
+    var servicetab1 = document.getElementById("servicetab1"),
+        servicetab2 = document.getElementById("servicetab2"),
+        checkboxes = document.getElementsByName("servicecheck-tab2");
+        // console.log("Val1 = " + checkboxes.length);
+     for(var i = 0; i < checkboxes.length; i++)
+         if(checkboxes[i].checked)
+            {
+                // create new row and cells
+                var newRow = servicetab1.insertRow(servicetab1.length),
+                    cell1 = newRow.insertCell(0),
+                    cell2 = newRow.insertCell(1),
+                    cell3 = newRow.insertCell(2);
+                    cell4 = newRow.insertCell(3);
+                    cell5 = newRow.insertCell(4);
+
+                    //compute on price
+                    var compTempPrice = $("#computePrice").val()
+                    if (compTempPrice == '') {
+                       compTempPrice = 0
+                    }
+                    else {
+                      compTempPrice = parseFloat(compTempPrice)
+                    }
+                    var tempPrice = parseFloat(servicetab2.rows[i+1].cells[3].innerHTML)
+                    var totalTempPrice = compTempPrice - tempPrice * 1
+
+                // add values to the cells
+                cell1.innerHTML = servicetab2.rows[i+1].cells[0].innerHTML;
+                cell2.innerHTML = servicetab2.rows[i+1].cells[1].innerHTML;
+                cell3.innerHTML = servicetab2.rows[i+1].cells[2].innerHTML;
+                cell4.innerHTML = servicetab2.rows[i+1].cells[3].innerHTML;
+                $("#computePrice").val(parseFloat(totalTempPrice))
+                cell5.innerHTML = "<input type='checkbox' name='servicecheck-tab1'>";
+
+                // remove the transfered rows from the second table [servicetab2]
+                var index = servicetab2.rows[i+1].rowIndex;
+                servicetab2.deleteRow(index);
+                // we have deleted some rows so the checkboxes.length have changed
+                // so we have to decrement the value of i
+                i--;
+               // console.log(checkboxes.length);
             }
-            
-</script> 
+}
+
+</script>
 <!--End Service table 1 to Service Table 2-->
 
 <!--Free Item table 1 to Free Item Table 2-->
     <script>
-            
+
             function itemtab1_To_tab2()
             {
                 var itemtab1 = document.getElementById("itemtab1"),
@@ -544,11 +717,13 @@
                                 cell1 = newRow.insertCell(0),
                                 cell2 = newRow.insertCell(1),
                                 cell3 = newRow.insertCell(2);
+                                cell4 = newRow.insertCell(3);
                             // add values to the cells
                             cell1.innerHTML = itemtab1.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = itemtab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='itemcheck-tab2'>";
-                           
+                            cell3.innerHTML = itemtab1.rows[i+1].cells[2].innerHTML;
+                            cell4.innerHTML = "<input type='checkbox' name='itemcheck-tab2'>";
+
                             // remove the transfered rows from the first table [itemtab1]
                             var index = itemtab1.rows[i+1].rowIndex;
                             itemtab1.deleteRow(index);
@@ -558,10 +733,10 @@
                            console.log(checkboxes.length);
                         }
             }
-            
-            
+
+
             function itemtab2_To_tab1()
-            {   
+            {
                 var itemtab1 = document.getElementById("itemtab1"),
                     itemtab2 = document.getElementById("itemtab2"),
                     checkboxes = document.getElementsByName("itemcheck-tab2");
@@ -578,7 +753,7 @@
                             cell1.innerHTML = itemtab2.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = itemtab2.rows[i+1].cells[1].innerHTML;
                             cell3.innerHTML = "<input type='checkbox' name='itemcheck-tab1'>";
-                           
+
                             // remove the transfered rows from the second table [itemtab2]
                             var index = itemtab2.rows[i+1].rowIndex;
                             itemtab2.deleteRow(index);
@@ -588,8 +763,8 @@
                            console.log(checkboxes.length);
                         }
             }
-            
-</script> 
+
+</script>
 <!--End Free Item table 1 to Free Item Table 2-->
 
 @stop

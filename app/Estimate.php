@@ -11,23 +11,24 @@ class Estimate extends Model
     protected $table = 'estimate';
     protected $fillable = [
         'EstimateID',
-        'CustomerID',
         'AutomobileID',
         'InspectionID',
         'DiscountID',
+        'PersonnelID',
+        'ServiceBayID',
         'isActive',
         'updated_at'
     ];
     
-    public function customer(){
+    /*public function customers(){
         return $this->belongsTo('App\Customer', 'customerid');
     }
 
-    public function automobile(){
-        return $this->belongsTo('App\Automobile', 'automobileid');
+    public function automobiles(){
+        return $this->belongsTo(Automobile::class);
     }
 
-    public function inspection(){
+    public function inspections(){
         return $this->belongsTo('App\Inspection', 'inspectionid');
-    }
+    }*/
 }
