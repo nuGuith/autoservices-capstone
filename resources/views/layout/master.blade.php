@@ -338,14 +338,14 @@ z-index: 999999">
                     <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
-
-                <!-- <li style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/customer" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-users"></i>
-                        <span class="link-title">&nbsp; Customer</span>
+                <li {!! (Request::is('customerinformation')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/vehicleinformation" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-info"></i>
+                        <span class="link-title">&nbsp;Customer Information</span>
                     </a>
                     
-                </li> -->
+                </li>
+                
                 <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-search"></i>
@@ -370,12 +370,6 @@ z-index: 999999">
                     <a href="/backjob" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-rotate-left"></i>
                         <span class="link-title">&nbsp; Back Job</span>
-                    </a>
-                </li>
-                <li  {!! (Request::is('warranty')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/warranty" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-tags"></i>
-                        <span class="link-title">&nbsp; Warranty</span>
                     </a>
                 </li>
 
