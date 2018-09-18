@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?php echo $__env->yieldContent('Title'); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="<?php echo e(URL::asset('img/icon.png')); ?>"/>
 
@@ -97,12 +98,12 @@ z-index: 999999">
                         <div class="user-settings no-bg">
 
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
-                                <img src="<?php echo e(URL::asset('img/admin.jpeg')); ?>" class="media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
+                                <img src="<?php echo e(URL::asset('/img/user-admin.png')); ?>" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
 
                             <div class="dropdown-menu admire_admin">
-                                <a class="dropdown-item title" href="#">
+                                <a class="dropdown-item title" href="">
                                     Admin</a>
                                 <a class="dropdown-item" href="<?php echo e(URL::asset('edit_user.html')); ?>"><i class="fa fa-cogs"></i>
                                     Account Settings</a>
@@ -140,7 +141,7 @@ z-index: 999999">
                 <div class="user-wrapper bg-dark">
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
-                             src="img/admin.jpeg">
+                             src="<?php echo e(URL::asset('img/user-admin.png')); ?>">
                         <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
                     </a>
                 </div>
@@ -206,7 +207,61 @@ z-index: 999999">
                         </li>
                     </ul>
                 </li>
-                <li <?php echo (Request::is('jobtitle')|| Request::is('skills') || Request::is('personnel') ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;" >
+                <li <?php echo (Request::is('servicecategory')|| Request::is('service')|| Request::is('servicesteps')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-wrench"></i>
+                        <span class="link-title">&nbsp; Service</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul>
+                        <li <?php echo (Request::is('servicecategory')  ? 'class="active"' : ''); ?> >
+                            <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Category
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('service')  ? 'class="active"' : ''); ?> >
+                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Services
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('servicesteps')  ? 'class="active"' : ''); ?> >
+                            <a href="/servicesteps" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Steps
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('serviceskills')  ? 'class="active"' : ''); ?> >
+                        <!--     <a href="/serviceskills" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Skills
+                            </a>
+                        </li> -->
+                        <li <?php echo (Request::is('serviceprice')  ? 'class="active"' : ''); ?> >
+                            <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Price
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('serviceproduct')  ? 'class="active"' : ''); ?> >
+                            <a href="/serviceproduct" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Product
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('servicebay')  ? 'class="active"' : ''); ?> >
+                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('inspectionchecklist')  ? 'class="active"' : ''); ?> >
+                            <a href="/inspectionchecklist" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="/maintenancechecklist" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+                <li <?php echo (Request::is('jobtitle')|| Request::is('skills') || Request::is('personnel') || Request::is('mechanicskills') ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;" >
                     <a href="javascript;" style="padding-left:10%; padding-right: 2%;">
                         <i class="fa fa-group"></i>
                             &nbsp;Personnel
@@ -233,50 +288,13 @@ z-index: 999999">
                                     &nbsp;Personnel
                             </a>
                         </li>
-                    </ul>
-                </li>
-                <li <?php echo (Request::is('servicecategory')|| Request::is('service')|| Request::is('serviceprice')|| Request::is('serviceproduct')|| Request::is('servicebay')|| Request::is('transact') ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
-                        <i class="fa fa-wrench"></i>
-                        <span class="link-title">&nbsp; Service</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul>
-                        <li <?php echo (Request::is('servicecategory')  ? 'class="active"' : ''); ?> >
-                            <a href="/servicecategory" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Category
+
+                        <li <?php echo (Request::is('mechanicskills')  ? 'class="active"' : ''); ?> >
+                            <a href="/mechanicskills" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                    &nbsp;Mechanic Skills
                             </a>
                         </li>
-                        <li <?php echo (Request::is('service')  ? 'class="active"' : ''); ?> >
-                            <a href="/service" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Services
-                            </a>
-                        </li>
-                        <li <?php echo (Request::is('serviceprice')  ? 'class="active"' : ''); ?> >
-                            <a href="/serviceprice" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Price
-                            </a>
-                        </li>
-                        <li <?php echo (Request::is('serviceproduct')  ? 'class="active"' : ''); ?> >
-                            <a href="/serviceproduct" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Product
-                            </a>
-                        </li>
-                        <li <?php echo (Request::is('servicebay')  ? 'class="active"' : ''); ?> >
-                            <a href="/servicebay" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Service Bay
-                            </a>
-                        </li>
-                        <li <?php echo (Request::is('transact')  ? 'class="active"' : ''); ?> >
-                            <a href="/transact" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <a href="/maintenancechecklist" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
                 <li <?php echo (Request::is('package')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -285,12 +303,31 @@ z-index: 999999">
                         <span class="link-title">&nbsp; Package</span>
                     </a>
                 </li>
-                <li <?php echo (Request::is('promo')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/promo" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa  fa-bookmark"></i>
+
+
+                 <li <?php echo (Request::is('freeitems')|| Request::is('promo')? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-bookmark"></i>
                         <span class="link-title">&nbsp; Promo</span>
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul>
+                        <li <?php echo (Request::is('freeitems') ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/freeitems')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Free Items
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('promo')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/promo')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Promo
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
+
                 <li <?php echo (Request::is('discount')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/discount" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-ticket"></i>
@@ -301,14 +338,21 @@ z-index: 999999">
                     <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
-
-                <!-- <li style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/customer" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-users"></i>
-                        <span class="link-title">&nbsp; Customer</span>
+                <li <?php echo (Request::is('customerinformation')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/vehicleinformation" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-info"></i>
+                        <span class="link-title">&nbsp;Customer Information</span>
                     </a>
                     
-                </li> -->
+                </li>
+                
+                <li <?php echo (Request::is('inspect')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-search"></i>
+                        <span class="link-title">&nbsp; Inspect Vehicle</span>
+                    </a>
+                    
+                </li>
                 <li <?php echo (Request::is('estimates')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/estimates" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-file-text"></i>
@@ -322,23 +366,10 @@ z-index: 999999">
                         <span class="link-title">&nbsp; Job Order</span>
                     </a>
                 </li>
-                <li <?php echo (Request::is('inspect')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-search"></i>
-                        <span class="link-title">&nbsp; Inspect Vehicle</span>
-                    </a>
-                    
-                </li>
                 <li <?php echo (Request::is('backjob')  ? 'class="active"' : ''); ?>  style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/backjob" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-rotate-left"></i>
                         <span class="link-title">&nbsp; Back Job</span>
-                    </a>
-                </li>
-                <li  <?php echo (Request::is('warranty')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/warranty" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-tags"></i>
-                        <span class="link-title">&nbsp; Warranty</span>
                     </a>
                 </li>
 
@@ -353,13 +384,46 @@ z-index: 999999">
                     
                 </li>
                 <li <?php echo (Request::is('reports')  ? 'class="active"' : ''); ?> style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/reports" style="padding-left:10%; padding-right: 10%;">
-                        <i class="fa fa-bar-chart-o"></i>
+                    <a href="javascript:;" style="padding-left:10%; padding-right: 2%;">
+                        <i class="fa fa-bookmark"></i>
                         <span class="link-title">&nbsp; Reports</span>
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul>
+                        <li <?php echo (Request::is('estimate_report') ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/estimate_report')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Estimate Report
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('inspection_report')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/inspection_report')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Inspection Report
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('joborder_report')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/joborder_report')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Job Order Report
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('jobordersales_report')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/jobordersales_report')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Job Order Sales Report
+                            </a>
+                        </li>
+                        <li <?php echo (Request::is('payment_report')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                            <a href="<?php echo e(url('/payment_report')); ?>" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Payment Report
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                </br>
+                <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; UTILITIES</span>
                 
 
