@@ -212,6 +212,8 @@ Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDis
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
 Route::get('/updatejoborder/{id}', 'UpdateJobOrderController@index');
+Route::get('/updatejoborder/{id}/getSteps', 'UpdateJobOrderController@getSteps');
+Route::get('/updatejoborder/{id}/getProducts', 'UpdateJobOrderController@getProducts');
 
 //Back Job
 Route::resource('/backjob','BackJobController');

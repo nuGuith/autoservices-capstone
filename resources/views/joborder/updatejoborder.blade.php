@@ -210,20 +210,35 @@
                                                 <th style="width: 28%;">Mechanic</th>
                                                 <th style="width: 21%;">Steps</th>
                                                 <th style="width: 15%;">Status</th>
-                                                <th style="width: 8%;">Actions</th>
+                                                <th style="width: 8%;">Action</th>
                                             </tr>
                                         </thead>
                                             <tbody>
                                                 @foreach($serviceperformed as $sp)
-                                                    <tr role="row">
+                                                    <tr role="row" data-currentstep="{!!$sp->CurrentStep!!}" data-serviceid="{!!$sp->ServiceID!!}">
                                                         <td>{!!$sp->ServiceName!!}</td> 
                                                         <td>Crisostomo dela Cruz</td>
                                                         <td style="text-align: center">
-                                                            Step <span style="color:red"><b>10</b></span> of 16
+                                                            Step <span style="color:red"><b>{!!$sp->CurrentStep!!}</b></span> of
+                                                            @foreach($stepcounts as $sc)
+                                                                @if($sp->ServiceID == $sc->serviceid)
+                                                                    {!!$sc->StepCount!!}
+                                                                @endif
+                                                            @endforeach
                                                         </td>
-                                                        <td>On going</td>
                                                         <td>
-                                                            <button type="button" id="updateBtn1" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
+                                                        @foreach($stepcounts as $sc)
+                                                            @if ($sp->CurrentStep == 0 && $sc->serviceid == $sp->ServiceID)
+                                                                Pending
+                                                            @elseif ($sp->CurrentStep < $sc->StepCount && $sc->serviceid == $sp->ServiceID)
+                                                                Ongoing
+                                                            @elseif ($sp->CurrentStep == $sc->StepCount && $sc->serviceid == $sp->ServiceID)
+                                                                Finished
+                                                            @endif
+                                                        @endforeach
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" id="updateBtn" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -246,87 +261,84 @@
                                 <!--Accordion: Payment Details -->
                                 <div class="row m-t-15">
                                     <div class="col-lg-12">
-
-                                    <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-                                        <div class="card">
-                                            <div class="card-header" role="tab" id="headingOne">
-                                                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
-                                                    <!--Label: balance -->
-                                                    <h5 class="mb-0">
-                                                                <span style="color:gray">Balance:
-                                                                    <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
-                                                                </span>
+                                        <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                                            <div class="card">
+                                                <div class="card-header" role="tab" id="headingOne">
+                                                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
+                                                        <!--Label: balance -->
+                                                        <h5 class="mb-0">
+                                                            <span style="color:gray">Balance:
+                                                                <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
+                                                            </span>
                                                                 <i class="fa fa-angle-down rotate-icon pull-right"></i>
-                                                            </h5>
-                                                </a>
-                                            </div>
+                                                        </h5>
+                                                    </a>
+                                                </div>
 
                                             <!-- Payment Details -->
                                             <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
                                                 <div class="card-body" style="padding-left:15px; padding-right: 15px; ">
 
 
-                                            <!--Textfield: Add Payment -->
-                                            <div class="form-group row m-t-5">
-                                                <div class=" col-lg-3  m-t-20">
-                                                        <h5>Add Payment<span style="color:red">*</span></h5>
-                                                    </div>
-                                                    <div class="col-md-12 col-lg-4">               
-                                                        <p>
-                                                            <input id="address" name="payment" type="text" placeholder=".00" class=" form-control m-t-10" style="text-align: right">
-                                                        </p>
+                                                    <!--Textfield: Add Payment -->
+                                                    <div class="form-group row m-t-5">
+                                                        <div class=" col-lg-3  m-t-20">
+                                                                <h5>Add Payment<span style="color:red">*</span></h5>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-lg-4">               
+                                                            <p>
+                                                                <input id="address" name="payment" type="text" placeholder=".00" class=" form-control m-t-10" style="text-align: right">
+                                                            </p>
+                                                        </div>
+                                                            
+                                                        <div class="col-md-12 col-lg-4 m-t-10">
+                                                            <button type="button" id=" " class="btn btn-outline-primary" ><i class="fa fa-plus text-cyan"></i></button>
+                                                        </div>                                       
                                                     </div>
                                                     
-                                                <div class="col-md-12 col-lg-4 m-t-10">
-                                                    <button type="button" id=" " class="btn btn-outline-primary" ><i class="fa fa-plus text-cyan"></i></button>
-                                                </div>                                       
-                                            </div>                                                                                              
-                                            
-                                                    
-                                            <!--Table: Payment Details -->
-                                            <table class="table table-bordered table-hover dataTable no-footer " id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:0px;" >
-                                                <thead>
-                                                    <tr class="trrow">
-                                                        <th>Date</th>
-                                                        <th>Amount</th>   
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                                @foreach($payments as $payment)
-                                                                    <tr role="row" class="odd" id="row">
-                                                                        <!--Column: Date -->
-                                                                        <td>{{ $payment->Date }}</td>
-                                                                            <!--Column: Amount-->
-                                                                        <td class="payment" id="payment" style="text-align: center">
-                                                                            {{ $payment->TotalPayment }}
-                                                                        </td>
-                                                                    </tr>
+                                                    <!--Table: Payment Details -->
+                                                    <table class="table table-bordered table-hover dataTable no-footer " id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:0px;" >
+                                                        <thead>
+                                                            <tr class="trrow">
+                                                                <th>Date</th>
+                                                                <th>Amount</th>   
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($payments as $payment)
+                                                                <tr role="row" class="odd" id="row">
+                                                                    <!--Column: Date -->
+                                                                    <td>{{ $payment->Date }}</td>
+                                                                    <!--Column: Amount-->
+                                                                    <td class="payment" id="payment" style="text-align: center">
+                                                                        {{ $payment->TotalPayment }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                @foreach($totals as $t)
+                                                                    <!--Row: Total Amount-->
+                                                                    <th style="text-align: right">
+                                                                        Total Amount:&nbsp;&nbsp;(Php)
+                                                                    </th> 
+                                                                    <th style="color:blue; text-align: center" id="totalamountpaid" name="totalamountpaid">
+                                                                        {{ $t->total }}
+                                                                    </th>
                                                                 @endforeach
-                                                                </tbody>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                    @foreach($totals as $t)
-                                                                        <!--Row: Total Amount-->
-                                                                        <th style="text-align: right">
-                                                                            Total Amount:&nbsp;&nbsp;(Php)
-                                                                        </th> 
-                                                                        <th style="color:blue; text-align: center" id="totalamountpaid" name="totalamountpaid">{{ $t->total }}</th>
-                                                                    @endforeach
-                                                                    </tr> 
-                                                                </tfoot>
-                                                </table>
+                                                            </tr> 
+                                                        </tfoot>
+                                                    </table>
 
-                                                <!--Lable: Overl All Total -->
-                                                <div class="row m-t-20" style="padding-bottom:15px">  
-                                                    <div class="col-lg-12 m-t-0 pull-right">
-                                                        <h5 style="padding-left: 240px;"><span style="color:gray">Over All Total:
-                                                        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">{{ $joborder->TotalAmountDue }}</span></h5>
-                                                        </p>
-                                                    </div>                         
-                                                </div>
-
-
-                                                    
+                                                    <!--Label: Overall Total -->
+                                                    <div class="row m-t-20" style="padding-bottom:15px">  
+                                                        <div class="col-lg-12 m-t-0 pull-right">
+                                                            <h5 style="padding-left: 240px;"><span style="color:gray">Over All Total:
+                                                            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">{{ $joborder->TotalAmountDue }}</span></h5>
+                                                        </div>                         
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -334,8 +346,8 @@
                                 </div>
                             </div>
 
-                    <!-- START SUBMIT MODAL -->
-                <div class="modal fade in " id="updateModal1" tabindex="-3" role="dialog" aria-hidden="false">
+                <!-- START UPDATE MODAL -->
+                <div class="modal fade in " id="updateModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-info" style="border-radius:4px 4px 0px 0px;">
@@ -344,7 +356,16 @@
                                             &nbsp;Update</h4>
                             </div>
                             <div class="modal-body">
-                                    <h3 style="padding:2% 2% 0%;">Engine Overhaul</h3>
+                                
+                                <div class="row m-t-5"  style="padding:2% 2% 0%;">
+                                    <div class="col-lg-4">
+                                        <h3 id="serviceTitle" style="padding:1% 2% 0%;"></h3>
+                                    </div>
+                                    <div class="col-lg-8" style="border-left: 3px solid #ECECEC;">
+                                        <h5>Currently on:&nbsp;&nbsp;&nbsp;&nbsp; <span id="currentStep">x</span></h5>
+                                        <h5>Mechanic assigned: Crisostomo dela Cruz</h5>
+                                    </div>
+                                </div>
                                 <div class="row m-t-5">
                                     <div class ="col-lg-6" style="margin: 2% 1% 2% 3%; padding:2%; border: 1px solid #ECECEC;border-radius: 7px;">
                                         <div class="row m-t-5">
@@ -353,95 +374,36 @@
                                             <div class="col-lg-2"><button class="btn btn-warning" style="font-size: 12px; padding: 2px 10px;" id="uncheckAll">Unselect all</button></div>
                                             <div class="col-lg-1"></div>
                                         </div>
-                                        <table class="table order-list display nowrap table-hover dataTable">
-                                            <tbody>
-                                                <tr>
-                                                    <td><input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);"></td>
-                                                    <td>Step 1: Prepare engine for removal.</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);"></td>
-                                                    <td>Step 2: Remove the engine.</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input id="chk" name="3" type="checkbox" value="3" style="-webkit-transform: scale(1.4);"></td>
-                                                    <td>Step 3: Removal of the accessories - Carburetor.</td>
-                                                </tr>
-                                            </tbody>
-                                        </table><!-- 
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 1:
-                                             Prepare engine for removal.
-                                        </label><br>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 2: Remove the engine.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="3" type="checkbox" value="3" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 3: Removal of the accessories - Carburetor.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="4" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 4: Removal of the accessories - Muffler.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="5" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 5: Removal of the accessories - Flywheel.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="6" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 6: Removal of the accessories - Ignition.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="6" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 7: Removal of the accessories - Cylinder head.
-                                        </label><br> -->
+                                        <div style="display:block; width:100%; height:200px; overflow-y:scroll; border-bottom: 1px solid #ECECEC; border-top: 1px solid #ECECEC;">
+                                            <table id="stepsTbl" class="table order-list display table-hover dataTable">
+                                                <tfoot id="stepsFooter">
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="col-lg-5"  style="margin: 2% 3% 2% 1%; padding:2%; border: 1px solid #ECECEC; border-radius: 7px;">
                                         <div class="row m-t-5">
                                             <div class="col-lg-12"><h4>Products: </h4></div>
                                         </div>
-                                        <table class="table list table-bordered display nowrap table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <td style="width: 30%;">
-                                                        <h5>Quantity <span style="color: red">*</span></h5>
-                                                    </td>
-                                                    <td style="width: 50%;">
-                                                        <h5>Product</h5>
-                                                    </td>
-                                                    <td style="width: 20%;">
-                                                        <h5>Action<span style="color: red"></span></h5>
-                                                    </td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="border-right:none !important">
-                                                        <input type="number" style="width:55px; text-align:center; " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="5">
-                                                    </td>
-                                                    <td style="border-right:none !important">
-                                                        Piston
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" id="update" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-plus text-green"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border-right:none !important">
-                                                        <input type="number" style="width:55px; text-align:center;   " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="7">
-                                                    </td>
-                                                    <td style="border-right:none !important">
-                                                        Crank Rods
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" id="update" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-plus text-green"></i></button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div style="display:block; width:100%; height:200px; overflow-y:scroll; border-bottom: 1px solid #ECECEC; border-top: 1px solid #ECECEC;">
+                                            <table id="productsTbl" class="table list table-bordered display table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <td style="width: 33%;">
+                                                            <h5>Quantity <span style="color: red">*</span></h5>
+                                                        </td>
+                                                        <td style="width: 55%;">
+                                                            <h5>Product</h5>
+                                                        </td>
+                                                        <td style="width: 12%;">
+                                                            <h5>Action<span style="color: red"></span></h5>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot id="productsFooter">
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -456,51 +418,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- END SUBMIT MODAL -->
-                <div class="modal fade in " id="updateModal2" tabindex="-3" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
-                                            &nbsp;Update</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="col m-t-15">
-                                    <h3><span style="color: green">Change Oil</span></h3>
-                                    <h4>Steps: </h4><br>
-                                    <table id="steps2">
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 1: Open Oil Gauge.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 2: Check Air Pump.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="3" type="checkbox" value="3" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 3: Clean oil filter.
-                                        </label>
-                                        <label class="text-black"  style="padding-left: 10px;">
-                                            <input id="chk" name="4" type="checkbox" value="4" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 4: Clean valves.
-                                        </label>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="modal-footer m-t-10">
-                                <div class="examples transitions m-t-5">
-                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
-                                </div>
-                                <div class="examples transitions m-t-5">
-                                <button class="btn btn-info source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END SUBMIT MODAL -->
+                <!-- END UPDATE MODAL -->
                     </div>
                 </div>
             </div>
@@ -551,20 +469,100 @@
 <script type="text/javascript" src="{{URL::asset('js/pages/modals.js')}}"></script>
 <!--End of global scripts-->
 <script>
+
+    function getSteps(serviceid){
+        var tbody = $("<tbody>");
+        
+        $.ajax({
+            type: "GET",
+            url: "/updatejoborder/"+serviceid+"/getSteps",
+            dataType: "JSON",
+            async:false,
+            success:function(data){
+                var options = '';
+                var row = $("<tr>");
+                var cols = "";
+                var stepCtr;
+                var count = Object.keys(data.steps).length;
+                for (var i = 0; i < count; i++) {
+                    cols += '<td><input id="chk" name="step[]" data-stepcount="'+ (i+1) +'" type="checkbox" value="1" style="-webkit-transform: scale(1.4);"></td>';
+                    cols += '<td>Step '+ (i+1) +': '+data.steps[i].Step+'</td>';           
+                    row.append(cols);
+                    tbody.append(row);
+                    row = $("<tr>");
+                    cols = "";
+                }
+                $('#serviceTitle').html(data.service.ServiceName);
+                $('table.table-bordered tr').each(function(){
+                    var currentStep = $(this).data('currentstep');
+                    if($(this).data('serviceid') == serviceid)
+                        if(currentStep < 1)
+                            $('#currentStep').html("Step " + currentStep + " (Pending)");
+                        else
+                            $('#currentStep').html("Step " + currentStep);
+                        
+                });
+            }
+        });
+        $('#stepsTbl').find('tbody').empty();
+        $(tbody).insertBefore("#stepsFooter");
+    }
+
+    function getProducts(id){
+        var tbody = $("<tbody>");
+        
+        $.ajax({
+            type: "GET",
+            url: "/updatejoborder/"+id+"/getProducts",
+            dataType: "JSON",
+            async:false,
+            success:function(data){
+                var options = '';
+                var row = $("<tr>");
+                var cols = "";
+                var stepCtr;
+                var count = Object.keys(data.productused).length;
+                for (var i = 0; i < count; i++) {
+                    cols += '<td style="border-right:none !important"><input type="number" style="width:55px; text-align:center; " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="'+ data.productused[i].Quantity +'"></td>';
+                    cols += '<td style="border-right:none !important">'+ data.productused[i].ProductName +'</td>';
+                    cols += '<td><input type="hidden" id="productusedid" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><button type="button" id="update" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-save text-green"></i></button></td>';
+                    row.append(cols);
+                    tbody.append(row);
+                    row = $("<tr>");
+                    cols = "";                               
+                }
+            }
+        });
+        $('#productsTbl').find('tbody').empty();
+        $(tbody).insertBefore("#productsFooter");
+        tickCheckBox();
+        $("#updateModal").modal('show');
+    }
+
+    function tickCheckBox(step){
+        var id = step;
+        //check all the steps preceding the selected step
+        $('table.order-list tr td input').each( function(){
+            var chk = $(this).data('stepcount');
+            chk = parseInt(chk);
+            if ((this.id) == "chk" && chk <= id )
+                $(this).prop("checked", "checked");
+            else
+                $(this).prop("checked", false);
+         });
+    }
+
+</script>
+<script>
+
 $(document).ready(function(){
-    $("#updateBtn1").on("click", function(){
-        $("#updateModal1").modal('show');
-    });
-    $("#updateBtn2").on("click", function(){
-        $("#updateModal2").modal('show');
-    });
 
     var clicks = 0;
     $("table.order-list").on("click", "#chk", function (event){
-        var id = $(this).attr('name');
+        var id = $(this).data('stepcount');
             //check all the steps preceding the selected step
             $('table.order-list tr td input').each( function(){
-                var chk = $(this).attr('name');
+                var chk = $(this).data('stepcount');
                 chk = parseInt(chk);
                 if ((this.id) == "chk" && chk <= id )
                     $(this).prop("checked", "checked");

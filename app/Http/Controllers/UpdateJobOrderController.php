@@ -48,6 +48,13 @@ class UpdateJobOrderController extends Controller
             ->where(['sp.estimateid' => $joborder->EstimateID, 'sp.isActive' => 1])
             ->select('sp.*', 'svc.*')
             ->get();
+        
+        $stepcounts =  DB::table('service AS svc')
+            ->leftJoin('service_steps AS ss', 'svc.serviceid', '=', 'ss.serviceid')
+            ->where(['svc.isActive' => 1 ])
+            ->groupBy('ss.serviceid')
+            ->select('svc.serviceid', DB::raw('count(ss.step) as StepCount'))
+            ->get();
 
         $productused = DB::table('product_used AS pu')
             ->join('product as pr', 'pu.productid', '=', 'pr.productid')
@@ -67,7 +74,10 @@ class UpdateJobOrderController extends Controller
             ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
             ->where(['p.isActive' => 1, 'p.joborderid' => $id])
             ->get();
-        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay', 'serviceperformed', 'productused', 'payments', 'totals'));
+
+        //dd(compact('joborder','customer','automobile','servicebay', 'serviceperformed', 'stepcounts', 'productused', 'payments', 'totals'));
+
+        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay', 'serviceperformed', 'stepcounts', 'productused', 'payments', 'totals'));
     }
 
     /**
@@ -111,6 +121,24 @@ class UpdateJobOrderController extends Controller
     public function edit($id)
     {
         
+    }
+
+    public function getSteps($id)
+    {
+        $steps = DB::table('service_steps')
+            ->where(['serviceid' => $id,'isActive' => 1 ])
+            ->get();
+        $service = DB::table('service')->where('serviceid', $id)->first();
+        return response()->json(compact('steps', 'service'));
+    }
+
+    public function getProducts($id)
+    {
+        $productused = DB::table('product as pr')
+            ->join('product_used as pu', 'pr.productid', '=', 'pu.productid')
+            ->where(['pu.serviceperformedid' => $id,'pu.isActive' => 1 ])
+            ->get();
+        return response()->json(compact('productused'));
     }
 
     /**
