@@ -43,6 +43,18 @@ class UpdateJobOrderController extends Controller
                     ->first();
         $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
 
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.estimateid' => $joborder->EstimateID, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $joborder->EstimateID, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
+
         $payments = DB::table('payment as p')
             ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
             ->where(['p.isActive' => 1, 'p.joborderid' => $id])
@@ -55,7 +67,7 @@ class UpdateJobOrderController extends Controller
             ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
             ->where(['p.isActive' => 1, 'p.joborderid' => $id])
             ->get();
-        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay', 'payments', 'totals'));
+        return view ('joborder.updatejoborder',compact('joborder','customer','automobile','servicebay', 'serviceperformed', 'productused', 'payments', 'totals'));
     }
 
     /**

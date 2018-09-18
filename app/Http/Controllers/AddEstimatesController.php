@@ -275,7 +275,7 @@ class AddEstimatesController extends Controller
         $products = DB::table('product AS pr')
             ->join('product_service AS ps', 'pr.productid', 'ps.productid')
             ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
-            ->select('pr.productname','pr.productid')
+            ->select('pr.productname','pr.productid', 'pr.price')
             ->get();
         return response()->json(compact('products'));
     }

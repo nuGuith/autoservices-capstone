@@ -2,22 +2,20 @@
 <?php $__env->startSection('Title','Estimates'); ?> <!-- Page Title -->
 <?php $__env->startSection('content'); ?>
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/sweetalert/css/sweetalert2.min.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('css/pages/sweet_alert.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/sweetalert/css/sweetalert2.min.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/pages/sweet_alert.css')); ?>"/>
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/animate/css/animate.min.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/hover/css/hover-min.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/wow/css/animate.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/animate/css/animate.min.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/hover/css/hover-min.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/wow/css/animate.css')); ?>"/>
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/tooltipster/css/tooltipster.bundle.min.css')); ?>">
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/tipso/css/tipso.min.css')); ?>">
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/tooltipster/css/tooltipster.bundle.min.css')); ?>">
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('vendors/tipso/css/tipso.min.css')); ?>">
 
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('css/pages/animations.css')); ?>"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('css/pages/portlet.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/pages/animations.css')); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/pages/portlet.css')); ?>"/>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo e(URL::asset('vendors/animate/css/animate.min.css')); ?>" />
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/jquery-validation-engine/css/validationEngine.jquery.css')); ?>" />
-    <link type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset('vendors/animate/css/animate.min.css')); ?>" />
     <!--End of plugin styles-->
 
         <!-- CONTENT -->
@@ -36,7 +34,7 @@
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/inspect">
+                                <a href="/estimates">
                                     <i class="fa fa-file-text" data-pack="default" data-tags=""></i>
                                     &nbsp;Estimates
                                 </a>
@@ -63,7 +61,7 @@
                              </div>
 
 
-                            <div class="card-block m-t-35" id="user_body">
+                            <div class="card-block m-t-35">
                                 <div class="table-toolbar">
                                     <div class="btn-group">
                                     <div class="btn-group float-right users_grid_tools">
@@ -72,10 +70,10 @@
                                     </div>
                                 </div>
                             <div>
-                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="example2" role="grid">
                                             <thead>
                                                 <tr role="row">
-                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>Estimate Id</b></th>
+                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>Estimate ID</b></th>
                                                     <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Vehicle</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>Customer</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Date</b></th>
@@ -108,11 +106,15 @@
                                                     </td>
                                                     <td class="center">
                                                         <ul style="padding-left: 1.2em;">
-                                                            <!-- <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> -->
-                                                                <!-- <?php if($estimate->CustomerID == $customer->CustomerID): ?> -->
-                                                                    <li>Name: <?php echo e($customer->FullName); ?></li>
-                                                                    <li>Contact No: <?php echo e($customer->ContactNo); ?></li>
-                                                                    <li>Address: <?php echo e($customer->CompleteAddress); ?></li>
+                                                            <!-- <?php $__currentLoopData = $automobiles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $automobile): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> -->
+                                                                <!-- <?php if($estimate->AutomobileID == $automobile->AutomobileID): ?> -->
+                                                                    <!-- <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> -->
+                                                                        <!-- <?php if($customer->CustomerID == $automobile->CustomerID): ?> -->
+                                                                        <li>Name: <?php echo e($customer->FullName); ?></li>
+                                                                        <li>Contact No: <?php echo e($customer->ContactNo); ?></li>
+                                                                        <li>Address: <?php echo e($customer->CompleteAddress); ?></li>
+                                                                        <!-- <?php endif; ?> -->
+                                                                    <!-- <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
                                                                 <!-- <?php endif; ?> -->
                                                             <!-- <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
                                                         </ul>
@@ -121,12 +123,12 @@
                                                     <td>
                                                         <!--VIEW BUTTON-->
                                                         <div class="examples transitions m-t-5">
-                                                            <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View" href="/viewestimates/<?php echo $estimate->EstimateID; ?>" >
+                                                            <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #00C0EF" data-color="white" data-tipso="View" href="/viewestimates/<?php echo e($estimate->EstimateID); ?>" >
                                                                 <i class="fa fa-eye text-white"></i>
                                                             </a>
 
                                                             <!--EDIT BUTTON-->
-                                                            <a class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" href="/editestimates/<?php echo e($estimate->EstimateID); ?>">
+                                                            <a class="btn btn-success hvr-float-shadow tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" href="/editestimates/<?php echo e($estimate->EstimateID); ?>">
                                                                 <i class="fa fa-pencil text-white"></i>
                                                             </a>
                                                 
@@ -138,7 +140,8 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -156,30 +159,41 @@
 
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="<?php echo e(URL::asset('js/jquery.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('js/components.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('js/custom.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('vendors/sweetalert/js/sweetalert2.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('js/pages/sweet_alerts.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('js/jquery.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('js/components.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('js/custom.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('vendors/sweetalert/js/sweetalert2.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('js/pages/sweet_alerts.js')); ?>"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="<?php echo e(URL::asset('vendors/snabbt/js/snabbt.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('vendors/wow/js/wow.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('vendors/snabbt/js/snabbt.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('vendors/wow/js/wow.min.js')); ?>"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="<?php echo e(URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('vendors/tipso/js/tipso.min.js')); ?>"></script>
-<script type="text/javascript" src="<?php echo e(URL::asset('js/pages/tooltips.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('vendors/tooltipster/js/tooltipster.bundle.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('vendors/tipso/js/tipso.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('js/pages/tooltips.js')); ?>"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="<?php echo e(URL::asset('js/pages/modals.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('js/pages/modals.js')); ?>"></script>
 <!--End of global scripts-->
 
-
+<script>
+$(document).ready(function() {
+    $('#example2').DataTable({
+        "pagingType": "full_numbers",
+        "order": [[3, 'desc']],
+        scrollY: true,
+        scroller: {
+            "rowHeight": 1
+        }
+    });
+});
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
