@@ -98,7 +98,7 @@ z-index: 999999">
                         <div class="user-settings no-bg">
 
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
-                                <img src="{{URL::asset('/img/admin.jpeg')}}" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
+                                <img src="{{URL::asset('/img/user-admin.png')}}" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
 
@@ -141,7 +141,7 @@ z-index: 999999">
                 <div class="user-wrapper bg-dark">
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
-                             src="img/admin.jpeg">
+                             src="{{URL::asset('img/user-admin.png')}}">
                         <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
                     </a>
                 </div>
