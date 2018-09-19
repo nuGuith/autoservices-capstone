@@ -336,8 +336,8 @@
 <script type="text/javascript" src="vendors/datatables/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/components.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
-<script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
 <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
+<script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
 <script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
 <script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
 <script>
@@ -350,7 +350,7 @@
         <?php endif; ?>
         <?php if($errors->update->any()): ?>
             $('#editModal').modal('show');
-         <?php endif; ?>
+        <?php endif; ?>
     });
 </script>
 <script>

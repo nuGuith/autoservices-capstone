@@ -820,13 +820,13 @@
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
-                                <div class="examples transitions m-t-5">
-                                    <a id="btnJustSave" style="background-color:#00BF86; color:white;" type="submit" class="btn btn-success">
+                                <div class="m-t-5">
+                                    <a id="btnJustSave" style="border:1px solid #008A60" type="submit" class="btn btn-success">
                                     <i class="fa fa-save text-white" ></i>&nbsp;Save
                                     </a>
                                 </div>
-                                <div class="examples transitions m-t-5">
-                                    <a id="btnSaveProceed" style="background-color:#00BF86; color:white;" type="submit" class="btn btn-success">
+                                <div class="m-t-5">
+                                    <a id="btnSaveProceed" style="border:1px solid #008A60" type="submit" class="btn btn-success">
                                     <i class="fa fa-save text-white" ></i>&nbsp;Save & Proceed &rarr;
                                     </a>
                                 </div>

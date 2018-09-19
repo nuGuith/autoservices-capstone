@@ -436,7 +436,7 @@
                     </div>
                 </div>
                 <!-- START SUBMIT MODAL -->
-                <div class="modal fade in " id="confirmationModal" tabindex="-3" role="dialog" aria-hidden="false">
+                <div class="modal fade in " id="confirmationModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -463,6 +463,58 @@
                     </div>
                 </div>
                 <!-- END SUBMIT MODAL -->
+                <!-- START PRODUCT SUGGESTIONS MODAL -->
+                <div class="modal fade in " id="productSuggest" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Product suggestions</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Here are the product suggestions or the list of all the product(s) that might be needed for the service <strong><span id="servicename">Engine Overhaul</span></strong>. We can automatically add all of them for you.</h5>
+                                    <div>
+                                        <table class="table display nowrap dataTable no-footer" style="width:96%;">
+                                        </table>
+                                    </div>
+                                    <div style="display:block; width:100%; height:150px; overflow-y:scroll;">
+                                        <table id="prodSuggestTbl" class="table display nowrap dataTable" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <td><h5>Product</h5></td>
+                                                    <td><h5>Unit Price</h5></td>
+                                                </tr>
+                                            </thead>
+                                            <tfoot id="prodSuggestFooter">
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div><br>
+                                <div style="background:#F7F7F9; padding: 3%;" class="row m-t-6">
+                                    <div class="col-md-9">
+                                        <h6>If you don't like this feature, you can turn this off in <a style="color:#0366D6" href="#">Utilities</a> or just click the 'Turn off' button here.</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-outline-primary" style="border:1px solid #aeafaf;padding-top:4%;padding-bottom:4%; color: #0366D6; background-color:#FFFFFF" onMouseOver="this.style.backgroundColor='#0366D6';this.style.color='#FFFFFF'" onMouseOut="this.style.backgroundColor='#FFFFFF';this.style.color='#0366D6'">Turn off</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">No, I want to manually add products.</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnGo" type="button" data-dismiss="modal" onclick="" class="btn btn-success">
+                                        &nbsp;Proceed
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PRODUCT SUGGESTIONS MODAL -->
             </div>
         </div>
                    
@@ -519,7 +571,7 @@ $(document).ready(function () {
     var routeID = null;
     var redirect = '';
     var totalEstimatedTime = 0; 
-    var valid = true;
+    var valid = true, dismissed = false;
 
     window.addEventListener("beforeunload", function (e) {
     var message = "Are you sure you want to leave?";
@@ -790,11 +842,12 @@ $(document).ready(function () {
             }
         });
     }
-
+    
 
     /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
     $("#services").change(function () {
         var selectedID = $(this).val();
+        var selectedSvc = $('#services :selected').text();
         selectedService = selectedID;
 
         if (modelID < 1){
@@ -811,6 +864,8 @@ $(document).ready(function () {
             $('#labor').val(labor);
             $('#labor').addClass('focused_input');
             $('#products').prop('disabled', false);
+            $('#productSuggest').find('tbody').empty();
+            var tbody = $("<tbody>");
 
             $.ajax({
                 type: "GET",
@@ -819,15 +874,29 @@ $(document).ready(function () {
                 async: false,
                 success:function(data){
                     var options = '';
+                    var row = $("<tr>");
+                    var cols = "";
                     var count = Object.keys(data.products).length;
                     for (var i = 0; i < count; i++) {
                         options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+                        cols += '<td style="border-right:none !important">'+ data.products[i].productname +'</td>';
+                        cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align:right; height:10px;" readonly placeholder=".00" value='+ data.products[i].price +' class="form-control"></td>';
+                        selectProduct[i] = parseInt(data.products[i].productid);
+                        row.append(cols);
+                        tbody.append(row);
+                        row = $("<tr>");
+                        cols = "";
                     }
+                    ctr = count;
                     $("#products").append(options);
                     $("#products option[value='0']").prop("disabled",true, "selected",false);
                     $('#products').trigger("chosen:updated");
                 }
             });
+            $('#servicename').html(selectedSvc);
+            $(tbody).insertBefore("#prodSuggestFooter");
+            disableOutsideClick();
+            $('#productSuggest').modal('show');
         }
 
         
@@ -856,7 +925,50 @@ $(document).ready(function () {
     // ADD ITEMS Button
     var newProductRow = $("<tr/>");
     $("#addRow").on("click", function (event) {
-        var counter = 0;
+        if (dismissed) addService();
+        $("#services").prop("disabled", false).trigger("chosen:updated");
+        addProduct();
+        getEstimatedTime();
+        getGrandTotal();
+        reset();
+    });
+
+    $('#btnNo').on("click", function(){
+        addService();
+        getEstimatedTime();
+        getGrandTotal();
+        $("#services").prop("disabled", true).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+    });
+
+    $('#close').on("click", function(){
+        dismissed = true;
+    });
+
+    $('#btnGo').on("click", function(){
+        addService();
+        addProduct();
+        getEstimatedTime();
+        getGrandTotal();
+        reset();
+    });
+
+    function disableOutsideClick(){
+        $('#productSuggest').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    function reset(){
+        $("#services").val(0).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+        $("#addRow").prop("disabled", true);
+        $("#labor").val(null);
+        $("#products").prop("disabled", "disabled").trigger('chosen:updated');
+    }
+
+    function addService(){
         var cols = "";
 
         $.ajax({
@@ -879,6 +991,8 @@ $(document).ready(function () {
                 newServiceRow.append(cols);
                 $(newServiceRow).insertBefore("#footer");
 
+                bindListenerToBtnDel();
+
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
 
@@ -888,8 +1002,12 @@ $(document).ready(function () {
                 cols = "";
             }
         });
-        
-        counter++;
+
+        dismissed=false;
+        //selectedService = null;
+    }
+
+    function addProduct(){  
         for(var k = 0; k < ctr; k++){
             $.ajax({
                 type: "GET",
@@ -918,7 +1036,6 @@ $(document).ready(function () {
                     }
 
                     cols = "";
-                    counter++;
 
                     $("table td input").bind({
                         keyup: function() {
@@ -933,25 +1050,7 @@ $(document).ready(function () {
                         }
                     });
 
-                    $("table.list").on("click", ".btnDel", function (event) {
-                        var id = $(this).data('serviceid');
-                        var svcid = "svc" + id;
-                        
-                        //remove all products included in this service
-                        $('table tr').each( function() {
-                            if ((this.id) == svcid) 
-                                $(this).closest("tr").remove();
-                        });
-
-                        $(this).closest("tr").remove();
-                        $('#services option[value="'+id+'"]').prop("disabled", false);
-                        $('#services').trigger("chosen:updated");
-                        getEstimatedTime();
-                        getGrandTotal();
-
-                        serviceCtr--;
-                        if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
-                    });
+                    bindListenerToBtnDel();
 
                     $("table.list").on("click", "#productid", function(event){
                         var remaining = 1;
@@ -976,16 +1075,31 @@ $(document).ready(function () {
                 }
             });
         }
-        selectedService = null;
-        getEstimatedTime();
-        getGrandTotal();
-        $("#problem").val(null);
-        $("#services").val(0).trigger("chosen:updated");
-        $("#products").val(null).trigger("chosen:updated");
-        $("#addRow").prop("disabled", true);
-        $("#labor").val(null);
-        $("#products").prop("disabled", "disabled").trigger('chosen:updated');
-    });
+
+    }
+
+    function bindListenerToBtnDel(){
+        
+        $("table.list").on("click", ".btnDel", function (event) {
+            var id = $(this).data('serviceid');
+            var svcid = "svc" + id;
+                        
+            //remove all products included in this service
+            $('table tr').each( function() {
+                if ((this.id) == svcid) 
+                    $(this).closest("tr").remove();
+            });
+
+            $(this).closest("tr").remove();
+            $('#services option[value="'+id+'"]').prop("disabled", false);
+            $('#services').trigger("chosen:updated");
+            getEstimatedTime();
+            getGrandTotal();
+
+            serviceCtr--;
+            if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+        });
+    }
 
     function getGrandTotal(){
         grandTotal = 0;

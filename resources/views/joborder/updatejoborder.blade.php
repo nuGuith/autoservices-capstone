@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master Page -->
 @section('Title','Update Job Order') <!-- Page Title -->
 @section('content')
 
@@ -214,49 +214,19 @@
                                             </tr>
                                         </thead>
                                             <tbody>
-                                            <tr role="row" class="odd">
-                                                    <!--Column: Service -->
-                                                    <td>
-                                                        Engine Overhaul
-                                                    </td> 
-                                                    <!--Column: Mechanic -->
-                                                    <td>
-                                                        Juan Dela Crusz
-                                                    </td>
-                                                    <td style="text-align: center">
-                                                        Step <span style="color:red"><b>10</b></span> of 16
-                                                    </td>
-                                                    <!--Column: Status -->
-                                                    <td>
-                                                        On going        
-                                                    </td>
-                                                    <!--Column: Actions: Refresh-->
-                                                    <td>
-                                                        <button type="button" id="updateBtn1" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
-                                                    </td>
-                                                </tr>
-                                                <!--example for service -->
-                                                <tr role="row" class="odd">
-                                                    <!--Column: Service -->
-                                                    <td>
-                                                        Change Oil
-                                                    </td> 
-                                                    <!--Column: Mechanic -->
-                                                    <td>
-                                                        Juan Dela Crusz
-                                                    </td>
-                                                    <td style="text-align: center">
-                                                        Step <span style="color:red"><b>0</b></span> of 4
-                                                    </td>
-                                                    <!--Column: Status -->
-                                                    <td>
-                                                        Pending        
-                                                    </td>
-                                                    <!--Column: Actions: Refresh-->
-                                                    <td>
-                                                        <button type="button" id="updateBtn2" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
-                                                    </td>
-                                                </tr>
+                                                @foreach($serviceperformed as $sp)
+                                                    <tr role="row">
+                                                        <td>{!!$sp->ServiceName!!}</td> 
+                                                        <td>Crisostomo dela Cruz</td>
+                                                        <td style="text-align: center">
+                                                            Step <span style="color:red"><b>10</b></span> of 16
+                                                        </td>
+                                                        <td>On going</td>
+                                                        <td>
+                                                            <button type="button" id="updateBtn1" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                              
                                             <tfoot>
@@ -366,9 +336,9 @@
 
                     <!-- START SUBMIT MODAL -->
                 <div class="modal fade in " id="updateModal1" tabindex="-3" role="dialog" aria-hidden="false">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
-                            <div class="modal-header bg-info">
+                            <div class="modal-header bg-info" style="border-radius:4px 4px 0px 0px;">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-save"></i>
                                             &nbsp;Update</h4>
@@ -401,7 +371,8 @@
                                         </table><!-- 
                                         <label class="text-black"  style="padding-left: 10px;">
                                             <input id="chk" name="1" type="checkbox" value="1" style="-webkit-transform: scale(1.4);">
-                                            &nbsp;&nbsp;Step 1: Prepare engine for removal.
+                                            &nbsp;&nbsp;Step 1:
+                                             Prepare engine for removal.
                                         </label><br>
                                         <label class="text-black"  style="padding-left: 10px;">
                                             <input id="chk" name="2" type="checkbox" value="2" style="-webkit-transform: scale(1.4);">
@@ -429,8 +400,10 @@
                                         </label><br> -->
                                     </div>
                                     <div class="col-lg-5"  style="margin: 2% 3% 2% 1%; padding:2%; border: 1px solid #ECECEC; border-radius: 7px;">
-                                        <h4>Products: </h4>
-                                        <table class="table list table-bordered display nowrap table-hover dataTable">
+                                        <div class="row m-t-5">
+                                            <div class="col-lg-12"><h4>Products: </h4></div>
+                                        </div>
+                                        <table class="table list table-bordered display nowrap table-hover">
                                             <thead>
                                                 <tr>
                                                     <td style="width: 30%;">
