@@ -414,10 +414,10 @@ z-index: 999999">
                                 &nbsp; Job Order Sales Report
                             </a>
                         </li>
-                        <li {!! (Request::is('payment_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <li {!! (Request::is('billing_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/payment_report')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
-                                &nbsp; Payment Report
+                                &nbsp; Billing Report
                             </a>
                         </li>
                     </ul>

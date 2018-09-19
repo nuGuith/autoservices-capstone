@@ -223,6 +223,7 @@ Route::resource('/viewbackjob','ViewBackJobController');
 //Customer Information
 Route::resource('/vehicleinformation','VehicleInformationController');
 Route::resource('/viewvehiclehistory','VehicleHistoryController');
+
 // Output Forms - Sample
 Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
@@ -236,3 +237,8 @@ Route::get('/inspection_report', 'ReportsController@inspection');
 Route::get('/joborder_report', 'ReportsController@joborder');
 Route::get('/jobordersales_report', 'ReportsController@jobordersales');
 Route::get('/payment_report', 'ReportsController@payment');
+
+//Reports Printable Forms
+Route::get('/report-estimate', 'PDFController@estimate');
+Route::get('/report-inspection', 'PDFController@inspection');
+Route::get('/report-joborder', 'PDFController@joborder');
