@@ -161,7 +161,7 @@
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
-                                            <h5>Middle Name: <span style="color:red">*</span></h5>
+                                            <h5>Middle Name:</h5>
                                             <p>
                                                 <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10">
                                             </p>
