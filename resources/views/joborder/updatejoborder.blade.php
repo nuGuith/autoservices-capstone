@@ -184,16 +184,16 @@
                                         <!--progress bar-->
                                         <div class="row m-t-20">
                                             <div class="col-lg-4">
-                                                <h5><span style="color:gray">Progress: </span>&nbsp;&nbsp;&nbsp;50%</h5>
+                                                <h5><span style="color:gray">Progress: </span>&nbsp;&nbsp;&nbsp;<span id="progressTxt">0%</span></h5>
                                             </div>
 
                                             <div class="col-lg-8">
-                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;{{$joborder->Status}}</h5>
+                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;<span id="status">{{$joborder->Status}}</span></h5>
                                             </div>
 
                                             <div class="col-lg-12 m-t-10">
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 50%; height:20px; font-size:14px" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">50%
+                                                    <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:50%; height:20px; font-size:14px; padding:2px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><span id="progresspercent">0%</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -203,7 +203,7 @@
 
                                 <div class="row m-t-15">
                                 <!--Start of job order profgress tavle-->
-                                    <table class="table table-bordered table-hover dataTable" id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:30px;" >
+                                    <table class="table table-bordered table-hover dataTable" id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:30px;">
                                         <thead>
                                             <tr class="trrow">
                                                 <th style="width: 27%;">Items</th>
@@ -219,21 +219,24 @@
                                                         <td>{!!$sp->ServiceName!!}</td> 
                                                         <td>Crisostomo dela Cruz</td>
                                                         <td style="text-align: center">
+                                                            <input id="progress" type="hidden" value="{!!$sp->CurrentStep!!}">
                                                             Step <span style="color:red"><b>{!!$sp->CurrentStep!!}</b></span> of
                                                             @foreach($stepcounts as $sc)
                                                                 @if($sp->ServiceID == $sc->serviceid)
                                                                     {!!$sc->StepCount!!}
+                                                                    <input id="stepcount" type="hidden" value="{!!$sc->StepCount!!}">
                                                                 @endif
                                                             @endforeach
+                                                            <input id="progresscount" type="hidden" value="{!!$sp->CurrentStep!!}">
                                                         </td>
                                                         <td>
                                                         @foreach($stepcounts as $sc)
                                                             @if ($sp->CurrentStep == 0 && $sc->serviceid == $sp->ServiceID)
-                                                                Pending
+                                                                <b><span style="color:orange;">Pending</span></b>
                                                             @elseif ($sp->CurrentStep < $sc->StepCount && $sc->serviceid == $sp->ServiceID)
-                                                                Ongoing
+                                                                <b><span style="color:green;">Ongoing</span></b>
                                                             @elseif ($sp->CurrentStep == $sc->StepCount && $sc->serviceid == $sp->ServiceID)
-                                                                Finished
+                                                                <b><span style="color:blue;">Finished</span></b>
                                                             @endif
                                                         @endforeach
                                                         </td>
@@ -347,6 +350,7 @@
                             </div>
 
                 <!-- START UPDATE MODAL -->
+                
                 <div class="modal fade in " id="updateModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
@@ -360,6 +364,7 @@
                                 <div class="row m-t-5"  style="padding:2% 2% 0%;">
                                     <div class="col-lg-4">
                                         <h3 id="serviceTitle" style="padding:1% 2% 0%;"></h3>
+                                        <input id="updateStep" type="hidden" name="updateStep">
                                     </div>
                                     <div class="col-lg-8" style="border-left: 3px solid #ECECEC;">
                                         <h5>Currently on:&nbsp;&nbsp;&nbsp;&nbsp; <span id="currentStep">x</span></h5>
@@ -418,6 +423,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- END UPDATE MODAL -->
                     </div>
                 </div>
@@ -477,7 +483,7 @@
             type: "GET",
             url: "/updatejoborder/"+serviceid+"/getSteps",
             dataType: "JSON",
-            async:false,
+            async: false,
             success:function(data){
                 var options = '';
                 var row = $("<tr>");
@@ -506,6 +512,7 @@
         });
         $('#stepsTbl').find('tbody').empty();
         $(tbody).insertBefore("#stepsFooter");
+        $("#updateModal").modal('show');
     }
 
     function getProducts(id){
@@ -515,7 +522,6 @@
             type: "GET",
             url: "/updatejoborder/"+id+"/getProducts",
             dataType: "JSON",
-            async:false,
             success:function(data){
                 var options = '';
                 var row = $("<tr>");
@@ -535,8 +541,6 @@
         });
         $('#productsTbl').find('tbody').empty();
         $(tbody).insertBefore("#productsFooter");
-        tickCheckBox();
-        $("#updateModal").modal('show');
     }
 
     function tickCheckBox(step){
@@ -555,9 +559,43 @@
 </script>
 <script>
 
+    function drawProgress(){
+        var progressCount = 0, stepCount = 0, progressPercent = 0, temp;
+
+        $("table.table-bordered tr td input").each(function(){
+            if (this.id == "progresscount"){
+                temp = parseInt($(this).val());
+                progressCount += temp;
+            }
+            else if (this.id == "stepcount"){
+                temp = parseInt($(this).val());
+                stepCount += temp;
+            }
+        });
+        progressPercent = (progressCount/stepCount) * 100;
+        if (progressPercent == 0)
+            $('#status').html("Pending");
+        else if (progressPercent < 100)
+            $('#status').html("Ongoing");
+        else if (progressPercent == 100)
+            $('#status').html("Finished");
+
+        temp = progressPercent.toFixed(0) + "%";
+        progressPercent = parseFloat(progressPercent).toFixed(2);
+        $('#progressTxt').html(progressPercent + "%");
+        $('#progress').css('width', temp);
+        $('#progresspercent').html(progressPercent + "%");
+    }
+
+$(window).load(function(){
+    drawProgress();
+});
+
 $(document).ready(function(){
 
     var clicks = 0;
+
+    
     $("table.order-list").on("click", "#chk", function (event){
         var id = $(this).data('stepcount');
             //check all the steps preceding the selected step
@@ -569,6 +607,7 @@ $(document).ready(function(){
                 else
                     $(this).prop("checked", false);
             });
+        $('#updateStep').val(id);
     });
 
     $("#checkAll").on("click", function(){
