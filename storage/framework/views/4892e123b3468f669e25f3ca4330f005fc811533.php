@@ -48,20 +48,6 @@
                 <div class="inner bg-light lter bg-container cal_btn_hov">
                     <div class="row">
                         <div class="col-lg-3">
-                            
-                             
-                            <div class="icon_align bg-white widget_border">
-                                <div class="float-left progress_icon">
-                                    <span class="fa-stack fa-sm ">
-                                        <i class="fa fa-circle fa-stack-2x" style="color: #DCDCDC"></i>
-                                        <i class="fa fa-wpforms fa-stack-1x fa-inverse text-info"></i>
-                                    </span>
-                                </div>
-                                <div class="text-right m-t-10">
-                                    <h3 id="widget_count1" style="color: blue">10</h3>
-                                    <p><b>Total Job Order</b></p>
-                                </div>                                                   
-                            </div>
 
                             <div class="icon_align bg-white widget_border m-t-15" style="border-color: orange">
                                 <div class="float-left progress_icon">
@@ -89,6 +75,32 @@
                                 </div>                                                   
                             </div>
 
+                            <div class="icon_align bg-white widget_border m-t-15">
+                                <div class="float-left progress_icon">
+                                    <span class="fa-stack fa-sm ">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: #DCDCDC"></i>
+                                        <i class="fa fa-wpforms fa-stack-1x fa-inverse text-info"></i>
+                                    </span>
+                                </div>
+                                <div class="text-right m-t-10">
+                                    <h3 id="widget_count1" style="color: blue">10</h3>
+                                    <p><b>Services Performed</b></p>
+                                </div>                                                   
+                            </div>
+
+                            <div class="icon_align bg-white widget_border m-t-15" style="border-color: purple">
+                                <div class="float-left progress_icon">
+                                    <span class="fa-stack fa-sm ">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: #DCDCDC"></i>
+                                        <i class="fa fa-wpforms fa-stack-1x fa-inverse text-success"></i>
+                                    </span>
+                                </div>
+                                <div class="text-right ">
+                                    <h3 id="widget_count3" style="color: purple "> 10</h3>
+                                    <p><b>Products Used</b></p>
+                                </div>                                                   
+                            </div>
+
                             <div class="icon_align bg-white widget_border m-t-15" style="border-color: red">
                                 <div class="float-left progress_icon">
                                     <span class="fa-stack fa-sm">
@@ -98,6 +110,19 @@
                                 </div>
                                 <div class="text-right m-t-10">
                                     <h3 id="widget_count4" style="color: red ">485</h3>
+                                    <p><b>Job Order Sales</b></p>
+                                </div>                                                   
+                            </div>
+
+                            <div class="icon_align bg-white widget_border m-t-15" style="border-color: gray">
+                                <div class="float-left progress_icon">
+                                    <span class="fa-stack fa-sm">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: #DCDCDC"></i>
+                                        <i class="fa fa-rotate-left fa-stack-1x fa-inverse text-danger"></i>
+                                    </span>
+                                </div>
+                                <div class="text-right m-t-10">
+                                    <h3 id="widget_count4" style="color: gray ">485</h3>
                                     <p><b>Total Back Job</b></p>
                                 </div>                                                   
                             </div>
