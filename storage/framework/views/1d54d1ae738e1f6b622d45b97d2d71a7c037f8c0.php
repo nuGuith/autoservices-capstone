@@ -414,10 +414,10 @@ z-index: 999999">
                                 &nbsp; Job Order Sales Report
                             </a>
                         </li>
-                        <li <?php echo (Request::is('payment_report')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
+                        <li <?php echo (Request::is('billing_report')  ? 'class="active"' : ''); ?> style="border-radius: 4px;">
                             <a href="<?php echo e(url('/payment_report')); ?>" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
-                                &nbsp; Payment Report
+                                &nbsp; Billing Report
                             </a>
                         </li>
                     </ul>
