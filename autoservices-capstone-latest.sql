@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2018 at 06:17 AM
+-- Generation Time: Sep 20, 2018 at 05:06 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `autoservices-capstone`
 --
+CREATE DATABASE IF NOT EXISTS `autoservices-capstone` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `autoservices-capstone`;
 
 -- --------------------------------------------------------
 
@@ -395,7 +397,7 @@ INSERT INTO `inspection_header` (`InspectionID`, `JobOrderID`, `Date`, `isActive
 
 CREATE TABLE `inspection_type` (
   `InspectionTypeID` int(10) NOT NULL,
-  `InspectionTypeName` varchar(50) NOT NULL,
+  `InspectionType` varchar(50) NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -405,7 +407,7 @@ CREATE TABLE `inspection_type` (
 -- Dumping data for table `inspection_type`
 --
 
-INSERT INTO `inspection_type` (`InspectionTypeID`, `InspectionTypeName`, `isActive`, `updated_at`, `created_at`) VALUES
+INSERT INTO `inspection_type` (`InspectionTypeID`, `InspectionType`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 'Open Door', 1, '0000-00-00 00:00:00', '2018-08-10 01:55:14'),
 (2, 'Get Inside Open Trunk And Fuel Lid', 1, '0000-00-00 00:00:00', '2018-08-17 06:20:36'),
 (3, 'Close Door Open Next Door', 1, '0000-00-00 00:00:00', '2018-08-17 06:20:36');
@@ -735,6 +737,15 @@ CREATE TABLE `personnel_skill` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `personnel_skill`
+--
+
+INSERT INTO `personnel_skill` (`PersonnelSkillID`, `SkillID`, `PersonnelID`, `isMastered`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 2, 0, 1, '2018-09-20 14:27:05', '2018-09-20 14:27:05'),
+(2, 2, 2, 0, 1, '2018-09-20 14:27:05', '2018-09-20 14:27:05'),
+(3, 3, 3, 0, 1, '2018-09-20 15:01:27', '2018-09-20 15:01:27');
+
 -- --------------------------------------------------------
 
 --
@@ -950,6 +961,7 @@ CREATE TABLE `product_damaged` (
 --
 
 CREATE TABLE `product_service` (
+  `ProductServiceID` int(10) NOT NULL,
   `ProductID` int(10) DEFAULT NULL,
   `ServiceID` int(10) DEFAULT NULL,
   `isActive` bit(1) DEFAULT NULL,
@@ -961,13 +973,13 @@ CREATE TABLE `product_service` (
 -- Dumping data for table `product_service`
 --
 
-INSERT INTO `product_service` (`ProductID`, `ServiceID`, `isActive`, `updated_at`, `created_at`) VALUES
-(3, 1, b'1', '0000-00-00 00:00:00', '2018-08-13 09:48:56'),
-(4, 1, b'1', '0000-00-00 00:00:00', '2018-08-13 09:49:15'),
-(1, 2, b'1', '0000-00-00 00:00:00', '2018-08-13 10:33:12'),
-(3, 4, NULL, '0000-00-00 00:00:00', '2018-08-28 12:10:36'),
-(1, 4, NULL, '0000-00-00 00:00:00', '2018-08-28 12:10:50'),
-(1, 2, NULL, '0000-00-00 00:00:00', '2018-08-28 12:11:07');
+INSERT INTO `product_service` (`ProductServiceID`, `ProductID`, `ServiceID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 3, 1, b'1', '0000-00-00 00:00:00', '2018-08-13 09:48:56'),
+(2, 4, 1, b'1', '0000-00-00 00:00:00', '2018-08-13 09:49:15'),
+(3, 1, 2, b'1', '0000-00-00 00:00:00', '2018-08-13 10:33:12'),
+(4, 3, 4, NULL, '0000-00-00 00:00:00', '2018-08-28 12:10:36'),
+(5, 1, 4, NULL, '0000-00-00 00:00:00', '2018-08-28 12:10:50'),
+(6, 1, 2, NULL, '0000-00-00 00:00:00', '2018-08-28 12:11:07');
 
 -- --------------------------------------------------------
 
@@ -1146,14 +1158,43 @@ CREATE TABLE `promo_backjob` (
 --
 
 CREATE TABLE `promo_freeitems` (
-  `FreeItemID` int(10) NOT NULL,
-  `PromoID` int(10) NOT NULL,
-  `ItemName` varchar(30) NOT NULL,
-  `Description` varchar(255) DEFAULT NULL,
-  `isActive` tinyint(1) NOT NULL DEFAULT '1',
+  `FreeItemsID` int(3) NOT NULL,
+  `ItemName` varchar(10) NOT NULL,
+  `Description` varchar(15) NOT NULL,
+  `isActive` int(3) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `promo_freeitems`
+--
+
+INSERT INTO `promo_freeitems` (`FreeItemsID`, `ItemName`, `Description`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Umbrella', 'Red - 1 pc', 1, '2018-08-24 02:18:19', '2018-08-24 02:18:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `promo_freeitems_inclusions`
+--
+
+CREATE TABLE `promo_freeitems_inclusions` (
+  `PromoID` int(3) NOT NULL,
+  `FreeItemsID` int(3) NOT NULL,
+  `isActive` int(1) NOT NULL DEFAULT '1',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `promo_freeitems_inclusions`
+--
+
+INSERT INTO `promo_freeitems_inclusions` (`PromoID`, `FreeItemsID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 1, '2018-08-28 00:33:15', '2018-08-28 00:33:15'),
+(50, 1, 1, '2018-08-28 01:29:30', '2018-08-28 01:29:30'),
+(51, 1, 1, '2018-08-28 01:31:37', '2018-08-28 01:31:37');
 
 -- --------------------------------------------------------
 
@@ -1391,8 +1432,8 @@ INSERT INTO `service_performed` (`ServicePerformedID`, `ServiceID`, `JobOrderID`
 (56, 1, NULL, 92, 1, 0, '35000.00', b'0', 1, '2018-08-25 10:04:51', '2018-09-01 13:04:06'),
 (57, 2, NULL, 92, 1, 0, '1000.00', b'0', 1, '2018-08-25 10:04:51', '2018-09-01 13:04:06'),
 (58, 1, NULL, 93, 1, 0, '35000.00', b'0', 1, '2018-08-25 12:34:55', '2018-09-01 13:04:06'),
-(59, 1, 25, 94, NULL, 6, '35000.00', b'1', 1, '2018-09-20 04:13:38', '2018-09-01 13:04:06'),
-(60, 2, 25, 94, NULL, 0, '1000.00', b'0', 1, '2018-09-20 04:13:48', '2018-09-01 13:04:06'),
+(59, 1, 25, 94, NULL, 6, '35000.00', b'1', 1, '2018-09-20 13:45:55', '2018-09-01 13:04:06'),
+(60, 2, 25, 94, NULL, 0, '1000.00', b'0', 1, '2018-09-20 13:49:47', '2018-09-01 13:04:06'),
 (61, 1, NULL, 100, 1, 0, '35000.00', b'0', 1, '2018-08-27 02:11:34', '2018-09-01 13:04:06'),
 (62, 1, NULL, 101, 1, 0, '50000.75', b'0', 1, '2018-08-27 02:14:02', '2018-09-01 13:04:06'),
 (63, 1, NULL, 102, 1, 0, '35000.00', b'0', 1, '2018-08-27 02:15:46', '2018-09-01 13:04:06'),
@@ -1462,7 +1503,7 @@ INSERT INTO `service_skill` (`ServiceID`, `SkillID`, `isActive`, `updated_at`, `
 --
 
 CREATE TABLE `service_steps` (
-  `StepID` int(10) NOT NULL,
+  `ServiceStepID` int(10) NOT NULL,
   `ServiceID` int(10) NOT NULL,
   `Step` varchar(255) NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
@@ -1474,7 +1515,7 @@ CREATE TABLE `service_steps` (
 -- Dumping data for table `service_steps`
 --
 
-INSERT INTO `service_steps` (`StepID`, `ServiceID`, `Step`, `isActive`, `updated_at`, `created_at`) VALUES
+INSERT INTO `service_steps` (`ServiceStepID`, `ServiceID`, `Step`, `isActive`, `updated_at`, `created_at`) VALUES
 (1, 2, 'Find and unscrew the drain plug', 1, '2018-09-18 11:17:40', '2018-09-18 11:17:40'),
 (2, 2, 'Unscrew the oil filter and empty it', 1, '2018-09-18 11:17:40', '2018-09-18 11:17:40'),
 (3, 2, 'Attach the new filter', 1, '2018-09-18 11:18:06', '2018-09-18 11:18:06'),
@@ -1797,6 +1838,7 @@ ALTER TABLE `product_damaged`
 -- Indexes for table `product_service`
 --
 ALTER TABLE `product_service`
+  ADD PRIMARY KEY (`ProductServiceID`),
   ADD KEY `FK_Product_ProductService` (`ProductID`),
   ADD KEY `FK_Service_ProductService` (`ServiceID`);
 
@@ -1842,8 +1884,14 @@ ALTER TABLE `promo_backjob`
 -- Indexes for table `promo_freeitems`
 --
 ALTER TABLE `promo_freeitems`
-  ADD PRIMARY KEY (`FreeItemID`),
-  ADD KEY `FK_PromoFreeItem_Promo` (`PromoID`);
+  ADD PRIMARY KEY (`FreeItemsID`);
+
+--
+-- Indexes for table `promo_freeitems_inclusions`
+--
+ALTER TABLE `promo_freeitems_inclusions`
+  ADD KEY `PromoID` (`PromoID`) USING BTREE,
+  ADD KEY `FreeItemsID` (`FreeItemsID`) USING BTREE;
 
 --
 -- Indexes for table `promo_header`
@@ -1927,7 +1975,7 @@ ALTER TABLE `service_skill`
 -- Indexes for table `service_steps`
 --
 ALTER TABLE `service_steps`
-  ADD PRIMARY KEY (`StepID`),
+  ADD PRIMARY KEY (`ServiceStepID`),
   ADD KEY `FK_ServiceStep_Step` (`ServiceID`);
 
 --
@@ -2076,7 +2124,7 @@ ALTER TABLE `personnel_job_performed`
 -- AUTO_INCREMENT for table `personnel_skill`
 --
 ALTER TABLE `personnel_skill`
-  MODIFY `PersonnelSkillID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PersonnelSkillID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `process`
@@ -2115,6 +2163,12 @@ ALTER TABLE `product_damaged`
   MODIFY `ProductDamagedID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `product_service`
+--
+ALTER TABLE `product_service`
+  MODIFY `ProductServiceID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `product_type`
 --
 ALTER TABLE `product_type`
@@ -2142,7 +2196,7 @@ ALTER TABLE `promo_backjob`
 -- AUTO_INCREMENT for table `promo_freeitems`
 --
 ALTER TABLE `promo_freeitems`
-  MODIFY `FreeItemID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `FreeItemsID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `promo_header`
@@ -2196,7 +2250,7 @@ ALTER TABLE `service_price`
 -- AUTO_INCREMENT for table `service_steps`
 --
 ALTER TABLE `service_steps`
-  MODIFY `StepID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ServiceStepID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `skill_header`
@@ -2416,12 +2470,6 @@ ALTER TABLE `promo_backjob`
   ADD CONSTRAINT `FK_PromoBackjob_Promo` FOREIGN KEY (`PromoID`) REFERENCES `promo_header` (`PromoID`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `promo_freeitems`
---
-ALTER TABLE `promo_freeitems`
-  ADD CONSTRAINT `FK_PromoFreeItems_Promo` FOREIGN KEY (`PromoID`) REFERENCES `promo_header` (`PromoID`);
-
---
 -- Constraints for table `promo_product_inclusions`
 --
 ALTER TABLE `promo_product_inclusions`
@@ -2470,12 +2518,6 @@ ALTER TABLE `service_price`
 ALTER TABLE `service_skill`
   ADD CONSTRAINT `FK_ServiceSkill_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_ServiceSkill_Skill` FOREIGN KEY (`SkillID`) REFERENCES `skill_header` (`SkillID`) ON UPDATE CASCADE;
-
---
--- Constraints for table `service_steps`
---
-ALTER TABLE `service_steps`
-  ADD CONSTRAINT `FK_ServiceStep_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
