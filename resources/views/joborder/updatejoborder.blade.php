@@ -579,9 +579,16 @@
             $('#status').html("Ongoing");
         else if (progressPercent == 100)
             $('#status').html("Finished");
-
-        temp = progressPercent.toFixed(0) + "%";
-        progressPercent = parseFloat(progressPercent).toFixed(2);
+        if (isNaN(progressPercent)){
+            temp = 0 + "%";
+            progressPercent = 0;
+            $('#status').html("No job to track.");
+        }
+        else{
+            temp = progressPercent.toFixed(0) + "%";
+            progressPercent = parseFloat(progressPercent).toFixed(2);
+        }
+        
         $('#progressTxt').html(progressPercent + "%");
         $('#progress').css('width', temp);
         $('#progresspercent').html(progressPercent + "%");
