@@ -364,7 +364,6 @@
                                 <div class="row m-t-5"  style="padding:2% 2% 0%;">
                                     <div class="col-lg-4">
                                         <h3 id="serviceTitle" style="padding:1% 2% 0%;"></h3>
-                                        <input id="updateStep" type="hidden" name="updateStep">
                                     </div>
                                     <div class="col-lg-8" style="border-left: 3px solid #ECECEC;">
                                         <h5>Currently on:&nbsp;&nbsp;&nbsp;&nbsp; <span id="currentStep">x</span></h5>
@@ -385,8 +384,11 @@
                                                 </tfoot>
                                             </table>
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div class="col-lg-5"  style="margin: 2% 3% 2% 1%; padding:2%; border: 1px solid #ECECEC; border-radius: 7px;">
+                                    {!!Form::open(array('id' => 'updateForm'))!!}
+                                    <input id="servicePerformed" type="hidden" name="serviceperformedid">
+                                    <input id="updateStep" type="hidden" name="updatestep">
                                         <div class="row m-t-5">
                                             <div class="col-lg-12"><h4>Products: </h4></div>
                                         </div>
@@ -409,6 +411,7 @@
                                                 </tfoot>
                                             </table>
                                         </div>
+                                    {!!Form::close()!!}
                                     </div>
                                 </div>
                             </div>
@@ -417,7 +420,7 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <button class="btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                    <button id="btnSave" class="btn btn-success" style ="width: 80px;"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                 </div>
                             </div>
                         </div>
@@ -475,7 +478,6 @@
 <script type="text/javascript" src="{{URL::asset('js/pages/modals.js')}}"></script>
 <!--End of global scripts-->
 <script>
-
     function getSteps(serviceid){
         var tbody = $("<tbody>");
         
@@ -516,6 +518,7 @@
     }
 
     function getProducts(id){
+        $('#servicePerformed').val(id);
         var tbody = $("<tbody>");
         
         $.ajax({
@@ -601,7 +604,6 @@ $(window).load(function(){
 $(document).ready(function(){
 
     var clicks = 0;
-
     
     $("table.order-list").on("click", "#chk", function (event){
         var id = $(this).data('stepcount');
@@ -618,15 +620,37 @@ $(document).ready(function(){
     });
 
     $("#checkAll").on("click", function(){
+        var count = 0;
         $('table.order-list tr td input').each( function(){
             $(this).prop("checked", "checked");
+            count++;
         });
+        $('#updateStep').val(count);
     });
 
     $("#uncheckAll").on("click", function(){
         $('table.order-list tr td input').each( function(){
             $(this).prop("checked", false);
         });
+        $('#updateStep').val(0);
+    });
+
+    $('#btnSave').on("click", function(){
+        var formData = $('#updateForm').serialize();
+        $.ajax({
+            type: "PATCH",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/updatejoborder/updateJob",
+            data: formData,
+            async: false,
+            success: function(data) {
+                alert("Success");
+            },
+            fail: function(data) {
+                alert("Failed to save data.");
+            }
+        });
+        $('#updateModal').modal('hide');
     });
 });
 </script>
