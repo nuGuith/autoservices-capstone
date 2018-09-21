@@ -169,27 +169,28 @@
                                         <!--Label: Start Date, End Date, Service Bay-->
                                         <div class="row m-t-15">
                                                 <div class="col-lg-4">
-                                                        <h5><span style="color:gray">Start:</span>&nbsp;&nbsp;&nbsp;June 28, 2018</h5>     
+                                                    <h5><span style="color:gray">Start:</span>&nbsp;&nbsp;&nbsp;June 28, 2018</h5>     
                                                 </div>  
 
                                                 <div class="col-lg-4">
-                                                        <h5><span style="color:gray">End:</span>&nbsp;&nbsp;&nbsp;&nbsp;</h5>               
+                                                    <h5><span style="color:gray">End:</span>&nbsp;&nbsp;&nbsp;&nbsp;</h5>               
                                                 </div>
 
                                                 <div class="col-lg-4">
-                                                        <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;{{$servicebay->ServiceBayName}}</h5>
+                                                    <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;{{$servicebay->ServiceBayName}}</h5>
                                                 </div>
                                          </div> 
 
-                                        <!--progress bar-->
-                                        <div class="row m-t-20">
+                                        <!--Progress Bar-->
+                                        <div class="row m-t-20" style="margin-top:7px;">
                                             <div class="col-lg-4">
                                                 <h5><span style="color:gray">Progress: </span>&nbsp;&nbsp;&nbsp;<span id="progressTxt">0%</span></h5>
                                             </div>
 
                                             <div class="col-lg-8">
-                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;<span id="status">{{$joborder->Status}}</span></h5>
+                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;<span id="jobStatus">{{$joborder->Status}}</span></h5>
                                             </div>
+                                            <br>
 
                                             <div class="col-lg-12 m-t-10">
                                                 <div class="progress">
@@ -199,10 +200,8 @@
                                             </div>
                                          </div>  
 
-
-
                                 <div class="row m-t-15">
-                                <!--Start of job order profgress tavle-->
+                                <!--Start of job order progress table-->
                                     <table class="table table-bordered table-hover dataTable" id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:30px;">
                                         <thead>
                                             <tr class="trrow">
@@ -219,29 +218,28 @@
                                                         <td>{!!$sp->ServiceName!!}</td> 
                                                         <td>Crisostomo dela Cruz</td>
                                                         <td style="text-align: center">
-                                                            <input id="progress" type="hidden" value="{!!$sp->CurrentStep!!}">
-                                                            Step <span style="color:red"><b>{!!$sp->CurrentStep!!}</b></span> of
+                                                            <input id="progresscount" data-svcperfid="{!!$sp->ServicePerformedID!!}" type="hidden" value="{!!$sp->CurrentStep!!}">
+                                                            Step <span id="{!!$sp->ServicePerformedID!!}" style="color:red"><b>{!!$sp->CurrentStep!!}</b></span> of
                                                             @foreach($stepcounts as $sc)
                                                                 @if($sp->ServiceID == $sc->serviceid)
                                                                     {!!$sc->StepCount!!}
-                                                                    <input id="stepcount" type="hidden" value="{!!$sc->StepCount!!}">
+                                                                    <input id="stepcount" data-svcperfid="{!!$sp->ServicePerformedID!!}" type="hidden" value="{!!$sc->StepCount!!}">
                                                                 @endif
                                                             @endforeach
-                                                            <input id="progresscount" type="hidden" value="{!!$sp->CurrentStep!!}">
                                                         </td>
                                                         <td>
                                                         @foreach($stepcounts as $sc)
                                                             @if ($sp->CurrentStep == 0 && $sc->serviceid == $sp->ServiceID)
-                                                                <b><span style="color:orange;">Pending</span></b>
+                                                                <b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:orange;">Pending</span></b>
                                                             @elseif ($sp->CurrentStep < $sc->StepCount && $sc->serviceid == $sp->ServiceID)
-                                                                <b><span style="color:green;">Ongoing</span></b>
+                                                                <b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:green;">Ongoing</span></b>
                                                             @elseif ($sp->CurrentStep == $sc->StepCount && $sc->serviceid == $sp->ServiceID)
-                                                                <b><span style="color:blue;">Finished</span></b>
+                                                                <b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:blue;">Finished</span></b>
                                                             @endif
                                                         @endforeach
                                                         </td>
                                                         <td>
-                                                            <button type="button" id="updateBtn" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
+                                                            <button type="button" id="updateBtn" data-svcperfid="{!!$sp->ServicePerformedID!!}" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -559,11 +557,8 @@
          });
     }
 
-</script>
-<script>
-
     function drawProgress(){
-        var progressCount = 0, stepCount = 0, progressPercent = 0, temp;
+    var progressCount = 0, stepCount = 0, progressPercent = 0, temp;
 
         $("table.table-bordered tr td input").each(function(){
             if (this.id == "progresscount"){
@@ -575,17 +570,20 @@
                 stepCount += temp;
             }
         });
+
         progressPercent = (progressCount/stepCount) * 100;
+
         if (progressPercent == 0)
-            $('#status').html("Pending");
+            $('#jobStatus').html("Pending");
         else if (progressPercent < 100)
-            $('#status').html("Ongoing");
+            $('#jobStatus').html("Ongoing");
         else if (progressPercent == 100)
-            $('#status').html("Finished");
+            $('#jobStatus').html("Finished");
+
         if (isNaN(progressPercent)){
             temp = 0 + "%";
             progressPercent = 0;
-            $('#status').html("No job to track.");
+            $('#jobStatus').html("No job to track.");
         }
         else{
             temp = progressPercent.toFixed(0) + "%";
@@ -595,6 +593,53 @@
         $('#progressTxt').html(progressPercent + "%");
         $('#progress').css('width', temp);
         $('#progresspercent').html(progressPercent + "%");
+    }
+
+    function updateTable(id){
+        var update = $('#updateStep').val();
+        var svcid, svcperfid, stepcount, progresscount;
+        svcperfid = id;
+        progresscount = update;
+        tickCheckBox(update);
+
+        $('table.table-bordered tr td span').each(function(){
+            if(this.id == svcperfid){
+                $(this).html("<b>" + update + "</b>");
+            }
+        });
+
+        $('table.table-bordered tr td input').each(function(){
+            if(this.id == "progresscount" && $(this).data('svcperfid') == svcperfid){
+                $(this).val(update);
+            }
+            if(this.id == "stepcount" && $(this).data('svcperfid') == svcperfid){
+                stepcount = $(this).val();
+            }
+        });
+
+        $('table.table-bordered tr td button').each(function(){
+            if(this.id == "updateBtn" && $(this).data('svcperfid') == svcperfid){
+                svcid = $(this).data('serviceid');
+                $(this).attr('onclick', 'getSteps('+ svcid +');getProducts('+ svcperfid +');tickCheckBox('+ update +');');
+            }
+        });
+
+        $('table.table-bordered tr td span').each(function(){
+            if(this.id == "status" && $(this).data('svcperfid') == svcperfid ){
+                if (progresscount == 0){
+                    $(this).html("Pending");
+                    $(this).css('color', 'orange');
+                }
+                else if (progresscount < stepcount){
+                    $(this).html("Ongoing");
+                    $(this).css('color', 'green');
+                }
+                else if (progresscount == stepcount){
+                    $(this).html("Finished");
+                    $(this).css('color', 'blue');
+                }
+            }
+        });
     }
 
 $(window).load(function(){
@@ -636,6 +681,7 @@ $(document).ready(function(){
     });
 
     $('#btnSave').on("click", function(){
+        var id = $('#servicePerformed').val();
         var formData = $('#updateForm').serialize();
         $.ajax({
             type: "PATCH",
@@ -645,12 +691,16 @@ $(document).ready(function(){
             async: false,
             success: function(data) {
                 alert("Success");
+                updateTable(id);
             },
             fail: function(data) {
                 alert("Failed to save data.");
             }
         });
         $('#updateModal').modal('hide');
+        setTimeout(function () {
+            drawProgress();
+        }, 300);
     });
 });
 </script>
