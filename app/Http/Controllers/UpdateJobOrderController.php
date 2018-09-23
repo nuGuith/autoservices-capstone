@@ -168,6 +168,20 @@ class UpdateJobOrderController extends Controller
         return response()->json(compact('response'));
     }
 
+    public function setStartDate(Request $request){
+        try{
+            DB::table('service_performed')
+                ->where('serviceperformedid', $request->serviceperformedid)
+                ->update(['startdate' => date('Y-m-d H:i:s')]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

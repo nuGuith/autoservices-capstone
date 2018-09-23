@@ -51,119 +51,147 @@
                             <div class="card-header bg-black">
                                 <span class="fa fa-refresh fa-lg"></span>&nbsp;
                                 Update Job Order
-                             </div>
+                            </div>
 
-                        <div class="row" style="padding-left: 15px; padding-right:15px;">
+                        <div class="col-lg-12" style="padding-left: 15px; padding-right:15px;">
+                            <div class="row m-t-25">
 
-                            <div class="col-lg-4 m-t-25">
-                                <div class="card">                                   
-                                    <div class="card-block">
-
-                                        <!--START CUSTOMER INFORMATION-->
-                                        <h4 class="m-t-15">Customer Information</h2>
-                                        <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
-
-
-                                        <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
-                                        <div class="row m-t-15">
-                                                <div class="col-lg-12 m-t-10">
-                                                        <h5><span style="color:gray">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                                                        {{$customer->FullName}}</h5>                    
-                                                </div>  
-                                                <div class="col-lg-12 m-t-10">
-                                                        <h5><span style="color:gray">Contact No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->ContactNo}}</h5>               
-                                                </div>
-                                                <div class="col-lg-15 m-t-10">
-                                                        <h5><span style="color:gray">&nbsp;&nbsp;&nbsp; Email Address:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->EmailAddress}}</h5>
-                                                </div>
-                                                <div class="col-lg-12 m-t-10">
-                                                        <h5><span style="color:gray">Address:</span>&nbsp;&nbsp;&nbsp;{{$customer->CompleteAddress}}</h5>
-                                                </div>
-                                                <div class="col-lg-12 m-t-10">
-                                                        <h5><span style="color:gray">Senior Citizen/ PWD ID:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->PWD_SC_No}}</h5>
-                                                </div>             
-                                            </div> 
-
-
-                                        <!--START VEHICLE INFORMATION-->
-                                        <h4 class ="m-t-30">Vehicle Information</h2>
-                                        <hr style="margin-top: 10px; border: 2px solid #6699cc">
-
-                                        <div class="row m-t-15">
-                                            <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Plate No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->PlateNo}}</h5>                    
-                                            </div>
-
-                                            <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Chassis No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->ChassisNo}}</h5>
-                                            </div>
-
-                                            <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Mileage:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Mileage}} km </h5>
-                                            </div>
-
-                                            <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Make:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Make}}</h5>               
-                                            </div>
-                                            
-                                            <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Model:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Model}}</h5>
-                                            </div>
-                                            
-                                            <div class="col-lg-12 m-t-10">
-                                                    <h5><span style="color:gray">Transmission:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Transmission}}</h5>
-                                            </div>              
-                                        </div>
-
-                                        <!--START OTHER INFORMATION-->
-                                        <h4 class ="m-t-30">Other Information</h2>
-                                        <hr style="margin-top: 10px; border: 2px solid #aa66cc">
-
-                                        <div class="row m-t-15">
-
+                                        <!--Accordion: Job Order Details -->
+                                        <div class="col-lg-12">
                                             <div class="col-lg-12">
-                                                <h5>Service Advisor: <span style="color:red"></span></h5>
-                                                <p class="m-t-10">
-                                                    <select class="form-control  chzn-select" tabindex="2">
-                                                        <option disabled selected>Choose Service Advisor</option>
-                                                        <option value="">Daphne</option>
-                                                    </select>
-                                                </p>
-                                            </div>
+                                                <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="card">
+                                                        <div class="card-header" role="tab" id="headingOne">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
+                                                                <h5 class="mb-0">
+                                                                    <span style="color:gray">Job Order Details (Customer Information, Vehicle Information & Personnel Assignments)
+                                                                        <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
+                                                                    </span>
+                                                                    <span>
+                                                                        <i class="fa fa-angle-down rotate-icon pull-right"></i>
+                                                                    </span>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
 
-                                            <div class="col-lg-12">
-                                                <h5>Inventory Manager: <span style="color:red"></span></h5>
-                                                <p class="m-t-10">
-                                                    <select class="form-control  chzn-select" tabindex="2">
-                                                        <option disabled selected>Choose Service Advisor</option>
-                                                        <option value="">Daphne</option>
-                                                    </select>
-                                                </p>
-                                            </div>
+                                                        <!-- Content -->
+                                                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                                                            <div class="card-body" style="padding: 0px 15px 15px">
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                        <!--START CUSTOMER INFORMATION-->
+                                                                        <h4 class="m-t-15">Customer Information</h2>
+                                                                        <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
 
-                                            <div class="col-lg-12">
-                                                <h5>Quality Assurance: <span style="color:red"></span></h5>
-                                                <p class="m-t-10">
-                                                    <select class="form-control  chzn-select" tabindex="2">
-                                                        <option disabled selected>Choose Service Advisor</option>
-                                                        <option value="">Daphne</option>
-                                                    </select>
-                                                </p>
+
+                                                                        <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
+                                                                        <div class="row m-t-15">
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                                                    {{$customer->FullName}}</h5>                    
+                                                                            </div>  
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Contact No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->ContactNo}}</h5>               
+                                                                            </div>
+                                                                            <div class="col-lg-15 m-t-10">
+                                                                                    <h5><span style="color:gray">&nbsp;&nbsp;&nbsp; Email Address:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->EmailAddress}}</h5>
+                                                                            </div>
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Address:</span>&nbsp;&nbsp;&nbsp;{{$customer->CompleteAddress}}</h5>
+                                                                            </div>
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Senior Citizen/ PWD ID:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->PWD_SC_No}}</h5>
+                                                                            </div>             
+                                                                        </div> 
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <!--START VEHICLE INFORMATION-->
+                                                                        <h4 class ="m-t-15">Vehicle Information</h2>
+                                                                        <hr style="margin-top: 10px; border: 2px solid #6699cc">
+
+                                                                        <div class="row m-t-15">
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Plate No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->PlateNo}}</h5>                    
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Chassis No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->ChassisNo}}</h5>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Mileage:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Mileage}} km </h5>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Make:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Make}}</h5>               
+                                                                            </div>
+                                                                            
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Model:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Model}}</h5>
+                                                                            </div>
+                                                                            
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Transmission:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Transmission}}</h5>
+                                                                            </div>              
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <!--START OTHER INFORMATION-->
+                                                                        <h4 class ="m-t-15">Other Information</h2>
+                                                                        <hr style="margin-top: 10px; border: 2px solid #aa66cc">
+
+                                                                        <div class="row m-t-15">
+
+                                                                            <div class="col-lg-12">
+                                                                                <h5>Service Advisor: <span style="color:red"></span></h5>
+                                                                                <p class="m-t-10">
+                                                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                                                        <option disabled selected>Choose Service Advisor</option>
+                                                                                        <option value="">Daphne</option>
+                                                                                    </select>
+                                                                                </p>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12">
+                                                                                <h5>Inventory Manager: <span style="color:red"></span></h5>
+                                                                                <p class="m-t-10">
+                                                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                                                        <option disabled selected>Choose Service Advisor</option>
+                                                                                        <option value="">Daphne</option>
+                                                                                    </select>
+                                                                                </p>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12">
+                                                                                <h5>Quality Assurance: <span style="color:red"></span></h5>
+                                                                                <p class="m-t-10">
+                                                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                                                        <option disabled selected>Choose Service Advisor</option>
+                                                                                        <option value="">Daphne</option>
+                                                                                    </select>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Information END -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-          
-                                        </div>
-                                       
-                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-8 m-t-25">
+                            <div class="col-lg-12 m-t-25">
                                 <div class="card">                                   
                                     <div class="card-block">
 
                                         <!--START JOB ORDER PROGRESS DETAIL-->
                                         <h4 class="m-t-15">Progress Details</h2>
-                                        <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
+                                        <hr style="margin-top: 10px; border: 2px solid #D3D6DA">
 
 
                                         <!--Label: Start Date, End Date, Service Bay-->
@@ -205,11 +233,13 @@
                                     <table class="table table-bordered table-hover dataTable" id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:30px;">
                                         <thead>
                                             <tr class="trrow">
-                                                <th style="width: 27%;">Items</th>
-                                                <th style="width: 28%;">Mechanic</th>
-                                                <th style="width: 21%;">Steps</th>
-                                                <th style="width: 15%;">Status</th>
-                                                <th style="width: 8%;">Action</th>
+                                                <th style="width: 20%;">Service</th>
+                                                <th style="width: 20%;">Mechanic</th>
+                                                <th style="width: 12%;">Steps</th>
+                                                <th style="width: 17%;">Start Date</th>
+                                                <th style="width: 17%;">End Date</th>
+                                                <th style="width: 10%;">Status</th>
+                                                <th style="width: 3%;">Action</th>
                                             </tr>
                                         </thead>
                                             <tbody>
@@ -228,24 +258,58 @@
                                                             @endforeach
                                                         </td>
                                                         <td>
+                                                        @if (!(is_null($sp->StartDate))) 
+                                                            <span id="startdate" data-svcperfid="{!!$sp->ServicePerformedID!!}">{{date('M d, Y - H:i', strtotime($sp->StartDate))}}</span>
+                                                        @else
+                                                            <span id="startdate" data-svcperfid="{!!$sp->ServicePerformedID!!}">Not set.</span>
+                                                        @endif
+                                                        </td>
+                                                        <td>
+                                                        @if (!(is_null($sp->EndDate)))
+                                                            <span id="enddate" data-svcperfid="{!!$sp->ServicePerformedID!!}">{{date('M d, Y - H:i', strtotime($sp->EndDate))}}</span>
+                                                        @else
+                                                            <span id="enddate" data-svcperfid="{!!$sp->ServicePerformedID!!}">Not set.</span>
+                                                        @endif
+                                                        </td>
+                                                        <td>
                                                         @foreach($stepcounts as $sc)
                                                             @if ($sp->CurrentStep == 0 && $sc->serviceid == $sp->ServiceID)
-                                                                <b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:orange;">Pending</span></b>
+                                                                <center><b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:orange;">Pending</span></b></center>
                                                             @elseif ($sp->CurrentStep < $sc->StepCount && $sc->serviceid == $sp->ServiceID)
-                                                                <b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:green;">Ongoing</span></b>
+                                                                <center><b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:green;">Ongoing</span></b></center>
                                                             @elseif ($sp->CurrentStep == $sc->StepCount && $sc->serviceid == $sp->ServiceID)
-                                                                <b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:blue;">Finished</span></b>
+                                                                <center><b><span id="status" data-svcperfid="{!!$sp->ServicePerformedID!!}" style="color:blue;">Finished</span></b></center>
                                                             @endif
                                                         @endforeach
                                                         </td>
-                                                        <td>
-                                                            <button type="button" id="updateBtn" data-svcperfid="{!!$sp->ServicePerformedID!!}" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" ><i class="fa fa-refresh text-green"></i></button>       
+                                                        @foreach($stepcounts as $sc)
+                                                        @if ($sp->CurrentStep == 0 && $sc->serviceid == $sp->ServiceID && (is_null($sp->StartDate)))
+                                                        <td id="start" data-svcperfid="{!!$sp->ServicePerformedID!!}">
+                                                            <button type="button" id="startBtn" data-svcperfid="{!!$sp->ServicePerformedID!!}" onclick="startJob({{$sp->ServicePerformedID}});" class="btn btn-secondary" style="border:1px solid #aeafaf; color: #0366D6; background-color:#FFFFFF" onMouseOver="this.style.backgroundColor='#0366D6';this.style.color='#FFFFFF'" onMouseOut="this.style.backgroundColor='#FFFFFF';this.style.color='#0366D6'" data-toggle="tooltip" data-placement="top" title="Start this job" data-trigger="hover"><i class="fa fa-play text-green"></i></button>
                                                         </td>
+                                                        <td id="update" style="display:none;" data-svcperfid="{!!$sp->ServicePerformedID!!}">
+                                                            <button type="button" id="updateBtn" data-svcperfid="{!!$sp->ServicePerformedID!!}" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" style="border-color:#AEAFAF;" data-toggle="tooltip" data-placement="top" title="Update Status" data-trigger="hover"><i id="icon" data-svcperfid="{!!$sp->ServicePerformedID!!}" class="fa fa-refresh text-green"></i></button>
+                                                        </td>
+
+                                                        @elseif ($sp->CurrentStep < $sc->StepCount && $sc->serviceid == $sp->ServiceID  && !(is_null($sp->StartDate)))
+                                                        <td>
+                                                            <button type="button" id="updateBtn" data-svcperfid="{!!$sp->ServicePerformedID!!}" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" style="border-color:#AEAFAF;" data-toggle="tooltip" data-placement="top" title="Update Status" data-trigger="hover"><i id="icon" data-svcperfid="{!!$sp->ServicePerformedID!!}" class="fa fa-refresh text-green"></i></button>
+                                                        </td>
+
+                                                        @elseif ($sp->CurrentStep == $sc->StepCount && $sc->serviceid == $sp->ServiceID  && !(is_null($sp->StartDate)))
+                                                        <td>
+                                                            <button type="button" id="updateBtn" data-svcperfid="{!!$sp->ServicePerformedID!!}" onclick="getSteps({{$sp->ServiceID}});getProducts({{$sp->ServicePerformedID}});tickCheckBox({{$sp->CurrentStep}});" data-serviceid="{{$sp->ServiceID}}" class="btn btn-outline-success" style="border-color:#AEAFAF;" data-toggle="tooltip" data-placement="top" title="Update Status" data-trigger="hover"><i id="icon" data-svcperfid="{!!$sp->ServicePerformedID!!}" class="fa fa-smile-o"></i></button>
+                                                        </td>  
+                                                        @endif 
+                                                        @endforeach
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                              
                                             <tfoot>
+                                                {{Form::open(array('id' => 'upDateForm'))}}
+                                                    <input id="updateID" type="hidden" name="serviceperformedid">
+                                                {{Form::close()}}
                                             </tfoot>
                                         </table>
                                     </div> 
@@ -264,20 +328,22 @@
                                     <div class="col-lg-12">
                                         <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
                                             <div class="card">
-                                                <div class="card-header" role="tab" id="headingOne">
-                                                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
+                                                <div class="card-header" role="tab" id="headingTwo">
+                                                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="" aria-controls="collapseTwo" active="false">
                                                         <!--Label: balance -->
                                                         <h5 class="mb-0">
                                                             <span style="color:gray">Balance:
                                                                 <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
                                                             </span>
+                                                            <span>
                                                                 <i class="fa fa-angle-down rotate-icon pull-right"></i>
+                                                            </span>
                                                         </h5>
                                                     </a>
                                                 </div>
 
                                             <!-- Payment Details -->
-                                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordionEx">
                                                 <div class="card-body" style="padding-left:15px; padding-right: 15px; ">
 
 
@@ -340,6 +406,7 @@
                                                             </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">{{ $joborder->TotalAmountDue }}</span></h5>
                                                         </div>                         
                                                     </div>
+                                                    <!--Label: Overall Total -->
                                                 </div>
                                             </div>
                                         </div>
@@ -352,32 +419,39 @@
                 <div class="modal fade in " id="updateModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
-                            <div class="modal-header bg-info" style="border-radius:4px 4px 0px 0px;">
+                            <div class="modal-header bg-info" style="border-radius:4px 4px 0px 0px; height:58px;">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-save"></i>
                                             &nbsp;Update</h4>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="margin-bottom: -10px;">
                                 
-                                <div class="row m-t-5"  style="padding:2% 2% 0%;">
+                                <div class="row m-t-5"  style="padding:0% 2% 0% 2%;">
                                     <div class="col-lg-4">
                                         <h3 id="serviceTitle" style="padding:1% 2% 0%;"></h3>
                                     </div>
                                     <div class="col-lg-8" style="border-left: 3px solid #ECECEC;">
-                                        <h5>Currently on:&nbsp;&nbsp;&nbsp;&nbsp; <span id="currentStep">x</span></h5>
+                                        <h5 style="margin-bottom: 2px;">Currently on:&nbsp;&nbsp;&nbsp;&nbsp; <span id="currentStep">x</span></h5>
                                         <h5>Mechanic assigned: Crisostomo dela Cruz</h5>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m-t-10" style="padding-top: 2%;">
+                                    <div class="progress">
+                                        <div id="serviceProgress" class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:71%; height:20px; font-size:14px; padding:2px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                            <span id="serviceProgressPercent">0%</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row m-t-5">
                                     <div class ="col-lg-6" style="margin: 2% 1% 2% 3%; padding:2%; border: 1px solid #ECECEC;border-radius: 7px;">
                                         <div class="row m-t-5">
                                             <div class="col-lg-6"><h4>Steps: </h4></div>
-                                            <div class="col-lg-2"><button class="btn btn-info" style="font-size: 12px; padding: 2px 10px;" id="checkAll">Select all</button></div>&nbsp;&nbsp;&nbsp;
-                                            <div class="col-lg-2"><button class="btn btn-warning" style="font-size: 12px; padding: 2px 10px;" id="uncheckAll">Unselect all</button></div>
+                                            <div class="col-lg-2"><button class="btn btn-info" style="font-size: 12px; padding: 2px 10px; margin-bottom: 7px;" id="checkAll">Select all</button></div>&nbsp;&nbsp;&nbsp;
+                                            <div class="col-lg-2"><button class="btn btn-warning" style="font-size: 12px; padding: 2px 10px; margin-bottom: 7px;" id="uncheckAll">Unselect all</button></div>
                                             <div class="col-lg-1"></div>
                                         </div>
                                         <div style="display:block; width:100%; height:200px; overflow-y:scroll; border-bottom: 1px solid #ECECEC; border-top: 1px solid #ECECEC;">
-                                            <table id="stepsTbl" class="table order-list display table-hover dataTable">
+                                            <table id="stepsTbl" class="table order-list table-hover">
                                                 <tfoot id="stepsFooter">
                                                 </tfoot>
                                             </table>
@@ -391,17 +465,14 @@
                                             <div class="col-lg-12"><h4>Products: </h4></div>
                                         </div>
                                         <div style="display:block; width:100%; height:200px; overflow-y:scroll; border-bottom: 1px solid #ECECEC; border-top: 1px solid #ECECEC;">
-                                            <table id="productsTbl" class="table list table-bordered display table-hover">
+                                            <table id="productsTbl" class="table list display table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <td style="width: 33%;">
-                                                            <h5>Quantity <span style="color: red">*</span></h5>
-                                                        </td>
-                                                        <td style="width: 55%;">
+                                                        <td style="width: 40%;">
                                                             <h5>Product</h5>
                                                         </td>
-                                                        <td style="width: 12%;">
-                                                            <h5>Action<span style="color: red"></span></h5>
+                                                        <td style="width: 60%;">
+                                                            <h5>Quantity used <span style="color: red">*</span></h5>
                                                         </td>
                                                     </tr>
                                                 </thead>
@@ -411,13 +482,17 @@
                                         </div>
                                     {!!Form::close()!!}
                                     </div>
+                                    <div class="col-lg-12" style="padding: 0% 3% 0%;">
+                                        <h5 style = "padding-bottom: 5px;">Remarks: <span style="color: red"></span></h5>
+                                        <textarea id="remark3" class="form-control" cols="30" rows="2" style="max-width:100%; max-height:70px; min-height:50px;"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="modal-footer m-t-10">
-                                <div class="examples transitions m-t-5">
+                            <div class="modal-footer m-t-10" style="height:50px;">
+                                <div class="examples transitions">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
-                                <div class="examples transitions m-t-5">
+                                <div class="examples transitions">
                                     <button id="btnSave" class="btn btn-success" style ="width: 80px;"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                 </div>
                             </div>
@@ -457,8 +532,12 @@
 <script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/pages/sweet_alerts.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
 <!-- end of plugin scripts -->
 
+<!--Page level scripts-->
+<script type="text/javascript" src="{{URL::asset('js/pages/radio_checkbox.js')}}"></script>
 <!-- global scripts animation-->
 <script type="text/javascript" src="{{URL::asset('vendors/snabbt/js/snabbt.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/wow/js/wow.min.js')}}"></script>
@@ -489,6 +568,7 @@
                 var row = $("<tr>");
                 var cols = "";
                 var stepCtr;
+                var currentStep;
                 var count = Object.keys(data.steps).length;
                 for (var i = 0; i < count; i++) {
                     cols += '<td><input id="chk" name="step[]" data-stepcount="'+ (i+1) +'" type="checkbox" value="1" style="-webkit-transform: scale(1.4);"></td>';
@@ -500,13 +580,13 @@
                 }
                 $('#serviceTitle').html(data.service.ServiceName);
                 $('table.table-bordered tr').each(function(){
-                    var currentStep = $(this).data('currentstep');
-                    if($(this).data('serviceid') == serviceid)
+                    if($(this).data('serviceid') == serviceid){
+                        currentStep = $(this).data('currentstep');
                         if(currentStep < 1)
                             $('#currentStep').html("Step " + currentStep + " (Pending)");
                         else
                             $('#currentStep').html("Step " + currentStep);
-                        
+                    }
                 });
             }
         });
@@ -530,9 +610,8 @@
                 var stepCtr;
                 var count = Object.keys(data.productused).length;
                 for (var i = 0; i < count; i++) {
-                    cols += '<td style="border-right:none !important"><input type="number" style="width:55px; text-align:center; " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="'+ data.productused[i].Quantity +'"></td>';
                     cols += '<td style="border-right:none !important">'+ data.productused[i].ProductName +'</td>';
-                    cols += '<td><input type="hidden" id="productusedid" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><button type="button" id="update" data-toggle="modal" class="btn btn-outline-success" ><i class="fa fa-save text-green"></i></button></td>';
+                    cols += '<td style="border-right:none !important"><div class="row btn-group" style="height:28px; margin-left:1%;"><input type="hidden" id="productusedid" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><input type="number" style="width:55px; text-align:center; " id="quantity" name="quantity" placeholder="" min="1" class="form-control hidden" value="'+ data.productused[i].Quantity +'"><button type="button" style="background:#007ACC;border:none;color:white;margin-left:2px; padding: 0px 10px;" >Max</button></div></td>';
                     row.append(cols);
                     tbody.append(row);
                     row = $("<tr>");
@@ -546,6 +625,7 @@
 
     function tickCheckBox(step){
         var id = step;
+        var stepCount = 0;
         //check all the steps preceding the selected step
         $('table.order-list tr td input').each( function(){
             var chk = $(this).data('stepcount');
@@ -554,7 +634,34 @@
                 $(this).prop("checked", "checked");
             else
                 $(this).prop("checked", false);
-         });
+            stepCount++;
+        });
+        progressCount = step;
+        progressPercent = (progressCount / stepCount) * 100;
+        temp = progressPercent.toFixed(2) + "%";
+        if (progressPercent == 0){
+            $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+        }
+        else if (progressPercent < 100){
+            $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
+        }
+        else if (progressPercent == 100){
+            $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-info');
+        }
+
+        if (progressCount == 0){
+            $('#checkAll').prop("disabled", false);
+            $('#uncheckAll').prop("disabled", "disabled");
+        }
+        else if (progressCount == stepCount){
+            $('#uncheckAll').prop("disabled", false);
+            $('#checkAll').prop("disabled", "disabled");
+        }
+
+        progressPercent = parseFloat(progressPercent).toFixed(2);
+        $('#serviceProgress').css('width', temp);
+        $('#serviceProgressPercent').html(progressPercent + "%");
+        $('#updateStep').val(id);
     }
 
     function drawProgress(){
@@ -573,12 +680,18 @@
 
         progressPercent = (progressCount/stepCount) * 100;
 
-        if (progressPercent == 0)
+        if (progressPercent == 0){
             $('#jobStatus').html("Pending");
-        else if (progressPercent < 100)
+            $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+        }
+        else if (progressPercent < 100){
             $('#jobStatus').html("Ongoing");
-        else if (progressPercent == 100)
+            $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
+        }
+        else if (progressPercent == 100){
             $('#jobStatus').html("Finished");
+            $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-info');
+        }
 
         if (isNaN(progressPercent)){
             temp = 0 + "%";
@@ -624,11 +737,27 @@
             }
         });
 
+        $('table.table-bordered tr td i').each(function(){
+            if(this.id == "icon" && $(this).data('svcperfid') == svcperfid){
+                if(progresscount == stepcount)
+                    $(this).attr('class', 'fa fa-smile-o text-blue');
+                else
+                    $(this).attr('class', 'fa fa-refresh text-green');
+            }
+        });
+
+        $('table.table-bordered tr').each(function(){
+            if($(this).data('serviceid') == svcid){
+                $(this).data('currentstep', update);
+            }
+        });
+
         $('table.table-bordered tr td span').each(function(){
             if(this.id == "status" && $(this).data('svcperfid') == svcperfid ){
                 if (progresscount == 0){
                     $(this).html("Pending");
-                    $(this).css('color', 'orange');
+                    $(this).css('color', '#FF7D00');
+                    resetJob(svcperfid);
                 }
                 else if (progresscount < stepcount){
                     $(this).html("Ongoing");
@@ -646,21 +775,92 @@ $(window).load(function(){
     drawProgress();
 });
 
+    function startJob(id){
+        var svcperfid = id;
+        $('table.table-bordered tr td').each(function(){
+            if (this.id == "update" && $(this).data('svcperfid') == svcperfid){
+                $(this).css('display', 'block');
+            }
+            else if (this.id == "start" && $(this).data('svcperfid') == svcperfid){
+                $(this).css('display', 'none');
+            }
+        });
+        setStartDate(svcperfid);
+    }
+
+    function setStartDate(id){
+        var svcperfid = id;
+        var today;
+        $('table.table-bordered tr td span').each(function(){
+            if (this.id == "startdate" && $(this).data('svcperfid') == svcperfid){
+                today = new Date().toString();
+                today = today.substr(4,6) + ',' + today.substr(10, 5) + ' - ' + today.substr(15, 6);
+                $(this).html(today);
+                $('#startDate').val(today);
+                $('#updateID').val(svcperfid);
+            }
+        });
+        var formData = $('#upDateForm').serialize();
+        $.ajax({
+            type: "PATCH",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/updatejoborder/setStartDate",
+            data: formData,
+            async: false,
+            success: function(data) {
+                alert("Success");
+            },
+            fail: function(data) {
+                alert("Failed to save data.");
+            }
+        });
+    }
+
+    function resetJob(id){
+        var svcperfid = id;
+        $('table.table-bordered tr td').each(function(){
+            if (this.id == "update" && $(this).data('svcperfid') == svcperfid){
+                $(this).css('display', 'none');
+            }
+            else if (this.id == "start" && $(this).data('svcperfid') == svcperfid){
+                $(this).css('display', 'block');
+            }
+        });
+    }
+
 $(document).ready(function(){
 
     var clicks = 0;
     
     $("table.order-list").on("click", "#chk", function (event){
+        var progressCount = 0, stepCount = 0, progressPercent = 0, temp;
         var id = $(this).data('stepcount');
-            //check all the steps preceding the selected step
-            $('table.order-list tr td input').each( function(){
-                var chk = $(this).data('stepcount');
-                chk = parseInt(chk);
-                if ((this.id) == "chk" && chk <= id )
-                    $(this).prop("checked", "checked");
-                else
-                    $(this).prop("checked", false);
-            });
+        //check all the steps preceding the selected step
+        $('table.order-list tr td input').each( function(){
+            var chk = $(this).data('stepcount');
+            chk = parseInt(chk);
+            if ((this.id) == "chk" && chk <= id )
+                $(this).prop("checked", "checked");
+            else
+                $(this).prop("checked", false);
+            stepCount++;
+        });
+        progressCount = id;
+        progressPercent = (progressCount / stepCount) * 100;
+        temp = progressPercent.toFixed(2) + "%";
+        if (progressPercent == 0){
+            $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+        }
+        else if (progressPercent < 100){
+            $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
+        }
+        else if (progressPercent == 100){
+            $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-info');
+        }
+
+        progressPercent = parseFloat(progressPercent).toFixed(2);
+        $('#serviceProgress').css('width', temp);
+        $('#serviceProgressPercent').html(progressPercent + "%");
         $('#updateStep').val(id);
     });
 
@@ -670,14 +870,24 @@ $(document).ready(function(){
             $(this).prop("checked", "checked");
             count++;
         });
+        $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-info');
+        $('#serviceProgress').css('width', '100%');
+        $('#serviceProgressPercent').html("100%");
         $('#updateStep').val(count);
+        $(this).prop("disabled", "disabled");
+        $("#uncheckAll").prop("disabled", false);
     });
 
     $("#uncheckAll").on("click", function(){
         $('table.order-list tr td input').each( function(){
             $(this).prop("checked", false);
         });
+        $('#serviceProgress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+        $('#serviceProgress').css('width', '0%');
+        $('#serviceProgressPercent').html("0%");
         $('#updateStep').val(0);
+        $(this).prop("disabled", "disabled");
+        $("#checkAll").prop("disabled", false);
     });
 
     $('#btnSave').on("click", function(){
@@ -690,8 +900,8 @@ $(document).ready(function(){
             data: formData,
             async: false,
             success: function(data) {
-                alert("Success");
                 updateTable(id);
+                alert("Success");
             },
             fail: function(data) {
                 alert("Failed to save data.");
@@ -702,6 +912,7 @@ $(document).ready(function(){
             drawProgress();
         }, 300);
     });
+
 });
 </script>
 
