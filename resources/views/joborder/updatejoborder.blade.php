@@ -197,7 +197,7 @@
                                         <!--Label: Start Date, End Date, Service Bay-->
                                         <div class="row m-t-15">
                                                 <div class="col-lg-4">
-                                                    <h5><span style="color:gray">Start:</span>&nbsp;&nbsp;&nbsp;June 28, 2018</h5>     
+                                                    <h5><span style="color:gray">Start:</span>&nbsp;&nbsp;&nbsp;September 23, 2018</h5>     
                                                 </div>  
 
                                                 <div class="col-lg-4">
@@ -216,7 +216,13 @@
                                             </div>
 
                                             <div class="col-lg-8">
-                                                <h5><span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;<span id="jobStatus">{{$joborder->Status}}</span></h5>
+                                                <h5>
+                                                    <span style="color:gray">Status: </span>&nbsp;&nbsp;&nbsp;<span id="jobStatus">{{$joborder->Status}}</span>
+                                                </h5>
+                                                {{Form::open(array('id' => 'jobStatusForm'))}}
+                                                    <input type="hidden" name="joborderid" value="{{$joborder->JobOrderID}}">
+                                                    <input id="jobStatusUpdate" type="hidden" name="jobstatus">
+                                                {{Form::close()}}
                                             </div>
                                             <br>
 
@@ -663,6 +669,20 @@
         $('#serviceProgressPercent').html(progressPercent + "%");
         $('#updateStep').val(id);
     }
+    
+    function updateJobOrderStatus(){
+        var formData = $('#jobStatusForm').serialize();
+        $.ajax({
+            type: "PATCH",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/updatejoborder/updateJobOrder",
+            data: formData,
+            async: false,
+            fail: function(data) {
+                alert("Failed to save data.");
+            }
+        });
+    }
 
     function drawProgress(){
     var progressCount = 0, stepCount = 0, progressPercent = 0, temp;
@@ -682,16 +702,21 @@
 
         if (progressPercent == 0){
             $('#jobStatus').html("Pending");
+            $('#jobStatusUpdate').val("Pending");
             $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
         }
         else if (progressPercent < 100){
             $('#jobStatus').html("Ongoing");
+            $('#jobStatusUpdate').val("Ongoing");
             $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
         }
         else if (progressPercent == 100){
             $('#jobStatus').html("Finished");
+            $('#jobStatusUpdate').val("Finished");
             $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-info');
         }
+
+        updateJobOrderStatus();
 
         if (isNaN(progressPercent)){
             temp = 0 + "%";

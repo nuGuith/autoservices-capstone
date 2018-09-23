@@ -182,6 +182,20 @@ class UpdateJobOrderController extends Controller
         return response()->json(compact('response'));
     }
 
+    public function updateJobOrder(Request $request)
+    {
+        try{
+            DB::table('job_order')
+                ->where('joborderid', $request->joborderid)
+                ->update(['Status' => ($request->jobstatus)]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -216,6 +216,7 @@ Route::get('/updatejoborder/{id}/getSteps', 'UpdateJobOrderController@getSteps')
 Route::get('/updatejoborder/{id}/getProducts', 'UpdateJobOrderController@getProducts');
 Route::patch('/updatejoborder/updateJob', 'UpdateJobOrderController@updateJob');
 Route::patch('/updatejoborder/setStartDate', 'UpdateJobOrderController@setStartDate');
+Route::patch('/updatejoborder/updateJobOrder', 'UpdateJobOrderController@updateJobOrder');
 
 //Back Job
 Route::resource('/backjob','BackJobController');
