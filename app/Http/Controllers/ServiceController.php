@@ -52,9 +52,6 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
 
-
-
-
         $customNames = [
                 'servicename' => 'Service Name',
                 'servicecategoryid' => 'Service Category',
@@ -121,23 +118,12 @@ class ServiceController extends Controller
 
                   }
 
-
-
-
             }catch(\Illuminate\Database\QueryException $e){
                 DB::rollBack();
                 $errors = $e->getMessage();
                 return redirect('service')
                     ->withErrors($errors, 'add');
             }
-
-
-
-
-
-
-
-
 
             $request->session()->flash('success', 'Record successfully added.');
             return redirect('service');
