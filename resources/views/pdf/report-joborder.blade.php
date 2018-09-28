@@ -9,7 +9,7 @@ table, th, td {
   <img src="img/jpr_logo.png" style="width:180px; height:50px; margin-top:5px;">
   <p> Lot 19 Block 136 Mindanao Ave. Ext. Brgy. Greater Lagro, Fairview, QC </p>
   <hr>
-  <h2>JOB ORDER REPORT FOR AUGUST 2019</h2>
+  <h2>JOB ORDER REPORT</h2>
   <hr>
 </div>
 <table width="100%">
@@ -20,17 +20,17 @@ table, th, td {
         <th> TOTAL SALES</th>
 
     </tr>
-    <tr>
-        <td>August 2, 2019</td>
-        <td>JO001</td>
-        <td>JM Culaniban</td>
-        <td>Php 1,000.00</td>
-    </tr>
-    <tr>
-        <td>August 3, 2019</td>
-        <td>JO002</td>
-        <td>Jonathan Tolentino</td>
-        <td>Php 2,000.000</td>
-    </tr>
-
+    @foreach($jos as $jo)
+        <tr>
+            <td>
+                <?php
+                    $date = date('F d, Y', strtotime($jo->JODate));
+                    echo $date;
+                ?>
+            </td>
+            <td>JO000{{ $jo->JobOrderID }}</td>
+            <td>{{ $jo->FirstName }} {{ $jo->LastName }}</td>
+            <td>Php {{ $jo->TotalAmountDue }}</td>
+        </tr>
+    @endforeach
 </table>

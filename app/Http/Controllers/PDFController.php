@@ -1,6 +1,17 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Estimate;
+use App\Automobile;
+use App\Customer;
+use App\InspectionHeader;
+use App\JobOrder;
+use App\Service;
+use App\Product;
+use App\ServicePerformed;
+use App\ProductUsed;
 use PDF;
 class pdfController extends Controller
 {
@@ -8,7 +19,15 @@ class pdfController extends Controller
   // REPORTS
   public function estimate()
   {
-    $pdf = PDF::loadView('pdf.report-estimate')
+    $estimates = DB::table('estimate as e')
+      ->join('automobile as a', 'e.AutomobileID', '=', 'a.AutomobileID')
+      ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
+      ->where('e.isActive', 1)
+      ->select('e.*', 'a.PlateNo', 'c.LastName','c.FirstName', DB::raw('DATE(e.created_at) AS EDate'))
+      ->orderBy('Edate', 'desc')
+      ->get();
+
+    $pdf = PDF::loadView('pdf.report-estimate', compact('estimates'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
@@ -18,7 +37,17 @@ class pdfController extends Controller
 
   public function inspection()
   {
-    $pdf = PDF::loadView('pdf.report-inspection')
+    $inspections = DB::table('inspection_header as i')
+      ->join('job_order as jo', 'i.JobOrderID', '=', 'jo.JobOrderID')
+      ->join('estimate as e', 'i.EstimateID', '=', 'e.EstimateID')
+      ->join('automobile as auto', 'jo.AutomobileID', '=', 'auto.AutomobileID')
+      ->join('automobile as a', 'e.AutomobileID', '=', 'a.AutomobileID')
+      ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
+      ->where('i.isActive', 1)
+      ->select('i.*', 'a.PlateNo', 'auto.PlateNo', 'c.LastName', 'c.MiddleName', 'c.FirstName', DB::raw('DATE(i.created_at) AS IDate'))
+      ->get();
+
+    $pdf = PDF::loadView('pdf.report-inspection', compact('inspections'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
@@ -28,7 +57,14 @@ class pdfController extends Controller
 
   public function joborder()
   {
-    $pdf = PDF::loadView('pdf.report-joborder')
+    $jos = DB::table('job_order as jo')
+      ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
+      ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
+      ->where('jo.isActive', 1)
+      ->select('jo.JobOrderID', 'jo.TotalAmountDue', 'a.PlateNo', 'c.LastName', 'c.FirstName', DB::raw('DATE(jo.created_at) AS JODate'))
+      ->get();
+
+    $pdf = PDF::loadView('pdf.report-joborder', compact('jos'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
