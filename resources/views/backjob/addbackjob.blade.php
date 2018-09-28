@@ -350,32 +350,4 @@
 <script>
     new WOW().init();
 </script>
-<script>
-/* SELECT RECORD via ESTIMATE ID SEARCH */
-$("#estimates").on("change", function () {
-        var selectedID = $(this).val();
-        estimateID = selectedID;
-        showEstimate(estimateID);
-    });
-
-    function showEstimate(id){
-        estimateID = id;
-        $.ajax({
-            type: "GET",
-            url: "/addinspect/"+estimateID+"/showEstimate",
-            dataType: "JSON",
-            success:function(data){
-                $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
-                $('#customername').val(data.customer.fullname));
-                $('#contactno').val(data.customer.ContactNo);
-                $('#email').val(data.customer.EmailAddress);
-                $('#pwd_sc_no').val(data.customer.PWD_SC_No);
-                $('#address').val(data.customer.CompleteAddress);
-                if (fromEstimate){
-                    $("#estimates").prop("disabled","disabled").trigger('chosen:updated');
-                }
-            }
-        });
-    }
-</script>
 @stop
