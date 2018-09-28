@@ -149,15 +149,16 @@
                                             <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="  #ffcc00" data-color="white" data-tipso="View Estimate" onclick="window.location='{{ url("/viewestimates") }}'"><i class="fa fa-file-text text-white"></i>
                                             </button>
 
-                                        <!--OFFICIAL RECEIPT BUTTON-->
-                                            <button class="btn hvr-float-shadow tipso_bounceIn" style="background-color:#b2b2a4; color:#b2b2a4; width:;" data-background="#b2b2a4" data-color="white" data-tipso="Official Receipt" onclick="window.location='{{ url("/receipt") }}'" ><i class="ti-receipt text-white" style="left: 0em;"></i></button>
-                                        </div>
+                                            <!--OFFICIAL RECEIPT BUTTON-->
+                                            <!-- <button class="btn hvr-float-shadow tipso_bounceIn" style="background-color:#b2b2a4; color:#b2b2a4; width:;" data-background="#b2b2a4" data-color="white" data-tipso="Official Receipt" onclick="window.location='{{ url("/receipt") }}'" ><i class="ti-receipt text-white" style="left: 0em;"></i></button> -->
 
-                                        <div class="examples transitions m-t-5">
                                             <!--DELETE BUTTON-->
                                             <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                             </button>
                                         </div>
+
+                                        <!-- <div class="examples transitions m-t-5">
+                                        </div> -->
                                     </td>
                                 </tr>
                                 @endforeach

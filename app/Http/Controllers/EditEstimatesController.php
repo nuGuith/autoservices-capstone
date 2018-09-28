@@ -131,6 +131,17 @@ class EditEstimatesController extends Controller
         //
     }
 
+    public function getServicePrice($id)
+    {
+        $serviceprices = DB::table('service_price AS sp')
+            ->join('automobile_model as am', 'sp.modelid', '=', 'am.modelid')
+            ->join('service as s', 'sp.serviceid', '=', 's.serviceid')
+            ->where(['sp.modelid' => $id, 'sp.isActive' => 1])
+            ->select('sp.serviceid', 's.servicename', 'sp.price')
+            ->get();
+        return response()->json(compact('serviceprices'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

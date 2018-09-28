@@ -596,6 +596,8 @@
                                                     <h5 id="lessdiscount" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     <h5 id="totalamountdue" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                 </div>
+                                                <input id="discountedamt" type="hidden" name="discountedamt">
+                                                <input id="totalamt" type="hidden" name="totalamtdue">
                                             </td>
                                             <td>
                                             </td>  
@@ -643,7 +645,7 @@
 	                                    </p>
 	                            </div>
                                 <div class="col-lg-3">
-	                                <h5>Quality Analyst: <span style="color: red">*</span></h5>
+	                                <h5>Quality Analyst: </h5>
 	                                    <p class="m-t-10">
                                             <p id="QAwrapper">
                                                 {{ Form::select(
@@ -802,13 +804,14 @@
                     </div>
                 </div>
                 <!-- START SUBMIT MODAL -->
-                <div class="modal fade in " id="confirmationModal" tabindex="-3" role="dialog" aria-hidden="false">
+                <div class="modal fade in " id="confirmationModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-save"></i>
-                                            &nbsp;Confirmation</h4>
+                                    &nbsp;Confirmation
+                                </h4>
                             </div>
                             <div class="modal-body">
                                 <div class="col m-t-15">
@@ -835,6 +838,60 @@
                     </div>
                 </div>
                 <!-- END SUBMIT MODAL -->
+                
+                <!-- START PRODUCT UNCHECKED MODAL -->
+                <div class="modal fade in " id="prodUncheckedModal" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                    &nbsp;Unincluded Products
+                                    </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>One last thing, here is the list of all the product(s) that you did not choose to be included in this Job Order. We need you to indicate a reason why they were not included. Thank you!</h5>
+                                    <div>
+                                        <table class="table display nowrap dataTable no-footer" style="width:96%;">
+                                        </table>
+                                    </div>
+                                    <div style="display:block; width:100%; height:150px; overflow-y:scroll;">
+                                        <table id="prodUncheckedTbl" class="table display nowrap dataTable" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <td><h5>Product</h5></td>
+                                                    <td><h5>Reason</h5></td>
+                                                </tr>
+                                            </thead>
+                                            <tfoot id="prodUncheckedFooter">
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div><br>
+                                <div style="background:#F7F7F9; padding: 3%;" class="row m-t-6">
+                                    <div class="col-md-9">
+                                        <h6>If you don't like this feature, you can turn this off in <a style="color:#0366D6" href="#">Utilities</a> or just click the 'Turn off' button here.</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-outline-primary" style="border:1px solid #aeafaf;padding-top:4%;padding-bottom:4%; color: #0366D6; background-color:#FFFFFF" onMouseOver="this.style.backgroundColor='#0366D6';this.style.color='#FFFFFF'" onMouseOut="this.style.backgroundColor='#FFFFFF';this.style.color='#0366D6'">Turn off</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnJustGo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">No, just go.</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnConfirm" type="button" data-dismiss="modal" class="btn btn-success">
+                                        &nbsp;Confirm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PRODUCT UNCHECKED MODAL -->
             </div>
         </div>
                    
@@ -862,7 +919,7 @@
 </script>
 
 
-<!--SCRIPT FOR DELETE ROW INSIDE JOB ORDER TABLE -->
+<!--SCRIPT FOR EVERYTHING HIHI, ANG DUMI NG CODE KO AHAHAKKK -->
 <script> 
 
 $(document).ready(function () {
@@ -886,6 +943,7 @@ $(document).ready(function () {
     var deleted = [];
     var PWD_SC_NO = $("#pwd_sc_no").val();
     var cloneCtr = 0;
+    var reasonsConfirmed = false;
 
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -967,10 +1025,16 @@ $(document).ready(function () {
         confirmationModal();
     });
 
+    $("#btnConfirm").on("click", function(){
+        $("#prodUncheckedModal").modal('hide');
+        var resp = confirm("Save this record?");
+        if (resp)
+            $("#confirmationModal").modal('show');
+    });
     
     function checkAllRequired(){
             var result = true;
-            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #mechanic, #SA, #QA, #IM, #servicebays").each(function() {
+            $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #transmission, #mechanic, #SA, #IM, #servicebays").each(function() {
                 if($(this).val() == null || $(this).val() == 0){ 
                     $(this).css("border", "1.5px solid #FF3839"); 
                     result = false; 
@@ -978,10 +1042,10 @@ $(document).ready(function () {
                 if(modelID < 1 && $(this).attr('id') == "automobile_models"){ $("#modelwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
                 if(mechanicID == null || mechanicID < 0 && $(this).attr('id') == "mechanic"){ $("#mechanicwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
                 if(saID == null || saID < 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
-                if(qaID == null || qaID < 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                /* if(qaID == null || qaID < 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); } */
                 if(imID == null || imID < 0 && $(this).attr('id') == "IM"){ $("#IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
                 if(svcbayID == null || svcbayID < 0 && $(this).attr('id') == "servicebays"){ $("#svcbaywrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
-                if(modelID > 0 && mechanicID > 0 && saID > 0 && qaID > 0 && imID > 0 && svcbayID > 0)
+                if(modelID > 0 && mechanicID > 0 && saID > 0 && imID > 0 && svcbayID > 0)
                     result = true;
             });
             if (result) valid = true;
@@ -995,12 +1059,10 @@ $(document).ready(function () {
             alert("Fill out all the required fields first!");
         if (require) {
             if(serviceCtr < 1 || serviceCtr == null)
-                alert("You haven't added any services or products! \nWe cannot process your request, sorry.")
+                alert("You haven't added any services or products! \nWe cannot process your request, sorry.");
             else{
                 if (valid){
-                    var resp = confirm("Save this record?");
-                    if (resp)
-                        $("#confirmationModal").modal('show');
+                    $("#prodUncheckedModal").modal('show');
                 }
             }
         }
@@ -1009,7 +1071,7 @@ $(document).ready(function () {
 
     $("#btnSaveProceed").on("click", function (e) {
         var formData = $('#jobForm').serialize();
-        alert(formData);
+        //alert(formData);
         //alert(estimateID);
 
         if(routeID == 0 || routeID == null){
@@ -1020,7 +1082,7 @@ $(document).ready(function () {
                 type: 'post',
                 async: false,
                 success: function(data) { 
-                    alert(data);
+                    alert("Yey.");
                     routeID = 1;
                     redirect = data.newRoute;
                     window.location.href = "/joborder";
@@ -1358,6 +1420,7 @@ $(document).ready(function () {
         });
         document.getElementById("grandtotal").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
         document.getElementById("totalamountdue").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
+        $('#totalamt').val(grandTotal);
     }
 
     function getGrandTotalNoQty(){
@@ -1384,7 +1447,8 @@ $(document).ready(function () {
             } 
         });
         document.getElementById("grandtotal").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
-
+        document.getElementById("totalamountdue").innerHTML = "PHP " + parseFloat(grandTotal).toFixed(2);
+        $('#totalamt').val(grandTotal);
     }
 
     function getEstimatedTime(){
@@ -1522,6 +1586,7 @@ $(document).ready(function () {
     }
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
+    var prevMultiple = false;
     $("#customers").change(function () {
         var selectedID = $(this).val();
 
@@ -1559,10 +1624,10 @@ $(document).ready(function () {
             dataType: "JSON",
             success:function(data){
                 var count = Object.keys(data.plates).length;
+                var options = '';
                 if (count>1){
                     $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
                     $('#automobiles').trigger("chosen:updated");
-                    var options = '';
                     resetFieldsIfhasMultipleRecs();
                     for(var i = 0; i < count; i++){
                         options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
@@ -1570,6 +1635,9 @@ $(document).ready(function () {
                     $('#automobiles').append(options);
                     $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
                     $('#automobiles').trigger("chosen:updated");
+                }
+                else {
+                    unfilterPlateNo();
                 }
             }
         });
@@ -1613,6 +1681,25 @@ $(document).ready(function () {
         $('#AT').prop("checked", false);
         $('#MT').prop("checked", false);
         //$('#selectPlateNo').addClass('focused_input');
+    }
+
+    function unfilterPlateNo(){
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/unfilterPlateNo",
+            dataType: "JSON",
+            success:function(data){
+                var count = Object.keys(data.plates).length;
+                var options = '';
+                $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
+                $('#automobiles').trigger("chosen:updated");
+                for(var i = 0; i < count; i++){
+                    options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                }
+                $('#automobiles').append(options);
+                $('#automobiles').trigger("chosen:updated");
+            }
+        });
     }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
@@ -1784,8 +1871,10 @@ $(document).ready(function () {
         if (!(isNaN(totalAmtDue))){
             $("#discountamt").val(discountedAmt);
             $("#lessdiscount").html("- PHP " + discountedAmt);
+            $("#discountedamt").val(discountedAmt);
         }
             $("#totalamountdue").html("PHP " + totalAmtDue);
+            $("#totalamt").val(totalAmtDue);
     }
     
 	$("#promos").change(function () {
@@ -1861,8 +1950,8 @@ $(document).ready(function () {
         var selectedID = $(this).val();
         mechanicID = selectedID;
         $('table td select').each(function(){
-            $('#mechanic').prop('selectedIndex', selectedID);
-            $('#mechanic').trigger("chosen:updated");
+            $(this).prop('selectedIndex', selectedID);
+            $(this).trigger("chosen:updated");
         });
 
         if($(this).val() != null || $(this).val() != 0) { 

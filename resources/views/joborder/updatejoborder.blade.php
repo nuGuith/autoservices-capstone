@@ -190,9 +190,12 @@
                                     <div class="card-block">
 
                                         <!--START JOB ORDER PROGRESS DETAIL-->
-                                        <h4 class="m-t-15">Progress Details</h2>
-                                        <hr style="margin-top: 10px; border: 2px solid #D3D6DA">
+                                        <div class="row">
+                                            <div class="col-lg-10 m-t-5"><h4 class="m-t-15">Progress Details</h4></div>
+                                            <div class="col-lg-1 m-t-10"><button class="btn btn-success" style="margin-left:48px;"><span style="letter-spacing:0.95px;">Start</span>&nbsp;&nbsp;&nbsp;<i class="fa fa-play text-white" style="font-size: 0.75em;"></i></button></div>
+                                        </div>
 
+                                        <hr style="margin-top: 10px; border: 2px solid #D3D6DA">
 
                                         <!--Label: Start Date, End Date, Service Bay-->
                                         <div class="row m-t-15">
@@ -577,8 +580,7 @@
                 var currentStep;
                 var count = Object.keys(data.steps).length;
                 for (var i = 0; i < count; i++) {
-                    cols += '<td><input id="chk" name="step[]" data-stepcount="'+ (i+1) +'" type="checkbox" value="1" style="-webkit-transform: scale(1.4);"></td>';
-                    cols += '<td>Step '+ (i+1) +': '+data.steps[i].Step+'</td>';           
+                    cols += '<td><label style="width:100%; display:inline-block; margin: auto;"><input id="chk" name="step[]" data-stepcount="'+ (i+1) +'" type="checkbox" value="1" style="-webkit-transform: scale(1.4);">&nbsp;&nbsp;&nbsp;Step '+ (i+1) +': '+data.steps[i].Step+'</label></td>';           
                     row.append(cols);
                     tbody.append(row);
                     row = $("<tr>");

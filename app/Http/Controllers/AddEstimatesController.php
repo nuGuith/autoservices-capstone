@@ -252,6 +252,16 @@ class AddEstimatesController extends Controller
         return response()->json(compact('plates'));
     }
 
+    public function unfilterPlateNo()
+    {
+        $plates = Automobile::orderBy('created_at', 'desc')
+            ->where('isActive', 1)
+            ->groupBy('plateno')
+            ->distinct('plateno')
+            ->pluck('plateno','automobileid');
+        return response()->json(compact('plates'));
+    }
+
     public function showAutomobile($id)
     {
         $automobile = Automobile::findOrFail($id);

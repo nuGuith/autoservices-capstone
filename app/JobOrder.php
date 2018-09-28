@@ -22,9 +22,9 @@ class JobOrder extends Model
         'Terms_Agreement',
         'Agreement_Timestamp',
         'Release_Timestamp',
-        'LaborCharge',
-        'LaborDiscount_Rate',
+        'DiscountedAmount',
         'JobDuration',
+        'DiscountedAmount',
         'TotalAmountDue',
         'isActive',
         'updated_at'

@@ -323,7 +323,8 @@ class AddJobOrderController extends Controller
                 'UserID' => (1),
                 'Status' => ('Ongoing'),
                 'Agreement_Timestamp' => (date('Y-m-d H:i:s')),
-                'LaborCharge' => (499),
+                'DiscountedAmount' => ($request->discountedamt),
+                'TotalAmountDue' => ($request->totalamtdue),
                 'updated_at' => (date('Y-m-d H:i:s'))
             ]);
 

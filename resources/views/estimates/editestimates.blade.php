@@ -117,7 +117,7 @@
                                     <div class="col-lg-4 ">
                                             <h5>Contact No: <span style="color:red">*</span></h5>
                                             <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask value="{{$customer->ContactNo}}" >
+                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(9999) 999-9999"' data-mask value="{{$customer->ContactNo}}" >
                                             </p>
                                         </div>
                                         <div class="col-lg-4">
@@ -436,7 +436,8 @@
                             <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-info"></i>
-                                            &nbsp;&nbsp;Service Steps </h4>                  
+                                    &nbsp;&nbsp;Service Steps 
+                                </h4>                  
                             </div>
 
 
@@ -468,7 +469,7 @@
                 <!-- VIEW STEPS MODAL-->             
 
 
-                             <!--Button: Back, SAVe-->
+                             <!--Button: Back, Save-->
                              <div class="card-footer bg-black disabled">
                                <div class="examples transitions m-t-5 pull-right">
                                     <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left">
@@ -545,10 +546,12 @@ $(document).ready(function () {
         }
         $('#transmission').val(automobile.Transmission);
         $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
+        filterServices(automobile.ModelID);
     }
 
     getGrandTotal();
     getEstimatedTime();
+    
 
     var clicked = false;
     $("#fname, #lname, #phones, #address, #plateno, #automobile_models, #chassisno, #mileage, #MT, #AT, #personnels").on({
@@ -752,6 +755,32 @@ $(document).ready(function () {
         document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
         else
         document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+    
+    function filterServices(modelID){
+        $.ajax({
+            type: "GET",
+            url: '/editestimates/'+ modelID +'/getServicePrice',
+            dataType: "JSON",
+            success:function(data){
+                var options = '';
+                var price ='';
+                var count = Object.keys(data.serviceprices).length;
+                if (count > 0)
+                    $('#services').empty().append('<option value = 0> Choose a Service</option>');
+                else
+                    $('#services').empty().append('<option value = 0> No services available. </option>');
+
+                $('#services').trigger("chosen:updated");
+                for(var i = 0; i < count; i++)
+                {
+                    options += '<option value ="' + data.serviceprices[i].serviceid + '" data-price="' + data.serviceprices[i].price + '">' + data.serviceprices[i].servicename +'</option>';
+                }
+                $('#services').append(options);
+                $("#services option[value='0']").prop("disabled", true, "selected", false);
+                $('#services').trigger("chosen:updated");
+            }
+        });
     }
 
     $("#AT").change(function(){

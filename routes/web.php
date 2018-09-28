@@ -189,11 +189,13 @@ Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@show
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
 Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
 Route::get('/addestimates/{id}/filterPlateNo', 'AddEstimatesController@filterPlateNo');
+Route::get('/addestimates/unfilterPlateNo', 'AddEstimatesController@unfilterPlateNo');
 Route::get('/addestimates/{id}/getServiceDetails', 'AddEstimatesController@getServiceDetails');
 Route::get('/addestimates/{id}/getProductDetails', 'AddEstimatesController@getProductDetails');
 Route::get('/addestimates/{id}/getDiscountDetails', 'AddEstimatesController@getDiscountDetails');
 
 Route::get('/editestimates/{id}','EditEstimatesController@index');
+Route::get('/editestimates/{id}/getServicePrice', 'EditEstimatesController@getServicePrice');
 Route::get('/viewestimates/{id}','ViewEstimatesController@index');
 
 //Transaction - Job Order
