@@ -9,6 +9,7 @@ class Inspection extends Model
     public $timestamps = true;
     protected $table = 'inspection';
     protected $fillable = [
+        'InspectionID',
     	'InspectionChecklistID',
         'isWorking',
         'hasInventory',
