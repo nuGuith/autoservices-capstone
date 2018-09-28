@@ -169,14 +169,16 @@ Route::POST('/editdiscount','DiscountController@edit');
 Route::POST('/deldiscount','DiscountController@delete');
 
 
-//404 blade
+//404 bladeac
 Route::get('/404',['as'=>'404','uses'=>'ErrorHandlerController@errorCode404']);
 Route::get('/405',['as'=>'405','uses'=>'ErrorHandlerController@errorCode405']);
 
 
 //Transaction - Inspect Vehicle
 Route::get('/inspect','InspectController@index');
-Route::get('/addinspect','AddInspectController@index');
+Route::resource('/addinspect', 'AddInspectController');
+Route::get('/addinspect/{id}/fromEstimate','AddInspectController@fromEstimate')->name('fromEstimate');
+Route::get('/addinspect/{id}/showEstimate','AddInspectController@showEstimate')->name('showEstimate');
 Route::get('/editinspect','EditInspectController@index');
 Route::get('/viewinspect','ViewInspectController@index');
 
