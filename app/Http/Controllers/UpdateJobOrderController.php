@@ -153,6 +153,49 @@ class UpdateJobOrderController extends Controller
        
     }
 
+    public function updateJob(Request $request)
+    {
+        try{
+            DB::table('service_performed')
+                ->where('serviceperformedid', $request->serviceperformedid)
+                ->update(['CurrentStep' => ($request->updatestep)]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
+
+    public function setStartDate(Request $request){
+        try{
+            DB::table('service_performed')
+                ->where('serviceperformedid', $request->serviceperformedid)
+                ->update(['startdate' => date('Y-m-d H:i:s')]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
+
+    public function updateJobOrder(Request $request)
+    {
+        try{
+            DB::table('job_order')
+                ->where('joborderid', $request->joborderid)
+                ->update(['Status' => ($request->jobstatus)]);
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
     /**
      * Remove the specified resource from storage.
      *
