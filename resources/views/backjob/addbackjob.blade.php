@@ -306,6 +306,13 @@
                                      </tfoot>
                                     </table> 
                                 </div>
+                            <!--Textfield: Remarks -->
+                             <div class="row m-t-5">
+                                <div class="col-lg-12">
+                                    <h5 style = "padding-bottom: 10px;">Remarks: <span style="color: red"></span></h5>
+                                        <textarea id="remark3" class="form-control" cols="30" rows="2"></textarea>
+                                </div>
+                            </div>
                     </div> <!-- This end div is for margin top -->
                     
                     <!-- END -->
