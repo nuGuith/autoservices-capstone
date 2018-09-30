@@ -50,23 +50,20 @@
                         <div class="card">
                             <div class="card-header bg-dark">
                                 <div class="btn-group">
-
                                         <!--ADD BUTTON MODAL-->
-                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" 
-                                                    href="/addestimates">
-                                        <i class="fa fa-plus"></i>
-                                            &nbsp;  Add Estimate                                  
+                                        <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" href="/addestimates">
+                                            <i class="fa fa-plus"></i> &nbsp;  Add Estimate                                  
                                          </a>
-                                    </div>
-                             </div>
+                                </div>
+                            </div>
 
 
                             <div class="card-block m-t-35">
                                 <div class="table-toolbar">
                                     <div class="btn-group">
-                                    <div class="btn-group float-right users_grid_tools">
-                                        <div class="tools"></div>
-                                    </div>
+                                        <div class="btn-group float-right users_grid_tools">
+                                            <div class="tools"></div>
+                                        </div>
                                     </div>
                                 </div>
                             <div>
@@ -134,7 +131,6 @@
                                                             <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete">
                                                                 <i class="fa fa-trash text-white"></i>
                                                             </button>
-                                                       
                                                         </div>
                                                     </td>
                                                 </tr>

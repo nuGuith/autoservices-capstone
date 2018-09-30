@@ -2,25 +2,26 @@
 @section('Title','Estimate Report') <!-- Page Title -->
 @section('content')
 
-    <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/sweet_alert.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/sweetalert/css/sweetalert2.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/sweet_alert.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/animate/css/animate.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/hover/css/hover-min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/wow/css/animate.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/animate/css/animate.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/hover/css/hover-min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/wow/css/animate.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/tooltipster/css/tooltipster.bundle.min.css">
-    <link type="text/css" rel="stylesheet" href="vendors/tipso/css/tipso.min.css">
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/tooltipster/css/tooltipster.bundle.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/tipso/css/tipso.min.css') }}">
 
-    <!-- end of plugin styles -->
-    <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/animations.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/portlet.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/animate/css/animate.min.css') }}" />
 
     <!--plugin syles-->
     <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css" />
     <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/daterangepicker/css/daterangepicker.css')}}" />
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.css" />
     <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
     <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css" />
     <!-- end of plugin styles -->
@@ -69,6 +70,17 @@
                                         </div>
                                     </form>
                                 </div>
+
+                                <div class="card-block m-t-0">
+                                    <div class="table-toolbar">
+                                        <div class="btn-group">
+                                            <div class="btn-group float-right users_grid_tools">
+                                                <div class="tools"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div>
+
                                 <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                     <thead>
                                         <tr role="row">
@@ -78,29 +90,29 @@
                                             <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>DATE</b></th>
                                         </tr>
                                     </thead>
-                                        <tbody>
-                                            @foreach($estimates as $estimate)
-                                            <tr role="row" class="even">
-                                                <td>ES000{{ $estimate->EstimateID }}</td>
-                                                <td>{{ $estimate->PlateNo }}</td>
-                                                <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
-                                                <td>
-                                                    <?php
-                                                        $date = date('F d, Y', strtotime($estimate->EDate));
-                                                        echo $date;
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
+                                    <tbody>
+                                        @foreach($estimates as $estimate)
+                                        <tr role="row" class="even">
+                                            <td>ES000{{ $estimate->EstimateID }}</td>
+                                            <td>{{ $estimate->PlateNo }}</td>
+                                            <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
+                                            <td>
+                                                <?php
+                                                    $date = date('F d, Y', strtotime($estimate->EDate));
+                                                    echo $date;
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                     <!-- FOOTER -->
                         <div class="card-footer bg-black disabled">
                             <div class="examples transitions m-t-5 pull-right">
                                 <div class="btn-group">
-                                <a href="{{url('/report-estimate')}}" target="_blank">
-                                    <button class="btn btn-warning m-l-0 adv_cust_mod_btn" style ="width: 150px;" ><i class="fa fa-save text-white" ></i><a href="{{url('/report-estimate')}}" target="_blank">
+                                    <a href="{{url('/report-estimate')}}" target="_blank">
+                                    <button class="btn btn-warning m-l-0 adv_cust_mod_btn" style ="width: 150px;" ><i class="fa fa-save text-white" ></i>
                                     &nbsp; Generate PDF</button>
                                 </div>
                             </div>
@@ -116,31 +128,32 @@
 
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
-<script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
-<script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/components.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/sweetalert/js/sweetalert2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/sweet_alerts.js') }}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
-<script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendors/snabbt/js/snabbt.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/wow/js/wow.min.js') }}"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="vendors/tooltipster/js/tooltipster.bundle.min.js"></script>
-<script type="text/javascript" src="vendors/tipso/js/tipso.min.js"></script>
-<script type="text/javascript" src="js/pages/tooltips.js"></script>
+<script type="text/javascript" src="{{ asset('vendors/tooltipster/js/tooltipster.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/tipso/js/tipso.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/tooltips.js') }}"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="js/pages/modals.js"></script>
+<script type="text/javascript" src="{{ asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
+<script type="text/javascript" src="js/pages/radio_checkbox.js"></script>
 <!-- end of global scripts-->
 <!-- plugin scripts -->
 <script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
@@ -161,33 +174,27 @@
 <script type="text/javascript" src="vendors/j_timepicker/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
 
-<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}"></script>
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
+<script type ="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 
 <script>
-$(document).on('ready', function(){
-    $(function(){
-        var start = moment();
-        var end = moment();
+$(document).ready( function(){
+    var start = moment();
+    var end = moment();
 
-            function date(start, end){
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-                    if (enddate == startdate)
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY'));
-                    }
-                    else
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY') + "to" + end.format('MMMM D, YYYY'));
-                    }
-            }
+    function date(start, end){
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            
+        if (enddate == startdate)
+            $('#reportdate').text(""+start.format('MMMM D, YYYY'));
+        else
+            $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
+    }
 
-    });
-
-    
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
@@ -202,6 +209,10 @@ $(document).on('ready', function(){
     }, date);
 
     date(start, end);
+
+    
+    $('input[name=daterangepicker_start]').css('width', '1000px');
+
 });
 </script>
 
