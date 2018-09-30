@@ -39,15 +39,21 @@ class pdfController extends Controller
   {
     $inspections = DB::table('inspection_header as i')
       ->join('job_order as jo', 'i.JobOrderID', '=', 'jo.JobOrderID')
+      ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
+      ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
+      ->where('i.isActive', 1)
+      ->select('i.*', 'a.PlateNo', 'c.LastName', 'c.MiddleName', 'c.FirstName', DB::raw('DATE(i.created_at) AS IDate'))
+      ->get();
+
+      $inspects = DB::table('inspection_header as i')
       ->join('estimate as e', 'i.EstimateID', '=', 'e.EstimateID')
-      ->join('automobile as auto', 'jo.AutomobileID', '=', 'auto.AutomobileID')
       ->join('automobile as a', 'e.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
       ->where('i.isActive', 1)
-      ->select('i.*', 'a.PlateNo', 'auto.PlateNo', 'c.LastName', 'c.MiddleName', 'c.FirstName', DB::raw('DATE(i.created_at) AS IDate'))
+      ->select('i.*', 'a.PlateNo', 'c.LastName', 'c.MiddleName', 'c.FirstName', DB::raw('DATE(i.created_at) AS IDate'))
       ->get();
 
-    $pdf = PDF::loadView('pdf.report-inspection', compact('inspections'))
+    $pdf = PDF::loadView('pdf.report-inspection', compact('inspections', 'inspects'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
@@ -70,6 +76,52 @@ class pdfController extends Controller
     $pdf->save(storage_path().'_filename.pdf');
     // Finally, you can download the file using download function
     return $pdf->stream('report-joborder');
+  }
+
+  public function jobordersales()
+  {
+    $joborders = DB::table('job_order as jo')
+      ->where('jo.isActive', 1)
+      ->select('jo.JobOrderID', 'jo.TotalAmountDue', DB::raw('DATE(jo.Agreement_Timestamp) as JODate'))
+      ->get();
+
+    $serviceperformed = DB::table('service_performed as sp')
+      ->join('job_order as jo', 'sp.JobOrderID', '=', 'jo.JobOrderID')
+      ->where(['sp.isActive'=>1, 'sp.isPerformed'=>1])
+      ->groupby('sp.JobOrderID')
+      ->select('jo.JobOrderID', 'sp.JobOrderID', 'sp.ServiceID', DB::raw('SUM(sp.LaborCost) as ServiceTotalPrice'))
+      ->get();
+
+    $productused = DB::table('product_used as pu')
+      ->join('job_order as jo', 'pu.JobOrderID', '=', 'jo.JobOrderID')
+      ->where(['pu.isActive'=>1, 'pu.isCustomerProvided'=>0])
+      ->groupby('pu.JobOrderID')
+      ->select('jo.JobOrderID', 'pu.JobOrderID', 'pu.ProductID', DB::raw('SUM(pu.SubTotal) as ProductTotalPrice'))
+      ->get();
+
+    $servicetotal = DB::table('service_performed as sp')
+      ->join('job_order as jo', 'sp.JobOrderID', '=', 'jo.JobOrderID')
+      ->where(['sp.isActive'=>1, 'isPerformed'=>1])
+      ->select(DB::raw('SUM(LaborCost) as ServiceTotalPrice'))
+      ->get();
+    
+    $producttotal = DB::table('product_used as pu')
+      ->join('job_order as jo', 'pu.JobOrderID', '=', 'jo.JobOrderID')
+      ->where(['pu.isActive'=>1, 'isCustomerProvided'=>0])
+      ->select(DB::raw('SUM(pu.SubTotal) as ProductTotalPrice'))
+      ->get();
+
+    $totals = DB::table('job_order')
+      ->where('isActive', 1)
+      ->select(DB::raw('SUM(TotalAmountDue) as gross'))
+      ->get();
+
+    $pdf = PDF::loadView('pdf.report-jobordersales', compact('joborders', 'serviceperformed', 'productused', 'servicetotal', 'producttotal', 'totals'))
+    ->setPaper([0, 0, 612, 936], 'portrait');
+    // If you want to store the generated pdf to the server then you can use the store function
+    $pdf->save(storage_path().'_filename.pdf');
+    // Finally, you can download the file using download function
+    return $pdf->stream('report-jobordersales');
   }
 
 }

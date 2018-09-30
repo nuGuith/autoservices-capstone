@@ -30,7 +30,20 @@ table, th, td {
             </td>
             <td>JO000{{ $inspection->InspectionID }}</td>
             <td>{{ $inspection->FirstName }} {{ $inspection->LastName }}</td>
-            <td>Php {{ $inspection->PlateNo }}</td>
+            <td>{{ $inspection->PlateNo }}</td>
         </tr>
     @endforeach
+    <!--@foreach($inspects as $inspect)-->
+    <tr>
+            <td>
+                <?php
+                    $date = date('F d, Y', strtotime($inspect->IDate));
+                    echo $date;
+                ?>
+            </td>
+            <td>I000{{ $inspect->InspectionID }}</td>
+            <td>{{ $inspect->FirstName }} {{ $inspect->LastName }}</td>
+            <td>{{ $inspect->PlateNo }}</td>
+        </tr>
+    <!--@endforeach-->
 </table>
