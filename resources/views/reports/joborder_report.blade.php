@@ -71,12 +71,19 @@
                                         </tr>
                                     </thead>
                                         <tbody>
+                                            @foreach($jos as $jo)
                                             <tr role="row" class="even">
-                                                <td>ES001</td>
-                                                <td>GUESSHEE ALMARIO</td>
-                                                <td>JANUARY 10, 2016</td>
-                                                <td>Php 1000.00</td>
+                                                <td>JO000{{ $jo->JobOrderID }}</td>
+                                                <td>{{ $jo->FirstName }} {{ $jo->LastName }}</td>
+                                                <td>
+                                                    <?php
+                                                        $date = date('F d, Y', strtotime($jo->JODate));
+                                                        echo $date;
+                                                    ?>
+                                                </td>
+                                                <td>Php {{ $jo->TotalAmountDue }}</td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                 </table>
                             </div>

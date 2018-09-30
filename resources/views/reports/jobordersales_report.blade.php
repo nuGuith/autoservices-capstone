@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Job Order  Report') <!-- Page Title -->
+@section('Title','Job Order Report') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -15,7 +15,15 @@
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
+
+    <!--plugin syles-->
+    <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/daterangepicker/css/daterangepicker.css') }}" />
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" />
+    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css" />
+    <!-- end of plugin styles -->
 
         <!-- CONTENT -->
 <div id="content" class="bg-container">
@@ -41,84 +49,107 @@
             </div>
         </div>
     </header>
-            <div class="outer">
-                <div class="inner bg-container">
-                    <div class="card">
-                        <div class="card-header default_bg_dark">
-                            <div align="center" class="m-t-10">
-                                <h3> JOB ORDER SALES REPORT </h3>
-                                <h4 id="reportdate"></h3>
-                            </div>
-                        </div>
-                            <div class="card-block m-t-5" id="user_body">
-                                <div class="col-lg-4 input_field_sections">
-                                    <form>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
-                                        </div>
-                                    </form>
-                                </div>
-                                <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>DATE</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>SERVICE SALES</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PRODUCT SALES</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>TOTAL SALES</b></th>
-                                        </tr>
-                                    </thead>
-                                        <tbody>
-                                            <tr role="row" class="even">
-                                                <td>January 1, 1990</td>
-                                                <td>ABC 123</td>
-                                                <td>Php 1, 000.00</td>
-                                                <td>Php 2, 000.00</td>
-                                                <td>Php 3, 000.00</td>
-                                            </tr>
-                                            <tfoot>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>
-                                                    <ul style="list-style-type:none;">
-                                                        <li>Total Service Sales:</li>
-                                                        <li>Total Product Sales:</li>
-                                                        <li>Total Sales:</li> 
-                                                    </ul>
-                                                </th>
-                                                <td>
-                                                    <ul style="list-style-type:none;">
-                                                        <li>Php 1, 000.00</li>
-                                                        <li>Php 2, 000.00</li>
-                                                        <li>Php 3, 000.00</li> 
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            </tfoot>
-                                        </tbody>
-                                </table>
-                            </div>
-                    <!-- FOOTER -->
-                        <div class="card-footer bg-black disabled">
-                            <div class="examples transitions m-t-5 pull-right">
-                                <div class="btn-group">
-                                    <button class="btn btn-warning m-l-0 adv_cust_mod_btn" style ="width: 150px;" ><i class="fa fa-save text-white" ></i>&nbsp; Generate PDF</button>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- /. FOOTER -->
+    <div class="outer">
+        <div class="inner bg-container">
+            <div class="card">
+                <div class="card-header default_bg_dark">
+                    <div align="center" class="m-t-10">
+                        <h3> JOB ORDER SALES REPORT </h3>
+                        <h4 id="reportdate"></h3>
                     </div>
                 </div>
-            </div>
-                    <!-- /.inner -->
+                <div class="card-block m-t-5" id="user_body">
+                    <div class="col-lg-4 input_field_sections">
+                        <form>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                            </div>
+                        </form>
+                    </div>
+                    <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>DATE</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>SERVICE SALES</b></th>
+                                <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PRODUCT SALES</b></th>
+                                <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>TOTAL SALES</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	@foreach($joborders as $joborder)
+                            <tr role="row" class="even">
+                                <td>
+                                	<?php
+                                		$date = date('F d, Y', strtotime($joborder->JODate));
+                                		echo $date;
+                                	?>
+                                </td>
+                                <td>JO000{{ $joborder->JobOrderID }}</td>
+                                	<td>  
+                                    <!--@foreach($serviceperformed as $service)-->
+                                            <!--@if($joborder->JobOrderID == $service->JobOrderID)-->
+                                                Php {{ $service->ServiceTotalPrice }}
+                                            <!--@endif-->
+                                    <!--@endforeach-->
+                                    </td>
+                                    <td>
+                                    <!--@foreach($productused as $product)-->
+                                            <!--@if($joborder->JobOrderID == $product->JobOrderID)-->
+                                                Php {{ $product->ProductTotalPrice }}
+                                            <!--@endif-->
+                                    <!--@endforeach-->
+                                    </td>
+                                <td id="sales">Php {{ $joborder->TotalAmountDue }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+	                    <tfoot>
+	                        <tr>
+	                            <th></th>
+	                            <th></th>
+	                            <th></th>
+	                            <th>
+	                                <ul style="list-style-type:none;">
+	                                   	<li>Total Service Sales:</li>
+	                                    <li>Total Product Sales:</li>
+	                                    <li>Total Sales:</li> 
+	                                </ul>
+	                            </th>
+	                            <td>
+	                                <ul style="list-style-type:none;">
+	                                    <li></li>
+	                                    <li></li>
+	                                    <li></li> 
+                                    </ul>
+	                            </td>
+	                        </tr>
+	                    </tfoot>
+                    </table>
+                </div>
+                <!-- FOOTER -->
+                <div class="card-footer bg-black disabled">
+                    <div class="examples transitions m-t-5 pull-right">
+                        <div class="btn-group">
+                            <a href="{{url('/report-jobordersales')}}" target="_blank">
+                            <button class="btn btn-warning m-l-0 adv_cust_mod_btn" style ="width: 150px;" >
+                            	<i class="fa fa-save text-white" ></i>
+                            	&nbsp; Generate PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <!-- /. FOOTER -->
+         	</div>
+        </div>
+    </div>
+        <!-- /.inner -->
 </div>
-                <!-- /.outer -->
-        <!--END CONTENT -->
+        <!-- /.outer -->
+    <!--END CONTENT -->
 
 
 <!-- global scripts sweet alerts-->
@@ -149,11 +180,28 @@
 <script type="text/javascript" src="js/custom.js"></script>
 <!-- end of global scripts-->
 <!-- plugin scripts -->
+<script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
+<script type="text/javascript" src="vendors/inputlimiter/js/jquery.inputlimiter.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script type="text/javascript" src="vendors/jquery-tagsinput/js/jquery.tagsinput.js"></script>
+<script type="text/javascript" src="vendors/validval/js/jquery.validVal.min.js"></script>
+<script type="text/javascript" src="vendors/inputmask/js/jquery.inputmask.bundle.js"></script>
+<script type="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 <script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script>
 <script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script>
 <script type="text/javascript" src="vendors/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
-<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}">
-<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="vendors/jasny-bootstrap/js/inputmask.js"></script>
+<script type="text/javascript" src="vendors/datetimepicker/js/DateTimePicker.min.js"></script>
+<script type="text/javascript" src="vendors/j_timepicker/js/jquery.timepicker.min.js"></script>
+<script type="text/javascript" src="vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
+
+<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}"></script>
+<!--end of plugin scripts-->
+<script type="text/javascript" src="{{ URL::asset('js/form.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/datetime_piker.js') }}"></script>
 
 
 <script>
@@ -195,5 +243,8 @@ $(document).on('ready', function(){
 });
 </script>
 
+<script>
+
+</script>
 
 @stop

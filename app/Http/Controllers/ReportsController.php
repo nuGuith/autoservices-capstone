@@ -32,14 +32,21 @@ class ReportsController extends Controller
   {
     $inspections = DB::table('inspection_header as i')
       ->join('job_order as jo', 'i.JobOrderID', '=', 'jo.JobOrderID')
-      ->join('estimate as e', 'i.EstimateID', '=', 'e.EstimateID')
       ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
       ->where('i.isActive', 1)
       ->select('i.*', 'a.PlateNo', 'c.LastName', 'c.MiddleName', 'c.FirstName', DB::raw('DATE(i.created_at) AS IDate'))
       ->get();
 
-    return view('reports.inspection_report', compact('inspections'));
+      $inspects = DB::table('inspection_header as i')
+      ->join('estimate as e', 'i.EstimateID', '=', 'e.EstimateID')
+      ->join('automobile as a', 'e.AutomobileID', '=', 'a.AutomobileID')
+      ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
+      ->where('i.isActive', 1)
+      ->select('i.*', 'a.PlateNo', 'c.LastName', 'c.MiddleName', 'c.FirstName', DB::raw('DATE(i.created_at) AS IDate'))
+      ->get();
+
+    return view('reports.inspection_report', compact('inspections', 'inspects'));
   }
 
   public function joborder()

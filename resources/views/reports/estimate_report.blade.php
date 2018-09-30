@@ -16,13 +16,11 @@
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
-
-        <!--plugin syles-->
+    <!--plugin syles-->
     <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css" />
     <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css" />
     <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" /
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" />
     <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
     <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css" />
     <!-- end of plugin styles -->
@@ -81,12 +79,19 @@
                                         </tr>
                                     </thead>
                                         <tbody>
+                                            @foreach($estimates as $estimate)
                                             <tr role="row" class="even">
-                                                <td>ES001</td>
-                                                <td>ABC 123</td>
-                                                <td>GUESSHEE ALMARIO</td>
-                                                <td>JANUARY 10, 2016</td>
+                                                <td>ES000{{ $estimate->EstimateID }}</td>
+                                                <td>{{ $estimate->PlateNo }}</td>
+                                                <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
+                                                <td>
+                                                    <?php
+                                                        $date = date('F d, Y', strtotime($estimate->EDate));
+                                                        echo $date;
+                                                    ?>
+                                                </td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                 </table>
                             </div>
@@ -156,7 +161,7 @@
 <script type="text/javascript" src="vendors/j_timepicker/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
 
-<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}">
+<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}"></script>
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>

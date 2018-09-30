@@ -81,12 +81,32 @@
                                         </tr>
                                     </thead>
                                         <tbody>
+                                            @foreach($inspections as $inspection)
                                             <tr role="row" class="even">
-                                                <td>ES001</td>
-                                                <td>ABC 123</td>
-                                                <td>GUESSHEE ALMARIO</td>
-                                                <td>JANUARY 10, 2016</td>
+                                                <td>I000{{ $inspection->InspectionID }}</td>
+                                                <td>{{ $inspection->PlateNo }}</td>
+                                                <td>{{ $inspection->FirstName }} {{ $inspection->LastName }}</td>
+                                                <td>
+                                                    <?php
+                                                        $date = date('F d, Y', strtotime($inspection->IDate));
+                                                        echo $date;
+                                                    ?>
+                                                </td>
                                             </tr>
+                                            @endforeach
+                                            <!--@foreach($inspects as $inspect)-->
+                                            <tr role="row" class="even">
+                                                <td>I000{{ $inspect->InspectionID }}</td>
+                                                <td>{{ $inspect->PlateNo }}</td>
+                                                <td>{{ $inspect->FirstName }} {{ $inspect->LastName }}</td>
+                                                <td>
+                                                    <?php
+                                                        $date = date('F d, Y', strtotime($inspect->IDate));
+                                                        echo $date;
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <!--@endforeach-->
                                         </tbody>
                                 </table>
                             </div>
