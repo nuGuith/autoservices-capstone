@@ -187,7 +187,7 @@ class UpdateJobOrderController extends Controller
         try{
             DB::table('job_order')
                 ->where('joborderid', $request->joborderid)
-                ->update(['Status' => ($request->jobstatus)]);
+                ->update(['Status' => ($request->jobstatus), 'JobStartDate' => ($request->jobstartdate)]);
         }
         catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();

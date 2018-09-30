@@ -470,12 +470,12 @@
 
 
                              <!--Button: Back, Save-->
-                             <div class="card-footer bg-black disabled">
+                             <div class="card-footer bg-black">
                                <div class="examples transitions m-t-5 pull-right">
                                     <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left">
                                     </i>&nbsp;Back</button>  
 
-                                    <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                    <button class="btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn text-white" style ="width: 80px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                 </div>
                             </div>
 
