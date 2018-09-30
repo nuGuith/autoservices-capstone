@@ -251,3 +251,6 @@ Route::get('/payment_report', 'ReportsController@payment');
 Route::get('/report-estimate', 'PDFController@estimate');
 Route::get('/report-inspection', 'PDFController@inspection');
 Route::get('/report-joborder', 'PDFController@joborder');
+
+//Queries
+Route::get('/queries', 'QueriesController@index');
