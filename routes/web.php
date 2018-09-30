@@ -174,6 +174,14 @@ Route::get('/404',['as'=>'404','uses'=>'ErrorHandlerController@errorCode404']);
 Route::get('/405',['as'=>'405','uses'=>'ErrorHandlerController@errorCode405']);
 
 
+//Transaction - Customer Information
+Route::resource('/customerinformation','CustomerController');
+Route::put('/customerinformation', 'CustomerController@update');
+
+Route::get('/viewvehiclehistory/{id}','VehicleHistoryController@index');
+Route::get('/viewvehiclehistory/{id}/showHistory','VehicleHistoryController@showHistory');
+Route::get('/viewvehiclehistory/{id}/showJobOrder','VehicleHistoryController@showJobOrder');
+
 //Transaction - Inspect Vehicle
 Route::get('/inspect','InspectController@index');
 Route::resource('/addinspect', 'AddInspectController');
@@ -229,10 +237,6 @@ Route::resource('/editbackjob','EditBackJobController');
 Route::resource('/updatebackjob','UpdateBackJobController');
 Route::resource('/viewbackjob','ViewBackJobController');
 
-//Customer Information
-Route::resource('/vehicleinformation','VehicleInformationController');
-Route::resource('/viewvehiclehistory','VehicleHistoryController');
-
 // Output Forms - Sample
 Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
@@ -245,9 +249,12 @@ Route::get('/estimate_report', 'ReportsController@estimate');
 Route::get('/inspection_report', 'ReportsController@inspection');
 Route::get('/joborder_report', 'ReportsController@joborder');
 Route::get('/jobordersales_report', 'ReportsController@jobordersales');
+Route::get('/netsales_report', 'ReportsController@netsales');
 Route::get('/payment_report', 'ReportsController@payment');
 
-//Reports Printable Forms
+//Reports - Printable Forms
 Route::get('/report-estimate', 'PDFController@estimate');
 Route::get('/report-inspection', 'PDFController@inspection');
 Route::get('/report-joborder', 'PDFController@joborder');
+Route::get('/report-jobordersales', 'PDFController@jobordersales');
+Route::get('/report-netsales', 'PDFController@netsales');
