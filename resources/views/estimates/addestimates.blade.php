@@ -898,8 +898,6 @@ $(document).ready(function () {
             disableOutsideClick();
             $('#productSuggest').modal('show');
         }
-
-        
     });
 
     $("#products").change(function () {
@@ -922,7 +920,7 @@ $(document).ready(function () {
         }
     });
 
-    // ADD ITEMS Button
+    // ADD ITEMS Functions
     var newProductRow = $("<tr/>");
     $("#addRow").on("click", function (event) {
         if (dismissed) addService();
