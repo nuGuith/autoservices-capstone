@@ -199,7 +199,9 @@
 
                                         <!--START JOB ORDER PROGRESS DETAIL-->
                                         <div class="row">
-                                            <div class="col-lg-10 m-t-5"><h4 class="m-t-15">Progress Details</h4></div>
+                                            <div class="col-lg-10 m-t-5">
+                                                <div class="m-t-15"><h4>Progress Details<span style="padding-left:7px; font-size: 12.5px;">[<a href="#" style="color:#1BBFC9;"> view logs </a>]</span></h4></div>
+                                            </div>
                                             
                                             @if(is_null($joborder->JobStartDate))
                                             <div id="divStartJob" class="col-lg-1 m-t-10">
@@ -235,7 +237,15 @@
                                                 </div>  
 
                                                 <div class="col-lg-4">
-                                                    <h5><span style="color:gray">Job End Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="jobenddate">Not set.</span></h5>               
+                                                    <h5><span style="color:gray">Job End Date:</span>&nbsp;&nbsp;&nbsp;
+                                                        <span id="jobenddate">
+                                                            @if(!(is_null($joborder->JobEndDate)))
+                                                            {{date('F d, Y - H:i', strtotime($joborder->JobEndDate))}}
+                                                            @else
+                                                                Not set.
+                                                            @endif
+                                                        </span>
+                                                        </h5>               
                                                 </div>
 
                                                 <div class="col-lg-4">
@@ -502,6 +512,7 @@
                                     {!!Form::open(array('id' => 'updateForm'))!!}
                                     <input id="servicePerformed" type="hidden" name="serviceperformedid">
                                     <input id="updateStep" type="hidden" name="updatestep">
+                                    <input id="endDate" type="hidden" name="enddate">
                                         <div class="row m-t-5">
                                             <div class="col-lg-12"><h4>Products: </h4></div>
                                         </div>
@@ -557,10 +568,10 @@
                                     <div>
                                         <br>
                                         <hr style="color:gray">
-                                        <h5>This cannot be undone. So, we will ask you to re-enter your password as a confirmation of your action and ensure the safety of your business' data. </h5><br>
+                                        <h5>This cannot be undone. So, we will ask you to re-enter your password as a confirmation of your action and to ensure the safety of your data. </h5><br>
                                         <div style="display:flex;">
-                                            <input id="password" type="password" class="form-control" placeholder="Password" style="flex:1;">
-                                            <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Show password" data-trigger="hover" onclick="togglePassVisibility()"><i class="fa fa-eye"></i></button>
+                                            <input id="password1" type="password" class="form-control" placeholder="Password" style="flex:1;">
+                                            <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Show password" data-trigger="hover" onclick="togglePassVisibility('password1');"><i class="fa fa-eye"></i></button>
                                         </div>
                                     </div>
                                 </div><br>
@@ -570,7 +581,7 @@
                                     <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">Cancel</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="btnGo" type="button" data-dismiss="modal" onclick="" class="btn btn-outline-success">
+                                    <button id="btnConfirm" type="button" data-dismiss="modal" class="btn btn-outline-success" onclick="resetJobOrder();">
                                         &nbsp;Confirm
                                     </button>
                                 </div>
@@ -578,7 +589,46 @@
                         </div>
                     </div>
                 </div>
-                <!-- END PRODUCT SUGGESTIONS MODAL -->
+                <!-- END RESET MODAL -->
+
+                <!-- START ASSESSMENT MODAL -->
+                <div class="modal show" id="assessModal" role="dialog" aria-labelledby="modalLabelbouncedown">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Assessment</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h4>This Job Order seems to have all the jobs finished. Do you want to assess it now?</h4>
+                                    <div>
+                                        <br>
+                                        <hr style="color:gray">
+                                        <h5 style="font-weight:light;">Note: <span style="color:gray;">This cannot be undone, once you assess a job order <span style="color:#FF5656;">you cannot modify it anymore</span>. So please be careful. We will ask you to re-enter your password as a confirmation of your action.<span></h5><br>
+                                        <hr style="color:gray"><br>
+                                        <div style="display:flex;">
+                                            <input id="password2" type="password" class="form-control" placeholder="Password" style="flex:1;">
+                                            <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Show password" data-trigger="hover" onclick="togglePassVisibility('password2');"><i class="fa fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                </div><br>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnConfirm" type="button" data-dismiss="modal" class="btn btn-outline-info" onclick="assessJobOrder();">
+                                        <i class="fa fa-print" ></i>&nbsp; Assess
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END ASSESSMENT MODAL -->
                     </div>
                 </div>
             </div>
@@ -591,8 +641,8 @@
                                <div class="examples transitions m-t-5 pull-right">
                                     <button onclick="window.location='{{ url("/joborder") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  
-                                                  
-                                    <button class="btn btn-info source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width:100px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Assess </button>
+                                    
+                                    <button id="btnAssess" class="btn btn-raised btn-info adv_cust_mod_btn bounceindown" data-toggle="modal" onclick="assessJobOrder();" style ="width:100px;"><i class="fa fa-print text-white" ></i>&nbsp; Assess </button>
                                 </div>
                             </div>
             
@@ -633,9 +683,10 @@
 <script type="text/javascript" src="{{URL::asset('js/pages/modals.js')}}"></script>
 <!--End of global scripts-->
 <script>
+    var finished = false;
 
-    function togglePassVisibility() {
-        var element = document.getElementById("password");
+    function togglePassVisibility(id) {
+        var element = document.getElementById(id);
         if (element.type === "password") element.type = "text";
         else element.type = "password";
     }
@@ -701,8 +752,8 @@
                 var stepCtr;
                 var count = Object.keys(data.productused).length;
                 for (var i = 0; i < count; i++) {
-                    cols += '<td style="border-right:none !important">'+ data.productused[i].ProductName +' ('+ data.productused[i].QuantityUsed +'/' + data.productused[i].Quantity +' used)</td>';
-                    cols += '<td style="border-right:none !important"><div class="row btn-group" style="height:28px; margin-left:1%;"><input type="hidden" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><input type="number" style="width:55px; text-align:center; " id="quantity" data-produsedid="'+ data.productused[i].ProductUsedID +'" name="quantity" placeholder="" min="1" class="form-control" max="'+ data.productused[i].Quantity +'"><button onclick="setMax('+ data.productused[i].ProductUsedID + ','+ data.productused[i].Quantity +');" type="button" style="background:#007ACC;border:none;color:white;margin-left:2px; padding: 0px 10px;" >Max</button></div></td>';
+                    cols += '<td style="border-right:none !important">'+ data.productused[i].ProductName +' (<b>'+ data.productused[i].QuantityUsed +'</b>/' + data.productused[i].Quantity +' used)</td>';
+                    cols += '<td style="border-right:none !important"><div class="row btn-group" style="height:28px; margin-left:1%;"><input type="hidden" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><input type="number" style="width:55px; text-align:center; " id="quantity" data-produsedid="'+ data.productused[i].ProductUsedID +'" name="quantityused[]" placeholder="" min="1" class="form-control" max="'+ data.productused[i].Quantity +'"><button onclick="setMax('+ data.productused[i].ProductUsedID + ','+ data.productused[i].Quantity +');" type="button" style="background:#007ACC;border:none;color:white;margin-left:2px; padding: 0px 10px;" >Max</button></div></td>';
                     row.append(cols);
                     tbody.append(row);
                     row = $("<tr>");
@@ -788,17 +839,26 @@
         if (progressPercent == 0){
             $('#jobStatus').html("Pending");
             $('#jobStatusUpdate').val("Pending");
+            $('#jobenddate').html("Not set.");
+            $('#jobEndDate').val(null);
             $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+            finished = false;
         }
         else if (progressPercent < 100){
             $('#jobStatus').html("Ongoing");
             $('#jobStatusUpdate').val("Ongoing");
+            $('#jobenddate').html("Not set.");
+            $('#jobEndDate').val(null);
             $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
+            finished = false;
         }
         else if (progressPercent == 100){
             $('#jobStatus').html("Finished");
             $('#jobStatusUpdate').val("Finished");
+            $('#jobenddate').html(getDateToday());
+            $('#jobEndDate').val(getTimestamp());
             $('#progress').attr('class', 'progress-bar progress-bar-striped progress-bar-animated bg-info');
+            assessmentPrompt();
         }
 
         updateJobOrder();
@@ -863,7 +923,7 @@
         });
 
         $('table.table-bordered tr td span').each(function(){
-            if(this.id == "status" && $(this).data('svcperfid') == svcperfid ){
+            if(this.id == "status" && $(this).data('svcperfid') == svcperfid){
                 if (progresscount == 0){
                     $(this).html("Pending");
                     $(this).css('color', '#FF7D00');
@@ -878,7 +938,31 @@
                     $(this).css('color', 'blue');
                 }
             }
+            if(this.id == "enddate" && $(this).data('svcperfid') == svcperfid){
+                var today = getDateToday();
+                var timestamp = getTimestamp();
+                if (progresscount == stepcount){
+                    $(this).html(today);
+                    $("#endDate").val(timestamp);
+                }
+                else{
+                    $(this).html("Not set.");
+                    $("#endDate").val(null);
+                }
+            }
         });
+    }
+
+    function getDateToday(){
+        var today = new Date().toString();
+        today = today.substr(4,6) + ',' + today.substr(10, 5) + ' - ' + today.substr(15, 6);
+        return today;
+    }
+
+    function getTimestamp(){
+        var today = new Date();
+        var timestamp = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        return timestamp;
     }
 
 $(window).load(function(){
@@ -903,8 +987,7 @@ $(window).load(function(){
         var today;
         $('table.table-bordered tr td span').each(function(){
             if (this.id == "startdate" && $(this).data('svcperfid') == svcperfid){
-                today = new Date().toString();
-                today = today.substr(4,6) + ',' + today.substr(10, 5) + ' - ' + today.substr(15, 6);
+                today = getDateToday();
                 $(this).html(today);
                 $('#startDate').val(today);
                 $('#updateID').val(svcperfid);
@@ -918,7 +1001,7 @@ $(window).load(function(){
             data: formData,
             async: false,
             success: function(data) {
-                alert("Success");
+                //alert("Success");
             },
             fail: function(data) {
                 alert("Failed to save data.");
@@ -936,6 +1019,36 @@ $(window).load(function(){
                 $(this).css('display', 'block');
             }
         });
+    }
+
+    function resetJobOrder(){
+        var formData = $('#jobOrderUpdateForm').serialize();
+        $.ajax({
+            type: 'PATCH',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/updatejoborder/resetJobOrder",
+            data: formData,
+            async: false,
+            success: function(data) {
+                alert("Success! The job has been reset.");
+                location.reload();
+            },
+            fail: function(data) {
+                alert("Failed to save data.");
+            }
+        });
+    }
+
+    function assessmentPrompt(){
+        $('#assessModal').modal('show');
+        finished = true;;
+    }
+
+    function assessJobOrder(){
+        if (finished)
+            $('#assessModal').modal('show');
+        else
+            alert("Not allowed. You can only assess a Job Order once all the jobs are finished.");
     }
 
     function enableClicks(){
@@ -1014,6 +1127,7 @@ $(document).ready(function(){
 
     $('#btnSave').on("click", function(){
         var id = $('#servicePerformed').val();
+        updateTable(id);
         var formData = $('#updateForm').serialize();
         $.ajax({
             type: "PATCH",
@@ -1039,21 +1153,17 @@ $(document).ready(function(){
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var today = new Date();
         var month;
-        var timestamp = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        $('#jobStartDate').val(timestamp);
+        var timestamp = getTimestamp();
         month = today.getMonth();
         today = today.toString();
         today = months[month] + ' ' + today.substr(8,2) + ',' + today.substr(10, 5) + ' - ' + today.substr(15, 6);
         $("#jobstartdate").html(today);
+        $("#jobStartDate").val(timestamp);
         $('#divStartJob').css('display', 'none');
         $('#divResetJob').css('display', 'block');
         enableClicks();
         updateJobOrder();
     });
-
-    /* $('#btnResetJob').on("click", function(){
-        $('#modal-zoomin').modal('show');
-    }); */
     
 });
 </script>

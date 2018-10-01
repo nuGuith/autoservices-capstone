@@ -11,6 +11,8 @@ use App\JobOrder;
 use App\Customer;
 use App\Automobile;
 use App\ServiceBay;
+use App\ServicePerformed;
+use App\ProductsUsed;
 use Validator;
 use Session;
 use Redirect;
@@ -45,7 +47,7 @@ class UpdateJobOrderController extends Controller
 
         $serviceperformed = DB::table('service_performed AS sp')
             ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
-            ->where(['sp.estimateid' => $joborder->EstimateID, 'sp.isActive' => 1])
+            ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
             ->select('sp.*', 'svc.*')
             ->get();
         
@@ -158,9 +160,20 @@ class UpdateJobOrderController extends Controller
         try{
             DB::table('service_performed')
                 ->where('serviceperformedid', $request->serviceperformedid)
-                ->update(['CurrentStep' => ($request->updatestep)]);
-        }
-        catch(\Illuminate\Database\QueryException $e){
+                ->update(['CurrentStep' => $request->updatestep, 'EndDate' => $request->enddate]);
+            
+            $productusedid = $request->productusedid;
+            $quantityused = $request->quantityused;
+
+            foreach($productusedid as $key=>$pu){
+                if(!(is_null($quantityused[$key]))){
+                    DB::table('product_used')
+                        ->where('productusedid', $productusedid[$key])
+                        ->update(['quantityused' => $quantityused[$key]]);
+                }
+            }
+
+        }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $errors = $e->getMessage();
             return response()->json(compact('errors'));
@@ -173,8 +186,7 @@ class UpdateJobOrderController extends Controller
             DB::table('service_performed')
                 ->where('serviceperformedid', $request->serviceperformedid)
                 ->update(['startdate' => date('Y-m-d H:i:s')]);
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $errors = $e->getMessage();
             return response()->json(compact('errors'));
@@ -188,8 +200,23 @@ class UpdateJobOrderController extends Controller
             DB::table('job_order')
                 ->where('joborderid', $request->joborderid)
                 ->update(['Status' => ($request->jobstatus), 'JobStartDate' => ($request->jobstartdate)]);
+        }catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
         }
-        catch(\Illuminate\Database\QueryException $e){
+        return response()->json(compact('response'));
+    }
+
+    public function resetJobOrder(Request $request){
+        try{
+            JobOrder::where('JobOrderID', $request->joborderid)
+                ->update(['Status' => 'Pending', 'JobStartDate' => null, 'JobEndDate' => null]);
+            ServicePerformed::where('JobOrderID', $request->joborderid)
+                ->update(['CurrentStep' => 0, 'StartDate' => null, 'EndDate' => null]);
+            ProductsUsed::where('joborderid', $request->joborderid)
+                ->update(['quantityused' => 0]);
+        }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $errors = $e->getMessage();
             return response()->json(compact('errors'));
