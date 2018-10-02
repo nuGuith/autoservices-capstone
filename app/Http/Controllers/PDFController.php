@@ -72,4 +72,23 @@ class pdfController extends Controller
     return $pdf->stream('report-joborder');
   }
 
+  public function netsales()
+  {
+    $sales = DB::table('job_order')
+      ->where('isActive', 1)
+      ->select('JobOrderID', 'DiscountedAmount', DB::raw('DATE(Agreement_Timestamp) as JODate'))
+      ->get();
+    $totalsales = DB::table('job_order')
+      ->where('isActive', 1)
+      ->select(DB::raw('SUM(DiscountedAmount) as net'))
+      ->get();
+
+    $pdf = PDF::loadView('pdf.report-netsales', compact('sales', 'totalsales'))
+    ->setPaper([0, 0, 612, 936], 'portrait');
+    // If you want to store the generated pdf to the server then you can use the store function
+    $pdf->save(storage_path().'_filename.pdf');
+    // Finally, you can download the file using download function
+    return $pdf->stream('report-netsales');
+  }
+
 }

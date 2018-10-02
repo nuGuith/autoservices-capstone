@@ -72,33 +72,48 @@ class ReportsController extends Controller
       ->join('job_order as jo', 'sp.JobOrderID', '=', 'jo.JobOrderID')
       ->where(['sp.isActive'=>1, 'sp.isPerformed'=>1])
       ->groupby('sp.JobOrderID')
-      ->select('jo.JobOrderID', 'sp.JobOrderID', 'sp.ServiceID', DB::raw('SUM(sp.LaborCost) as ServiceTotalPrice'))
+      ->select('jo.JobOrderID', 'sp.JobOrderID', 'sp.ServiceID', DB::raw('SUM(LaborCost) as ServiceTotalPrice'))
       ->get();
 
     $productused = DB::table('product_used as pu')
       ->join('job_order as jo', 'pu.JobOrderID', '=', 'jo.JobOrderID')
       ->where(['pu.isActive'=>1, 'pu.isCustomerProvided'=>0])
       ->groupby('pu.JobOrderID')
-      ->select('jo.JobOrderID', 'pu.JobOrderID', 'pu.ProductID', DB::raw('SUM(pu.SubTotal) as ProductTotalPrice'))
+      ->select('jo.JobOrderID', 'pu.JobOrderID', 'pu.ProductID', DB::raw('SUM(SubTotal) as ProductTotalPrice'))
       ->get();
 
-    $total = DB::table('job_order')
+    $servicetotal = DB::table('service_performed as sp')
+      ->join('job_order as jo', 'sp.JobOrderID', '=', 'jo.JobOrderID')
+      ->where(['sp.isActive'=>1, 'isPerformed'=>1])
+      ->select(DB::raw('SUM(LaborCost) as ServiceTotalPrice'))
+      ->get();
+    
+    $producttotal = DB::table('product_used as pu')
+      ->join('job_order as jo', 'pu.JobOrderID', '=', 'jo.JobOrderID')
+      ->where(['pu.isActive'=>1, 'isCustomerProvided'=>0])
+      ->select(DB::raw('SUM(pu.SubTotal) as ProductTotalPrice'))
+      ->get();
+
+    $totals = DB::table('job_order')
       ->where('isActive', 1)
-      ->select(DB::raw('SUM(TotalAmountDue) as totals'))
+      ->select(DB::raw('SUM(TotalAmountDue) as gross'))
       ->get();
       
-    return view('reports.jobordersales_report', compact('joborders', 'serviceperformed', 'productused', 'total'));
+    return view('reports.jobordersales_report', compact('joborders', 'serviceperformed', 'productused', 'servicetotal', 'producttotal', 'totals'));
   }
 
-  public function payment()
+  public function netsales()
   {
+    $sales = DB::table('job_order')
+      ->where('isActive', 1)
+      ->select('JobOrderID', 'DiscountedAmount', DB::raw('DATE(Agreement_Timestamp) as JODate'))
+      ->get();
+    $totalsales = DB::table('job_order')
+      ->where('isActive', 1)
+      ->select(DB::raw('SUM(DiscountedAmount) as net'))
+      ->get();
 
-    $pdf = PDF::loadView('reports.payment_report')
-    ->setPaper([0, 0, 612, 936], 'portrait');
-    // If you want to store the generated pdf to the server then you can use the store function
-    $pdf->save(storage_path().'_filename.pdf');
-    // Finally, you can download the file using download function
-    return $pdf->stream('payment_report');
+    return view('reports.netsales_report', compact('sales', 'totalsales'));
   }
 
 }

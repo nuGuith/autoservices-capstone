@@ -203,29 +203,22 @@
 <script type="text/javascript" src="{{ URL::asset('js/form.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/pages/datetime_piker.js') }}"></script>
 
-
 <script>
-$(document).on('ready', function(){
-    $(function(){
-        var start = moment();
-        var end = moment();
+$(document).ready( function(){
+    var start = moment();
+    var end = moment();
 
-            function date(start, end){
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-                    if (enddate == startdate)
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY'));
-                    }
-                    else
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY') + "to" + end.format('MMMM D, YYYY'));
-                    }
-            }
+    function date(start, end){
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            
+        if (enddate == startdate)
+            $('#reportdate').text(""+start.format('MMMM D, YYYY'));
+        else
+            $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
+    }
 
-    });
-
-    
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
@@ -240,11 +233,8 @@ $(document).on('ready', function(){
     }, date);
 
     date(start, end);
+
 });
-</script>
-
-<script>
-
 </script>
 
 @stop

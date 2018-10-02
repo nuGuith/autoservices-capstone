@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Job Order  Report') <!-- Page Title -->
+@section('Title','Net Sales Report') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -15,7 +15,15 @@
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
+
+    <!--plugin syles-->
+    <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css" />
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('vendors/daterangepicker/css/daterangepicker.css') }}" />
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" />
+    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css" />
+    <!-- end of plugin styles -->
 
         <!-- CONTENT -->
 <div id="content" class="bg-container">
@@ -25,7 +33,7 @@
                 <div class="col-6">
                     <h4 class="m-t-15">
                         <i class="fa fa-file"></i>
-                            Job Order Report
+                            Job Order Sales Report
                     </h4>
                 </div>
                     <div class="col-sm-6 col-12"  >
@@ -33,7 +41,7 @@
                             <li class="breadcrumb-item " >
                                 <a href="/inspect">
                                     <i class="fa fa-file" data-pack="default" data-tags=""></i>
-                                    Job Order Report
+                                    Job Order Sales Report
                                 </a>
                             </li>
                         </ol>
@@ -41,69 +49,98 @@
             </div>
         </div>
     </header>
-            <div class="outer">
-                <div class="inner bg-container">
-                    <div class="card">
-                        <div class="card-header default_bg_dark">
-                            <div align="center" class="m-t-10">
-                                <h3> JOB ORDER TRANSACTIONS REPORT </h3>
-                                <h4 id="reportdate"></h3>
-                            </div>
-                        </div>
-                            <div class="card-block m-t-5" id="user_body">
-                                <div class="col-lg-4 input_field_sections">
-                                    <form>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
-                                        </div>
-                                    </form>
-                                </div>
-                                <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>JOB ORDER ID</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>CUSTOMER NAME</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>DATE</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>SALES</b></th>
-                                        </tr>
-                                    </thead>
-                                        <tbody>
-                                            @foreach($jos as $jo)
-                                            <tr role="row" class="even">
-                                                <td>JO000{{ $jo->JobOrderID }}</td>
-                                                <td>{{ $jo->FirstName }} {{ $jo->LastName }}</td>
-                                                <td>
-                                                    <?php
-                                                        $date = date('F d, Y', strtotime($jo->JODate));
-                                                        echo $date;
-                                                    ?>
-                                                </td>
-                                                <td>Php {{ $jo->TotalAmountDue }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                </table>
-                            </div>
-                    <!-- FOOTER -->
-                        <div class="card-footer bg-black disabled">
-                            <div class="examples transitions m-t-5 pull-right">
-                                <div class="btn-group">
-                                <a href="{{url('/report-joborder')}}" target="_blank">
-                                    <button class="btn btn-warning m-l-0 adv_cust_mod_btn" style ="width: 150px;" ><i class="fa fa-save text-white" ></i>&nbsp; Generate PDF</button>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- /. FOOTER -->
+    <div class="outer">
+        <div class="inner bg-container">
+            <div class="card">
+                <div class="card-header default_bg_dark">
+                    <div align="center" class="m-t-10">
+                        <h3> NET SALES REPORT </h3>
+                        <h4 id="reportdate"></h3>
                     </div>
                 </div>
-            </div>
-                    <!-- /.inner -->
+                <div class="card-block m-t-5" id="user_body">
+                    <div class="col-lg-4 input_field_sections">
+                        <form>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                            </div>
+                        </form>
+                    </div>
+                    <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>DATE</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>NET AMOUNT</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	@foreach($sales as $sale)
+                            <tr role="row" class="even">
+                                <td>
+                                	<?php
+                                		$date = date('F d, Y', strtotime($sale->JODate));
+                                		echo $date;
+                                	?>
+                                </td>
+                                <td>JO000{{ $sale->JobOrderID }}</td>
+                                <td id="sales">
+                                    <?php
+                                        $amount = $sale->DiscountedAmount;
+                                        $value = 0.00;
+                                        $format = number_format($value, 2, ".", "");
+
+                                        if(($amount)==0)
+                                            echo "Php"." ".$format;
+                                        else
+                                            echo "Php"." ".$amount;
+                                    ?>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+	                    <tfoot>
+	                        <tr>
+	                            <th></th>
+	                            <th>
+                                    <ul>
+                                        <li style="list-style-type:none">Total Net:</li>
+                                    </ul>
+                                </th>
+	                            <td>
+                                    <b>
+                                        @foreach($totalsales as $total)
+                                            Php {{ $total->net }}
+                                        @endforeach
+                                    </b>
+                                </td>
+	                        </tr>
+	                    </tfoot>
+                    </table>
+                </div>
+                <!-- FOOTER -->
+                <div class="card-footer bg-black disabled">
+                    <div class="examples transitions m-t-5 pull-right">
+                        <div class="btn-group">
+                            <a href="{{url('/report-netsales')}}" target="_blank">
+                            <button class="btn btn-warning m-l-0 adv_cust_mod_btn" style ="width: 150px;" >
+                            	<i class="fa fa-save text-white" ></i>
+                            	&nbsp; Generate PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <!-- /. FOOTER -->
+         	</div>
+        </div>
+    </div>
+        <!-- /.inner -->
 </div>
-                <!-- /.outer -->
-        <!--END CONTENT -->
+        <!-- /.outer -->
+    <!--END CONTENT -->
 
 
 <!-- global scripts sweet alerts-->
@@ -152,11 +189,10 @@
 <script type="text/javascript" src="vendors/j_timepicker/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
 
+<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}"></script>
 <!--end of plugin scripts-->
-<script type="text/javascript" src="js/form.js"></script>
-<script type="text/javascript" src="js/pages/datetime_piker.js"></script>
-<script type ="text/javascript" src="vendors/moment/js/moment.min.js"></script>
-
+<script type="text/javascript" src="{{ URL::asset('js/form.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/pages/datetime_piker.js') }}"></script>
 
 <script>
 $(document).ready( function(){
@@ -191,6 +227,5 @@ $(document).ready( function(){
 
 });
 </script>
-
 
 @stop
