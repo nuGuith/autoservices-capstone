@@ -7,6 +7,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\Customer;
+use App\Automobile;
+use App\AutomobileMake;
+use App\AutomobileModel;
+use App\JobOrder;
+use App\ServicePerformed;
+use App\ProductUsed;
+use App\Personnel_Job_Performed;
+use App\Personnel_Job;
+use App\JobDescription;
+use App\Personnel_Header;
 use Validator;
 use Session;
 use Redirect;
@@ -20,10 +31,34 @@ class VehicleHistoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-       
-        return view ('customerinformation.viewvehiclehistory');
+        $customer = Customer::findOrFail($id);
+        $automobiles = DB::table('automobile as a')
+            ->join('automobile_model AS am', 'a.modelid', '=', 'am.modelid')
+            ->join('automobile_make AS mk', 'am.makeid', '=', 'mk.makeid')
+            ->where(['a.isActive'=>1, 'a.customerid'=>$id])
+            ->select('a.*', 'mk.*', 'am.*')
+            ->get();
+
+        //dd($automobiles);
+        return view ('customer.viewvehiclehistory', compact('customer', 'automobiles'));
+    }
+
+    public function showHistory($id)
+    {
+        $auto = DB::table('automobile as a')
+            ->join('automobile_model AS am', 'a.modelid', '=', 'am.modelid')
+            ->join('automobile_make AS mk', 'am.makeid', '=', 'mk.makeid')
+            ->where(['a.automobileid' => $id, 'a.isActive' => 1 ])
+            ->get();
+
+        return response()->json(compact('auto'));
+    }
+
+    public function showJobOrder($id)
+    {
+        //
     }
 
     /**

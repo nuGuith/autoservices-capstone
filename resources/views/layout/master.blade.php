@@ -338,12 +338,11 @@ z-index: 999999">
                     <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
-                <li {!! (Request::is('customerinformation')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/vehicleinformation" style="padding-left:10%; padding-right: 10%;">
+                <li {!! (Request::is('customer')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/customerinformation" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-info"></i>
                         <span class="link-title">&nbsp;Customer Information</span>
                     </a>
-                    
                 </li>
                 
                 <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -414,10 +413,16 @@ z-index: 999999">
                                 &nbsp; Job Order Sales Report
                             </a>
                         </li>
-                        <li {!! (Request::is('billing_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <!--<li {!! (Request::is('billing_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/payment_report')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Billing Report
+                            </a>
+                        </li>-->
+                        <li {!! (Request::is('netsales_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/netsales_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Net Sales Report
                             </a>
                         </li>
                     </ul>
