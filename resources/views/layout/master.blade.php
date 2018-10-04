@@ -561,7 +561,7 @@ z-index: 999999">
 <!-- <script type="text/javascript" src="vendors/inputmask/js/inputmask.date.extensions.js"></script> -->
 <script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/inputmask.extensions.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/fileinput.min.js')}}"></script>
-<script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/theme.j')}}s"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/theme.js')}}"></script>
 
 <script type="text/javascript" src="{{URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/tipso/js/tipso.min.js')}}"></script>

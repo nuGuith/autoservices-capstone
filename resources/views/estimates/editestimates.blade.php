@@ -732,7 +732,7 @@ $(document).ready(function () {
 
     function getGrandTotalNoQty(){
         grandTotal = 0;
-        var qty, price, total;
+        var qty, price, total, laborcost = 0, productsales = 0;
         $('table td input').each(function() {
             if((this.id) == "quantity"){
                 qty = this.value;
@@ -752,8 +752,15 @@ $(document).ready(function () {
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
             } 
+                
+            if((this.id) == "laborcost"){
+                laborcost += parseFloat(this.value);
+            }
         });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+        productsales = grandTotal - laborcost;
+        $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
+        $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
+        $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
     }
 
     function getEstimatedTime(){

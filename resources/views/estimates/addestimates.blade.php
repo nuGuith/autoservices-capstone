@@ -306,7 +306,8 @@
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'products',
                                                         'name' => 'productid',
-                                                        'multiple')
+                                                        'multiple',
+                                                        'data-placeholder' => 'Select product')
                                                     ) 
                                                 }}
                                             </p>
@@ -359,9 +360,21 @@
                                                 <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <span id="estimated" style="text-align: center; color: blue"></span>
                                                 </th>
-                                                <th colspan="3" style="text-align: right;">Grand Total:  </th>
-                                                <th><h5 id="grandtotal" style="text-align:right; color:red; padding-top: 5px;">0.00</h5></th>
-                                                <th></th>
+                                            <th colspan="3" style="text-align: right;">
+                                                <div class="cols">
+                                                    <h5 style="padding-top:5px;">Total Product Cost:</h5>
+                                                    <h5 style="padding-top:5px;">Total Labor Cost (Service):</h5>
+                                                    <h5 style="padding-top:5px;">Grand Total: </h5>
+                                                </div>
+                                            </th>
+                                            <th colspan="1" style="text-align:right">
+                                                <div class="cols">
+                                                    <h5 id="totalprodsales" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="totallaborcost" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                </div>
+                                            </th>
+                                            <th></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -522,7 +535,6 @@
         <!--END CONTENT -->
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/components.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
@@ -981,7 +993,7 @@ $(document).ready(function () {
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" min="1" style="width:70px; text-align:right;" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
+                cols += '<td style="border-right:none !important"><input type="text" min="1" style="width:70px; text-align:right;" id="laborcost" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
@@ -1101,7 +1113,7 @@ $(document).ready(function () {
 
     function getGrandTotal(){
         grandTotal = 0;
-        var qty, price, total;
+        var qty, price, total, laborcost = 0, productsales = 0;
         $('table td input').each(function() {
             if((this.id) == "quantity"){
                 qty = this.value;
@@ -1116,14 +1128,21 @@ $(document).ready(function () {
                 total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
-            } 
+            }
+
+            if((this.id) == "laborcost"){
+                laborcost += parseFloat(this.value);
+            }
         });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+        productsales = grandTotal - laborcost;
+        $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
+        $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
+        $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
     }
 
     function getGrandTotalNoQty(){
         grandTotal = 0;
-        var qty, price, total;
+        var qty, price, total, laborcost = 0, productsales = 0;
         $('table td input').each(function() {
             if((this.id) == "quantity"){
                 qty = this.value;
@@ -1143,10 +1162,17 @@ $(document).ready(function () {
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
             } 
+                
+            if((this.id) == "laborcost"){
+                laborcost += parseFloat(this.value);
+            }
         });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
-
+        productsales = grandTotal - laborcost;
+        $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
+        $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
+        $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
     }
+
 
     function getEstimatedTime(){
         totalEstimatedTime = 0;

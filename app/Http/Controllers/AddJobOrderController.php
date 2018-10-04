@@ -213,6 +213,42 @@ class AddJobOrderController extends Controller
             ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
             ->pluck('personnelfullname','personnelid');
 
+        $mechanic = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 5, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','ph.personnelid');
+        
+        $serviceadvisor = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 1, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','ph.personnelid');
+        
+        $qualityanalyst = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 4, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','ph.personnelid');
+        
+        $inventorymanager = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 3, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','ph.personnelid');
+        
         $service_bays = ServiceBay::where('isActive', 1)
         ->pluck('servicebayname', 'servicebayid');
 
@@ -259,6 +295,10 @@ class AddJobOrderController extends Controller
         $automobiles->prepend('Select a Plate Number',0);
         $automobile_models->prepend('Select a Model',0);
         $personnels->prepend('Assign a personnel',0);
+        $mechanic->prepend('Assign a Mechanic', 0);
+        $serviceadvisor->prepend('Assign a Service Advisor', 0);
+        $qualityanalyst->prepend('Assign a Quality Analyst', 0);
+        $inventorymanager->prepend('Assign an Inventory Manager', 0);
         $service_bays->prepend('Please choose a Service Bay', 0);
         $discounts->prepend('Choose a Discount', 0);
         $services->prepend('Choose a Service', 0);
@@ -269,7 +309,7 @@ class AddJobOrderController extends Controller
         $currentRoute = Route::currentRouteName();
 
         //dd(compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'personnels', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'personnels', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute'));
     }
 
     /**

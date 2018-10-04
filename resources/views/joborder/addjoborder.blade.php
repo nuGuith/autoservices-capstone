@@ -391,7 +391,8 @@
 	                                            'class' => 'form-control chzn-select',
 	                                            'id' => 'products',
 	                                            'name' => 'productid',
-	                                            'multiple')
+	                                            'multiple',
+                                                'data-placeholder' => 'Select product')
 	                                        ) 
 	                                }}
                                 </p>
@@ -1001,6 +1002,7 @@ $(document).ready(function () {
     var cloneCtr = 0;
     var dismissed = false;
     var reasonsConfirmed = false;
+    var selectedMechIndex = 0;
 
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -1176,26 +1178,29 @@ $(document).ready(function () {
     });
 
     $("table.list").on("click", ".btnDel", function (event) {
-        var id = $(this).data('serviceid');
-        var svcid = "svc" + id;
-                        
-        //remove all products included in this service
-        $('table tr').each( function() {
-            if ((this.id) == svcid) 
-                $(this).closest("tr").remove();
-        });
+        
+        if (estimateID !== null){
+            var id = $(this).data('serviceid');
+            var svcid = "svc" + id;
+                            
+            //remove all products included in this service
+            $('table tr').each( function() {
+                if ((this.id) == svcid) 
+                    $(this).closest("tr").remove();
+            });
 
-        deleted.push($(this).closest("tr").attr('name'));
-        //alert(deleted);
-        $(this).closest("tr").remove();
-        $('#services option[value="'+id+'"]').prop("disabled", false);
-        $('#services').trigger("chosen:updated");
-        getEstimatedTime();
-        getGrandTotal();
-        getDiscountedPrice();
+            deleted.push($(this).closest("tr").attr('name'));
+            //alert(deleted);
+            $(this).closest("tr").remove();
+            $('#services option[value="'+id+'"]').prop("disabled", false);
+            $('#services').trigger("chosen:updated");
+            getEstimatedTime();
+            getGrandTotal();
+            getDiscountedPrice();
 
-        serviceCtr--;
-        if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+            serviceCtr--;
+            if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+        }
     });
 
     $("table.list").on("click", "#productid", function(event){
@@ -1211,7 +1216,8 @@ $(document).ready(function () {
         if(remaining == 1) {
             $('#itemsTable').find(this_ServiceID).remove();
             $('#services option[value="'+id+'"]').prop("disabled", false);
-            $('#services').trigger("chosen:updated");
+            $('#services').trigger("chosen:updated");            
+            
             serviceCtr--;
             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         }
@@ -1321,8 +1327,8 @@ $(document).ready(function () {
                 $(this).chosen();
                 $(this).prop("disabled", "disabled");
                 $("#mechanic option[value='0']").prop("disabled", "disabled");
-                if(mechanicID > 0){
-                    $(this).prop("selectedIndex", mechanicID);
+                if(selectedMechIndex > 0){
+                    $(this).prop("selectedIndex", selectedMechIndex);
                     $(this).prop("disabled", false);
                 }
                 $(this).trigger("chosen:updated");
@@ -1521,6 +1527,15 @@ $(document).ready(function () {
                 $('#chassisno').val(data.automobile.ChassisNo);
                 $('#mileage').val(data.automobile.Mileage);
                 $('#color').val(data.automobile.Color);
+                if ((data.automobile.Transmission) == "A/T"){
+                    $("#AT").prop("checked", "checked");
+                    $("#MT").prop("checked", false);
+                }
+                else if ((data.automobile.Transmission) == "M/T"){
+                    $("#MT").prop("checked", "checked");
+                    $("#AT").prop("checked", false);
+                }
+                $('#transmission').val(automobile.Transmission);
                 if (fromEstimate){
                     $("#estimates").prop("disabled","disabled").trigger('chosen:updated');
                     $("#customers").prop("disabled", "disabled").trigger('chosen:updated');
@@ -1843,7 +1858,7 @@ $(document).ready(function () {
                 cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" min="1" style="width:70px; text-align:right;" id="laborcost" name="laborcost[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
-                cols += '<td  style="border-right:none !important">{{ Form::select("mechanic", $mechanic, null, array("class" => "form-control chzn-select", "id" => "mechanic", "name" => "personnelperf[]", "style" => "width:110px", "disabled", "disabled")) }}</td>';
+                cols += '<td  style="border-right:none !important"><select id="mechanic" name="personnelperf[] class="form-control chzn-select" style="width:110px;" disabled>@foreach($mechanic as $id => $name)<option value="{{$id}}">{{$name}}</option> @endforeach</select></td>';
                 cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
@@ -1858,7 +1873,7 @@ $(document).ready(function () {
                 $("#services").trigger("chosen:updated");
 
                 $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
-
+                
                 serviceCtr++;
                 cols = "";
             }
@@ -1927,7 +1942,8 @@ $(document).ready(function () {
                         if(remaining == 1) {
                             $('#itemsTable').find(this_ServiceID).remove();
                             $('#services option[value="'+id+'"]').prop("disabled", false);
-                            $('#services').trigger("chosen:updated");
+                            $('#services').trigger("chosen:updated");            
+                            
                             serviceCtr--;
                             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
                         }
@@ -2108,6 +2124,7 @@ $(document).ready(function () {
         var selectedIndex = $(this).prop('selectedIndex');
 
         mechanicID = selectedID;
+        selectedMechIndex = selectedIndex;
         $('table td select').each(function(){
             $(this).prop('selectedIndex', selectedIndex);
             $(this).trigger("chosen:updated");
