@@ -241,11 +241,11 @@
                                     <div class="row m-t-20">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly></textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly>{{ $complaint->Problem }}</textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly></textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly>{{ $complaint->Diagnosis }}</textarea>
                                         </div>                              
                                     </div>
 

@@ -427,12 +427,12 @@
                             <!--Textfield: Complaints and Diagnosis -->
                                     <div class="row m-t-5">
                                         <div class="col-lg-6">
-                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2"></textarea>
+                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red">*</span></h5>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2">{{ $complaint->Problem }}</textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2"></textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2">{{ $complaint->Diagnosis }}</textarea>
                                         </div>                              
                                     </div>
                        

@@ -7,9 +7,22 @@
     float: left;
     width: 50%;
 }
+.signature{
+    float: left;
+    width: 50%;
+}
 #col-foot{
     float: left;
     width: 50%;
+}
+#problem{
+    word-wrap:break-word;
+    width:35%;
+}
+#complaint{
+    word-wrap:break-word;
+    width:35%;
+    padding-left:5%;
 }
 .col-quantity{
     float: left;
@@ -90,14 +103,14 @@ input{
 
 <div class="row">
     <div class="col-complaints">
-        <h3>Complaints</h3><br>
-        {{ $complaint->Problem }}
+        <h3>Complaints</h3>
+        <span id="problem">{{ $complaint->Problem }}</span>
     </div>
     <div class="col-complaints">
-        <h3>Diagnosis</h3><br>
-        {{ $complaint->Diagnosis }}
+        <h3 style="padding-left:5%">Diagnosis</h3>
+        <span id="complaint">{{ $complaint->Diagnosis }}</span>
     </div>
-</div>
+</div><br><br><br>
 
 <table style="width:100%;">
     <tr>
@@ -150,66 +163,27 @@ input{
 <div id="row">
     <div id="col-foot">
         <span>ESTIMATED TIME:</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span id="estimated">3 days</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="estimated">Approx.&nbsp;{{ $hours }}</span>
     </div>
     <div id="col-foot">
-        <span>TOTAL LABOR:</span><br>
-        <span>TOTAL PRODUCT COST:</span><br>
-        <span>TOTAL COST ESTIMATE:</span><span id="grandtotal" style="color:red">&nbsp;&nbsp;&nbsp;0.00</span>
+        <span>TOTAL LABOR COST:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}<br>
+        <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
+        <span>TOTAL COST ESTIMATE:</span>&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $estimate->LaborCost }}</span>
     </div>
 </div><br><br><br><br>
 
 <div>
     <p><i> Note: Estimates are an approximation of charges to you, and they are based on the anticipated details of the work to be done. It is possible for unexpected complications to cause some deviation from the estimate. If additional parts or labor are required you will be contacted immediately. </i></p>
+</div><br><br><br><br><br>
+
+<div class="row">
+    <div class="signature">
+        <hr style="width:250px">
+        <span style="padding-left:135px">Estimated by:</span>
+    </div>
+    <div class="signature">
+        <hr style="width:250px">
+        <span style="padding-left:91px">Signature over printed name</span>
+    </div>
 </div>
-
-<script>
-$(window).on('load', function(){ 
-    alert("hello");
-    getGrandTotal();
-    getEstimatedTime();
-
-    function getGrandTotal(){
-        grandTotal = 0;
-        var qty, price, total;
-        $('table td input').each(function() {
-            if((this.id) == "quantity"){
-                qty = this.value;
-            }
-
-            if((this.id) == "unitprice"){
-                price = this.value;
-            }
-
-            if((this.id) == "totalprice"){
-                if (isNaN(qty) || qty == 0){ qty = 1; this.id("quantity").value = 1; $(this).blur();}
-                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
-                this.value = parseFloat(total).toFixed(2);
-                grandTotal += parseFloat(total);
-            } 
-        });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
-    }
-
-    function getEstimatedTime(){
-        totalEstimatedTime = 0;
-        var time, inHours, inMins;
-        $('table td button').each(function() {
-            if ((this.id) == "svc"){
-                time = this.name;
-                totalEstimatedTime += parseFloat(time);
-            }
-        });
-        inHours = parseInt(totalEstimatedTime / 60);
-        if (inHours > 1) inHours = inHours + "hrs. ";
-        else inHours = inHours + "hr. ";
-        inMins = totalEstimatedTime % 60;
-
-        if (totalEstimatedTime != 0)
-        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
-        else
-        document.getElementById("estimated").innerHTML = "No job to do.";
-    }
-});
-</script>

@@ -89,6 +89,11 @@ class EditEstimatesController extends Controller
             ->where(['estimateid' => $id, 'pu.isActive' => 1])
             ->select('pu.*', 'pr.*')
             ->get();
+    
+        $complaint = DB::table('complaint as c')
+            ->where(['estimateid' => $id, 'c.isActive'=> 1])
+            ->select('c.Diagnosis', 'c.Problem')
+            ->first();
 
         $service_bays->prepend('Please choose a Bay', 0);
         $services->prepend('Choose a Service', 0);
@@ -96,7 +101,7 @@ class EditEstimatesController extends Controller
         $automobile_models->prepend('Select a Model', 0);
         $personnels->prepend('Select a Personnel', 0);
 
-        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels', 'serviceperformed', 'productused'));
+        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels', 'serviceperformed', 'productused', 'complaint'));
     }
 
     /**
