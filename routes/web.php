@@ -240,7 +240,7 @@ Route::resource('/viewbackjob','ViewBackJobController');
 // Output Forms - Sample
 Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
-Route::get('/estimateform','SampleController@estimate_pdf');
+Route::get('/estimateform/{id}','SampleController@estimate_pdf');
 Route::get('/receipt','SampleController@receipt_pdf');
 Route::get('/joborderform','SampleController@joborder_pdf');
 

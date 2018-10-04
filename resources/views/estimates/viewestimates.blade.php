@@ -118,7 +118,7 @@
 
                         <div class="row m-t-20" style="padding-bottom:20px">  
                             <div class="col-lg-6 m-t-0">
-                                    <h5><span style="color:gray">Assign Mechanic:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $personnel->FullName }}</h5>
+                                    <h5><span style="color:gray">Estimated by:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $personnel->FullName }}</h5>
                             </div>                         
                             <div class="col-lg-6 m-t-0">
                                     <h5><span style="color:gray">Service Bay:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -296,10 +296,11 @@
                                 <!--Button: Back, Save-->
                              <div class="card-footer bg-black">
                                <div class="examples transitions m-t-5 pull-right">
-                                    <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates"><i class="fa fa-arrow-left" >
-                                    </i>&nbsp;Back</button>  
-                                                  
-                                    <button onclick="window.location='{{ url("/estimateform") }}'" class="btn btn-info btn-raised" style ="width: 80px;"  ><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
+                                    <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates" target="_blank"><i class="fa fa-arrow-left" >
+                                    </i>&nbsp;Back</button>
+
+                                    <a href="/estimateform/{{ $estimate->EstimateID }}" target="_blank">
+                                    <button class="btn btn-info btn-raised" style ="width: 80px;"><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
                                 </div>
                             </div>
             
