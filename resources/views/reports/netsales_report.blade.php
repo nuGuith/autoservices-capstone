@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Job Order Sales Report') <!-- Page Title -->
+@section('Title','Net Sales Report') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -54,7 +54,7 @@
             <div class="card">
                 <div class="card-header default_bg_dark">
                     <div align="center" class="m-t-10">
-                        <h3> JOB ORDER SALES REPORT </h3>
+                        <h3> NET SALES REPORT </h3>
                         <h4 id="reportdate"></h3>
                     </div>
                 </div>
@@ -74,58 +74,22 @@
                             <tr role="row">
                                 <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>DATE</b></th>
                                 <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
-                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>SERVICE SALES</b></th>
-                                <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PRODUCT SALES</b></th>
-                                <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>GROSS SALES</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>NET AMOUNT</b></th>
                             </tr>
                         </thead>
                         <tbody>
-                        	@foreach($joborders as $joborder)
+                        	@foreach($sales as $sale)
                             <tr role="row" class="even">
                                 <td>
                                 	<?php
-                                		$date = date('F d, Y', strtotime($joborder->JODate));
+                                		$date = date('F d, Y', strtotime($sale->JODate));
                                 		echo $date;
                                 	?>
                                 </td>
-                                <td>JO000{{ $joborder->JobOrderID }}</td>
-                                <td>
-                                    <!--@foreach($serviceperformed as $service)-->
-                                        <!--@if($joborder->JobOrderID == $service->JobOrderID)-->
-                                            <?php
-                                                $amount = $service->ServiceTotalPrice;
-                                                $value = 0.00;
-                                                $format = number_format($value, 2, ".", "");
-
-                                                if(($amount)==0)
-                                                    echo "Php"." ".$format;
-                                                else
-                                                    echo "Php"." ".$amount;
-                                            ?>
-                                        <!--@endif-->
-                                    <!--@endforeach-->        
-                                    </td>
-                                    <td>
-                                        <!--@foreach($productused as $product)-->
-                                            <!--@if($joborder->JobOrderID == $product->JobOrderID)-->
-                                                <?php
-                                                    $amount = $product->ProductTotalPrice;
-                                                    $value = 0.00;
-                                                    $format = number_format($value, 2, ".", "");
-
-                                                    if(($amount)==0)
-                                                        echo "Php"." ".$format;
-                                                    elseif(($product->ProductTotalPrice)==null)
-                                                        echo "Php"." ".$format;
-                                                    else
-                                                        echo "Php"." ".$amount;
-                                                ?>
-                                            <!--@endif-->
-                                        <!--@endforeach-->
-                                    </td>
+                                <td>JO000{{ $sale->JobOrderID }}</td>
                                 <td id="sales">
                                     <?php
-                                        $amount = $joborder->TotalAmountDue;
+                                        $amount = $sale->DiscountedAmount;
                                         $value = 0.00;
                                         $format = number_format($value, 2, ".", "");
 
@@ -141,36 +105,18 @@
 	                    <tfoot>
 	                        <tr>
 	                            <th></th>
-	                            <th></th>
-	                            <th></th>
 	                            <th>
-	                                <ul style="list-style-type:none;">
-	                                   	<li>Total Service Sales:</li>
-	                                    <li>Total Product Sales:</li>
-	                                    <li>Total Gross Sales:</li> 
-	                                </ul>
-	                            </th>
+                                    <ul>
+                                        <li style="list-style-type:none">Total Net:</li>
+                                    </ul>
+                                </th>
 	                            <td>
                                     <b>
-	                                <ul style="list-style-type:none;">
-	                                    <li>
-                                            @foreach($servicetotal as $totalS)
-                                                Php {{ $totalS->ServiceTotalPrice }}
-                                            @endforeach
-                                        </li>
-	                                    <li>
-                                            @foreach($producttotal as $totalP)
-                                                Php {{ $totalP->ProductTotalPrice }}
-                                            @endforeach
-                                        </li>
-	                                    <li>
-                                            @foreach($totals as $total)
-                                                Php {{ $total->gross }}
-                                            @endforeach
-                                        </li> 
-                                    </ul>
+                                        @foreach($totalsales as $total)
+                                            Php {{ $total->net }}
+                                        @endforeach
                                     </b>
-	                            </td>
+                                </td>
 	                        </tr>
 	                    </tfoot>
                     </table>
@@ -248,22 +194,29 @@
 <script type="text/javascript" src="{{ URL::asset('js/form.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/pages/datetime_piker.js') }}"></script>
 
+
 <script>
-$(document).ready( function(){
-    var start = moment();
-    var end = moment();
+$(document).on('ready', function(){
+    $(function(){
+        var start = moment();
+        var end = moment();
 
-    function date(start, end){
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
-            
-        if (enddate == startdate)
-            $('#reportdate').text(""+start.format('MMMM D, YYYY'));
-        else
-            $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
-    }
+            function date(start, end){
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+                    if (enddate == startdate)
+                    {
+                        $('#reportdate').text(""+start.format('MMMM D, YYYY'));
+                    }
+                    else
+                    {
+                        $('#reportdate').text(""+start.format('MMMM D, YYYY') + "to" + end.format('MMMM D, YYYY'));
+                    }
+            }
 
+    });
+
+    
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
@@ -278,8 +231,11 @@ $(document).ready( function(){
     }, date);
 
     date(start, end);
-
 });
+</script>
+
+<script>
+
 </script>
 
 @stop

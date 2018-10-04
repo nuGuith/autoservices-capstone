@@ -1,4 +1,4 @@
-@extends('layout.master') <!-- Include MAster PAge -->
+@extends('layout.master') <!-- Include Master PAge -->
 @section('Title','Estimate Report') <!-- Page Title -->
 @section('content')
 
@@ -209,9 +209,6 @@ $(document).ready( function(){
     }, date);
 
     date(start, end);
-
-    
-    $('input[name=daterangepicker_start]').css('width', '1000px');
 
 });
 </script>

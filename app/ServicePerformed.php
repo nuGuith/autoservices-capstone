@@ -14,6 +14,9 @@ class ServicePerformed extends Model
         'JobOrderID',
         'EstimateID',
         'PersonnelPerformedID',
+        'CurrentStep',
+        'StartDate',
+        'EndDate',
         'LaborCost',
         'isPerformed',
         'isActive'

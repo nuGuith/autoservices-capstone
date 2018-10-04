@@ -31,6 +31,7 @@ Route::resource('productcategory', 'ProductCategoryController');
 Route::post('/productcategory', 'ProductCategoryController@store');
 Route::put('/productcategory', 'ProductCategoryController@update');
 Route::patch('/productcategory', 'ProductCategoryController@delete');
+Route::patch('/productcategory', 'ProductCategoryController@reactivate');
 
 //Maintenance - Product Type
 Route::resource('producttype', 'ProductTypeController');
@@ -173,6 +174,21 @@ Route::POST('/deldiscount','DiscountController@delete');
 Route::get('/404',['as'=>'404','uses'=>'ErrorHandlerController@errorCode404']);
 Route::get('/405',['as'=>'405','uses'=>'ErrorHandlerController@errorCode405']);
 
+//Transaction - Customer Information
+Route::resource('/customerinformation','CustomerController');
+Route::put('/customerinformation', 'CustomerController@update');
+
+Route::get('/viewvehiclehistory/{id}','VehicleHistoryController@index');
+Route::get('/viewvehiclehistory/{id}/showHistory','VehicleHistoryController@showHistory');
+Route::get('/viewvehiclehistory/{id}/showJobOrder','VehicleHistoryController@showJobOrder');
+
+//Transaction - Customer Information
+Route::resource('/customerinformation','CustomerController');
+Route::put('/customerinformation', 'CustomerController@update');
+
+Route::get('/viewvehiclehistory/{id}','VehicleHistoryController@index');
+Route::get('/viewvehiclehistory/{id}/showHistory','VehicleHistoryController@showHistory');
+Route::get('/viewvehiclehistory/{id}/showJobOrder','VehicleHistoryController@showJobOrder');
 
 //Transaction - Inspect Vehicle
 Route::get('/inspect','InspectController@index');
@@ -221,6 +237,7 @@ Route::get('/updatejoborder/{id}/getProducts', 'UpdateJobOrderController@getProd
 Route::patch('/updatejoborder/updateJob', 'UpdateJobOrderController@updateJob');
 Route::patch('/updatejoborder/setStartDate', 'UpdateJobOrderController@setStartDate');
 Route::patch('/updatejoborder/updateJobOrder', 'UpdateJobOrderController@updateJobOrder');
+Route::patch('/updatejoborder/resetJobOrder', 'UpdateJobOrderController@resetJobOrder');
 
 //Back Job
 Route::resource('/backjob','BackJobController');
@@ -229,14 +246,10 @@ Route::resource('/editbackjob','EditBackJobController');
 Route::resource('/updatebackjob','UpdateBackJobController');
 Route::resource('/viewbackjob','ViewBackJobController');
 
-//Customer Information
-Route::resource('/vehicleinformation','VehicleInformationController');
-Route::resource('/viewvehiclehistory','VehicleHistoryController');
-
 // Output Forms - Sample
 Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
-Route::get('/estimateform','SampleController@estimate_pdf');
+Route::get('/estimateform/{id}','SampleController@estimate_pdf');
 Route::get('/receipt','SampleController@receipt_pdf');
 Route::get('/joborderform','SampleController@joborder_pdf');
 
@@ -245,12 +258,15 @@ Route::get('/estimate_report', 'ReportsController@estimate');
 Route::get('/inspection_report', 'ReportsController@inspection');
 Route::get('/joborder_report', 'ReportsController@joborder');
 Route::get('/jobordersales_report', 'ReportsController@jobordersales');
+Route::get('/netsales_report', 'ReportsController@netsales');
 Route::get('/payment_report', 'ReportsController@payment');
 
-//Reports Printable Forms
+//Reports - Printable Forms
 Route::get('/report-estimate', 'PDFController@estimate');
 Route::get('/report-inspection', 'PDFController@inspection');
 Route::get('/report-joborder', 'PDFController@joborder');
 
 //Queries
 Route::get('/queries', 'QueriesController@index');
+Route::get('/report-jobordersales', 'PDFController@jobordersales');
+Route::get('/report-netsales', 'PDFController@netsales');

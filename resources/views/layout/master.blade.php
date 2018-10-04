@@ -315,12 +315,11 @@
                     <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
-                <li {!! (Request::is('customerinformation')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/vehicleinformation" style="padding-left:10%; padding-right: 10%;">
+                <li {!! (Request::is('customer')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/customerinformation" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-info"></i>
                         <span class="link-title">&nbsp;Customer Information</span>
                     </a>
-                    
                 </li>
                 
                 <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
@@ -328,7 +327,6 @@
                         <i class="fa fa-search"></i>
                         <span class="link-title">&nbsp; Inspect Vehicle</span>
                     </a>
-                    
                 </li>
                 <li {!! (Request::is('estimates')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/estimates" style="padding-left:10%; padding-right: 10%;">
@@ -391,10 +389,16 @@
                                 &nbsp; Job Order Sales Report
                             </a>
                         </li>
-                        <li {!! (Request::is('billing_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <!--<li {!! (Request::is('billing_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/payment_report')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Billing Report
+                            </a>
+                        </li>-->
+                        <li {!! (Request::is('netsales_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/netsales_report')}}" style="padding-left:10%; padding-right: 10%;">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; Net Sales Report
                             </a>
                         </li>
                     </ul>
@@ -522,7 +526,7 @@
 <script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/jquery.inputmask.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/inputmask.extensions.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/fileinput.min.js')}}"></script>
-<script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/theme.j')}}s"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/theme.js')}}"></script>
 
 <script type="text/javascript" src="{{URL::asset('vendors/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/tipso/js/tipso.min.js')}}"></script>

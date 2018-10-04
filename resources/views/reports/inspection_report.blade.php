@@ -22,7 +22,7 @@
     <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css" />
     <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css" />
     <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
-    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" /
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.cs>s" />
     <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
     <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css" />
     <!-- end of plugin styles -->
@@ -175,33 +175,27 @@
 <script type="text/javascript" src="vendors/j_timepicker/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
 
-<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}">
+<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}"></script>
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
 
 <script>
-$(document).on('ready', function(){
-    $(function(){
-        var start = moment();
-        var end = moment();
+$(document).ready( function(){
+    var start = moment();
+    var end = moment();
 
-            function date(start, end){
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-                    if (enddate == startdate)
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY'));
-                    }
-                    else
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY') + "to" + end.format('MMMM D, YYYY'));
-                    }
-            }
+    function date(start, end){
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            
+        if (enddate == startdate)
+            $('#reportdate').text(""+start.format('MMMM D, YYYY'));
+        else
+            $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
+    }
 
-    });
-
-    
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
@@ -216,6 +210,7 @@ $(document).on('ready', function(){
     }, date);
 
     date(start, end);
+
 });
 </script>
 

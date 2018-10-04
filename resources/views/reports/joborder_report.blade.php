@@ -134,35 +134,46 @@
 <script type="text/javascript" src="js/custom.js"></script>
 <!-- end of global scripts-->
 <!-- plugin scripts -->
+<script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
+<script type="text/javascript" src="vendors/inputlimiter/js/jquery.inputlimiter.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script type="text/javascript" src="vendors/jquery-tagsinput/js/jquery.tagsinput.js"></script>
+<script type="text/javascript" src="vendors/validval/js/jquery.validVal.min.js"></script>
+<script type="text/javascript" src="vendors/inputmask/js/jquery.inputmask.bundle.js"></script>
+<script type="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 <script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script>
 <script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script>
 <script type="text/javascript" src="vendors/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
-<script type ="text/javascript" src="{{URL::asset('vendors/daterangepicker/js/moment.min.js')}}">
+<script type="text/javascript" src="vendors/jasny-bootstrap/js/inputmask.js"></script>
+<script type="text/javascript" src="vendors/datetimepicker/js/DateTimePicker.min.js"></script>
+<script type="text/javascript" src="vendors/j_timepicker/js/jquery.timepicker.min.js"></script>
+<script type="text/javascript" src="vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
+
+<!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/pages/datetime_piker.js"></script>
+<script type ="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 
 
 <script>
-$(document).on('ready', function(){
-    $(function(){
-        var start = moment();
-        var end = moment();
+$(document).ready( function(){
+    var start = moment();
+    var end = moment();
 
-            function date(start, end){
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-                    if (enddate == startdate)
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY'));
-                    }
-                    else
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY') + "to" + end.format('MMMM D, YYYY'));
-                    }
-            }
+    function date(start, end){
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            
+        if (enddate == startdate)
+            $('#reportdate').text(""+start.format('MMMM D, YYYY'));
+        else
+            $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
+    }
 
-    });
-
-    
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
@@ -177,6 +188,7 @@ $(document).on('ready', function(){
     }, date);
 
     date(start, end);
+
 });
 </script>
 

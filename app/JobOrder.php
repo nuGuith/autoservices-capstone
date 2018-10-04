@@ -19,6 +19,8 @@ class JobOrder extends Model
         'DiscountID',
         'UserID',
         'Status',
+        'JobStartDate',
+        'JobEndDate',
         'Terms_Agreement',
         'Agreement_Timestamp',
         'Release_Timestamp',

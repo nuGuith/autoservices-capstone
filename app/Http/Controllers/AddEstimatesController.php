@@ -196,7 +196,9 @@ class AddEstimatesController extends Controller
 
                 foreach($serviceid as $key=>$svcid){
                     if ($serviceid[$key] == $svcperf->ServiceID){
-                        if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key])) $quantity[$key] = 1;
+                        if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key]))
+                            $quantity[$key] = 1;
+                            
                         $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
                         ProductsUsed::create([
                             'estimateid' => $estimate->EstimateID,
