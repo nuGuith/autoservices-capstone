@@ -1,26 +1,37 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
+use App\Customer;
 use App\Estimate;
 use App\Automobile;
-use App\Personnel;
+use App\AutomobileMake;
+use App\AutomobileModel;
 use App\ServiceBay;
+use App\Complaint;
+use App\Personnel;
+use App\Discount;
+use App\Service;
+use App\Product;
 use PDF;
 class SampleController extends Controller
 {
 
   public function inspect()
   {
-      return view('sample_pdf.indexx');
+      return view('pdf.indexx');
   }
   public function inspect_pdf()
   {
     // Fetch all customers from database
     $bay = ServiceBay::get();
     // Send data to the view using loadView function of PDF facade
-    //return view('sample_pdf.indexx', ['bay' => $bay]);
+    //return view('pdf.indexx', ['bay' => $bay]);
 
-    $pdf = PDF::loadView('sample_pdf.inspectform')
+    $pdf = PDF::loadView('pdf.inspectform')
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
@@ -28,18 +39,49 @@ class SampleController extends Controller
     return $pdf->stream('inspectform');
   }
 
-  public function estimate_pdf()
+  public function estimate_pdf($id)
   {
-    // $estimate = Estimate::findOrFail($id);
-    // $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
-    // $automobile = Automobile::where(['AutomobileID' => $estimate->AutomobileID, 'isActive' => 1])->first();
-    // $model = AutomobileModel::where(['ModelID' => $automobile->ModelID, 'isActive' => 1]);
-    // $customer = Customer::where(['CustomerID' => $automobile->CustomerID, 'isActive' => 1])
-    //   ->select(DB::table('customer')
-    //   ->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'EmailAddress', 'ContactNo', 'CompleteAddress', 'PWD_SC_No')
-    //   ->first();
+    $estimate = Estimate::findOrFail($id);
 
-    $pdf = PDF::loadView('sample_pdf.estimateform')
+    $model = Automobile::findOrFail($estimate->AutomobileID);
+        
+    $automobile = DB::table('automobile_model AS md')
+      ->where('md.ModelID', $model->ModelID)
+      ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+      ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+      ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'md.Year', 'auto.Mileage', 'auto.ChassisNo', 'auto.Color')
+      ->first();
+
+    $customer = DB::table('customer')
+      ->where('customerid', $model->CustomerID)
+      ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+      ->first();
+    $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
+
+    $personnel = DB::table('personnel_header')
+      ->where('personnelid',$estimate->PersonnelID)
+      ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
+      ->first();
+
+    $serviceperformed = DB::table('service_performed AS sp')
+      ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+      ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+      ->select('sp.*', 'svc.*')
+      ->get();
+
+    $productused = DB::table('product_used AS pu')
+      ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+      ->where(['estimateid' => $id, 'pu.isActive' => 1])
+      ->select('pu.*', 'pr.*')
+      ->get();
+
+    $complaint = DB::table('complaint as c')
+      ->where(['estimateid' => $id, 'c.isActive'=> 1])
+      ->select('c.Diagnosis', 'c.Problem')
+      ->get();
+    
+    //  dd($complaint);
+    $pdf = PDF::loadView('pdf.estimateform', compact('estimate', 'servicebay', 'customer', 'automobile', 'model', 'personnel', 'serviceperformed', 'productused', 'complaint'))
     ->setPaper([0, 0, 612, 936], 'portrait');
 
     // If you want to store the generated pdf to the server then you can use the store function
@@ -53,9 +95,9 @@ class SampleController extends Controller
     // Fetch all customers from database
     $bay = ServiceBay::get();
     // Send data to the view using loadView function of PDF facade
-    //return view('sample_pdf.indexx', ['bay' => $bay]);
+    //return view('pdf.indexx', ['bay' => $bay]);
 
-    $pdf = PDF::loadView('sample_pdf.receipt')
+    $pdf = PDF::loadView('pdf.receipt')
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
@@ -68,9 +110,9 @@ class SampleController extends Controller
     // Fetch all customers from database
     $bay = ServiceBay::get();
     // Send data to the view using loadView function of PDF facade
-    //return view('sample_pdf.indexx', ['bay' => $bay]);
+    //return view('pdf.indexx', ['bay' => $bay]);
 
-    $pdf = PDF::loadView('sample_pdf.joborderform')
+    $pdf = PDF::loadView('pdf.joborderform')
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');

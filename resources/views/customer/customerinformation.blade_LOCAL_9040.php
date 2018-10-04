@@ -232,7 +232,7 @@
     function editModal(id){
         $.ajax({
             type: "GET",
-            url: "/customer/"+id+"/edit",
+            url: "/customerinformation/"+id+"/edit",
             dataType: "JSON",
             success:function(data){
                 $("#firstname").val(data.customer.FirstName);

@@ -133,7 +133,11 @@
                                                         <span style="color:red">*</span>
                                                     </h5>
                                                     <p>
+<<<<<<< HEAD:resources/views/customer/customerinformation.blade.php
                                                         <input id="middlename" name="middlename" type="text" placeholder="Middle Name" class="form-control m-t-10">
+=======
+                                                        <input id="mniddleame" name="middlename" type="text" placeholder="Middle Name" class="form-control m-t-10">
+>>>>>>> mamshie:resources/views/customer/customerinformation.blade.php
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -232,7 +236,11 @@
     function editModal(id){
         $.ajax({
             type: "GET",
+<<<<<<< HEAD:resources/views/customer/customerinformation.blade.php
+            url: "/customerinformation/"+id+"/edit",
+=======
             url: "/customer/"+id+"/edit",
+>>>>>>> mamshie:resources/views/customer/customerinformation.blade.php
             dataType: "JSON",
             success:function(data){
                 $("#firstname").val(data.customer.FirstName);

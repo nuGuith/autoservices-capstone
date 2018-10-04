@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Job Order Report') <!-- Page Title -->
+@section('Title','Job Order Sales Report') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -76,7 +76,7 @@
                                 <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
                                 <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>SERVICE SALES</b></th>
                                 <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PRODUCT SALES</b></th>
-                                <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>TOTAL SALES</b></th>
+                                <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>GROSS SALES</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,21 +89,52 @@
                                 	?>
                                 </td>
                                 <td>JO000{{ $joborder->JobOrderID }}</td>
-                                	<td>  
+                                <td>
                                     <!--@foreach($serviceperformed as $service)-->
-                                            <!--@if($joborder->JobOrderID == $service->JobOrderID)-->
-                                                Php {{ $service->ServiceTotalPrice }}
-                                            <!--@endif-->
-                                    <!--@endforeach-->
+                                        <!--@if($joborder->JobOrderID == $service->JobOrderID)-->
+                                            <?php
+                                                $amount = $service->ServiceTotalPrice;
+                                                $value = 0.00;
+                                                $format = number_format($value, 2, ".", "");
+
+                                                if(($amount)==0)
+                                                    echo "Php"." ".$format;
+                                                else
+                                                    echo "Php"." ".$amount;
+                                            ?>
+                                        <!--@endif-->
+                                    <!--@endforeach-->        
                                     </td>
                                     <td>
-                                    <!--@foreach($productused as $product)-->
+                                        <!--@foreach($productused as $product)-->
                                             <!--@if($joborder->JobOrderID == $product->JobOrderID)-->
-                                                Php {{ $product->ProductTotalPrice }}
+                                                <?php
+                                                    $amount = $product->ProductTotalPrice;
+                                                    $value = 0.00;
+                                                    $format = number_format($value, 2, ".", "");
+
+                                                    if(($amount)==0)
+                                                        echo "Php"." ".$format;
+                                                    elseif(($product->ProductTotalPrice)==null)
+                                                        echo "Php"." ".$format;
+                                                    else
+                                                        echo "Php"." ".$amount;
+                                                ?>
                                             <!--@endif-->
-                                    <!--@endforeach-->
+                                        <!--@endforeach-->
                                     </td>
-                                <td id="sales">Php {{ $joborder->TotalAmountDue }}</td>
+                                <td id="sales">
+                                    <?php
+                                        $amount = $joborder->TotalAmountDue;
+                                        $value = 0.00;
+                                        $format = number_format($value, 2, ".", "");
+
+                                        if(($amount)==0)
+                                            echo "Php"." ".$format;
+                                        else
+                                            echo "Php"." ".$amount;
+                                    ?>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -116,15 +147,29 @@
 	                                <ul style="list-style-type:none;">
 	                                   	<li>Total Service Sales:</li>
 	                                    <li>Total Product Sales:</li>
-	                                    <li>Total Sales:</li> 
+	                                    <li>Total Gross Sales:</li> 
 	                                </ul>
 	                            </th>
 	                            <td>
+                                    <b>
 	                                <ul style="list-style-type:none;">
-	                                    <li></li>
-	                                    <li></li>
-	                                    <li></li> 
+	                                    <li>
+                                            @foreach($servicetotal as $totalS)
+                                                Php {{ $totalS->ServiceTotalPrice }}
+                                            @endforeach
+                                        </li>
+	                                    <li>
+                                            @foreach($producttotal as $totalP)
+                                                Php {{ $totalP->ProductTotalPrice }}
+                                            @endforeach
+                                        </li>
+	                                    <li>
+                                            @foreach($totals as $total)
+                                                Php {{ $total->gross }}
+                                            @endforeach
+                                        </li> 
                                     </ul>
+                                    </b>
 	                            </td>
 	                        </tr>
 	                    </tfoot>

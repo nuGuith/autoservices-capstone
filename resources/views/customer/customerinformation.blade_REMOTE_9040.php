@@ -133,7 +133,7 @@
                                                         <span style="color:red">*</span>
                                                     </h5>
                                                     <p>
-                                                        <input id="middlename" name="middlename" type="text" placeholder="Middle Name" class="form-control m-t-10">
+                                                        <input id="mniddleame" name="middlename" type="text" placeholder="Middle Name" class="form-control m-t-10">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12">
