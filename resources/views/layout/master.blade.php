@@ -418,10 +418,10 @@ z-index: 999999">
                                 &nbsp; Billing Report
                             </a>
                         </li>-->
-                        <li {!! (Request::is('netsales_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
-                            <a href="{{url('/netsales_report')}}" style="padding-left:10%; padding-right: 10%;">
+                        <li {!! (Request::is('sales_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                            <a href="{{url('/sales_report')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
-                                &nbsp; Net Sales Report
+                                &nbsp; Sales Report
                             </a>
                         </li>
                     </ul>

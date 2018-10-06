@@ -21,7 +21,7 @@ class ReportsController extends Controller
     $estimates = DB::table('estimate as e')
       ->join('automobile as a', 'e.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
-      ->where('e.isActive', 1)
+      ->where('e.isActive',1)
       ->select('e.*', 'a.PlateNo', 'c.LastName','c.FirstName', DB::raw('DATE(e.created_at) AS EDate'))
       ->get();
 
@@ -54,7 +54,7 @@ class ReportsController extends Controller
     $jos = DB::table('job_order as jo')
       ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
-      ->where('jo.isActive', 1)
+      ->where(['jo.isActive' => 1, 'jo.Status'=>'Finalized'])
       ->select('jo.JobOrderID', 'jo.TotalAmountDue', 'a.PlateNo', 'c.LastName', 'c.FirstName', DB::raw('DATE(jo.created_at) AS JODate'))
       ->get();
 
@@ -102,18 +102,19 @@ class ReportsController extends Controller
     return view('reports.jobordersales_report', compact('joborders', 'serviceperformed', 'productused', 'servicetotal', 'producttotal', 'totals'));
   }
 
-  public function netsales()
+  public function sales()
   {
     $sales = DB::table('job_order')
       ->where('isActive', 1)
-      ->select('JobOrderID', 'DiscountedAmount', DB::raw('DATE(Agreement_Timestamp) as JODate'))
-      ->get();
-    $totalsales = DB::table('job_order')
-      ->where('isActive', 1)
-      ->select(DB::raw('SUM(DiscountedAmount) as net'))
+      ->select('JobOrderID', 'DiscountedAmount', 'TotalAmountDue', DB::raw('DATE(Agreement_Timestamp) as JODate, TotalAmountDue-DiscountedAmount as disc'))
       ->get();
 
-    return view('reports.netsales_report', compact('sales', 'totalsales'));
+    $totalsales = DB::table('job_order')
+      ->where('isActive', 1)
+      ->select(DB::raw('SUM(TotalAmountDue) as sales'))
+      ->get();
+
+    return view('reports.sales_report', compact('sales', 'totalsales'));
   }
 
 }

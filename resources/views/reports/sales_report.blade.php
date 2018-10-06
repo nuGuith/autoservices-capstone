@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Net Sales Report') <!-- Page Title -->
+@section('Title','Sales Report') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -33,15 +33,15 @@
                 <div class="col-6">
                     <h4 class="m-t-15">
                         <i class="fa fa-file"></i>
-                            Job Order Sales Report
+                            Sales Report
                     </h4>
                 </div>
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/inspect">
+                                <a href="/sales_report">
                                     <i class="fa fa-file" data-pack="default" data-tags=""></i>
-                                    Job Order Sales Report
+                                    Sales Report
                                 </a>
                             </li>
                         </ol>
@@ -54,18 +54,17 @@
             <div class="card">
                 <div class="card-header default_bg_dark">
                     <div align="center" class="m-t-10">
-                        <h3> NET SALES REPORT </h3>
+                        <h3> SALES REPORT </h3>
                         <h4 id="reportdate"></h3>
                     </div>
                 </div>
                 <div class="card-block m-t-5" id="user_body">
                     <div class="col-lg-4 input_field_sections">
                         <form>
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                                <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                            <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> 
+                                <i class="fa fa-caret-down"></i>
                             </div>
                         </form>
                     </div>
@@ -73,8 +72,10 @@
                         <thead>
                             <tr role="row">
                                 <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>DATE</b></th>
-                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
-                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>NET AMOUNT</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>JOB ORDER ID</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>TOTAL AMOUNT DUE</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>DISCOUNT RATE</b></th>
+                                <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>GRAND TOTAL</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,9 +88,33 @@
                                 	?>
                                 </td>
                                 <td>JO000{{ $sale->JobOrderID }}</td>
-                                <td id="sales">
+                                <td>
                                     <?php
                                         $amount = $sale->DiscountedAmount;
+                                        $value = 0.00;
+                                        $format = number_format($value, 2, ".", "");
+
+                                        if(($amount)==0)
+                                            echo "Php"." ".$format;
+                                        else
+                                            echo "Php"." ".$amount;
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                        $amount = $sale->disc;
+                                        $value = 0.00;
+                                        $format = number_format($value, 2, ".", "");
+
+                                        if(($amount)==0)
+                                            echo "Php"." ".$format;
+                                        else
+                                            echo "Php"." ".$amount;
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                        $amount = $sale->TotalAmountDue;
                                         $value = 0.00;
                                         $format = number_format($value, 2, ".", "");
 
@@ -104,16 +129,18 @@
                         </tbody>
 	                    <tfoot>
 	                        <tr>
+                                <th></th>
 	                            <th></th>
+                                <th></th>
 	                            <th>
                                     <ul>
-                                        <li style="list-style-type:none">Total Net:</li>
+                                        <li style="list-style-type:none">Total Sales:</li>
                                     </ul>
                                 </th>
 	                            <td>
                                     <b>
                                         @foreach($totalsales as $total)
-                                            Php {{ $total->net }}
+                                            Php {{ $total->sales }}
                                         @endforeach
                                     </b>
                                 </td>
@@ -121,7 +148,7 @@
 	                    </tfoot>
                     </table>
                 </div>
-                <!-- FOOTER -->
+                <!-- FOOTER 
                 <div class="card-footer bg-black disabled">
                     <div class="examples transitions m-t-5 pull-right">
                         <div class="btn-group">
@@ -133,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-            <!-- /. FOOTER -->
+           FOOTER -->
          	</div>
         </div>
     </div>
@@ -194,48 +221,38 @@
 <script type="text/javascript" src="{{ URL::asset('js/form.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/pages/datetime_piker.js') }}"></script>
 
-
 <script>
-$(document).on('ready', function(){
-    $(function(){
-        var start = moment();
-        var end = moment();
+    $(function() {
 
-            function date(start, end){
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-                    if (enddate == startdate)
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY'));
-                    }
-                    else
-                    {
-                        $('#reportdate').text(""+start.format('MMMM D, YYYY') + "to" + end.format('MMMM D, YYYY'));
-                    }
-            }
+    var start = moment().subtract(29, 'days');
+    var end = moment();
 
-    });
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        
+        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            
+        if (enddate == startdate)
+            $('#reportdate').text(""+start.format('MMMM D, YYYY'));
+        else
+            $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
+    }
 
-    
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
-        ranges:{
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
-    }, date);
+    }, cb);
 
-    date(start, end);
+    cb(start, end);
 });
-</script>
-
-<script>
-
 </script>
 
 @stop

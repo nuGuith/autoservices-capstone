@@ -251,14 +251,14 @@ Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
 Route::get('/estimateform/{id}','SampleController@estimate_pdf');
 Route::get('/receipt','SampleController@receipt_pdf');
-Route::get('/joborderform','SampleController@joborder_pdf');
+Route::get('/joborderform/{id}','SampleController@joborder_pdf');
 
 //Reports - Sample
 Route::get('/estimate_report', 'ReportsController@estimate');
 Route::get('/inspection_report', 'ReportsController@inspection');
 Route::get('/joborder_report', 'ReportsController@joborder');
 Route::get('/jobordersales_report', 'ReportsController@jobordersales');
-Route::get('/netsales_report', 'ReportsController@netsales');
+Route::get('/sales_report', 'ReportsController@sales');
 Route::get('/payment_report', 'ReportsController@payment');
 
 //Reports - Printable Forms
@@ -266,4 +266,4 @@ Route::get('/report-estimate', 'PDFController@estimate');
 Route::get('/report-inspection', 'PDFController@inspection');
 Route::get('/report-joborder', 'PDFController@joborder');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
-Route::get('/report-netsales', 'PDFController@netsales');
+Route::get('/report-sales', 'PDFController@sales');

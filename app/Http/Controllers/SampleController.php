@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\Customer;
 use App\Estimate;
+use App\JobOrder;
 use App\Automobile;
 use App\AutomobileMake;
 use App\AutomobileModel;
@@ -131,14 +132,55 @@ class SampleController extends Controller
     return $pdf->stream('receipt');
   }
 
-  public function joborder_pdf()
+  public function joborder_pdf($id)
   {
-    // Fetch all customers from database
-    $bay = ServiceBay::get();
-    // Send data to the view using loadView function of PDF facade
-    //return view('pdf.indexx', ['bay' => $bay]);
+    $joborder = JobOrder::findOrFail($id);
+    $model = Automobile::findOrFail($joborder->AutomobileID);
+    
+    $automobile = DB::table('automobile_model AS md')
+        ->where('md.ModelID', $model->ModelID)
+        ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+        ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+        ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo', 'md.Year', 'auto.Color')
+        ->first();
 
-    $pdf = PDF::loadView('pdf.joborderform')
+    $customer = DB::table('customer')
+        ->where('customerid', $model->CustomerID)
+        ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+        ->first();
+
+    $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
+
+    $personnel = DB::table('personnel_header')
+      ->where('personnelid',$joborder->PersonnelID)
+      ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
+      ->first();
+
+    $serviceperformed = DB::table('service_performed AS sp')
+      ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+      ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
+      ->select('sp.*', 'svc.*')
+      ->get();
+
+    $productused = DB::table('product_used AS pu')
+      ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+      ->where(['joborderid' => $id, 'pu.isActive' => 1])
+      ->select('pu.*', 'pr.*')
+      ->get();
+    
+    $laborcost = DB::table('service_performed AS sp')
+      ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+      ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
+      ->select(DB::raw('SUM(sp.LaborCost) as Labor'))
+      ->first();
+    
+    $product = DB::table('product_used AS pu')
+      ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+      ->where(['joborderid' => $id, 'pu.isActive' => 1])
+      ->select(DB::raw('SUM(pu.SubTotal) as ProductCost'))
+      ->first();
+      
+    $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');

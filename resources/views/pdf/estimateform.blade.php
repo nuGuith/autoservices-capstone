@@ -122,39 +122,39 @@ input{
         <th>Labor</th>
     </tr>
     @foreach($serviceperformed as $sp)
-    <tr>
-        <td width="75%">
-            {{ $sp->ServiceName }}
-        </td>
-        <td width="75%"><button type="button" id="svc" name="{!!$sp->EstimatedTime!!}"  class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>
-        <td width="40%">
-            <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
-        </td>
-        <td width="50%">
-            <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
-        </td>
-        <td width="50%">
-            <input type="text" readonly style="width:80px;"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
-        </td>
-        <td width="50%">
-            <input type="text" style="width:80px;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
-        </td>
-    </tr>
+        <tr>
+            <td width="75%">
+                {{ $sp->ServiceName }}
+            </td>
+            <td width="75%"><button type="button" id="svc" name="{!!$sp->EstimatedTime!!}"  class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>
+            <td width="40%">
+                <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
+            </td>
+            <td width="50%">
+                <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
+            </td>
+            <td width="50%">
+                <input type="text" readonly style="width:80px;"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+            </td>
+            <td width="50%">
+                <input type="text" style="width:80px;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
+            </td>
+        </tr>
         @foreach($productused as $pu)
             @if($sp->ServicePerformedID == $pu->ServicePerformedID)
-    <tr>
-        <td width="75%"></td>
-        <td width="75%">{{ $pu->ProductName }}</td>
-        <td width="40%">
-            <input type="text" style="width:50px; text-align:center" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" readonly>
-        </td>
-        <td width="50%">
-            <input type="text" readonly style="width:60px; text-align:center" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control"></td>
-        <td width="50%">
-            <input type="text" readonly style="width:80px" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
-        </td>
-        <td width="50%"></td>
-    </tr>
+                <tr>
+                    <td width="75%"></td>
+                    <td width="75%">{{ $pu->ProductName }}</td>
+                    <td width="40%">
+                        <input type="text" style="width:50px; text-align:center" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" readonly>
+                    </td>
+                    <td width="50%">
+                        <input type="text" readonly style="width:60px; text-align:center" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control"></td>
+                    <td width="50%">
+                        <input type="text" readonly style="width:80px" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
+                    </td>
+                    <td width="50%"></td>
+                </tr>
             @endif
         @endforeach
     @endforeach

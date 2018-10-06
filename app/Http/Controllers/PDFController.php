@@ -79,7 +79,7 @@ class pdfController extends Controller
   }
 
 <<<<<<< HEAD
-  public function netsales()
+  public function sales()
   {
     $sales = DB::table('job_order')
       ->where('isActive', 1)
@@ -90,7 +90,7 @@ class pdfController extends Controller
       ->select(DB::raw('SUM(DiscountedAmount) as net'))
       ->get();
 
-    $pdf = PDF::loadView('pdf.report-netsales', compact('sales', 'totalsales'))
+    $pdf = PDF::loadView('pdf.report-sales', compact('sales', 'totalsales'))
 =======
   public function jobordersales()
   {
@@ -137,7 +137,7 @@ class pdfController extends Controller
     $pdf->save(storage_path().'_filename.pdf');
     // Finally, you can download the file using download function
 <<<<<<< HEAD
-    return $pdf->stream('report-netsales');
+    return $pdf->stream('report-sales');
 =======
     return $pdf->stream('report-jobordersales');
 >>>>>>> mamshie
