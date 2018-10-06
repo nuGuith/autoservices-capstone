@@ -169,7 +169,7 @@ input{
     <div id="col-foot">
         <span>TOTAL LABOR COST:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}<br>
         <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
-        <span>TOTAL COST ESTIMATE:</span>&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $estimate->LaborCost }}</span>
+        <span>TOTAL COST ESTIMATE:</span>&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $estimate->TotalCost }}</span>
     </div>
 </div><br><br><br><br>
 
