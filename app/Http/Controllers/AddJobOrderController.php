@@ -479,6 +479,14 @@ class AddJobOrderController extends Controller
             else{
                 
                 $services = $request->service;
+                $temp  = $request->personnelperformed;
+                $ctr = 0;
+                foreach($temp as $key=>$t)
+                    if($t !== null || $t !== ""){
+                        $personnelperf[$ctr] = $temp[$key];
+                        $ctr++;
+                    }
+
                 $products = $request->product;
                 $quantity = $request->quantity;
                 $untprice = $request->unitprice;
@@ -489,12 +497,30 @@ class AddJobOrderController extends Controller
                 foreach((array) $services as $svckey=>$service){
                     
                     $subTotal = 0;
+                    
+                    $personnel_job = DB::table('personnel_job')
+                        ->where(['PersonnelID' => 3, 'isActive' => 1])
+                        ->select('PersonnelJobID')
+                        ->first();
+
+                    PersonnelJobPerformed::create([
+                        'JobOrderID' => $jo->JobOrderID,
+                        'PersonnelJobID' => $personnel_job->PersonnelJobID,
+                    ]);
+
+                    $personnelperformed = new PersonnelJobPerformed;
+                    $personnelperformed = DB::table('personnel_job_performed as pj')
+                        ->where(['pj.isActive' => 1])
+                        ->orderBy('pj.PersonnelPerformedID', 'desc')
+                        ->select('pj.PersonnelPerformedID')
+                        ->first();
+
                     $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
                     ServicePerformed::create([
                             'ServiceID' => $service,
                             'JobOrderID' => $jo->JobOrderID,
                             'LaborCost' => $laborcost[$svckey],
-                            //'PersonnelPerformedID' => $personnelperf[$svcKey],
+                            'PersonnelPerformedID' =>  $personnelperformed->PersonnelPerformedID,
                             'isPerformed' => true,
                         ]);
                     

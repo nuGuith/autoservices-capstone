@@ -1139,7 +1139,11 @@ $(document).ready(function () {
 
     $("#btnSaveProceed").on("click", function (e) {
 
-        $('.chzn-select').prop("disabled", false);
+        $('table td select').each(function(){
+            $(this).prop("disabled", false);
+            $(this).find('option').attr('selected', true);
+        });
+        $('#automobile_models').prop("disabled", false);
 
         var formData = $('#jobForm').serialize();
         alert(formData);
@@ -1210,9 +1214,9 @@ $(document).ready(function () {
             getGrandTotal();
             getDiscountedPrice();
 
-            serviceCtr--;
             if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         }
+            serviceCtr--;
     });
 
     $("table.list").on("click", "#productid", function(event){
@@ -1338,7 +1342,7 @@ $(document).ready(function () {
             if ($(this).attr('id') == 'personnelperformed'){ 
                 $(this).chosen();
                 $(this).prop("disabled", true);
-                $("#personnelperformed option[value='0']").prop("disabled", "disabled");
+                $("#personnelperformed option[value='0']").prop("disabled", true);
                 if(selectedMechIndex > 0){
                     $(this).val(mechanicID);
                     $(this).prop("selectedIndex", selectedMechIndex);
@@ -2177,7 +2181,6 @@ $(document).ready(function () {
         var selectedID = $(this).val();
         var selectedIndex = $(this).prop('selectedIndex');
         var idx = $(this).find(':selected').attr('data-idx');
-        //alert(idx);
 
         mechanicID = selectedID;
         selectedMechIndex = selectedIndex;
@@ -2190,7 +2193,6 @@ $(document).ready(function () {
         $('table td input').each(function(){
             if(this.id == "mech" && $(this).data('idx') == idx){
                 $(this).val(selectedID);
-                //alert($(this).val());
             }
         });
 
