@@ -44,15 +44,15 @@ input{
 <col width="150">
 <col width="150">
     <tr>
-      <td colspan="2">Customer Name:{{ $customer->FullName }}</td>
-      <td>Email:{{ $customer->EmailAddress }}</td>
+      <td colspan="2">Customer Name:&nbsp;&nbsp;&nbsp;{{ $customer->FullName }}</td>
+      <td>Email Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->EmailAddress }}</td>
     </tr>
     <tr>
-      <td colspan="2">Contact Number:{{ $customer->ContactNo }}</td>
-      <td>Senior/PWD Number:{{ $customer->PWD_SC_No }}</td>
+      <td colspan="2">Contact Number:&nbsp;&nbsp;&nbsp;{{ $customer->ContactNo }}</td>
+      <td>Senior/PWD Number:&nbsp;&nbsp;&nbsp;{{ $customer->PWD_SC_No }}</td>
     </tr>
     <tr>
-      <td colspan="4">Address:{{ $customer->CompleteAddress }}</td>
+      <td colspan="4">Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->CompleteAddress }}</td>
     </tr>
 </table>
 <!-- END CUSTOMER INFORMATION -->
@@ -63,20 +63,20 @@ input{
 <col width="150">
 <col width="150">
     <tr>
-      <td colspan="2"><b>Job Order ID:JO000{{ $joborder->JobOrderID }}</b></td>
-      <td>Service Bay: {{ $servicebay->ServiceBayName }}</td>
+      <td colspan="2"><b>Job Order ID:&nbsp;&nbsp;&nbsp;JO000{{ $joborder->JobOrderID }}</b></td>
+      <td>Service Bay:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $servicebay->ServiceBayName }}</td>
     </tr>
     <tr>
-      <td colspan="2">Plate No.:{{ $automobile->PlateNo }}</td>
-      <td>Chassis No.:{{ $automobile->ChassisNo }}</td>
+      <td colspan="2">Plate No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->PlateNo }}</td>
+      <td>Chassis No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->ChassisNo }}</td>
     </tr>
     <tr>
-      <td colspan="2">Model:{{ $automobile->Model }} {{ $automobile->Year }}</td>
-      <td>Mileage:{{ $automobile->Mileage }}</td>
+      <td colspan="2">Model:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Model }} {{ $automobile->Year }}</td>
+      <td>Mileage:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Mileage }}</td>
     </tr>
     <tr>
-      <td colspan="2">Color:{{ $automobile->Color }}</td>
-      <td>Transmission:{{ $automobile->Transmission }}</td>
+      <td colspan="2">Color:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Color }}</td>
+      <td>Transmission:&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Transmission }}</td>
     </tr>
 </table>
 <!-- END CUSTOMER INFORMATION -->
@@ -134,8 +134,8 @@ input{
 </table>
 <hr>
 <div style="margin-left: 400px;">
-    <span>TOTAL LABOR:Php&nbsp;{{ $laborcost->Labor }}</span><br>
-    <span>TOTAL PRODUCT COST:Php&nbsp;{{ $product->ProductCost }}</span><br>
+    <span>TOTAL LABOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}</span><br>
+    <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
     <span>LESS *% of disc* DISCOUNT:</span><br>
     <span>TOTAL AMOUNT DUE:</span>
 </div>
