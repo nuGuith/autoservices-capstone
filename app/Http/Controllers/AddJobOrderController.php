@@ -22,6 +22,8 @@ use App\ProductsUsed;
 use App\PromoHeader;
 use App\PackageHeader;
 use App\PersonnelHeader;
+use App\PersonnelJob;
+use App\PersonnelJobPerformed;
 use App\PersonnelSkill;
 use App\ServiceSkill;
 use App\SkillHeader;
@@ -121,9 +123,13 @@ class AddJobOrderController extends Controller
             ->where('isActive', 1)
             ->pluck('servicename', 'serviceid');
 
-        $products = Product::orderBy('productid', 'desc')
-            ->where('isActive', 1)
-            ->pluck('productname', 'productid');
+        $products = DB::table('product as p')
+            ->join('product_brand as pb', 'p.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'p.productunittypeid', '=', 'pt.productunittypeid')
+            ->orderBy('p.productid', 'desc')
+            ->where('p.isActive', 1)
+            ->select(DB::raw("CONCAT(pb.brandname, ' ', p.productname, ' ', p.size, pt.unit) AS fullproductname"), 'p.productid')
+            ->pluck('fullproductname', 'p.productid');
 
         $promos = PromoHeader::orderBy('promoid', 'desc')
             ->where('isActive', 1)
@@ -169,7 +175,7 @@ class AddJobOrderController extends Controller
         $automobile = new Automobile;
         //dd($personnelskills);
         
-        //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
+        //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'products'));
         //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
         return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'promos','packages', 'estimate', 'automobile'));
     }
@@ -376,10 +382,11 @@ class AddJobOrderController extends Controller
                 ]);
             }
             else {
+                $auto = $request->automobile_model;
                 Automobile::create([
                     'plateno' => ($request->plateno),
                     'customerid' => ($cust_id->CustomerID),
-                    'modelid' => ($request->modelid),
+                    'modelid' => ($auto[0]),
                     'transmission' => ($request->transmission),
                     'chassisno' => ($request->chassisno),
                     'mileage' => ($request->mileage),
@@ -388,6 +395,8 @@ class AddJobOrderController extends Controller
                 ]);
                 $auto_id = DB::table('automobile')->orderBy('automobileid', 'desc')->first();
             }
+
+            //check whether the job order is from an estimate
             $estimateid = $request->estimateid;
             if ($estimateid === null)
                 $estimateid = $request->estimateID;
@@ -401,7 +410,7 @@ class AddJobOrderController extends Controller
                 'PackageID' => ($request->packageid),
                 'DiscountID' => ($request->discountid),
                 'UserID' => (1),
-                'Status' => ('Ongoing'),
+                'Status' => ('Pending'),
                 'Agreement_Timestamp' => (date('Y-m-d H:i:s')),
                 'DiscountedAmount' => ($request->discountedamt),
                 'TotalAmountDue' => ($request->totalamtdue),
@@ -424,26 +433,37 @@ class AddJobOrderController extends Controller
                 $untprice = $request->unitprice;
     
                 //if (is_array($services) || is_object($services))
-                foreach($svcperf as $spKey=>$sp){
+                foreach((array) $svcperf as $spKey=>$sp){
                     
                     $subTotal = 0;
 
                     if ($include[$spKey] == 'True') $bool = true;
                     else $bool = false;
 
-                    //DB::table('personnel_performed')
+                    $personnel_job = PersonnelJob::where(['PersonnelID' => $personnelperf[$spKey], 'JobDescriptionID' => 5, 'isActive' => 1])
+                        ->first();
+
+                    PersonnelJobPerformed::create([
+                        'JobOrderID' => $jo->JobOrderID,
+                        'PersonnelJobID' => $personnel_job->PersonnelJobID,
+                    ]);
+
+                    $personnelperformed = PersonnelJobPerformed::orderBy('PersonnelPerformedID', 'desc')->where(['isActive' => 1])
+                    ->first();
 
                     ServicePerformed::where(['isActive' => 1, 'serviceperformedid' => $svcperf[$spKey]])
                     ->update([
                             'JobOrderID' => $jo->JobOrderID,
-                            'PersonnelPerformedID' => $personnelperf[$spKey],
+                            'PersonnelPerformedID' => $personnelperformed->PersonnelPerformedID,
                             'isPerformed' => $bool,
                             'LaborCost' => $laborcost[$spKey]
                         ]);
     
-                    foreach($productused as $key=>$pu){
+                    foreach((array) $productused as $key=>$pu){
                         if ($prodservperf[$key] == $svcperf[$spKey]){
-                            if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key])) $quantity[$key] = 1;
+                            if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key])) 
+                                $quantity[$key] = 1;
+                                
                             $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
                             ProductsUsed::where(['isActive' => 1, 'productusedid' => $productused[$key]])
                             ->update([
@@ -456,10 +476,17 @@ class AddJobOrderController extends Controller
                     }
                 }
             }
-
-            if($request->has('service')){
+            else{
                 
                 $services = $request->service;
+                $temp  = $request->personnelperformed;
+                $ctr = 0;
+                foreach($temp as $key=>$t)
+                    if($t !== null || $t !== ""){
+                        $personnelperf[$ctr] = $temp[$key];
+                        $ctr++;
+                    }
+
                 $products = $request->product;
                 $quantity = $request->quantity;
                 $untprice = $request->unitprice;
@@ -470,12 +497,30 @@ class AddJobOrderController extends Controller
                 foreach((array) $services as $svckey=>$service){
                     
                     $subTotal = 0;
+                    
+                    $personnel_job = DB::table('personnel_job')
+                        ->where(['PersonnelID' => 3, 'isActive' => 1])
+                        ->select('PersonnelJobID')
+                        ->first();
+
+                    PersonnelJobPerformed::create([
+                        'JobOrderID' => $jo->JobOrderID,
+                        'PersonnelJobID' => $personnel_job->PersonnelJobID,
+                    ]);
+
+                    $personnelperformed = new PersonnelJobPerformed;
+                    $personnelperformed = DB::table('personnel_job_performed as pj')
+                        ->where(['pj.isActive' => 1])
+                        ->orderBy('pj.PersonnelPerformedID', 'desc')
+                        ->select('pj.PersonnelPerformedID')
+                        ->first();
+
                     $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
                     ServicePerformed::create([
                             'ServiceID' => $service,
                             'JobOrderID' => $jo->JobOrderID,
                             'LaborCost' => $laborcost[$svckey],
-                            //'PersonnelPerformedID' => $personnelperf[$svcKey],
+                            'PersonnelPerformedID' =>  $personnelperformed->PersonnelPerformedID,
                             'isPerformed' => true,
                         ]);
                     
@@ -547,37 +592,64 @@ class AddJobOrderController extends Controller
     {
         $automobile = Automobile::where('customerid', '=', $id)->first();
         $estimate = Estimate::where('AutomobileID', '=', $automobile->AutomobileID)->first();
+        $joborder = JobOrder::where('AutomobileID', '=', $automobile->AutomobileID)->first();
         $customer = Customer::findOrFail($id);
         $plates = DB::table('automobile AS auto')
                 ->where(['auto.customerid' => $id, 'auto.isActive' => 1])
                 ->select('auto.plateno','auto.automobileid')
                 ->get();
-        return response()->json(compact('estimate', 'customer', 'automobile', 'plates'));
+        return response()->json(compact('estimate', 'joborder', 'customer', 'automobile', 'plates'));
     }
     
     public function searchByPlateNo($id)
     {
         $automobile = Automobile::findOrFail($id);
         $estimate = Estimate::where('AutomobileID', $id)->first();
+        $joborder = JobOrder::where('AutomobileID', '=', $automobile->AutomobileID)->first();
         $customer = Customer::findOrFail($automobile->CustomerID);
-        return response()->json(compact('estimate', 'customer', 'automobile'));
+        return response()->json(compact('estimate', 'joborder', 'customer', 'automobile'));
+    }
+
+    public function filterPlateNo($id)
+    {
+        $plates = DB::table('automobile AS auto')
+                ->where(['auto.customerid' => $id, 'auto.isActive' => 1])
+                ->select('auto.plateno','auto.automobileid')
+                ->get();
+        return response()->json(compact('plates'));
+    }
+
+    public function unfilterPlateNo($id){
+        $plates = DB::table('automobile')
+            ->orderBy('created_at', 'desc')
+            ->where('isActive', 1)
+            ->groupBy('plateno')
+            ->distinct('plateno')
+            ->select('plateno','automobileid')
+            ->get();
+        return response()->json(compact('plates'));
     }
 
     public function getFilteredProductList($id)
     {
-        $products = DB::table('product AS pr')
+        $products = DB::table('product as pr')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->join('product_service AS ps', 'pr.productid', 'ps.productid')
-            ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
-            ->select('pr.productname','pr.productid', 'pr.price')
+            ->orderBy('pr.productid', 'desc')
+            ->where(['ps.serviceid' => $id, 'pr.isActive' => 1])
+            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"), 'pr.productid', 'pr.price')
             ->get();
         return response()->json(compact('products'));
     }
 
     public function getProductDetails($id)
     {
-        $product = DB::table('product')
-            ->where(['productid' => $id, 'isActive' => 1])
-            ->select('productname','price')
+        $product = DB::table('product as pr')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
+            ->where(['pr.productid' => $id, 'pr.isActive' => 1])
+            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"), 'pr.price')
             ->first();
         return response()->json(compact('product'));
     }
