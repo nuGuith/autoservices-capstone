@@ -49,114 +49,140 @@
                         <span class="fa fa-eye fa-lg"></span>
                         &nbsp;View Job Order
                     </div>
-                    <div class="row" style="padding-left: 15px; padding-right:15px;">
-                        <div class="col-lg-5 m-t-25">
-                            <div class="card">                                   
-                                <div class="card-block">
-                                    <!--START FOR CUSTOMER INFORMATION-->
-                                    <h4 class="m-t-15">Customer Information</h2>
-                                    <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
-                                    <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
-                                    <div class="row m-t-15">
-                                        <div class="col-lg-12">
-                                            <h5>
-                                                <span style="color:gray">Customer Name:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->FullName }}
-                                            </h5>                    
-                                        </div>  
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Contact No.:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->ContactNo }}
-                                            </h5>               
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Email Address:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->EmailAddress }}
-                                            </h5>
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Address:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->CompleteAddress }}
-                                            </h5>
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Senior Citizen/ PWD ID:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->PWD_SC_No }}
-                                            </h5>
-                                        </div>                    
-                                    </div> 
+                    <div class="col-lg-12" style="padding-left: 15px; padding-right:15px;">
+                        <div class="row m-t-25">
 
-                                    <!--START FOR VEHICLE INFORMATION-->
-                                    <h4 class ="m-t-30">Vehicle Information</h2>
-                                    <hr style="margin-top: 10px; border: 2px solid #6699cc">
-                                    <div class="row m-t-15">
-                                        <div class="col-lg-12 m-t-5">
-                                            <h5>
-                                                <span style="color:gray">Plate No.:</span>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->PlateNo }}
-                                            </h5> 
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Chassis No.:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->ChassisNo }}
-                                            </h5>
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Mileage:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Mileage }} mi </h5>
+                            <!--Accordion: Job Order Details -->
+                            <div class="col-lg-12">
+                                            <div class="col-lg-12">
+                                                <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="card">
+                                                        <div class="card-header" role="tab" id="headingOne">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
+                                                                <h5 class="mb-0">
+                                                                    <span style="color:gray">Job Order Details (Customer Information, Vehicle Information & Personnel Assignments)
+                                                                        <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
+                                                                    </span>
+                                                                    <span>
+                                                                        <i class="fa fa-angle-down rotate-icon pull-right"></i>
+                                                                    </span>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Content -->
+                                                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                                                            <div class="card-body" style="padding: 0px 15px 15px">
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                        <!--START CUSTOMER INFORMATION-->
+                                                                        <h4 class="m-t-15">Customer Information</h2>
+                                                                        <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
+
+
+                                                                        <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
+                                                                        <div class="row m-t-15">
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                                                    {{$customer->FullName}}</h5>                    
+                                                                            </div>  
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Contact No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->ContactNo}}</h5>               
+                                                                            </div>
+                                                                            <div class="col-lg-15 m-t-10">
+                                                                                    <h5><span style="color:gray">&nbsp;&nbsp;&nbsp; Email Address:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->EmailAddress}}</h5>
+                                                                            </div>
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Address:</span>&nbsp;&nbsp;&nbsp;{{$customer->CompleteAddress}}</h5>
+                                                                            </div>
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Senior Citizen/ PWD ID:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer->PWD_SC_No}}</h5>
+                                                                            </div>             
+                                                                        </div> 
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <!--START VEHICLE INFORMATION-->
+                                                                        <h4 class ="m-t-15">Vehicle Information</h2>
+                                                                        <hr style="margin-top: 10px; border: 2px solid #6699cc">
+
+                                                                        <div class="row m-t-15">
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Plate No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->PlateNo}}</h5>                    
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Chassis No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->ChassisNo}}</h5>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Mileage:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Mileage}} km </h5>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Make:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Make}}</h5>               
+                                                                            </div>
+                                                                            
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Model:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Model}}</h5>
+                                                                            </div>
+                                                                            
+                                                                            <div class="col-lg-12 m-t-10">
+                                                                                    <h5><span style="color:gray">Transmission:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$automobile->Transmission}}</h5>
+                                                                            </div>              
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <!--START OTHER INFORMATION-->
+                                                                        <h4 class ="m-t-15">Other Information</h2>
+                                                                        <hr style="margin-top: 10px; border: 2px solid #aa66cc">
+
+                                                                        <div class="row m-t-15">
+
+                                                                            <div class="col-lg-12">
+                                                                                <h5>Service Advisor: <span style="color:red"></span></h5>
+                                                                                <p class="m-t-10">
+                                                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                                                        <option disabled selected>Choose Service Advisor</option>
+                                                                                        <option value="">Daphne</option>
+                                                                                    </select>
+                                                                                </p>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12">
+                                                                                <h5>Inventory Manager: <span style="color:red"></span></h5>
+                                                                                <p class="m-t-10">
+                                                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                                                        <option disabled selected>Choose Service Advisor</option>
+                                                                                        <option value="">Daphne</option>
+                                                                                    </select>
+                                                                                </p>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12">
+                                                                                <h5>Quality Assurance: <span style="color:red"></span></h5>
+                                                                                <p class="m-t-10">
+                                                                                    <select class="form-control  chzn-select" tabindex="2">
+                                                                                        <option disabled selected>Choose Service Advisor</option>
+                                                                                        <option value="">Daphne</option>
+                                                                                    </select>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Information END -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Make:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Make }}
-                                            </h5>               
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Model:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Model }}
-                                            </h5>
-                                        </div>                        
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Transmission:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Transmission }}
-                                            </h5>
-                                        </div>              
-                                    </div>
-                                    <!--START OTHER INFORMATION-->
-                                    <h4 class ="m-t-30">Other Information</h2>
-                                    <hr style="margin-top: 10px; border: 2px solid #aa66cc">
-                                    <div class="row m-t-15">
-                                        <div class="col-lg-12 m-t-5">
-                                            <h5>
-                                                <span style="color:gray">Service Advisor:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            </h5>                    
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Inventory Manager:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                            </h5>
-                                        </div>
-                                        <div class="col-lg-12 m-t-10">
-                                            <h5>
-                                                <span style="color:gray">Quality Assurance:</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            </h5>
-                                        </div>
-                                    </div>   
                                 </div>
-                            </div><br>
-                        </div>
-                        <div class="col-lg-7 m-t-25">
+                            </div>
+
+
+                        <div class="col-lg-12 m-t-25">
                             <div class="card">                                   
                                 <div class="card-block">
                                     <!--START JOB ORDER PROGRESS DETAIL-->
@@ -227,7 +253,7 @@
                                                     </td>
                                                     <!--Column: Completed-->
                                                     <td>
-                                                        Juan Dela Cruz
+                                                        Pedro Cruz Mayo
                                                     </td>
                                                     <!--Column: Status -->
                                                     <td>

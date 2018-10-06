@@ -115,8 +115,6 @@
 
                                                     if(($amount)==0)
                                                         echo "Php"." ".$format;
-                                                    elseif(($product->ProductTotalPrice)==null)
-                                                        echo "Php"." ".$format;
                                                     else
                                                         echo "Php"." ".$amount;
                                                 ?>

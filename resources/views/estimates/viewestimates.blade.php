@@ -167,7 +167,7 @@
                                                 {!!$sp->ServiceName!!}<br>
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:70px;" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
+                                                <input type="text" style="width:70px;" id="laborcost" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
                                             </td>
                                             <td style="border-right:none !important"><a></a></td>
                                             <td  style="border-right:none !important">
@@ -223,13 +223,21 @@
                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <span id="estimated" style="text-align: center; color: blue">3 days</span>
                                             </th>
-                                            
-                                            <th colspan="3" style="text-align: right;">Grand Total Price (Php): </th>
-                                            <th colspan="2" style="text-align: center; color: red">
-                                                <h5  style="padding-top:5px;">&nbsp;&nbsp;&nbsp;
-                                                <span id="grandtotal" style="color:red">&nbsp;&nbsp;&nbsp;0.00</span>
-                                                </h5>
+                                            <th colspan="3" style="text-align: right;">
+                                                <div class="cols">
+                                                    <h5 style="padding-top:5px;">Total Product Cost:</h5>
+                                                    <h5 style="padding-top:5px;">Total Labor Cost (Service):</h5>
+                                                    <h5 style="padding-top:5px;">Grand Total: </h5>
+                                                </div>
                                             </th>
+                                            <th colspan="1" style="text-align:right">
+                                                <div class="cols">
+                                                    <h5 id="totalprodsales" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="totallaborcost" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                </div>
+                                            </th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -241,11 +249,11 @@
                                     <div class="row m-t-20">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly></textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly>{{ $complaint->Problem }}</textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly></textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly>{{ $complaint->Diagnosis }}</textarea>
                                         </div>                              
                                     </div>
 
@@ -345,7 +353,7 @@ $(document).ready(function(){
 
     function getGrandTotal(){
         grandTotal = 0;
-        var qty, price, total;
+        var qty, price, total, laborcost = 0, productsales = 0;
         $('table td input').each(function() {
             if((this.id) == "quantity"){
                 qty = this.value;
@@ -356,14 +364,55 @@ $(document).ready(function(){
             }
 
             if((this.id) == "totalprice"){
-                if (isNaN(qty) || qty == 0){ qty = 1; this.id("quantity").value = 1; $(this).blur();}
+                if (isNaN(qty) || qty == 0) qty = 1;
+                total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
+                this.value = parseFloat(total).toFixed(2);
+                grandTotal += parseFloat(total);
+            }
+
+            if((this.id) == "laborcost"){
+                laborcost += parseFloat(this.value);
+            }
+        });
+        productsales = grandTotal - laborcost;
+        $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
+        $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
+        $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+    }
+
+    function getGrandTotalNoQty(){
+        grandTotal = 0;
+        var qty, price, total, laborcost = 0, productsales = 0;
+        $('table td input').each(function() {
+            if((this.id) == "quantity"){
+                qty = this.value;
+                if ((qty*1) == 0){
+                    qty = 1;
+                    this.value = qty;
+                }
+            }
+
+            if((this.id) == "unitprice"){
+                price = this.value;
+            }
+
+            if((this.id) == "totalprice"){
+                if (isNaN(qty) || qty == 0) qty = 1;
                 total = parseFloat(qty).toFixed(2) * parseFloat(price).toFixed(2);
                 this.value = parseFloat(total).toFixed(2);
                 grandTotal += parseFloat(total);
             } 
+                
+            if((this.id) == "laborcost"){
+                laborcost += parseFloat(this.value);
+            }
         });
-        document.getElementById("grandtotal").innerHTML = "PhP " + parseFloat(grandTotal).toFixed(2);
+        productsales = grandTotal - laborcost;
+        $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
+        $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
+        $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
     }
+
 
     function getEstimatedTime(){
         totalEstimatedTime = 0;
@@ -380,10 +429,11 @@ $(document).ready(function(){
         inMins = totalEstimatedTime % 60;
 
         if (totalEstimatedTime != 0)
-        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
+        document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
         else
         document.getElementById("estimated").innerHTML = "No job to do.";
     }
+
 });
 </script>
 

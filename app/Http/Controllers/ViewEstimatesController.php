@@ -72,7 +72,7 @@ class ViewEstimatesController extends Controller
         $complaint = DB::table('complaint as c')
             ->where(['estimateid' => $id, 'c.isActive'=> 1])
             ->select('c.Diagnosis', 'c.Problem')
-            ->get();
+            ->first();
 
         //dd($estimate);
         return View('estimates.viewestimates',compact('estimate','customer', 'model', 'automobile', 'servicebay', 'personnel', 'productused', 'serviceperformed', 'complaint'));

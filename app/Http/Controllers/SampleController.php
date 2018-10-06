@@ -75,13 +75,39 @@ class SampleController extends Controller
       ->select('pu.*', 'pr.*')
       ->get();
 
+    $laborcost = DB::table('service_performed AS sp')
+      ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+      ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+      ->select(DB::raw('SUM(sp.LaborCost) as Labor'))
+      ->first();
+    
+    $product = DB::table('product_used AS pu')
+      ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+      ->where(['estimateid' => $id, 'pu.isActive' => 1])
+      ->select(DB::raw('SUM(pu.SubTotal) as ProductCost'))
+      ->first();
+
     $complaint = DB::table('complaint as c')
       ->where(['estimateid' => $id, 'c.isActive'=> 1])
       ->select('c.Diagnosis', 'c.Problem')
-      ->get();
+      ->first();
     
-    //  dd($complaint);
-    $pdf = PDF::loadView('pdf.estimateform', compact('estimate', 'servicebay', 'customer', 'automobile', 'model', 'personnel', 'serviceperformed', 'productused', 'complaint'))
+    $time = DB::table('service_performed AS sp')
+      ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+      ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
+      ->select(DB::raw('SUM(svc.EstimatedTime) as est'))
+      ->first();
+    
+    $timeParse = floatval($time->est);
+    $hours = ($timeParse/60);
+    if ($hours > 1) {
+      $hours = $hours." "."hrs.";
+    }
+    else {
+      $hours = $hours."hr.";
+    }
+
+    $pdf = PDF::loadView('pdf.estimateform', compact('estimate', 'laborcost', 'servicebay', 'customer', 'automobile', 'model', 'personnel', 'serviceperformed', 'product', 'productused', 'complaint', 'time', 'hours'))
     ->setPaper([0, 0, 612, 936], 'portrait');
 
     // If you want to store the generated pdf to the server then you can use the store function

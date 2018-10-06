@@ -89,68 +89,29 @@
                             <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
                             
 
-                            <!--Textfield: First Name, Middle Name, Last Name -->
-                            <div class="row m-t-15">
-                                    <div class="col-lg-4">
-                                            <h5>First Name: <span style="color:red">*</span></h5>
-                                            <p>
-                                                <input id="fname" name="fname" type="text" placeholder="First Name" class="form-control m-t-10" value="{{$customer->firstname}}">
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <h5>Middle Name:</h5>
-                                            <p>
-                                                <input id="mname" name="mname" type="text" placeholder="Middle Name" class="form-control m-t-10" value="{{$customer->middlename}}">
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-4 ">
-                                            <h5>Last Name: <span style="color: red">*</span></h5>
-                                            <p>
-                                                <input id="lname" name="lname" type="text" placeholder="Last Name" class="form-control m-t-10" value="{{$customer->lastname}}">
-                                            </p>
-                                        </div>                        
-                                </div>
-
-
-                                <!--Textfield: Contact No, Email, Senior Citizen/PWD ID -->
-                                <div class="row m-t-5">
-                                    <div class="col-lg-4 ">
-                                            <h5>Contact No: <span style="color:red">*</span></h5>
-                                            <p>
-                                                <input id="phones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="text" data-inputmask='"mask": "(9999) 999-9999"' data-mask value="{{$customer->ContactNo}}" >
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <h5>Email: <span style="color:red"></span></h5>
-                                            <p>
-                                                <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'" value="{{$customer->EmailAddress}}">
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-4 ">
-                                            <h5>Senior Citizen/PWD ID: <span style="color: red"></span></h5>
-                                            <p>
-                                                <input id="id" name="id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10" value="{{$customer->PWD_SC_No}}">
-                                            </p>
-                                        </div>                        
-                                </div>
-
-
-                                <!--Textfield: Address -->
-                                <div class="form-group row m-t-0">
-                                    <div class=" col-lg-1  m-t-15">
-                                            <h5>Address:<span style="color:red">*</span></h5>
-                                        </div>
-                                        <div class="col-md-12 col-lg-11">                                        
-                                            <p>
-                                                <input id="address" name="address" type="text" placeholder="Address" class=" form-control m-t-10" value="{{ $customer->CompleteAddress }}">
-                                            </p>
-                                        </div>                                                
-                                </div>
+                            <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
+                                <div class="row m-t-15">
+                                    <div class="col-lg-12">
+                                            <h5><span style="color:gray">Customer Name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->FullName }}</h5>                    
+                                    </div>  
+                                    <div class="col-lg-12 m-t-10">
+                                            <h5><span style="color:gray">Contact No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->ContactNo }}</h5>               
+                                    </div>
+                                    <div class="col-lg-12 m-t-10">
+                                            <h5><span style="color:gray">Email Address:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->EmailAddress }}</h5>
+                                    </div>
+                                    <div class="col-lg-12 m-t-10">
+                                            <h5><span style="color:gray">Address:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->CompleteAddress }}</h5>
+                                    </div>
+                                    <div class="col-lg-12 m-t-10">
+                                            <h5><span style="color:gray">Senior Citizen/ PWD ID:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->PWD_SC_No }}</h5>
+                                    </div>                    
+                                </div> 
                             <!--End Customer Information --> 
 
 
                             <!--Start Vehicle Information --> 
-                            <h4>Vehicle Information</h2>
+                            <h4 class ="m-t-25">Vehicle Information</h4>
                             <hr style="margin-top: 10px; border: 2px solid #6699cc">
 
 
@@ -294,7 +255,8 @@
                                                         'class' => 'form-control chzn-select',
                                                         'id' => 'products',
                                                         'name' => 'productid',
-                                                        'multiple')
+                                                        'multiple',
+                                                        'data-placeholder' => 'Select some products')
                                                     ) 
                                                 }}
                                             </p>
@@ -427,12 +389,12 @@
                             <!--Textfield: Complaints and Diagnosis -->
                                     <div class="row m-t-5">
                                         <div class="col-lg-6">
-                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2"></textarea>
+                                            <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red">*</span></h5>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2">{{ $complaint->Problem }}</textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2"></textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2">{{ $complaint->Diagnosis }}</textarea>
                                         </div>                              
                                     </div>
                        

@@ -307,7 +307,7 @@
                                                         'id' => 'products',
                                                         'name' => 'productid',
                                                         'multiple',
-                                                        'data-placeholder' => 'Select product')
+                                                        'data-placeholder' => 'Select some products')
                                                     ) 
                                                 }}
                                             </p>
@@ -360,21 +360,21 @@
                                                 <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <span id="estimated" style="text-align: center; color: blue"></span>
                                                 </th>
-                                            <th colspan="3" style="text-align: right;">
-                                                <div class="cols">
-                                                    <h5 style="padding-top:5px;">Total Product Cost:</h5>
-                                                    <h5 style="padding-top:5px;">Total Labor Cost (Service):</h5>
-                                                    <h5 style="padding-top:5px;">Grand Total: </h5>
-                                                </div>
-                                            </th>
-                                            <th colspan="1" style="text-align:right">
-                                                <div class="cols">
-                                                    <h5 id="totalprodsales" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
-                                                    <h5 id="totallaborcost" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
-                                                    <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
-                                                </div>
-                                            </th>
-                                            <th></th>
+                                                <th colspan="3" style="text-align: right;">
+                                                    <div class="cols">
+                                                        <h5 style="padding-top:5px;">Total Product Cost:</h5>
+                                                        <h5 style="padding-top:5px;">Total Labor Cost (Service):</h5>
+                                                        <h5 style="padding-top:5px;">Grand Total: </h5>
+                                                    </div>
+                                                </th>
+                                                <th colspan="1" style="text-align:right">
+                                                    <div class="cols">
+                                                        <h5 id="totalprodsales" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                        <h5 id="totallaborcost" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                        <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    </div>
+                                                </th>
+                                                <th></th>
                                             </tr>
                                         </tfoot>
                                     </table>
