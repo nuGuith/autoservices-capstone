@@ -298,7 +298,7 @@
                                                 @foreach($serviceperformed as $sp)
                                                     <tr role="row" data-currentstep="{!!$sp->CurrentStep!!}" data-serviceid="{!!$sp->ServiceID!!}">
                                                         <td>{!!$sp->ServiceName!!}</td> 
-                                                        <td>Crisostomo dela Cruz</td>
+                                                        <td>Pedro Cruz Mayo</td>
                                                         <td style="text-align: center">
                                                             <input id="progresscount" data-svcperfid="{!!$sp->ServicePerformedID!!}" type="hidden" value="{!!$sp->CurrentStep!!}">
                                                             Step <span id="{!!$sp->ServicePerformedID!!}" style="color:red"><b>{!!$sp->CurrentStep!!}</b></span> of

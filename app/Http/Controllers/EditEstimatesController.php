@@ -53,7 +53,7 @@ class EditEstimatesController extends Controller
 
         $customer = DB::table('customer')
                     ->where('customerid', $model->CustomerID)
-                    ->select('firstname', 'middlename', 'lastname', 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->select('ContactNo', 'CompleteAddress', 'EmailAddress', 'PWD_SC_No', DB::raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
                     ->first();
         
         $service_bays = ServiceBay::where('isActive', 1)
