@@ -374,7 +374,7 @@
                                                         <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     </div>
                                                 </th>
-                                                <th></th>
+                                                <th><input type="hidden" id="totalcost" name="totalcost"></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -670,6 +670,7 @@ $(document).ready(function () {
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
     $("#customers").change(function () {
         var selectedID = $(this).val();
+        var autoID = 0;
         $.ajax({
             type: "GET",
             url: "/addestimates/"+selectedID+"/showCustomer",
@@ -700,7 +701,7 @@ $(document).ready(function () {
                 }
 
                 $('#transmission').val(data.automobile.Transmission);
-
+                autoID = data.automobile.AutomobileID;
                 var model = Object.keys(data.plates).length;
                 if (model < 2){
                     modelID = parseInt(data.automobile.ModelID);
@@ -728,6 +729,11 @@ $(document).ready(function () {
                     $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
                     $('#automobiles').trigger("chosen:updated");
                 }
+                if (count==1) {
+                    unfilterPlateNo(selectedID, autoID);
+                    $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
+                    $('#automobiles').trigger("chosen:updated");
+                }
             }
         });
 
@@ -750,6 +756,27 @@ $(document).ready(function () {
         $('#selectPlateNo').addClass('focused_input');
         $("#AT").prop("checked", false);
         $("#MT").prop("checked", false);
+    }
+
+    function unfilterPlateNo(id, autoID){
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+id+"/unfilterPlateNo",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var count = Object.keys(data.plates).length;
+                var options = '';
+                $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
+                $('#automobiles').trigger("chosen:updated");
+                for(var i = 0; i < count; i++){
+                    options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                }
+                $('#automobiles').append(options);
+                $('#automobiles').val(autoID);
+                $('#automobiles').trigger("chosen:updated");
+            }
+        });
     }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
@@ -1138,6 +1165,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
 
     function getGrandTotalNoQty(){
@@ -1171,6 +1199,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
 
 

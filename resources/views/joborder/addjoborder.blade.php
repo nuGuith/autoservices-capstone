@@ -1114,7 +1114,7 @@ $(document).ready(function () {
                 if(saID == null || saID < 0 && $(this).attr('id') == "SA"){ $("#SAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
                 /* if(qaID == null || qaID < 0 && $(this).attr('id') == "QA"){ $("#QAwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); } */
                 if(imID == null || imID < 0 && $(this).attr('id') == "IM"){ $("#IMwrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
-                if(svcbayID == null || svcbayID < 0 && $(this).attr('id') == "servicebays"){ $("#svcbaywrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); }
+                if(svcbayID == null || svcbayID < 0 && $(this).attr('id') == "servicebays"){ $("#svcbaywrapper").css("border", "1.5px solid #FF3839").css("border-radius","7px").css("padding", "0px 0px 1px 1px"); result = false;}
             });
             if (result) valid = true;
             else valid = false;
@@ -1126,6 +1126,7 @@ $(document).ready(function () {
         if (!require)
             alert("Fill out all the required fields first!");
         if (require) {
+            countServices();
             if(serviceCtr < 1 || serviceCtr == null)
                 alert("You haven't added any services or products! \nWe cannot process your request, sorry.");
             else{
@@ -1136,12 +1137,16 @@ $(document).ready(function () {
         }
     }
 
+    function countServices(){
+        serviceCtr = 0;
+        $('table tr').each( function() { if ($(this).attr('class') == 'service') ++serviceCtr; });
+    }
+
 
     $("#btnSaveProceed").on("click", function (e) {
 
-        $('table td select').each(function(){
+        $('table select').each(function(){
             $(this).prop("disabled", false);
-            $(this).find('option').attr('selected', true);
         });
         $('#automobile_models').prop("disabled", false);
 
@@ -1156,6 +1161,7 @@ $(document).ready(function () {
                 data: formData,
                 type: 'POST',
                 success: function(data) { 
+                    $('#automobile_models').prop("disabled", true);    
                     alert("Yey.");
                     routeID = 1;
                     redirect = data.newRoute;
@@ -1173,7 +1179,7 @@ $(document).ready(function () {
 
     $('table tr').each( function() {
         if ($(this).attr('class') == 'service'){
-            serviceCtr++;
+            ++serviceCtr;
         }
     });
 
@@ -1214,9 +1220,9 @@ $(document).ready(function () {
             getGrandTotal();
             getDiscountedPrice();
 
+            countServices();
             if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         }
-            serviceCtr--;
     });
 
     $("table.list").on("click", "#productid", function(event){
@@ -1234,7 +1240,7 @@ $(document).ready(function () {
             $('#services option[value="'+id+'"]').prop("disabled", false);
             $('#services').trigger("chosen:updated");            
             
-            serviceCtr--;
+            countServices();
             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         }
         
@@ -1566,7 +1572,6 @@ $(document).ready(function () {
     }
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
-    var prevMultiple = false;
     $("#customers").change(function () {
         var selectedID = $(this).val();
         var autoID = 0;
@@ -1577,9 +1582,26 @@ $(document).ready(function () {
             async: false,
             success:function(data){
                 if (!(jQuery.isEmptyObject(data.estimate))){
-                    $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
-                    $('#automobiles').val(data.estimate.AutomobileID).trigger('chosen:updated');
-                    autoID = data.estimate.AutomobileID;
+                    var count = Object.keys(data.estimate).length;
+                    var options = '';
+
+                    if (count == 1){
+                        unfilterEstimateID();
+                        $('#estimates').val(data.estimate[0].estimateid).trigger('chosen:updated');
+                    }
+                        
+                    else if (count > 1){
+                        $('#estimates').empty().append('<option value = 0> Please choose an Estimate ID</option>');
+                        $('#estimates').trigger("chosen:updated");
+                        for(var i = 0; i < count; ++i){
+                            options += '<option value ="' + data.estimate[i].estimateid + '">' + data.estimate[i].estimate_desc +'</option>';
+                        }
+                        $("#estimates option[value = '0']").prop('disabled', true);
+                        $('#estimates').append(options);
+                        $('#estimates').trigger("chosen:updated");
+                    }
+                    $('#automobiles').val(data.automobile.AutomobileID).trigger('chosen:updated');
+                    autoID = data.automobile.AutomobileID;
                 }
                 else {
                     $('#estimates').val(0).trigger('chosen:updated');
@@ -1700,6 +1722,27 @@ $(document).ready(function () {
                 $('#automobiles').append(options);
                 $('#automobiles').val(autoID);
                 $('#automobiles').trigger("chosen:updated");
+            }
+        });
+    }
+
+    function unfilterEstimateID(){
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/1/unfilterEstimateIDs",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var count = Object.keys(data.estimates).length;
+                var options = '';
+                $('#estimates').empty().append('<option value = 0> Please choose an Estimate ID</option>');
+                $('#estimates').trigger("chosen:updated");
+                for(var i = 0; i < count; i++){
+                    options += '<option value ="' + data.estimates[i].estimateid + '">' + data.estimates[i].estimate_desc +'</option>';
+                }
+                $('#estimates option[value="0"]').prop("disabled", true);
+                $('#estimates').append(options);
+                $('#estimates').trigger("chosen:updated");
             }
         });
     }
@@ -1932,7 +1975,7 @@ $(document).ready(function () {
 
                 $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
                 
-                serviceCtr++;
+                ++serviceCtr;
                 cols = "";
             }
         });
@@ -2002,7 +2045,7 @@ $(document).ready(function () {
                             $('#services option[value="'+id+'"]').prop("disabled", false);
                             $('#services').trigger("chosen:updated");            
                             
-                            serviceCtr--;
+                            countServices();
                             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
                         }
                         getEstimatedTime();
@@ -2015,7 +2058,6 @@ $(document).ready(function () {
     }
 
     function bindListenerToBtnDel(){
-        
         $("table.order-list").on("click", ".btnDel", function (event) {
             var id = $(this).data('serviceid');
             var svcid = "svc" + id;
@@ -2031,8 +2073,8 @@ $(document).ready(function () {
             $('#services').trigger("chosen:updated");
             getEstimatedTime();
             getGrandTotal();
+            countServices();
 
-            serviceCtr--;
             if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         });
     }
@@ -2220,7 +2262,8 @@ $(document).ready(function () {
             
             $("#mechanic option").prop("disabled", false);
             $('#mechanic option[value ="0"]').prop("disabled", true)
-            $('#mechanic option[value ="'+ selectedID+'"]').prop("disabled", true).trigger("chosen:updated");
+            $('#mechanic option[value ="'+ selectedID+'"]').prop("disabled", true);
+            $("#mechanic").trigger("chosen:updated");
             
             $("#SA option").prop("disabled", false);
             $('#SA option[value ="0"]').prop("disabled", true)

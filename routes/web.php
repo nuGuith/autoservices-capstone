@@ -207,7 +207,7 @@ Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@show
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
 Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
 Route::get('/addestimates/{id}/filterPlateNo', 'AddEstimatesController@filterPlateNo');
-Route::get('/addestimates/unfilterPlateNo', 'AddEstimatesController@unfilterPlateNo');
+Route::get('/addestimates/{id}/unfilterPlateNo', 'AddEstimatesController@unfilterPlateNo');
 Route::get('/addestimates/{id}/getServiceDetails', 'AddEstimatesController@getServiceDetails');
 Route::get('/addestimates/{id}/getProductDetails', 'AddEstimatesController@getProductDetails');
 Route::get('/addestimates/{id}/getDiscountDetails', 'AddEstimatesController@getDiscountDetails');
@@ -230,6 +230,7 @@ Route::get('/addjoborder/{id}/getProductDetails', 'AddJobOrderController@getProd
 Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDiscountDetails');
 Route::get('/addjoborder/{id}/filterPlateNo', 'AddJoborderController@filterPlateNo');
 Route::get('/addjoborder/{id}/unfilterPlateNo', 'AddJobOrderController@unfilterPlateNo');
+Route::get('/addjoborder/{id}/unfilterEstimateIDs', 'AddJobOrderController@unfilterEstimateIDs');
 
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');

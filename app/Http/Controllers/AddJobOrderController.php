@@ -71,46 +71,42 @@ class AddJobOrderController extends Controller
             ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
             ->where('automobile_model.isActive',1)
             ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
-
-        $personnels = PersonnelHeader::where('isActive', 1)
-            ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
-            ->pluck('personnelfullname','personnelid');
         
         $mechanic = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 5, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $serviceadvisor = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 1, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $qualityanalyst = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 4, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $inventorymanager = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 3, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $service_bays = ServiceBay::where('isActive', 1)
             ->pluck('servicebayname', 'servicebayid');
@@ -149,7 +145,6 @@ class AddJobOrderController extends Controller
         $discounts->prepend('Choose a Discount', 0);
         $services->prepend('Choose a Service', 0);
         $products->prepend('Choose a Product', 0);
-        $personnels->prepend('Assign a personnel', 0);
         $mechanic->prepend('Assign a Mechanic', 0);
         $serviceadvisor->prepend('Assign a Service Advisor', 0);
         $qualityanalyst->prepend('Assign a Quality Analyst', 0);
@@ -177,7 +172,7 @@ class AddJobOrderController extends Controller
         
         //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'products'));
         //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products',  'personnels', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'promos','packages', 'estimate', 'automobile'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'promos','packages', 'estimate', 'automobile'));
     }
 
     
@@ -214,46 +209,42 @@ class AddJobOrderController extends Controller
                                 ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
                                 ->where('automobile_model.isActive',1)
                                 ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
-
-        $personnels = PersonnelHeader::where('isActive', 1)
-            ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
-            ->pluck('personnelfullname','personnelid');
-
+        
         $mechanic = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 5, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $serviceadvisor = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 1, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $qualityanalyst = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 4, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $inventorymanager = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
             ->orderBy('ph.personnelid', 'desc')
             ->where(['pj.jobdescriptionid' => 3, 'ph.isActive' => 1, 'pj.isActive' => 1])
-            ->select('ph.personnelid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
             ->groupBy('personnelfullname')
             ->distinct('personnelfullname')
-            ->pluck('personnelfullname','ph.personnelid');
+            ->pluck('personnelfullname','pj.personneljobid');
         
         $service_bays = ServiceBay::where('isActive', 1)
         ->pluck('servicebayname', 'servicebayid');
@@ -300,7 +291,6 @@ class AddJobOrderController extends Controller
         $customerids->prepend('Please select a customer',0);
         $automobiles->prepend('Select a Plate Number',0);
         $automobile_models->prepend('Select a Model',0);
-        $personnels->prepend('Assign a personnel',0);
         $mechanic->prepend('Assign a Mechanic', 0);
         $serviceadvisor->prepend('Assign a Service Advisor', 0);
         $qualityanalyst->prepend('Assign a Quality Analyst', 0);
@@ -315,7 +305,7 @@ class AddJobOrderController extends Controller
         $currentRoute = Route::currentRouteName();
 
         //dd(compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'personnels', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute'));
     }
 
     /**
@@ -417,7 +407,6 @@ class AddJobOrderController extends Controller
                 'updated_at' => (date('Y-m-d H:i:s'))
             ]);
 
-            
             $jo = DB::table('job_order')->orderBy('joborderid', 'desc')->first();
             
             if($request->has('serviceperformed')){
@@ -440,12 +429,12 @@ class AddJobOrderController extends Controller
                     if ($include[$spKey] == 'True') $bool = true;
                     else $bool = false;
 
-                    $personnel_job = PersonnelJob::where(['PersonnelID' => $personnelperf[$spKey], 'JobDescriptionID' => 5, 'isActive' => 1])
-                        ->first();
+                    /* $personnel_job = PersonnelJob::where(['PersonnelID' => $personnelperf[$spKey], 'JobDescriptionID' => 5, 'isActive' => 1])
+                        ->first(); */
 
                     PersonnelJobPerformed::create([
                         'JobOrderID' => $jo->JobOrderID,
-                        'PersonnelJobID' => $personnel_job->PersonnelJobID,
+                        'PersonnelJobID' => $personnelperf[$spKey],
                     ]);
 
                     $personnelperformed = PersonnelJobPerformed::orderBy('PersonnelPerformedID', 'desc')->where(['isActive' => 1])
@@ -482,9 +471,9 @@ class AddJobOrderController extends Controller
                 $temp  = $request->personnelperformed;
                 $ctr = 0;
                 foreach($temp as $key=>$t)
-                    if($t !== null || $t !== ""){
+                    if(!(is_null($t))){
                         $personnelperf[$ctr] = $temp[$key];
-                        $ctr++;
+                        ++$ctr;
                     }
 
                 $products = $request->product;
@@ -498,24 +487,22 @@ class AddJobOrderController extends Controller
                     
                     $subTotal = 0;
                     
-                    $personnel_job = DB::table('personnel_job')
-                        ->where(['PersonnelID' => 3, 'isActive' => 1])
+                    /* $personnel_job = DB::table('personnel_job')
+                        ->where(['PersonnelID' => 3, 'JobDescriptionID' => 5, 'isActive' => 1])
                         ->select('PersonnelJobID')
-                        ->first();
+                        ->first(); */
 
                     PersonnelJobPerformed::create([
                         'JobOrderID' => $jo->JobOrderID,
-                        'PersonnelJobID' => $personnel_job->PersonnelJobID,
+                        'PersonnelJobID' => $personnelperf[$svckey],
                     ]);
 
-                    $personnelperformed = new PersonnelJobPerformed;
                     $personnelperformed = DB::table('personnel_job_performed as pj')
                         ->where(['pj.isActive' => 1])
                         ->orderBy('pj.PersonnelPerformedID', 'desc')
                         ->select('pj.PersonnelPerformedID')
                         ->first();
 
-                    $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
                     ServicePerformed::create([
                             'ServiceID' => $service,
                             'JobOrderID' => $jo->JobOrderID,
@@ -526,6 +513,8 @@ class AddJobOrderController extends Controller
                     
                     $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();
     
+                    $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
+
                     foreach((array) $serviceid as $key=>$svcid){
                         if ($serviceid[$key] == $svcperf->ServiceID){
                             if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key]))
@@ -591,7 +580,10 @@ class AddJobOrderController extends Controller
     public function searchByCustomerName($id)
     {
         $automobile = Automobile::where('customerid', '=', $id)->first();
-        $estimate = Estimate::where('AutomobileID', '=', $automobile->AutomobileID)->first();
+        $estimate = Estimate::where('AutomobileID', '=', $automobile->AutomobileID)
+            ->orderBy('estimateid', 'desc')
+            ->select('estimateid', DB::table('estimate')->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+            ->get();
         $joborder = JobOrder::where('AutomobileID', '=', $automobile->AutomobileID)->first();
         $customer = Customer::findOrFail($id);
         $plates = DB::table('automobile AS auto')
@@ -600,12 +592,12 @@ class AddJobOrderController extends Controller
                 ->get();
         return response()->json(compact('estimate', 'joborder', 'customer', 'automobile', 'plates'));
     }
-    
+
     public function searchByPlateNo($id)
     {
         $automobile = Automobile::findOrFail($id);
         $estimate = Estimate::where('AutomobileID', $id)->first();
-        $joborder = JobOrder::where('AutomobileID', '=', $automobile->AutomobileID)->first();
+        $joborder = JobOrder::where('AutomobileID', $automobile->AutomobileID)->first();
         $customer = Customer::findOrFail($automobile->CustomerID);
         return response()->json(compact('estimate', 'joborder', 'customer', 'automobile'));
     }
@@ -628,6 +620,15 @@ class AddJobOrderController extends Controller
             ->select('plateno','automobileid')
             ->get();
         return response()->json(compact('plates'));
+    }
+
+    public function unfilterEstimateIDs($id){
+        $estimates = Estimate::orderBy('estimateid', 'desc')
+            ->where('isActive', 1)
+            ->select('estimateid', DB::table('estimate')
+                                    ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+            ->get();
+        return response()->json(compact('estimates'));
     }
 
     public function getFilteredProductList($id)

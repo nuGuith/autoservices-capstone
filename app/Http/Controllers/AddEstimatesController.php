@@ -169,7 +169,7 @@ class AddEstimatesController extends Controller
                 'AutomobileID' => ($auto_id->AutomobileID),
                 'ServiceBayID' => ($request->servicebayid),
                 'PersonnelID' => ($request->personnelid),
-                'DiscountID' => ($request->discountid)
+                'TotalCost' => ($request->totalcost)
             ]);
 
             $estimate = Estimate::orderBy('estimateid', 'desc')->first();
@@ -254,13 +254,14 @@ class AddEstimatesController extends Controller
         return response()->json(compact('plates'));
     }
 
-    public function unfilterPlateNo()
-    {
-        $plates = Automobile::orderBy('created_at', 'desc')
+    public function unfilterPlateNo($id){
+        $plates = DB::table('automobile')
+            ->orderBy('created_at', 'desc')
             ->where('isActive', 1)
             ->groupBy('plateno')
             ->distinct('plateno')
-            ->pluck('plateno','automobileid');
+            ->select('plateno','automobileid')
+            ->get();
         return response()->json(compact('plates'));
     }
 
