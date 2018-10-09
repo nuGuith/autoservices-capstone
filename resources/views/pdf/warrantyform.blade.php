@@ -66,13 +66,13 @@
 <col width="150">
 <col width="150">
     <tr>
-      <td colspan="2"><b>JOB ORDER ID:JO000{{ $joborder->JobOrderID }}</b></td>
-      <td colspan="2"><b>Job Order End Date:</b></td>
+      <td colspan="2"><b>JOB ORDER ID:&nbsp;&nbsp;&nbsp;JO000{{ $joborder->JobOrderID }}</b></td>
+      <td colspan="2"><b>Job Order End Date:&nbsp;&nbsp;&nbsp;bfs</b></td>
     </tr>
 
     <tr>
-      <td colspan="2">Customer Name:{{ $customer->FullName }}</td>
-      <td colspan="2">Plate No.:{{ $automobile->PlateNo }}</td>
+      <td colspan="2">Customer Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $customer->FullName }}</td>
+      <td colspan="2">Plate No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->PlateNo }}</td>
     </tr>
 </table>
 <br>
