@@ -66,13 +66,13 @@
 <col width="150">
 <col width="150">
     <tr>
-      <td colspan="2"><b>JOB ORDER ID:</b></td>
+      <td colspan="2"><b>JOB ORDER ID:JO000{{ $joborder->JobOrderID }}</b></td>
       <td colspan="2"><b>Job Order End Date:</b></td>
     </tr>
 
     <tr>
-      <td colspan="2">Customer Name:</td>
-      <td colspan="2">Plate No.:</td>
+      <td colspan="2">Customer Name:{{ $customer->FullName }}</td>
+      <td colspan="2">Plate No.:{{ $automobile->PlateNo }}</td>
     </tr>
 </table>
 <br>
@@ -86,14 +86,25 @@
     <tr>
         <td colspan="3"> Service
             <ol>
-                <li>Change Oil</li>
-                <li>Carwash</li>
+                @foreach($serviceperformed as $sp)
+                    <li>{{ $sp->ServiceName }}</li>
+                @endforeach
             </ol>
         </td>
-        <td colspan="3"><i> Start of warranty is based in the end date of the job order </i>
+        <td colspan="3"><i> Start of warranty is based on the end date of the job order </i>
             <ol>
-                <li>12 months/12, 000 miles</li>
-                <li> not applicable </li>
+                @foreach($serviceperformed as $sp)
+                    <li>
+                        <?php
+                            $duration = $sp->WarrantyDuration;
+
+                            if($duration == 0 || $duration == null)
+                                echo("N/A");
+                            else
+                                echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode;
+                        ?>
+                    </li>
+                @endforeach
             </ol>
         </td>
     </tr>
@@ -101,14 +112,33 @@
     <tr>
         <td colspan="3"> Product
             <ol>
-                <li>Crank Rods</li>
-                <li>Piston</li> 
+                @foreach($productused as $pu)
+                    @foreach($serviceperformed as $sp)
+                        @if($pu->ServicePerformedID == $sp->ServicePerformedID)
+                            <li>{{ $pu->ProductName }}</li>
+                        @endif
+                    @endforeach
+                @endforeach
             </ol>
         </td>
-        <td colspan="3"><i> Start of warranty is based in the end date of the job order </i>
+        <td colspan="3"><i> Start of warranty is based on the end date of the job order </i>
             <ol>
-                <li>3 months</li>
-                <li>3 months</li>
+                @foreach($productused as $pu)
+                    @foreach($serviceperformed as $sp)
+                        @if($pu->ServicePerformedID == $sp->ServicePerformedID)
+                            <li>
+                                <?php
+                                    $duration = $pu->WarrantyDuration;
+                                    
+                                    if($duration == 0 || $duration == null)
+                                        echo("N/A");
+                                    else
+                                        echo $pu->WarrantyDuration . " " . $pu->WarrantyDurationMode;
+                                ?>
+                            </li>
+                        @endif
+                    @endforeach
+                @endforeach
             </ol>
         </td>
     </tr>

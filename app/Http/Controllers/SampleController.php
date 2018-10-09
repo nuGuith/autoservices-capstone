@@ -188,4 +188,41 @@ class SampleController extends Controller
     return $pdf->stream('joborderform');
   }
 
+  public function warranty_pdf($id)
+  {
+    $joborder = JobOrder::findOrFail($id);
+    $model = Automobile::findOrFail($joborder->AutomobileID);
+    
+    $automobile = DB::table('automobile_model AS md')
+        ->where('md.ModelID', $model->ModelID)
+        ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+        ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+        ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo', 'md.Year', 'auto.Color')
+        ->first();
+
+    $customer = DB::table('customer')
+        ->where('customerid', $model->CustomerID)
+        ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+        ->first();
+    
+    $serviceperformed = DB::table('service_performed AS sp')
+        ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+        ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
+        ->select('sp.*', 'svc.*')
+        ->get();
+  
+    $productused = DB::table('product_used AS pu')
+        ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+        ->where(['joborderid' => $id, 'pu.isActive' => 1])
+        ->select('pu.*', 'pr.*')
+        ->get();
+
+    $pdf = PDF::loadView('pdf.warrantyform', compact('joborder', 'model', 'automobile', 'customer', 'serviceperformed', 'productused'))
+    ->setPaper([0, 0, 612, 936], 'portrait');
+    // If you want to store the generated pdf to the server then you can use the store function
+    $pdf->save(storage_path().'_filename.pdf');
+    // Finally, you can download the file using download function
+    return $pdf->stream('warrantyform');
+  }
+
 }

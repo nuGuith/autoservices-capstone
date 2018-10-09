@@ -254,6 +254,7 @@ Route::get('/inspectform','SampleController@inspect_pdf');
 Route::get('/estimateform/{id}','SampleController@estimate_pdf');
 Route::get('/receipt','SampleController@receipt_pdf');
 Route::get('/joborderform/{id}','SampleController@joborder_pdf');
+Route::get('/warrantyform/{id}', 'SampleController@warranty_pdf');
 
 //Reports - Sample
 Route::get('/estimate_report', 'ReportsController@estimate');

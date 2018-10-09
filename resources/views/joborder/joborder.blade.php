@@ -152,6 +152,12 @@
                                             <!--OFFICIAL RECEIPT BUTTON-->
                                             <!-- <button class="btn hvr-float-shadow tipso_bounceIn" style="background-color:#b2b2a4; color:#b2b2a4; width:;" data-background="#b2b2a4" data-color="white" data-tipso="Official Receipt" onclick="window.location='{{ url("/receipt") }}'" ><i class="ti-receipt text-white" style="left: 0em;"></i></button> -->
 
+                                            <!--WARRANTY FORM BUTTON-->
+                                            <a href="/warrantyform/{{ $joborder->JobOrderID }}" target="_blank"> 
+                                            <button class="btn hvr-float-shadow tipso_bounceIn" style="background-color:#b2b2a4; color:#b2b2a4; width:;" data-background="#b2b2a4" data-color="white" data-tipso="View Warranty">
+                                                <i class="ti-receipt text-white" style="left: 0em;"></i>
+                                            </button>
+
                                             <!--DELETE BUTTON-->
                                             <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                             </button>
