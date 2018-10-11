@@ -271,6 +271,7 @@ Route::get('/estimate_report', 'ReportsController@estimate');
 Route::get('/inspection_report', 'ReportsController@inspection');
 Route::get('/joborder_report', 'ReportsController@joborder');
 Route::get('/jobordersales_report', 'ReportsController@jobordersales');
+Route::get('/backjob_report', 'ReportsController@backjob');
 Route::get('/sales_report', 'ReportsController@sales');
 Route::get('/payment_report', 'ReportsController@payment');
 

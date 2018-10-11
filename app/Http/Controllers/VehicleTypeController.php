@@ -64,7 +64,7 @@ class VehicleTypeController extends Controller
 
       //get vehicle $model
       $vmod = DB::table('automobile_model as md')
-      ->SELECT('md.ModelID','md.Model','md.year','md.Transmission')
+      ->SELECT('md.ModelID','md.Model','md.year')
       ->WHERE('md.MakeID',Input::get('MakeID'))
       ->where('md.isActive', 1)
       ->get();

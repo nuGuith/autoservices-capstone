@@ -112,6 +112,12 @@ class ReportsController extends Controller
     return view('reports.jobordersales_report', compact('joborders', 'serviceperformed', 'productused', 'servicetotal', 'producttotal', 'totals'));
   }
 
+  public function backjob()
+  {
+    
+    return view('reports.backjob_report');
+  }
+
   public function sales()
   {
     $sales = DB::table('job_order')
