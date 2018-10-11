@@ -24,6 +24,14 @@
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="css/pages/colorpicker_hack.css" />
 
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
+
 
 
     <!-- end of plugin styles -->
@@ -168,6 +176,7 @@
 
     <!--Package DETAILS-->
     <div class="col-lg-6 m-t-10">
+        <form id="packForm">
         <div class="card">
             <div class="card-header bg-black">
                 Package Details
@@ -176,43 +185,50 @@
             <div class="card-block">
             <div class="tab">
 
-                <div class="input-group">
+                <div class="row">
+                    
                     <div class="col-md-7 m-t-15">
+                    <div class="form-group">
                         <h5 style = "">Package:</h5>
-                        <p>
-                            <input id="packageName" name="packagename" type="text" placeholder="Package Name" class="form-control  m-t-5" style = "width: 210px;" >
-                        </p>
+                            <input id="packageName" name="packagename" type="text" placeholder="Package Name" class="form-control m-t-5"  >
+                    </div>
                     </div>
 
 
                     <div class="col-md-5 m-t-15">
+                    <div class="form-group">
                         <h5 style = "">Computed Price:</h5>
                         <div class="input-group m-t-5">
-                            <input type="text" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice">
-                            <span class="input-group-addon">.00</span>
+                            <input type="number" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice">
+                            <!-- <span class="input-group-addon">.00</span> -->
                         </div>
+                    </div>
                     </div>
 
 
                 </div>
 
-                <div class="input-group">
+                <div class="row">
                     <div class="col-md-7">
                         <h5>Warranty: <span style="color: red"></span></h5>
-                        <p>
-                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
-                        </p>
+                        <div class="form-group">
+                            <input type="number" min="1" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10"/>
+                        </div>
                     </div>
 
                     <div class="col-md-5">
-                        <p class="m-t-25">
+                        <div class="m-t-25">
+                        </div>
+                        <div class="form-group">
                             <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option disabled selected>Please choose</option>
                                 <option value="Days">Day(s)</option>
                                 <option value="Weeks">Week(s)</option>
                                 <option value="Months">Month(s)</option>
                                 <option value="Years">Year(s)</option>
                             </select>
-                        </p>
+                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,25 +285,28 @@
                 <div class="input-group">
 
                     <div class="col-md-8 m-t-5">
-
+                    
                         <div class="input-group" >
-                            <h5 style = "width: 90px;"class="m-t-10">Package Price:</h5>
-                            <input type="text" class="form-control" style = "width: 100px;" id="packagePrice" placeholder ="Php";>
-                            <span class="input-group-addon">.00</span>
+                        <h5 style = "width: 190px;"class="m-t-10">Package Price:</h5>
+                        <div class="form-group">
+                            
+                            <input type="number" min="1" step="0.01" class="form-control" style = "width: 130px;" id="packagePrice" name="price" placeholder ="Php";>
+                            <!-- <span class="input-group-addon">.00</span> -->
                         </div>
                     </div>
+                </div>
 
                     <div class="col-md-2 m-t-5">
                         <div class="input-group examples transitions" >
-                            <button class="btn btn-success" style ="width: 150px; left: 35px;" id="submitForm"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                            <button type="submit" class="btn btn-success source success_clr m-l-0 hvr-float-shadow" style ="width: 160px; left: 35px;" id="submitForm"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                         </div>
                     </div>
-                    <!-- DANICE INALIS KO MUNA YUNG CLASS HABANG NAGTETEST -->
                     <!--btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn  -->
                 </div>
             </div>
 
         </div>
+    </form>
      </div>
     <!--END Package DETAILS-->
 
@@ -427,10 +446,10 @@ $(document).ready(function(){
                             // add values to the cells
                             cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
-                            cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
+                            cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="number" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
+                            cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="number" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
                             $("#computePrice").val(parseFloat(totalTempPrice))
-                            cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" id="qty'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" class="form-control" style="width: 20px;";>'
+                            cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" id="qty'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" class="form-control" style="width: 20px;" value="1">'
                             cell6.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
 
                             // remove the transfered rows from the first table [producttab1]
@@ -612,6 +631,119 @@ $(document).ready(function(){
 
 </script>
 <!--End Service table 1 to Service Table 2-->
+
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#packForm')
+    .find('[name="durationmode"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#packForm').bootstrapValidator('revalidateField', 'durationmode');
+            })           
+            .end()
+    .find('[name="brand"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#addprod').bootstrapValidator('revalidateField', 'brand');
+            })           
+            .end()
+    .find('[name="unit"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#addprod').bootstrapValidator('revalidateField', 'unit');
+            })           
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid', 
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            packagename: {
+                message: 'The package name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The package name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The package name only accepts of alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The package name only accept alphanumeric values. '
+                    },
+                }
+            },
+            warranty: {
+                message: 'The warranty time is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The warranty is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The warranty only accept numeric values. '
+                    },
+                }
+            },
+            durationmode: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose product type',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('durationmode').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    }, 
+                },
+            price: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+           
+        }
+    });
+
+
+});
+
+</script>
 
 
 @stop

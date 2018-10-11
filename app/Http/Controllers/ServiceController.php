@@ -2,243 +2,145 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Service;
-use App\ServiceCategory;
-use App\Http\Controllers\Controller;
-use Validator;
-use Redirect;
-use Session;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\RedirectResponse;
 
 class ServiceController extends Controller
 {
-
     /**
-     * This serves as the index hehe
-     */
-    public function index(){
-        $services = DB::table('service as se')
-                    ->leftJoin('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
-                    ->where('se.isActive',1)
-                    ->get();
-        $categories = ServiceCategory::where('isActive', 1)->pluck('servicecategoryname', 'servicecategoryid');
-        $categories->prepend('Please choose a category',0);
-
-        $skills = DB::table('skill_header')->pluck('Skill','SkillID');
-        $skills->prepend('Please choose a category',0);
-
-        return view('service.service', ['services' => $services, 'categories' => $categories, 'skills' => $skills]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
 
-        $customNames = [
-                'servicename' => 'Service Name',
-                'servicecategoryid' => 'Service Category',
-                'estimatedtime' => 'Estimated Time',
-                'sizetype' => 'Size Type',
-                'class' => 'Class',
-                'initialprice' => 'Initial Price',
-                'WarrantyDuration'=>'Warranty',
-                'WarrantyDurationMode'=>'durationmode'
-        ];
-            /** This is an array of custom variable names you could set so that in case there is an Exception,
-            * the variable name displayed in the view is a decent one and not a name straight from the database. */
-        $customMessages = [
-                'servicename.regex' => 'You cannot input special characters into :attribute field. Sorry. :(',
-                'servicename.unique' => 'The :attribute you entered is already taken.',
-            ];
-            /** This is an array of custom messages you could set so aside from the default ones by laravel. */
-        $validation = Validator::make($request->all(), [
-            'servicename' => [
-                'bail',
-                'required',
-                'max:255',
-                Rule::unique('service')->ignore(0, 'isactive'),
-                'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'
-            ],
-            'servicecategoryid' => ['required'],
-            'estimatedtime' => ['required','numeric','between:1,999'],
-            'initialprice' => ['bail','required','numeric','between:0.00,99999.9999']
-        ], $customMessages);
-            /** The $validation variable using the 'Validator' facade takes the arguments $request->all() getting all the data sent over the Request
-             * from the view/user input, next argument is an array of rules for validation and finally the $customMessages.
-             */
+    public function service(){
 
-        $validation->setAttributeNames($customNames);
-            /** setting the custom names */
 
-        if ($validation->fails()) {
-            /* dd($request); */
-            return redirect('service')
-                ->withErrors($validation, 'add')
-                ->withInput();
-        }
-        else{
-            try{
-                DB::beginTransaction();
-                Service::create([
-                    'servicename' => trim($request->servicename),
-                    'servicecategoryid' => ($request->servicecategoryid),
-                    'estimatedtime' => trim($request->estimatedtime),
-                    'sizetype' => trim($request->sizetype),
-                    'class' => trim($request->class),
-                    'initialprice' => ($request->initialprice)
-                ]);
-                DB::commit();
+        $service = DB::table('service')
+            ->select('*')
+            ->join('service_category', 'service.ServiceCategoryID', '=', 'service_category.ServiceCategoryID')
+            ->where('service.isActive', '1')
+            ->get();
 
-                $skill = $request->skill;
+        $category = DB::table('service_category')
+            ->select('*')
+            ->where('isActive', '1')
+            ->get();
 
-                $SID = DB::table('service')->max('ServiceID');
+        $perskill = DB::table('skill_header')
+            ->select('*')
+            ->where('isActive', '1')
+            ->get();
 
-                  for($x=0;$x<count($skill);$x++){
+        $kill = DB::table('service_skill')
+            ->select('*')
+            ->join('skill_header', 'service_skill.SkillID','=', 'skill_header.SkillID')
+            ->get();
 
-                    $sskill = array("ServiceID"=>$SID,"SkillID"=>$skill[$x]);
-                    DB::table('service_skill')->insert($sskill);
+        // dd($kill);
+        // dd($service);
 
-                  }
+        return View('service.service',compact('service','category','perskill','kill'));
+    }
 
-            }catch(\Illuminate\Database\QueryException $e){
-                DB::rollBack();
-                $errors = $e->getMessage();
-                return redirect('service')
-                    ->withErrors($errors, 'add');
-            }
+    public function add(){
+      $servicename = Input::get('servicename');
+      $sc = Input::get('desc');
+      $etime = Input::get('item');
+      $st = Input::get('sizetype');
+      $class = Input::get('class');
+      $ip = Input::get('iprice');
+      $warr = Input::get('warr');
+      $dm = Input::get('dm');
+      $skills = Input::get('skill');
 
-            $request->session()->flash('success', 'Record successfully added.');
-            return redirect('service');
-        }
+      $serv = array('ServiceCategoryID'=>$sc,'ServiceName'=>$servicename,'Sizetype'=>$st,'Class'=>$class,'EstimatedTime'=>$etime,'InitialPrice'=>$ip,
+      'WarrantyDuration'=>$warr,'WarrantyDurationMode'=>$dm);
+      DB::table('service')->insert($serv);
+
+      $did = DB::table('service')->max('ServiceID');
+
+      for($x=0;$x<count($skills);$x++)
+      {
+
+        $ic = array('ServiceID'=>$did,'SkillID'=>$skills[$x]);
+        DB::table('service_skill')->insert($ic);
+
+      }
+
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
+    public function ret(){
+      $ret = DB::table('service')
+      ->SELECT('ServiceID','ServiceCategoryID','ServiceName','SizeType','Class','EstimatedTime', 'InitialPrice','WarrantyDuration','WarrantyDurationMode')
+      ->WHERE('ServiceID',Input::get('id'))
+      ->get();
+
+      $ski = DB::table('service_skill')
+            ->SELECT('ServiceID','SkillID')
+            ->WHERE('ServiceID',Input::get('id'))
+            ->get();
+
+
+      return \Response::json(['ret'=>$ret,'ski'=>$ski]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        $service = Service::findOrFail($id);
-        /*  DB::table('service as se')
-                ->leftJoin('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
-                ->where('se.serviceid', $id)
-                ->get(); */
+    public function edit(){
+      $eservicename = Input::get('servicename');
+      $esc = Input::get('desc');
+      $eetime = Input::get('item');
+      $est = Input::get('sizetype');
+      $eclass = Input::get('class');
+      $eip = Input::get('iprice');
+      $ewarr = Input::get('warr');
+      $edm = Input::get('dm');
+      $eskills = Input::get('skill');
+      $edid = Input::get('did');
+      $sid = Input::get('sid');
+
+      DB::table('service')
+      ->WHERE('ServiceID',$edid)
+      ->UPDATE(['ServiceCategoryID'=>$esc,'ServiceName'=>$eservicename,'Sizetype'=>$est,'Class'=>$eclass,'EstimatedTime'=>$eetime,'InitialPrice'=>$eip,
+      'WarrantyDuration'=>$ewarr,'WarrantyDurationMode'=>$edm]);
+
+      if(count($sid)>0)
+      {
+        for($i=0;$i<count($sid);$i++)
+        {
+
+        DB::table('service_skill')
+        ->WHERE('ServiceID','=', $sid[$i])
+        ->delete();
+        }
+
+      }
+
+      for($x=0;$x<count($eskills);$x++)
+      {
+
+        $ic = array('ServiceID'=>$edid,'SkillID'=>$eskills[$x]);
+        DB::table('service_skill')->insert($ic);
+
+      }
 
 
-        return response()->json(compact('service')); /** returns the response result data as JSON */
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-        $customNames = [
-            'estimatedtime' => 'Estimated Time',
-            'sizetype' => 'Size Type',
-            'class' => 'Class',
-            'initialprice' => 'Initial Price',
-        ];
-        $customMessages = [
-                'servicecategoryname.regex' => 'You cannot input special characters into :attribute field. Sorry. :(',
-                'servicecategoryname.unique' => 'The :attribute you entered is already taken.',
-            ];
-        $validation = Validator::make($request->all(), [
-            'estimatedtime' => ['required','numeric','between:1,999'],
-            'initialprice' => ['bail','required','numeric','between:0.00,99999.9999']
-        ], $customMessages);
 
-        $validation->setAttributeNames($customNames);
-        if ($validation->fails()) {
-            return redirect('service')
-                ->withErrors($validation, 'update')
-                ->withInput();
-        }
-        else{
-            try{
-                DB::table('service')
-                    ->where('serviceid', $request->serviceid)
-                    ->update(['estimatedtime' => ($request->estimatedtime), 'sizetype' => ($request->sizetype), 'class' => ($request->class), 'initialprice' => ($request->initialprice)]);
-            }
-            catch(\Illuminate\Database\QueryException $e){
-                DB::rollBack();
-                $errors = $e->getMessage();
-                return redirect('service')
-                    ->withErrors($errors, 'update');
-            }
-            $request->session()->flash('success', 'Record successfully updated.');
-            return redirect('service');
-        }
-    }
+    public function delete(){
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        try{
-            Service::findOrFail($id);
-            Service::destroy($id);
-        }
-        catch(\Illuminate\Database\QueryException $e){
-            $err = $e->getMessage();
-                return redirect('service')
-                    ->withErrors($err);
-        }
-        return redirect('service');
-    }
+      DB::table('service')
+      ->WHERE('ServiceID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
 
-    public function delete(Request $request)
-    {
-        try{
-            DB::table('service')
-                    ->where('serviceid', $request->deleteId)
-                    ->update(['isActive' => 0]);
-        }
-        catch(\Illuminate\Database\QueryException $e){
-            $err = $e->getMessage();
-                return redirect('service')
-                    ->withErrors($err, 'delete');
-        }
-        return redirect('service');
+      DB::table('service_skill')
+      ->WHERE('ServiceID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
     }
 
 }

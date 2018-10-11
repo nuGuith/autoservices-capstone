@@ -119,10 +119,9 @@
                                             &nbsp;Edit Service Category</h4>
                             </div>
                             <div class="modal-body" style="padding-left: 47px;">
-                                <div class="row m-t-5">
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11" style="padding-right:25px;">
                                         <h5>Service Category: <span style="color: red">*</span></h5>
-                                        <p>
                                             {!! 
                                                 Form::input ('servicecategoryname','text', Input::old('servicecategoryname'), [
                                                 'id'=>'servicecategoryname',
@@ -134,14 +133,12 @@
                                                 'required'
                                                 ])
                                             !!}
-                                        </p>
                                     </div>
                                 </div>
                                     
-                                <div class="row m-t-5">
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11" style="padding-right:25px;">
                                         <h5>Description: <span style="color: red">*</span></h5>   
-                                            <p>
                                                 {!! 
                                                     Form::input ('description','text', Input::old('description'), [
                                                     'id'=>'description',
@@ -152,7 +149,6 @@
                                                     'maxlength'=>'255'
                                                     ])
                                                 !!}
-                                            </p>
                                         <input id="servicecategoryid" name="servicecategoryid" type="hidden" value=null>                        
                                     </div>
                                 </div>
@@ -204,10 +200,9 @@
                                             &nbsp;Add Service Category</h4>
                             </div>
                             <div class="modal-body" style="padding-left: 47px;">
-                                <div class="row m-t-5">
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Service Category: <span style="color: red">*</span></h5>
-                                        <p>
                                             {!!
                                                 Form::input ('name','text', Input::old('servicecategoryname'), [
                                                 'id'=>'servicecategoryname',
@@ -219,14 +214,12 @@
                                                 'required'
                                                 ])
                                             !!}
-                                        </p>
                                     </div>
                                 </div>
                                 
-                                 <div class="row m-t-5">
+                                 <div class="form-group row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Description: <span style="color: red">*</span></h5>
-                                            <p>
                                                 {!! 
                                                     Form::input ('description','text', Input::old('description'), [
                                                     'id'=>'description',
@@ -237,7 +230,6 @@
                                                     'maxlength'=>'255'
                                                     ])
                                                 !!}
-                                            </p>
                                     </div>
                                 </div>
                                                 
@@ -346,7 +338,7 @@
         @endif
         @if($errors->update->any())
             $('#editModal').modal('show');
-        @endif
+         @endif
     });
 </script>
 <script>
@@ -368,6 +360,132 @@
             $('#deleteModal').modal('show');
         }
 </script>
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            servicecategoryname: {
+                message: 'The service category is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The service category is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The service category only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()%^&|\;<>,.?]+/,
+                        message: 'The service category only accept alphanumeric values. '
+                    },
+                }
+            },
+            description: {
+                message: 'The descrition is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The description is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The description only accepts alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()%^&|\;<>,.?]+/,
+                        message: 'The service category name only accept alphanumeric values. '
+                    },
+                }
+            },
+
+        }
+    })
+
+   
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            servicecategoryname: {
+                message: 'The service category is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The service category is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The service category only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()%^&|\;<>,.?]+/,
+                        message: 'The service category only accept alphanumeric values. '
+                    },
+                }
+            },
+            description: {
+                message: 'The descrition is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The description is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The description only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()%^&|\;<>,.?]+/,
+                        message: 'The description only accept alphanumeric values. '
+                    },
+                }
+            },
+
+        }
+    })
+
+   
+
+});
+
+</script>
+
+
 
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>

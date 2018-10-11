@@ -51,24 +51,6 @@
     
 </head>
 <body class="fixedMenu_header">
-<!-- <div class="preloader" style=" position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 100000;
-  backface-visibility: hidden;
-  background: #ffffff;">
-    <div class="preloader_img" style="width: 200px;
-  height: 200px;
-  position: absolute;
-  left: 48%;
-  top: 48%;
-  background-position: center;
-z-index: 999999">
-        <img src="img/loader.gif" style=" width: 40px;" alt="loading...">
-    </div>
-</div> -->
 <div class="bg-dark" id="wrap">
     <div id="top"  class="fixed">
         <!-- .navbar -->
@@ -219,6 +201,8 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Category
                             </a>
                         </li>
+
+                        
                         <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
                             <a href="/service" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Services
@@ -249,14 +233,9 @@ z-index: 999999">
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
-                        <li {!! (Request::is('inspectionchecklist')  ? 'class="active"' : '') !!} >
+                        <!-- <li {!! (Request::is('inspectionchecklist')  ? 'class="active"' : '') !!} >
                             <a href="/inspectionchecklist" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <a href="/maintenancechecklist" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i> &nbsp; Maintenance Checklist
                             </a>
                         </li> -->
                     </ul>
@@ -275,12 +254,7 @@ z-index: 999999">
                             </a>
                         </li>
 
-                        <li {!! (Request::is('skills')  ? 'class="active"' : '') !!} >
-                            <a href="/skills" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                    &nbsp;Skills
-                            </a>
-                        </li>
+
                          
                         <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
                             <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
@@ -335,6 +309,13 @@ z-index: 999999">
                     </a>
                 </li>
 
+                <li {!! (Request::is('tax')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/tax" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-percent"></i>
+                        <span class="link-title">&nbsp; Additional Tax</span>
+                    </a>
+                </li>
+
                     <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
@@ -345,12 +326,12 @@ z-index: 999999">
                     </a>
                 </li>
                 
-                <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                <!-- <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-search"></i>
                         <span class="link-title">&nbsp; Inspect Vehicle</span>
                     </a>
-                </li>
+                </li> -->
                 <li {!! (Request::is('estimates')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/estimates" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-file-text"></i>
@@ -532,12 +513,9 @@ z-index: 999999">
 <script type="text/javascript" src="{{URL::asset('vendors/datatables/js/dataTables.bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/datatables/js/dataTables.responsive.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/datatables/js/dataTables.buttons.min.js')}}"></script>
-<!-- <script type="text/javascript" src="vendors/datatables/js/buttons.colVis.min.js"></script> -->
 <script type="text/javascript" src="{{URL::asset('vendors/datatables/js/buttons.html5.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/datatables/js/buttons.bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/datatables/js/buttons.print.min.js')}}"></script>
-
-<!-- <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script> -->
 
 <!--End of plugin scripts-->
 <!-- global scripts-->
@@ -546,18 +524,10 @@ z-index: 999999">
 <script type="text/javascript" src="{{URL::asset('vendors/jquery.uniform/js/jquery.uniform.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/inputlimiter/js/jquery.inputlimiter.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/chosen/js/chosen.jquery.js')}}"></script>
-<!-- <script type="text/javascript" src="vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script> -->
 <script type="text/javascript" src="{{URL::asset('vendors/jquery-tagsinput/js/jquery.tagsinput.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/validval/js/jquery.validVal.min.js')}}"></script>
-<!-- <script type="text/javascript" src="vendors/moment/js/moment.min.js"></script> -->
-<!-- <script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script> -->
-<!-- <script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script> -->
-<!-- <script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script> -->
-<!-- <script type="text/javascript" src="vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
-<!-- <script type="text/javascript" src="vendors/autosize/js/jquery.autosize.min.js"></script> -->
 <script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/inputmask.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/jquery.inputmask.js')}}"></script>
-<!-- <script type="text/javascript" src="vendors/inputmask/js/inputmask.date.extensions.js"></script> -->
 <script type="text/javascript" src="{{URL::asset('vendors/inputmask/js/inputmask.extensions.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/fileinput.min.js')}}"></script>
 <script type="text/javascript" src="{{URL::asset('vendors/fileinput/js/theme.js')}}"></script>

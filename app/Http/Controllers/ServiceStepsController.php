@@ -62,7 +62,7 @@ class ServiceStepsController extends Controller
 
       }
 
-      
+
 
     }
 
@@ -74,7 +74,7 @@ class ServiceStepsController extends Controller
      */
     public function store(Request $request)
     {
-       
+
     }
 
     /**
@@ -87,6 +87,7 @@ class ServiceStepsController extends Controller
     {
         $stp = DB::table('service_steps')
             ->WHERE('ServiceID',Input::get('id'))
+            ->WHERE('isActive',1)
             ->GET();
 
         return \Response::json(['stp'=>$stp]);
@@ -105,16 +106,39 @@ class ServiceStepsController extends Controller
         $step = Input::get('step');
         $service = Input::get('service');
 
-      for($i=0;$i<count($step);$i++)
+      // for($i=0;$i<count($step);$i++)
+      // {
+      //
+      // DB::table('service_steps')
+      // ->WHERE('ServiceStepID',$id[$i])
+      // ->UPDATE(['ServiceID'=>$service,'Step'=>$step[$i]]);
+      //
+      // }
+
+
+        if(count($id)>0)
+        {
+        
+      for($i=0;$i<count($id);$i++)
       {
 
       DB::table('service_steps')
-      ->WHERE('ServiceStepID',$id[$i])
-      ->UPDATE(['ServiceID'=>$service,'Step'=>$step[$i]]);
+      ->WHERE('ServiceStepID','=', $id[$i])
+      ->delete();
+      } 
+        }
 
-      }
+      for($i=0;$i<count($step);$i++)
+    {
+      $sr = array("ServiceID"=>$service,"Step"=>$step[$i]);
+      DB::table('service_steps')->insert($sr);
 
-        
+    }
+
+
+
+
+
     }
 
     /**
@@ -126,7 +150,7 @@ class ServiceStepsController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+
     }
 
     /**
@@ -142,9 +166,9 @@ class ServiceStepsController extends Controller
         ->WHERE('ServiceID',Input::get('id'))
         ->UPDATE(['isActive'=>0]);
 
-   
 
 
-       
+
+
     }
 }

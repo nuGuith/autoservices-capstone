@@ -123,10 +123,9 @@
                                             &nbsp;Edit Product Brand</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="row m-t-10">
+                                <div class="form-group row m-t-10">
                                     <div class="col-md-11 m-l-20">
                                         <h5>Brand Name: <span style="color: red">*</span></h5>
-                                        <p>
                                             {!! 
                                                 Form::input ('brandname','text', Input::old('brandname'), [
                                                 'id'=>'brandname',
@@ -138,7 +137,6 @@
                                                 'required'
                                                 ])
                                             !!}
-                                        </p>
                                         <input id="productbrandid" name="productbrandid" type="hidden" value=null>
                                     </div>
                                 </div>
@@ -190,10 +188,9 @@
                                             &nbsp;Add Product Brand</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="row m-t-10">
+                                <div class="form-group row m-t-10">
                                     <div class="col-md-11 m-l-20">
                                         <h5>Brand Name: <span style="color: red">*</span></h5>
-                                        <p>
                                             {!! 
                                                 Form::input ('brandname','text', Input::old('brandname'), [
                                                 'id'=>'brandname',
@@ -205,7 +202,6 @@
                                                 'required'
                                                 ])
                                             !!}
-                                        </p>
                                     </div>
                                 </div>
                                     <br>
@@ -328,6 +324,96 @@
             $('#deleteModal').modal('show');
         }
 </script>
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid', 
+        // excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',  
+        excluded: [':disabled', ':hidden', ':not(:visible)'],    
+        fields: {
+            feedbackIcons: 'true',
+            brandname: {
+                message: 'The brand name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The brand name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z]+$/,
+                        message: 'The brand name only accept alphabet values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The brand name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm')
+
+    .bootstrapValidator({
+        message: 'This brand name is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            brandname: {
+                message: 'The brand name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The brand name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-z A-Z]+$/,
+                        message: 'The brand name only accept alphabet values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The brand name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+    
+});
+</script>
+
+
+
+
 
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>

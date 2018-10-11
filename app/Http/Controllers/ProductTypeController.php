@@ -29,7 +29,7 @@ class ProductTypeController extends Controller
             ->where('pt.isActive', 1)
             ->get();
         $categories = ProductCategory::where('isActive',1)->pluck('categoryname', 'productcategoryid');
-        $categories->prepend('Please choose a category',0);
+        // $categories->prepend('Please choose a category',0);
         return view ('product.producttype', compact('producttypes', 'categories','ctr'));
     }
 

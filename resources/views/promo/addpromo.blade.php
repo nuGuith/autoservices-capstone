@@ -33,6 +33,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
 
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
         <!-- CONTENT -->
         <div id="content" class="bg-container">
 
@@ -209,6 +216,7 @@
 
     <!--PROMO DETAILS-->
     <div class="col-lg-6 m-t-10">
+      <form id="promoForm">
         <div class="card">
             <div class="card-header bg-black">
                 Promo Details
@@ -217,20 +225,20 @@
             <div class="card-block">
             <div class="tab">
 
-                <div class="input-group">
+                <div class="row">
                     <div class="col-md-7 m-t-15">
-                        <h5 style = "">Promo:</h5>
-                        <p>
-                            <input id="promoName" type="text" placeholder="Promo Name" class="form-control  m-t-5" style = "width: 210px;" >
-                        </p>
+                        <div class="form-group">
+                        <h5 style = "">Promo:</h5>                       
+                            <input id="promoName" type="text" placeholder="Promo Name"name="promoname" class="form-control  m-t-10">
+                        </div>
                     </div>
 
 
                     <div class="col-md-5 m-t-15">
                         <h5 style = "">Computed Price:</h5>
-                        <div class="input-group m-t-5">
-                            <input type="text" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice">
-                            <span class="input-group-addon">.00</span>
+                        <div class="form-group m-t-10">
+                            <input type="number" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice" style="text-align: right">
+                            <!-- <span class="input-group-addon">.00</span> -->
                         </div>
                     </div>
                 </div>
@@ -317,7 +325,7 @@
 
 
 
-                <div class="input-group lter form_elements_datepicker" id="dateRangePickerBlock">
+                <div class="row lter form_elements_datepicker" id="dateRangePickerBlock">
                     <div class="col-md-12 m-t-5">
                         <h5 style = "">Date Range:</h5>
                     <form>
@@ -341,23 +349,27 @@
             </div> -->
 
 
-            <div class="input-group">
+            <div class="row">
                     <div class="col-md-7 m-t-10">
                         <h5>Warranty: <span style="color: red"></span></h5>
-                        <p>
-                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
-                        </p>
+                        <div class="form-group">
+                            <input type="number" id="warranty" min="1" name="warranty" placeholder="Warranty" class="form-control m-t-10" />
+                        </div>
                     </div>
 
                     <div class="col-md-5 m-t-10">
-                        <p class="m-t-25">
+                        <div class="m-t-25">
+                        </div>
+                        <div class="form-group">
                             <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option selected disabled="">Please Choose</option>
                                 <option value="Days">Day(s)</option>
                                 <option value="Weeks">Week(s)</option>
                                 <option value="Months">Month(s)</option>
                                 <option value="Years">Year(s)</option>
                             </select>
-                        </p>
+                          <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
+                        </div>
                     </div>
                 </div>
 
@@ -366,18 +378,26 @@
             <div class="card-footer bg-black">
                 <div class="input-group">
 
-                    <div class="col-md-8 m-t-5">
+                    <div class="col-md-9 m-t-0">
+
+                        <!-- <h5 style = "width: 150px;"class="m-t-10">Promo Price:</h5>
+                            <div class="form-group">
+                            <input type="number" class="form-control" step="0.01" min="0" id="promoPrice" name="price" style = "width: 180px;" placeholder ="Php";>
+                            <span class="input-group-addon">.00</span>
+                        </div> -->
 
                         <div class="input-group" >
-                            <h5 style = "width: 90px;"class="m-t-10">Promo Price:</h5>
-                            <input type="text" class="form-control" id="promoPrice" style = "width: 100px;" placeholder ="Php";>
-                            <span class="input-group-addon">.00</span>
+                            <h5 style = "width: 150px;"class="m-t-10">Promo Price:</h5>
+                            <div class="form-group">
+                            
+                            <input id = "promoPrice" type="number" name="price" step="0.01" min="0" class="form-control" style = "width: 180px;" placeholder ="Php";>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-2 m-t-5">
+                    <div class="col-md-2 m-t-0">
                         <div class="input-group examples transitions" >
-                            <button class="btn btn-success" id="submitForm" style ="width: 150px; left: 35px;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                            <button type="submit" class="btn btn-success source success_clr m-l-0 hvr-float-shadow" id="submitForm" style ="width: 150px; left: ;"  ><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                   <!-- ETO YUNG CLASS NG SUBMIT BUTTON --> <!-- btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn  -->
                         </div>
                     </div>
@@ -386,6 +406,7 @@
             </div>
 
         </div>
+      </form>
      </div>
     <!--END PROMO DETAILS-->
 
@@ -496,8 +517,10 @@ $(document).ready(function(){
         },
         success: function()
         {
-          alert('success')
-          window.location.href = '/promo';
+          // alert('success')
+          // location.reload()
+          // window.location.href = '/promo';
+          window.location.href='../promo';
         }
     });
   });
@@ -539,10 +562,10 @@ function prodtab1_To_tab2()
                 // add values to the cells
                 cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
                 cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
-                cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
+                cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="number" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
+                cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="number" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
                 $("#computePrice").val(parseFloat(totalTempPrice))
-                cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" id="qty'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" class="form-control" style="width: 20px;";>'
+                cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" id="qty'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" class="form-control" style="width: 20px;" value="1">'
                 cell6.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
 
                 // remove the transfered rows from the first table [producttab1]
@@ -571,7 +594,7 @@ function computeQty(id){
 
             function prodtab2_To_tab1()
             {
-                var producttab1 = document.getElementById("producttab1"),
+               var producttab1 = document.getElementById("producttab1"),
                     producttab2 = document.getElementById("producttab2"),
                     checkboxes = document.getElementsByName("prodcheck-tab2");
             console.log("Val1 = " + checkboxes.length);
@@ -583,11 +606,35 @@ function computeQty(id){
                                 cell1 = newRow.insertCell(0),
                                 cell2 = newRow.insertCell(1),
                                 cell3 = newRow.insertCell(2);
+                                cell4 = newRow.insertCell(3);
+                                cell5 = newRow.insertCell(4);
+
+                                //subtract
+                                var compTempPrice = $("#computePrice").val()
+                                if (compTempPrice == '') {
+                                   compTempPrice = 0
+                                }
+                                else {
+                                  compTempPrice = parseInt(compTempPrice)
+                                }
+                                var tempPrice = parseInt(producttab2.rows[i+1].cells[3].innerHTML)
+                                var cond = $("#hidTotal"+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')).val()
+                                var totalTempPrice
+                                if (cond == 0) {
+                                  totalTempPrice = parseInt(compTempPrice) - parseInt(tempPrice) * 1
+                                }
+                                else {
+                                  totalTempPrice = parseInt(compTempPrice) - parseInt(cond) * 1
+                                }
+                                var subtractPrice = parseInt(totalTempPrice)
+
                             // add values to the cells
                             cell1.innerHTML = producttab2.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = producttab2.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='prodcheck-tab1'>";
-
+                            cell3.innerHTML = producttab2.rows[i+1].cells[2].innerHTML;
+                            cell4.innerHTML = producttab2.rows[i+1].cells[3].innerHTML;
+                            cell5.innerHTML = "<input type='checkbox' name='prodcheck-tab1'>";
+                            $("#computePrice").val(subtractPrice)
                             // remove the transfered rows from the second table [producttab2]
                             var index = producttab2.rows[i+1].rowIndex;
                             producttab2.deleteRow(index);
@@ -749,10 +796,12 @@ function servicetab2_To_tab1()
                                 cell1 = newRow.insertCell(0),
                                 cell2 = newRow.insertCell(1),
                                 cell3 = newRow.insertCell(2);
+                                cell4 = newRow.insertCell(3);
                             // add values to the cells
                             cell1.innerHTML = itemtab2.rows[i+1].cells[0].innerHTML;
                             cell2.innerHTML = itemtab2.rows[i+1].cells[1].innerHTML;
-                            cell3.innerHTML = "<input type='checkbox' name='itemcheck-tab1'>";
+                            cell3.innerHTML = itemtab2.rows[i+1].cells[2].innerHTML;
+                            cell4.innerHTML = "<input type='checkbox' name='itemcheck-tab1'>";
 
                             // remove the transfered rows from the second table [itemtab2]
                             var index = itemtab2.rows[i+1].rowIndex;
@@ -766,5 +815,114 @@ function servicetab2_To_tab1()
 
 </script>
 <!--End Free Item table 1 to Free Item Table 2-->
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#promoForm')
+    .find('[name="durationmode"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#promoForm').bootstrapValidator('revalidateField', 'durationmode');
+            })           
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid', 
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            promoname: {
+                message: 'The package name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The promo name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The promo name only accepts of alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The promo name only accept alphanumeric values. '
+                    },
+                }
+            },
+            warranty: {
+                message: 'The warranty time is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The warranty is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The warranty only accept numeric values. '
+                    },
+                }
+            },
+            durationmode: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose product type',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('durationmode').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    }, 
+                },
+            price: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+            reportrange: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+           
+        }
+    });
+
+
+});
+
+</script>
 
 @stop

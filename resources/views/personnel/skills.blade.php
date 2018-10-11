@@ -55,7 +55,7 @@
                                     <!--ADD BUTTON MODAL-->
                                     <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                     <i class="fa fa-plus"></i>
-                                        &nbsp;Add Skills
+                                        &nbsp;Add Skill
                                     </a>
                                 </div>
                              </div>
@@ -112,20 +112,20 @@
     <!-- ADD MODAL -->
     <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                        <form id="addForms">
                         <div class="modal-content">
                             <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
-                                            &nbsp;Add Skills</h4>
+                                            &nbsp;Add Skill</h4>
                             </div>
                             <div class="modal-body"  style="padding-left: 45px;">
+                                
 
-                                        <div class="row m-t-10">
+                                        <div class="form-group row m-t-10">
                                             <div class="col-md-11">
                                                <h5>Skill Name: <span style="color: red">*</span></h5>
-                                                <p class ="m-t-10">
-                                                <input id="skillsype" name="skillsype" type="text" placeholder="Skill"class="form-control">
-                                            </p>
+                                                <input id="skillsype" name="skillsype" type="text" placeholder="Skill"class="form-control m-t-10">
                                           </div>
                                         </div>
                                     </div>
@@ -137,13 +137,14 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                    <input id='addform'type='submit' class="btn btn-success " value="Save"><i class="fa fa-save text-white"></i>&nbsp;
-                                  </input>
+                                    <input type="hidden" id="token" value="{{ csrf_token() }}"></input>
+                                    <button id='addform' type='submit' class="btn btn-success " value="Save"><i class="fa fa-save text-white"></i> Save&nbsp;
+                                  </button>
                                 </div>
                             </div>
 
                         </div>
+                    </form>
                     </div>
                 </div>
             <!--END OF ADD MODAL -->
@@ -153,21 +154,20 @@
             <!-- EDIT MODAL -->
     <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                        <form id="editForms">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;Edit Skills</h4>
+                                            &nbsp;Edit Skill</h4>
                             </div>
                             <div class="modal-body"  style="padding-left: 45px;">
-
-                                        <div class="row m-t-10">
+                            
+                                        <div class="form-group row m-t-10">
                                             <div class="col-md-11">
                                                <h5>Skill Name: <span style="color: red">*</span></h5>
-                                                <p class ="m-t-10">
-                                                <input id="eid" hidden>
-                                                <input id="eskills" name="skills" type="text" placeholder="Skill"class="form-control">
-                                            </p>
+                                                <input id="eid" hidden/>
+                                                <input id="eskills" name="skills" type="text" placeholder="Skill" class="form-control m-t-10"/>
                                           </div>
                                         </div>
                                     </div>
@@ -179,10 +179,11 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id='editform'class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button type="submit" id='editform'class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -391,5 +392,92 @@
 </script>
 
 <!--functions-->
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForms').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            skillsype: {
+                message: 'The skill name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The skill name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The skill name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The skill name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForms').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            skills: {
+                message: 'The skill name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The skill name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The skill name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The skill name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+
 
 @stop

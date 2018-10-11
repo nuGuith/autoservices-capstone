@@ -65,10 +65,11 @@ Route::put('/servicecategory', 'ServiceCategoryController@update');
 Route::patch('/servicecategory', 'ServiceCategoryController@delete');
 
 //Maintenance - Services
-Route::resource('service','ServiceController');
-Route::post('/service', 'ServiceController@store');
-Route::put('/service', 'ServiceController@update');
-Route::patch('/service', 'ServiceController@delete');
+Route::get('/service','ServiceController@service');
+Route::post('/delservice','ServiceController@delete');
+Route::GET('/retservice','ServiceController@ret');
+Route::POST('/addservice','ServiceController@add');
+Route::POST('/editservice','ServiceController@edit');
 
 //Maintenance - Service Steps
 Route::resource('servicesteps','ServiceStepsController');
@@ -147,6 +148,7 @@ Route::POST('/savePackage','AddPackageController@savePackage');
 Route::get('/addpackage','AddPackageController@addpackage');
 Route::GET('/retpagkage','packageController@packageshow');
 Route::POST('/editpackage','packageController@editpackage');
+Route::post('/delpackage', 'packageController@delete');
 
 //Maintenance - Promo
 Route::get('/promo','PromoController@promo');
@@ -168,6 +170,14 @@ Route::POST('/adddiscount','DiscountController@add');
 Route::GET('/RetrieveDiscount','DiscountController@ret');
 Route::POST('/editdiscount','DiscountController@edit');
 Route::POST('/deldiscount','DiscountController@delete');
+
+//Maintenance - Tax
+Route::get('/tax','TaxController@tax');
+Route::POST('/addtax','TaxController@add');
+Route::GET('/rettax','TaxController@ret');
+Route::POST('/edittax','TaxController@edit');
+Route::POST('/deltax','TaxController@delete');
+
 
 
 //404 bladeac
@@ -268,5 +278,12 @@ Route::get('/payment_report', 'ReportsController@payment');
 Route::get('/report-estimate', 'PDFController@estimate');
 Route::get('/report-inspection', 'PDFController@inspection');
 Route::get('/report-joborder', 'PDFController@joborder');
+
+//Queries
+Route::get('/queries', 'QueriesController@index');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
+<<<<<<< HEAD
 Route::get('/report-sales', 'PDFController@sales');
+=======
+Route::get('/report-netsales', 'PDFController@netsales');
+>>>>>>> guesshee-mae

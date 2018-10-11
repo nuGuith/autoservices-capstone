@@ -55,7 +55,7 @@
                                         <!--ADD BUTTON MODAL-->
                                         <a  id="editable_table_new" class=" btn btn-raised btn-default hvr-pulse-grow adv_cust_mod_btn" data-toggle="modal" data-href="#responsive" href="#addModal">
                                         <i class="fa fa-plus"></i>
-                                            &nbsp;  Add Service Price                                   
+                                            &nbsp;  Add Service Price
                                         </a>
                                     </div>
                              </div>
@@ -75,7 +75,7 @@
                         <table class="table  table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                             <thead>
                                 <tr role="row">
-                                    
+
                                     <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Service Name</b></th>
                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>Vehicle Model</b></th>
                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Price</b></th>
@@ -84,9 +84,9 @@
                             </thead>
                             <tbody>
                                     @foreach($sname as $sr)
-                                   
+
                                 <tr role="row" class="even">
-                                   
+
                                     <td>
                                         {{$sr->ServiceName}}
                                     </td>
@@ -103,7 +103,7 @@
 
                                     @endforeach
 
-                                           
+
 
                                     </td>
                                     <td class="center">
@@ -114,17 +114,17 @@
                                         <!--EDIT BUTTON-->
                                         <button name ="{{$sr->ServiceID}}" onclick = "edit(this.name)"class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
                                         </button>
-                                        
-                                        
+
+
                                         <!--DELETE BUTTON-->
                                         <button name="{{$sr->ServiceID}}" onclick='del(this.name)'class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                         </button>
-                                       
+
                                     </td>
-                                 </tr> 
+                                 </tr>
                                 @endforeach
 
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -136,8 +136,10 @@
                 <!--ADD MODAL -->
                  <div class="modal fade in " id="addModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                        <form id="addForm">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
+
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
                                             &nbsp;&nbsp;Add Service Price</h4>
@@ -145,11 +147,12 @@
                             <div class="modal-body" style="padding-left: 55px;">
                                 
                                 <!--Search Select: Service Name-->
-                                 <div class="row m-t-5">  
+                                 <div class="form-group row m-t-5">
                                     <div class="col-md-11 ">
                                         <h5>Service Name: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <select class="form-control  chzn-select" id= 'service' tabindex="4">
+                                        <div class ="m-t-10">
+                                        </div>
+                                            <select class="form-control  chzn-select" id= 'service' tabindex="4" name="service">
                                                 <option disabled selected>Choose Service</option>
                                                 @foreach($service as $ser)
 
@@ -157,52 +160,53 @@
 
                                                 @endforeach
                                             </select>
-                                        </p>
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="service"></span>
                                     </div>
                                  </div>
 
                                  <!--Multi Search Select: Vehicle Model -->
-                                 <div class="row m-t-5">  
+                                 <div class="row m-t-5">
                                     <div class="col-md-11 ">
                                         <h5>Vehicle Model: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                        <select size="9" multiple class="form-control chzn-select " id="vehicle" name="test_me_form" tabindex="8" placeholder="Choose Model">
-                                            <div>
+                                        <div class ="m-t-10">
+                                        </div>
+                                        <div class="form-group">
+                                        <select size="9" multiple class="form-control chzn-select " id="vehicle" name="vehicle" tabindex="8" placeholder="Choose Model" required="">
                                                 @foreach($vehicle as $veh)
 
                                                 <option value = "{{$veh->ModelID}}">{{$veh->Make}} {{$veh->Model}} {{$veh->Year}} {{$veh->Transmission}}</option>
-                                               
+
                                                 @endforeach
-                                            </div>
-                                        </select>
+            `                               </select>
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="vehicle"></span>
+                                        </div>
                                     </div>
                                  </div>
-                                
+
                                 <!--Textfield: Price -->
-                                <div class="row m-t-5">  
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11 ">
                                         <h5>Price: <span style="color: red">*</span></h5>
-                                            <p class ="m-t-10">
-                                                <input id="price" name="price" type="text" placeholder="Price"class="form-control">
-                                            </p>
+                                                <input id="price" name="price" type="number" step="0.01" min="0" placeholder="Price"class="form-control m-t-10" required="">
                                     </div>
                                  </div>
-                                 
+
                             </div>
 
 
                             <!--Button: Close, Save -->
-                            <div class="modal-footer">
+                            <div class="form-group  modal-footer">
                               <div class="examples transitions m-t-5">
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                     <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                    <button class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal" id ="addform"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <input type="hidden" id="token" value="{{ csrf_token() }}">
+                                    <button type="submit" form="addform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal" id ="addform"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
                 <!-- END OF ADD MODAL-->
@@ -211,61 +215,68 @@
             <!--EDIT MODAL -->
             <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                         <form id="editForm">
                         <div class="modal-content">
+
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Service Price</h4>                  
+                                            &nbsp;&nbsp;Edit Service Price</h4>
                             </div>
 
 
                         <div class="modal-body" style="padding-left: 55px;">
-                                
+                           
 
                                  <!--Search Select: Service Name-->
-                                 <div class="row m-t-5">  
+                                 <div class="row m-t-5">
                                     <div class="col-md-11 ">
                                         <h5>Service Name: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
+                                        <div class ="m-t-10">
+                                        </div>
+                                        <div class="form-group">
                                             <input type='text' id='eser' hidden>
-                                            <select id="eservice" class="form-control  chzn-select" tabindex="4">
+                                            <select id="eservice" name="eservice" class="form-control  chzn-select" tabindex="4">
                                                 @foreach($service as $eser)
 
                                                 <option value="{{$eser->ServiceID}}">{{$eser->ServiceName}}</option>
 
                                                 @endforeach
                                             </select>
-                                        </p>
+                                             <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="eservice"></span>
+                                        </div>
                                     </div>
                                  </div>
 
                                  <!--Multi Search Select: Vehicle Model -->
-                                 <div class="row m-t-5">  
+                                 <div class=" row m-t-5">
                                     <div class="col-md-11 ">
                                         <h5>Vehicle Model: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                        <select size="9" multiple class="form-control chzn-select " id="evehicle" onchange="change()"name="test_me_form" tabindex="8" placeholder="Choose Model">
-                                            <div>
-                                                  @foreach($vehicle as $eveh)
+                                        <div class ="m-t-10">
+                                        </div>
+                                        <div class="form-group">
+                                        <select class="form-control chzn-select" multiple="" id="evehicle"  name="test_me_form" onchange="change()" >
+
+                                                @foreach($vehicle as $eveh)
 
                                                 <option value = "{{$eveh->ModelID}}">{{$eveh->Make}} {{$eveh->Model}} {{$eveh->Year}} {{$eveh->Transmission}}</option>
-                                               
+
                                                 @endforeach
-                                            </div>
                                         </select>
+
+                                        <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="test_me_form"></span>
+                                    </div>
                                     </div>
                                  </div>
-                                
+
                                 <!--Textfield: Price -->
-                                <div class="row m-t-5">  
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11 ">
                                         <h5>Price: <span style="color: red">*</span></h5>
-                                            <p class ="m-t-10">
-                                                <input id="eprice" name="eprice" type="text" placeholder="Price"class="form-control">
-                                            </p>
+                                            <input id="eprice" name="eprice" type="number" step="0.01" min="0" placeholder="Price" class="form-control m-t-10">
                                     </div>
                                  </div>
-                                 
+
                             </div>
 
                             <!--Button: Close, Save Changes -->
@@ -274,15 +285,16 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id ='editform'class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button type="submit" form="editForm" id ='editform'class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
-                <!-- END OF EDIT MODAL-->              
-            
+                <!-- END OF EDIT MODAL-->
+
 
             </div>
         </div>
@@ -376,7 +388,7 @@ function edit(id){
 
   $('#evehicle').val(modarr).trigger('chosen:updated');
 
-  
+
   },
   error: function(xhr)
   {
@@ -392,23 +404,16 @@ $("#editform").on("click", function () {
            var eser =  $('#eservice').val();
            var epr = $('#eprice').val();
 
-           
-
-
-
               $.ajax({
                type:"POST",
                url:"/editsprice",
                data:
                {
-                 
+
                  eveh:eveh,
                  eser:eser,
                  epr:epr,
                  idarr:idarr,
-                 arr:arr,
-                 darr:darr,
-                 cnt:mdcount,
                  '_token': $('#token').val()
                },
                success: function(data){
@@ -436,7 +441,7 @@ function change(){
 
      if(cnt.length > mdcount)
              {
-                
+
               for(var x=mdcount;x<cnt.length;x++)
                {
                  arr.push(cnt[x])
@@ -447,15 +452,15 @@ function change(){
 
      else if (cnt.length < mdcount) {
 
-                
+
                for(var i=cnt.length;i<mdcount;i++)
                 {
-                  
+
                   darr.push(idarr[i])
                 }
 
-                alert(darr);
-                
+                // alert(darr);
+
 
              }
 
@@ -468,7 +473,7 @@ function del(id){
                url:"/delsprice",
                data:
                {
-                 
+
                id:id,
                  '_token': $('#token').val()
                },
@@ -491,6 +496,186 @@ function del(id){
 
 </script>
 
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForm')
+
+
+    .find('[name="service"]')
+            .chosen()
+            .change(function(e) {
+                $('#addForm').bootstrapValidator('revalidateField', 'service');
+            })
+            .end()
+    .find('[name="vehicle"]')
+            .chosen()
+            .change(function(e) {
+                $('#addForm').bootstrapValidator('revalidateField', 'vehicle');
+            })
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            service: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose service',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('service').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    },
+                },
+            vehicle: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose vehicle model',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('vehicle').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    },
+                },
+            price: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm')
+
+    .find('[name="eservice"]')
+            .chosen()
+            .change(function(e) {
+                $('#editForm').bootstrapValidator('revalidateField', 'eservice');
+            })
+            .end()
+
+    .find('[name="test_me_form"]')
+            .chosen()
+            .change(function(e) {
+                $('#editForm').bootstrapValidator('revalidateField', 'test_me_form');
+            })
+            .end()
+
+
+    .bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            eservice: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose service',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('eservice').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    },
+                },
+            test_me_form: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose vehicle model',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('test_me_form').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    },
+                },
+            eprice: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
 
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>

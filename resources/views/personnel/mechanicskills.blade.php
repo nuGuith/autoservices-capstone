@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include MAster PAge -->
-@section('Title','Service Product') <!-- Page Title -->
+@section('Title','Mechanic Skills') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
@@ -82,10 +82,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              @foreach($view as $pj)
+
+                              @foreach($personnel as $pj)
                                 <tr role="row" class="even">
                                     <td>
-                                        {{$pj->LastName}}, {{$pj->FirstName}} {{$pj->MiddleName}}
+                                        {{$pj->FirstName}} {{$pj->MiddleName}} {{$pj->LastName}}
                                     </td>
                                     <td class="center">
                                         <ul style="padding-left: 1.7em;">
@@ -136,33 +137,41 @@
                                             &nbsp;&nbsp;Add Mechanic Skills</h4>
                             </div>
                             <div class="modal-body">
+                                <form id="addForms">
                                 <div class="row m-r-10">
 
                                     <!--Search Select: Mechanic Name -->
                                     <div class="col-md-11 m-t-10 m-l-20">
-                                        <h5>Mechanic Name: <span style="color: red">*</span>
-                                        <p class ="m-t-10">
-
-                                            <select class="form-control chzn-select"  id='mechanic' tabindex="2">
+                                        <h5>Mechanic Name: <span style="color: red">*</span></h5>
+                                        <div class ="m-t-10">
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control chzn-select"  id='mechanic' tabindex="2" name="mechanic">
                                                 <option disabled selected>Choose Mechanic</option>
-                                                  @foreach($view as $per)
+                                                  @foreach($per as $per)
                                                 <option value="{{$per->PersonnelID}}">{{$per->FirstName}} {{$per->MiddleName}} {{$per->LastName}}</option>
                                                   @endforeach
                                             </select>
-
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="mechanic"></span>
+                                        </div>
                                     </div>
+                                </div>
 
+                                <div class="row m-r-10">
                                     <!--Search Select: Mechanic Skills -->
                                     <div class="col-md-11 m-t-10 m-l-20">
-                                        <h5>Skills: <span style="color: red">*</span>
-                                        <p class ="m-t-10">
+                                        <h5>Skills: <span style="color: red">*</span></h5>
+                                        <div class ="m-t-10">
+                                        <div class="form-group">
                                             <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
                                                     <option disabled>Choose Skills</option>
                                                     @foreach($skill as $askill)
                                                     <option value="{{$askill->SkillID}}">{{$askill->Skill}}</option>
                                                     @endforeach
                                                 </select>
-                                        </p>
+                                                <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="product"></span>
+                                            </div>
+                                        </div>
                                     </div>
 
                              </div>
@@ -176,10 +185,11 @@
                               </div>
                                 <div class="examples transitions m-t-5">
                                   <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                    <button id="submitform"class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <button type="submit" form="addForms" id="submitform"class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -193,29 +203,38 @@
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Service Product</h4>
+                                            &nbsp;&nbsp;Edit Mechanic Skills</h4>
                             </div>
 
 
                             <div class="modal-body">
+                                <form id="editForms">
                                 <div class="row">
 
                                     <!--Search Select: Mechanic Name -->
                                     <div class="col-md-11 m-t-10 m-l-20">
-                                        <h5>Mechanic Name: <span style="color: red">*</span>
-                                        <p class ="m-t-10">
-                                            <select id='emechanic'class="form-control  chzn-select" tabindex="2">
+                                        <h5>Mechanic Name: <span style="color: red">*</span></h5>
+                                        <div class ="m-t-10">
+                                        </div>
+                                        <div class="form-group">
+                                            <select id='emechanic' name="emechanic" class="form-control  chzn-select" tabindex="2">
                                                 <option disabled selected>Choose Mechanic</option>
                                                   @foreach($view as $eper)
                                                 <option value="{{$eper->PersonnelID}}">{{$eper->FirstName}} {{$eper->MiddleName}} {{$eper->LastName}}</option>
                                                   @endforeach
                                             </select>
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="emechanic"></span>
+                                        </div>
+                                    </div>
                                     </div>
 
+                                    <div class="row">
                                     <!--Search Select: Mechanic Skills -->
                                     <div class="col-md-11 m-t-10 m-l-20">
-                                        <h5>Skills: <span style="color: red">*</span>
-                                        <p class ="m-t-10">
+                                        <h5>Skills: <span style="color: red">*</span></h5>
+                                        <div class ="m-t-10">
+                                        </div>
+                                        <div class="form-group">
                                             <select class="form-control chzn-select" id="eproduct" name="eproduct" tabindex="3" multiple="" onchange="eprod()">
                                                     <option disabled>Choose Skills</option>
                                                     @foreach($skill as $eskill)
@@ -223,14 +242,11 @@
                                                     @endforeach
 
                                                 </select>
-                                        </p>
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="eproduct"></span>
+                                        </div>
                                     </div>
-
-
-
                              </div>
                         </div>
-
 
                             <!--Button: Close and Save Cahnges -->
                             <div class="modal-footer">
@@ -238,10 +254,11 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button type="submit" form="editForms" id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -384,7 +401,7 @@
 
              var eskill = $('#eproduct').val();
              var eemp =  $('#emechanic').val();
-             alert(eskill);
+             // alert(eskill);
 
 
              $.ajax({
@@ -418,7 +435,7 @@
            });
 
            function deletepj(id){
-             alert(id)
+             // alert(id)
              $('#deleteId').val(id);
 
            }
@@ -461,7 +478,7 @@
 
              if(val.length > prodcount)
              {
-                alert(val.length)
+                // alert(val.length)
               for(var x=prodcount;x<val.length;x++)
                {
                  parr.push(val[x])
@@ -476,7 +493,7 @@
                 {
                   darr.push(sid[i])
                 }
-                alert(darr);
+                // alert(darr);
 
              }
 
@@ -487,6 +504,162 @@
 
 
 
+
+</script>
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForms')
+
+    .find('[name="mechanic"]')
+            .chosen()
+            .change(function(e) {
+                $('#addForms').bootstrapValidator('revalidateField', 'mechanic');
+            })
+            .end()
+    .find('[name="product"]')
+            .chosen()
+            .change(function(e) {
+                $('#addForms').bootstrapValidator('revalidateField', 'product');
+            })
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            mechanic: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose mechanic',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('mechanic').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The mechanic is required and cannot be empty. '
+                    },
+                },
+            product: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose skill',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('product').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The skill is required and cannot be empty. '
+                    },
+                },
+        }
+    });
+
+
+});
+
+</script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForms')
+
+    .find('[name="emechanic"]')
+            .chosen()
+            .change(function(e) {
+                $('#editForms').bootstrapValidator('revalidateField', 'emechanic');
+            })
+            .end()
+    .find('[name="eproduct"]')
+            .chosen()
+            .change(function(e) {
+                $('#editForms').bootstrapValidator('revalidateField', 'eproduct');
+            })
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            emechanic: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose mechanic',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('emechanic').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The mechanic is required and cannot be empty. '
+                    },
+                },
+            eproduct: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose skill',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('eproduct').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The skill is required and cannot be empty. '
+                    },
+                },
+        }
+    });
+
+
+});
 
 </script>
 

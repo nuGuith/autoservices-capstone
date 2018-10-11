@@ -129,10 +129,9 @@
                                             &nbsp;Edit Product Category</h4>
                             </div>
                             <div class="modal-body" style="padding-left: 45px;">
-                                <div class="row m-t-10">
+                                <div class="form-group row m-t-10">
                                     <div class="col-md-11">
                                         <h5>Product Category: <span style="color: red">*</span></h5>
-                                            <p>
                                                 {!! 
                                                     Form::input ('categoryname','text', Input::old('categoryname'), [
                                                     'id'=>'categoryname',
@@ -144,12 +143,11 @@
                                                     'required'
                                                     ])
                                                 !!}
-                                            </p>
                                             <input id="productcategoryid" name="productcategoryid" type="hidden" value=null>
                                     </div>
                                 </div>
-                                <br>
-                                    <div id="show-errors" style="margin-right: 43px;">
+                                
+                                    <div id="show-errors">
                                         @if ($errors->update->any())
                                             <div class="alert alert-danger">
                                                 <ul>
@@ -173,7 +171,8 @@
                                     {!!  Form::button('<i class="fa fa-save text-white"></i>&nbsp; Save Changes', [
                                         'type'=>'submit',
                                         'class'=>'btn btn-success warning source cancel_edit m-l-10 hvr-float-shadow adv_cust_mod_btn',
-                                        'data-dismiss'=>'modal'
+                                        'data-dismiss'=>'modal',
+                                        'form' => 'editForm',
                                     ])
                                     !!}
                                 </div>
@@ -195,10 +194,9 @@
                             </div>
                             <div class="modal-body"  style="padding-left: 45px;">
 
-                                        <div class="row m-t-10">
+                                        <div class="form-group row m-t-10">
                                             <div class="col-md-11">
                                                <h5>Product Category: <span style="color: red">*</span></h5>
-                                                <p>
                                                     {!! 
                                                         Form::input ('categoryname','text', Input::old('categoryname'), [
                                                         'id'=>'categoryname',
@@ -210,12 +208,11 @@
                                                         'required'
                                                         ])
                                                     !!}
-                                                </p>
                                           </div>
                                         </div>
-
+                                    </div>
                                     <br>
-                                    <div id="show-errors" style="padding-right:9%;">
+                                    <div id="show-errors" style="margin-right: 43px;">
                                         @if ($errors->add->any())
                                             <div class="alert alert-danger">
                                                 <ul>
@@ -226,7 +223,6 @@
                                             </div>
                                             <br>
                                         @endif
-                                    </div>
                             </div>
 
                             <div class="modal-footer">
@@ -334,6 +330,91 @@
             $('#deleteModal').modal('show');
         }
 </script>
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            categoryname: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The category name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The category name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The service category name only accept of alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            categoryname: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The category name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The category name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The service category name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+    
+});
+
+</script>
+
 
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>
