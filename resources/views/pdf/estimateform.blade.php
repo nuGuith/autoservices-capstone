@@ -104,11 +104,11 @@ input{
 <div class="row">
     <div class="col-complaints">
         <h3>Complaints</h3>
-        <span id="problem">{{ $complaint->Problem }}</span>
+        <span id="problem">@if(!(is_null($complaint))) {{ $complaint->Problem }} @endif</span>
     </div>
     <div class="col-complaints">
         <h3 style="padding-left:5%">Diagnosis</h3>
-        <span id="complaint">{{ $complaint->Diagnosis }}</span>
+        <span id="complaint">@if(!(is_null($complaint))) {{ $complaint->Diagnosis }} @endif</span>
     </div>
 </div><br><br><br>
 

@@ -617,7 +617,7 @@
                                         </div>
                                         <div class="col-sm-4"  style="margin-bottom:-5px;margin-top:-5px;">
                                             <div>
-                                                <span style="padding-left:7px; font-size: 14px;">[<a style="fontsize:12px; color:#1BBFC9; cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Active Filters<div><select class='form-control chzn-select' multiple='true'> <option>Mechanical</option> <option>Detailing</option> </select></div><hr>" data-trigger="click" data-html="true" data-dismiss="tooltip"> Filters </a>]</span>
+                                                <span style="padding-left:7px; font-size: 14px;">[<a id="mechFilters" style="fontsize:12px; color:#1BBFC9; cursor:pointer;" data-toggle="tooltip" data-placement="top" title="&nbsp;&nbsp;View Active Filters&nbsp;&nbsp;" data-trigger="hover" data-html="true" data-container="body" data-dismiss="tooltip"> Filters </a>]</span>
                                             </div>
                                         </div>
                                     </div>
@@ -904,6 +904,54 @@
                     </div>
                 </div>
                 <!-- END PRODUCT SUGGESTIONS MODAL -->
+
+                <!-- START MECHANIC FILTER MODAL -->
+                <div class="modal fade in " id="mechFilterModal" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                    &nbsp;Mechanic Filtering
+                                    </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <hr>
+                                    <div class="row" style="margin-bottom:-5px; padding-bottom:-5px;">
+                                        <div class="col-sm-7">
+                                            <h5 style="padding-top:5px; margin-left:0px;">Status: (<span id="filterStatus">Active</span>)</h5>
+                                        </div>
+                                        <div class="form-group radio_basic_swithes_padbott col-sm-3" style="padding-left:15px; margin-bottom:4px;">
+                                            <input id="filterSwitch" class="make-switch-radio" type="checkbox" data-off-color="success" data-on-color="danger" data-on-text="OFF" data-off-text="ON" data-size="small" data-toggle="switch" unchecked>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:-5px;padding-bottom:10px;">
+                                        <hr>
+                                        <h5>We are filtering the list of mechanic based on the following skills required for the services you have chosen:</h5>
+                                    </div>
+                                    <div style="display:block; width:100%; height:150px; overflow-y:scroll; border-bottom: 1px solid #ECECEC; border-top: 1px solid #ECECEC;">
+                                        <table id="mechFilterTbl" class="table list table-hover" style="width:100%;">
+                                            <tfoot id="mechFilterFooter">
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div><br>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnCancel" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnApply" type="button" data-dismiss="modal" class="btn btn-success">
+                                        &nbsp;Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PERSONNEL FILTER MODAL -->
                 
                 <!-- START PRODUCT UNCHECKED MODAL -->
                 <div class="modal fade in " id="prodUncheckedModal" tabindex="-3" role="dialog" aria-hidden="false">
@@ -1322,9 +1370,9 @@ $(document).ready(function () {
             $("#discounts").val(null).trigger("chosen:updated");
             getGrandTotal();
             getDiscountedPrice();
+            $(this).closest("tr").remove();
         }
         
-        $(this).closest("tr").remove();
         if($(this).closest("tr#promo")){
             $("#promos").val(null).trigger("chosen:updated");
         }
@@ -1585,7 +1633,12 @@ $(document).ready(function () {
                     var count = Object.keys(data.estimate).length;
                     var options = '';
 
-                    if (count == 1){
+                    if (count == 0){
+                        $('#estimates').empty().append('<option value = 0> No previous Estimate records available. </option>');
+                        $('#estimates').trigger("chosen:updated");
+                    }
+
+                    else if (count == 1){
                         unfilterEstimateID();
                         $('#estimates').val(data.estimate[0].estimateid).trigger('chosen:updated');
                     }
@@ -1675,9 +1728,9 @@ $(document).ready(function () {
                 var price ='';
                 var count = Object.keys(data.serviceprices).length;
                 if (count > 0)
-                    $('#services').empty().append('<option value = 0> Choose a Service</option>');
+                    $('#services').empty().append('<option value="0"> Choose a Service</option>');
                 else
-                    $('#services').empty().append('<option value = 0> No services available. </option>');
+                    $('#services').empty().append('<option value="0"> No services available. </option>');
 
                 $('#services').trigger("chosen:updated");
                 for(var i = 0; i < count; i++)
@@ -1948,11 +2001,11 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/addestimates/"+selectedService+"/getServiceDetails",
+            url: "/addjoborder/"+selectedService+"/getServiceDetails",
             dataType: "JSON",
             async: false,
             success:function(data){
-                var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
+                var newServiceRow = $("<tr class='service' id='"+selectedService+"' data-servicecategoryid='"+data.service.servicecategoryid+"'  data-servicecategoryname='"+data.service.servicecategoryname+"'>");
                 var pr = $('#services :selected').data('price');
                 pr = parseFloat(pr).toFixed(2);
                 cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
@@ -1979,9 +2032,33 @@ $(document).ready(function () {
                 cols = "";
             }
         });
-
+        filterTags();
         dismissed=false;
         //selectedService = null;
+    }
+
+    function filterTags(){
+        var tbody = $("<tbody>");
+        var row = $("<tr>");
+        var cols = "";
+        var filterID = new Array();
+        var filterTag = new Array();
+        $('table.order-list tr').each(function(){
+            if($(this).attr('class') == 'service'){
+                filterID.push($(this).data('servicecategoryid'));
+                filterTag.push($(this).data('servicecategoryname'));
+            }
+        });
+        var count = filterID.length;
+        for (var i = 0; i < count; i++) {
+            cols += '<td><label style="width:100%; display:inline-block; margin: auto;"><input id="filterTag" name="filterTag[]" type="checkbox" value="'+filterID[i]+'" checked style="-webkit-transform: scale(1.4);">&nbsp;&nbsp;&nbsp;'+filterTag[i]+'</label></td>';           
+            row.append(cols);
+            tbody.append(row);
+            row = $("<tr>");
+            cols = "";
+        }
+        $('#mechFilterTbl').find('tbody').empty();
+        $(tbody).insertBefore("#mechFilterFooter");
     }
 
     function addProduct(){  
@@ -2074,8 +2151,13 @@ $(document).ready(function () {
             getEstimatedTime();
             getGrandTotal();
             countServices();
+            $("#services").prop("disabled", false);
+            $("#services").prop("selectedIndex", 0).trigger("chosen:updated");
+            $("#products").prop("disabled", true);
+            $("#products").val(null).trigger("chosen:updated");
+            $("#addRow").prop("disabled", true);
 
-            if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+            if(isNaN(serviceCtr) || serviceCtr == 0) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         });
     }
 
@@ -2217,6 +2299,21 @@ $(document).ready(function () {
         }
         packageID = selectedID;
 	});
+
+    $("#mechFilters").on("click", function(){
+        $('#mechFilterModal').modal('show');
+    });
+
+    $(function(){ 
+        $('#filterSwitch').on('switchChange.bootstrapSwitch', function(event){
+            if($(this).is(':checked')){   
+                $('#filterStatus').html('Inactive');
+            }
+            else{
+                $('#filterStatus').html('Active');
+            }
+        })
+    });
 
     var old = null;
     $("#mechanic").change(function(){

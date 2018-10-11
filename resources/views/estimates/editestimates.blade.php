@@ -360,7 +360,7 @@
                                         @endforeach
                                     </tbody>
                                      <!--Footer: Total Price-->
-                                    <tfoot>
+                                    <tfoot id="footer">
                                         <tr class="trrow">
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -390,11 +390,11 @@
                                     <div class="row m-t-5">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red">*</span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2">{{ $complaint->Problem }}</textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2" value="">@if(!(is_null($complaint))) {{ $complaint->Problem }} @endif</textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2">{{ $complaint->Diagnosis }}</textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2">@if(!(is_null($complaint))) {{ $complaint->Diagnosis }} @endif</textarea>
                                         </div>                              
                                     </div>
                        
@@ -456,6 +456,87 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- START SUBMIT MODAL -->
+                <div class="modal fade in " id="confirmationModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Record Saved</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Done. We've already saved this record. Do you want to proceed to creating the Job Order now?</h5>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <a id="btnProceed" type="submit" class="btn btn-success">
+                                        &nbsp;Proceed &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SUBMIT MODAL -->
+                <!-- START PRODUCT SUGGESTIONS MODAL -->
+                <div class="modal fade in " id="productSuggest" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Product suggestions</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Here are the product suggestions or the list of all the product(s) that might be needed for the service <strong><span id="servicename">Engine Overhaul</span></strong>. We can automatically add all of them for you.</h5>
+                                    <div>
+                                        <table class="table display nowrap dataTable no-footer" style="width:96%;">
+                                        </table>
+                                    </div>
+                                    <div style="display:block; width:100%; height:150px; overflow-y:scroll;">
+                                        <table id="prodSuggestTbl" class="table display nowrap dataTable" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <td><h5>Product</h5></td>
+                                                    <td><h5>Unit Price</h5></td>
+                                                </tr>
+                                            </thead>
+                                            <tfoot id="prodSuggestFooter">
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div><br>
+                                <div style="background:#F7F7F9; padding: 3%;" class="row m-t-6">
+                                    <div class="col-md-9">
+                                        <h6>If you don't like this feature, you can turn this off in <a style="color:#0366D6" href="#">Utilities</a> or just click the 'Turn off' button here.</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-outline-primary" style="border:1px solid #aeafaf;padding-top:4%;padding-bottom:4%; color: #0366D6; background-color:#FFFFFF" onMouseOver="this.style.backgroundColor='#0366D6';this.style.color='#FFFFFF'" onMouseOut="this.style.backgroundColor='#FFFFFF';this.style.color='#0366D6'">Turn off</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">No, I want to manually add products.</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnGo" type="button" data-dismiss="modal" onclick="" class="btn btn-success">
+                                        &nbsp;Proceed
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PRODUCT SUGGESTIONS MODAL -->
             </div>
         </div>
                    
@@ -484,11 +565,11 @@
 
 
 <!--SCRIPT FOR ESTIMATE-->
-<script> 
+<script>
 $(document).ready(function () {
 
-    var serviceCtr = 0;
-    var deleted = [];
+    var serviceCtr = 0, modelID = 0, ctr = 0;
+    var deleted = [], selectProduct = [];
 
 
     $("#automobile_models option[value='0']").prop("disabled",true);
@@ -497,6 +578,7 @@ $(document).ready(function () {
     $("#services option[value='0']").prop("disabled",true);
     $("#products option[value='0']").prop("disabled",true);
     $('#products').prop('disabled', true);
+    $('#addRow').prop('disabled', true);
 
 
     var estimate = {!! json_encode($estimate->toArray()) !!};
@@ -518,9 +600,11 @@ $(document).ready(function () {
             $("#MT").prop("checked", true);
             $("#AT").prop("checked", false);
         }
+        modelID = parseInt(automobile.ModelID);
         $('#transmission').val(automobile.Transmission);
         $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
         filterServices(automobile.ModelID);
+        //setDisabledServices();
     }
 
     getGrandTotal();
@@ -662,6 +746,209 @@ $(document).ready(function () {
         getEstimatedTime();
         getGrandTotal();
     });
+    $("#products").change(function () {
+        var selectedID = $(this).val();
+        $("#addRow").prop("disabled", false);
+        //alert(selectedID);
+
+        if(selectedID != null){
+            ctr = selectedID.length;
+            j = ctr;
+            //alert("Length: " + ctr);
+
+            for (i = 0; i < j; i++ )
+                if (selectedID[i] == null)
+                    ctr--;
+
+            for (i = 0; i < ctr; i++)
+                selectProduct[i] = selectedID[i];
+                
+        }
+    });
+
+    // ADD ITEMS Functions
+    var newProductRow = $("<tr/>");
+    $("#addRow").on("click", function (event) {
+        if (dismissed) addService();
+        $("#services").prop("disabled", false).trigger("chosen:updated");
+        addProduct();
+        getEstimatedTime();
+        getGrandTotal();
+        reset();
+    });
+
+    $('#btnNo').on("click", function(){
+        addService();
+        getEstimatedTime();
+        getGrandTotal();
+        $("#services").prop("disabled", true).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+    });
+
+    $('#close').on("click", function(){
+        dismissed = true;
+    });
+
+    $('#btnGo').on("click", function(){
+        addService();
+        addProduct();
+        getEstimatedTime();
+        getGrandTotal();
+        reset();
+    });
+
+    function disableOutsideClick(){
+        $('#productSuggest').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    function reset(){
+        $("#services").val(0).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+        $("#addRow").prop("disabled", true);
+        $("#labor").val(null);
+        $("#products").prop("disabled", "disabled").trigger('chosen:updated');
+    }
+
+    function addService(){
+        var cols = "";
+
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+selectedService+"/getServiceDetails",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
+                var pr = $('#services :selected').data('price');
+                pr = parseFloat(pr).toFixed(2);
+                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" min="1" style="width:70px; text-align:right;" id="laborcost" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
+                $('#labor').removeClass("focused_input");
+                newServiceRow.append(cols);
+                $(newServiceRow).insertBefore("#footer");
+
+                bindListenerToBtnDel();
+
+                $("#services option[value='"+selectedService+"']").prop("disabled", true);
+                $("#services").trigger("chosen:updated");
+
+                $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
+
+                serviceCtr++;
+                cols = "";
+            }
+        });
+
+        dismissed=false;
+        //selectedService = null;
+    }
+
+    function addProduct(){  
+        for(var k = 0; k < ctr; k++){
+            $.ajax({
+                type: "GET",
+                url: "/addestimates/"+ selectProduct[k] +"/getProductDetails",
+                dataType: "JSON",
+                async: false,
+                success: function (data) {
+                    var newProductRow = $("<tr class='product' id='svc"+selectedService+"'>");
+                    cols = "";
+                    var pr = data.product.price;
+                    pr = parseFloat(pr).toFixed(2);
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" onkeypress="return event.charCode >= 48 && event.charCode <= 57" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
+                    cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-left:none !important"><center><button type="button" id="productid" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
+
+                    newProductRow.append(cols);
+                    $(newProductRow).insertBefore("#footer");
+
+                    if (ctr != 1){
+                        newProductRow = $("<tr>");
+                        cols = "";
+                    }
+
+                    cols = "";
+
+                    $("table td input").bind({
+                        keyup: function() {
+                            getGrandTotal();
+                        },
+                        mouseleave: function() {
+                            $(this).blur();
+                            getGrandTotalNoQty();
+                        },
+                        focusout: function() {
+                            getGrandTotalNoQty();
+                        }
+                    });
+
+                    bindListenerToBtnDel();
+
+                    $("table.list").on("click", "#productid", function(event){
+                        var remaining = 1;
+                        var id = $(this).attr('name');
+                        var svcid = "svc" + id;
+                        var this_ServiceID = "#" + id;
+                        $('table tr').each( function() {
+                            if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid){
+                                remaining++;
+                            }
+                        });
+                        if(remaining == 1) {
+                            $('#itemsTable').find(this_ServiceID).remove();
+                            $('#services option[value="'+id+'"]').prop("disabled", false);
+                            $('#services').trigger("chosen:updated");
+                            serviceCtr--;
+                            $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+                        }
+                        getEstimatedTime();
+                        getGrandTotal();
+                    });
+                }
+            });
+        }
+
+    }
+
+    function bindListenerToBtnDel(){
+        
+        $("table.list").on("click", ".btnDel", function (event) {
+            var id = $(this).data('serviceid');
+            var svcid = "svc" + id;
+                        
+            //remove all products included in this service
+            $('table tr').each( function() {
+                if ((this.id) == svcid) 
+                    $(this).closest("tr").remove();
+            });
+
+            $(this).closest("tr").remove();
+            $('#services option[value="'+id+'"]').prop("disabled", false);
+            $('#services').trigger("chosen:updated");
+            getEstimatedTime();
+            getGrandTotal();
+            $("#services").prop("disabled", false);
+            $("#services").prop("selectedIndex", 0).trigger("chosen:updated");
+            $("#products").prop("disabled", true);
+            $("#products").val(null).trigger("chosen:updated");
+            $("#addRow").prop("disabled", true);
+
+            serviceCtr--;
+            if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+        });
+    }
 
     function getGrandTotal(){
         grandTotal = 0;
@@ -690,6 +977,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
 
     function getGrandTotalNoQty(){
@@ -723,7 +1011,9 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
+
 
     function getEstimatedTime(){
         totalEstimatedTime = 0;
@@ -743,6 +1033,17 @@ $(document).ready(function () {
         document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
         else
         document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+
+    function setDisabledServices(){
+        var serviceid = null;
+        $('table tr').each(function(){
+            if($(this).attr('class') == 'service'){
+                serviceid = this.id;
+                $("#services option[value='"+serviceid+"']").prop('disabled', true);
+                $('#services').trigger("chosen:updated");
+            }
+        });
     }
     
     function filterServices(modelID){
@@ -767,9 +1068,66 @@ $(document).ready(function () {
                 $('#services').append(options);
                 $("#services option[value='0']").prop("disabled", true, "selected", false);
                 $('#services').trigger("chosen:updated");
+                // setDisabledServices();
             }
         });
     }
+
+    /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
+    $("#services").change(function () {
+        var selectedID = $(this).val();
+        var selectedSvc = $('#services :selected').text();
+        selectedService = selectedID;
+
+        if (modelID < 1){
+            alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank you.');
+            $('#services').prop('selectedIndex', 0);
+            $('#services').trigger("chosen:updated");
+        }
+
+        if (modelID > 0){
+            $('#products').empty().append('<option value=0 >Choose a Product</option>');
+            $('#products').trigger("chosen:updated");
+            var select = $('#products');
+            var labor = $('#services :selected').data('price');
+            $('#labor').val(labor);
+            $('#labor').addClass('focused_input');
+            $('#products').prop('disabled', false);
+            $('#productSuggest').find('tbody').empty();
+            var tbody = $("<tbody>");
+
+            $.ajax({
+                type: "GET",
+                url: "/addestimates/"+selectedID+"/getProducts",
+                dataType: "JSON",
+                async: false,
+                success:function(data){
+                    var options = '';
+                    var row = $("<tr>");
+                    var cols = "";
+                    var count = Object.keys(data.products).length;
+                    for (var i = 0; i < count; i++) {
+                        options += '<option value="' + data.products[i].productid + '">' + data.products[i].productname + '</option>';
+                        cols += '<td style="border-right:none !important">'+ data.products[i].productname +'</td>';
+                        cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align:right; height:10px;" readonly placeholder=".00" value='+ data.products[i].price +' class="form-control"></td>';
+                        selectProduct[i] = parseInt(data.products[i].productid);
+                        row.append(cols);
+                        tbody.append(row);
+                        row = $("<tr>");
+                        cols = "";
+                    }
+                    ctr = count;
+                    $("#products").append(options);
+                    $("#products option[value='0']").prop("disabled",true, "selected",false);
+                    $('#products').trigger("chosen:updated");
+                }
+            });
+            $('#servicename').html(selectedSvc);
+            $(tbody).insertBefore("#prodSuggestFooter");
+            disableOutsideClick();
+            $('#productSuggest').modal('show');
+        }
+    });
 
     $("#AT").change(function(){
         $("#MT").prop("checked", false);

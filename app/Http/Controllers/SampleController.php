@@ -56,6 +56,7 @@ class SampleController extends Controller
       ->where('customerid', $model->CustomerID)
       ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
       ->first();
+      
     $servicebay = ServiceBay::findOrFail($estimate->ServiceBayID);
 
     $personnel = DB::table('personnel_header')

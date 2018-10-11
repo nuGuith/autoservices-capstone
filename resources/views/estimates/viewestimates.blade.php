@@ -249,11 +249,13 @@
                                     <div class="row m-t-20">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly>{{ $complaint->Problem }}</textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="4" readonly>@if(!(is_null($complaint))) {{ $complaint->Problem }} @endif
+                                            </textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly>{{ $complaint->Diagnosis }}</textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="4" readonly>@if(!(is_null($complaint))) {{ $complaint->Diagnosis }} @endif
+                                            </textarea>
                                         </div>                              
                                     </div>
 
@@ -307,7 +309,7 @@
                                     <button onclick="window.location='{{ url("/estimates") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates" target="_blank"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>
 
-                                    <a href="/estimateform/{{ $estimate->EstimateID }}" target="_blank">
+                                    <a href="/estimateform/{{$estimate->EstimateID}}" target="_blank">
                                     <button class="btn btn-info btn-raised" style ="width: 80px;"><i class="fa fa-print text-white" ></i>&nbsp; Print</button>
                                 </div>
                             </div>

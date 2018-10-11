@@ -40,10 +40,16 @@ class AddJobOrderController extends Controller
      */
     public function index()
     {
-        $estimateids = Estimate::orderBy('estimateid', 'desc')
+        $estimates_in_joborder = DB::table('job_order as jo')
+            ->join('estimate as e', 'jo.estimateid', '=', 'e.estimateid')
+            ->where(['jo.isActive' => 1, 'e.isActive' => 1])
+            ->pluck('jo.estimateid');
+        
+        $estimateids = DB::table('estimate')
             ->where('isActive', 1)
-            ->select('estimateid', DB::table('estimate')
-                                    ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+            ->whereNotIn('estimateid', $estimates_in_joborder)
+            ->select('estimateid', DB::raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
+            ->orderBy('estimateid', 'desc')
             ->pluck('estimate_desc','estimateid');
 
         $inspectionids = InspectionHeader::orderBy('inspectionid', 'desc')
@@ -640,6 +646,8 @@ class AddJobOrderController extends Controller
             ->orderBy('pr.productid', 'desc')
             ->where(['ps.serviceid' => $id, 'pr.isActive' => 1])
             ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"), 'pr.productid', 'pr.price')
+            ->groupBy('pr.productid')
+            ->distinct('pr.productid')
             ->get();
         return response()->json(compact('products'));
     }
@@ -668,8 +676,9 @@ class AddJobOrderController extends Controller
     {
         $service = DB::table('service AS se')
             ->join('service_price AS sp', 'se.serviceid', 'sp.serviceid')
+            ->join('service_category AS sc', 'sc.servicecategoryid', '=', 'se.servicecategoryid')
             ->where(['sp.serviceid' => $id, 'sp.isActive' => 1, 'sp.modelid' => 1])
-            ->select('se.servicename','sp.price', 'se.estimatedtime')
+            ->select('se.servicename','sp.price', 'se.estimatedtime', 'se.servicecategoryid', 'sc.servicecategoryname')
             ->first();
         return response()->json(compact('service'));
     }
