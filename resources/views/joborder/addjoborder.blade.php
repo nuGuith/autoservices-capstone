@@ -446,7 +446,7 @@
                                     @if(Route::current()->getName() == 'fromEstimate')
                                     <tbody>
                                         @foreach($serviceperformed as $sp)
-                                        <tr class="service" id="{!!$sp->ServiceID!!}" name="{!!$sp->ServicePerformedID!!}">
+                                        <tr class="service" id="{!!$sp->ServiceID!!}" name="{!!$sp->ServicePerformedID!!}"  data-servicecategoryid="{!!$sp->ServiceID!!}" data-servicecategoryname="{!!$sp->servicecategoryname!!}">
                                             <td style="border-right:none !important">
                                                 <span style="color:red">Service:</span><br>{!!$sp->ServiceName!!}<br>
                                                 <input type="hidden" id="svsperf{!!$sp->ServicePerformedID!!}" name="serviceperformed[]" value="{!!$sp->ServicePerformedID!!}">
@@ -931,12 +931,14 @@
                                         <h5>We are filtering the list of mechanic based on the following skills required for the services you have chosen:</h5>
                                     </div>
                                     <div style="display:block; width:100%; height:150px; overflow-y:scroll; border-bottom: 1px solid #ECECEC; border-top: 1px solid #ECECEC;">
+                                        {{Form::open(array('id' => 'filterIDForm'))}}
                                         <table id="mechFilterTbl" class="table list table-hover" style="width:100%;">
                                             <tfoot id="mechFilterFooter">
                                             </tfoot>
                                         </table>
+                                        {{Form::close()}}
                                     </div>
-                                </div><br>
+                                </div>
                             </div>
                             <div class="modal-footer m-t-10">
                                 <div class="examples transitions m-t-5">
@@ -1060,6 +1062,7 @@ $(document).ready(function () {
     var dismissed = false;
     var reasonsConfirmed = false;
     var selectedMechIndex = 0;
+    var filterID = new Array();
 
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -1098,6 +1101,7 @@ $(document).ready(function () {
         getGrandTotal();
         getEstimatedTime();
         getDiscountedPrice();
+        filterTags();
     }
 
     if((estimate.ServiceBayID > 0) || (estimate.ServiceBayID != null)){
@@ -1267,7 +1271,8 @@ $(document).ready(function () {
             getEstimatedTime();
             getGrandTotal();
             getDiscountedPrice();
-
+            filterTags();
+            filterMechanics();
             countServices();
             if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
         }
@@ -1434,7 +1439,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
-        $("#totalamountdue").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalamountdue").html("PHP <span style='color:red;'>" + parseFloat(grandTotal).toFixed(2) + "</span> ");
         $('#totalamtdue').val(grandTotal);
         getDiscountedPrice();
     }
@@ -1470,7 +1475,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
-        $("#totalamountdue").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalamountdue").html("PHP <span style='color:red;'>" + parseFloat(grandTotal).toFixed(2) + "</span> ");
         $('#totalamtdue').val(grandTotal);
         getDiscountedPrice();
     }
@@ -2033,6 +2038,7 @@ $(document).ready(function () {
             }
         });
         filterTags();
+        filterMechanics();
         dismissed=false;
         //selectedService = null;
     }
@@ -2041,7 +2047,7 @@ $(document).ready(function () {
         var tbody = $("<tbody>");
         var row = $("<tr>");
         var cols = "";
-        var filterID = new Array();
+        filterID = new Array();
         var filterTag = new Array();
         $('table.order-list tr').each(function(){
             if($(this).attr('class') == 'service'){
@@ -2051,7 +2057,7 @@ $(document).ready(function () {
         });
         var count = filterID.length;
         for (var i = 0; i < count; i++) {
-            cols += '<td><label style="width:100%; display:inline-block; margin: auto;"><input id="filterTag" name="filterTag[]" type="checkbox" value="'+filterID[i]+'" checked style="-webkit-transform: scale(1.4);">&nbsp;&nbsp;&nbsp;'+filterTag[i]+'</label></td>';           
+            cols += '<td><label style="width:100%; display:inline-block; margin: auto;"><input id="filterTag" name="filterTag[]" type="checkbox" value="'+filterID[i]+'" checked style="-webkit-transform: scale(1.4);">&nbsp;&nbsp;&nbsp;'+filterTag[i]+'</label><input type="hidden" name="filterID[]" value="'+filterID[i]+'"></td>';           
             row.append(cols);
             tbody.append(row);
             row = $("<tr>");
@@ -2059,6 +2065,42 @@ $(document).ready(function () {
         }
         $('#mechFilterTbl').find('tbody').empty();
         $(tbody).insertBefore("#mechFilterFooter");
+    }
+
+    $('#btnApply').on('click', function(){
+        filterMechanics();
+    });
+
+    function filterMechanics(){
+        var formData = $('#filterIDForm').serialize();
+
+        $.ajax({
+            type: "GET",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/addjoborder/1/filterMechanic",
+            dataType: "JSON",
+            data: formData,
+            success:function(data){
+                var options = '';
+                var count = Object.keys(data.mechanic).length;
+                if (count > 0)
+                    $('#mechanic').empty().append('<option value="0"> Assign a Mechanic</option>');
+                else{
+                    if(serviceCtr == 0)
+                        $('#mechanic').empty().append('<option value="0"> No filter criteria(skills) in effect. </option>');    
+                    else
+                    $('#mechanic').empty().append('<option value="0"> No mechanic matched the criteria. </option>');
+                }
+
+                $('#mechanic').trigger("chosen:updated");
+                for(var i = 0; i < count; i++) {
+                    options += '<option value ="' + data.mechanic[i].personneljobid + '">' + data.mechanic[i].personnelfullname +'</option>';
+                }
+                $('#mechanic').append(options);
+                $("#mechanic option[value='0']").prop("disabled", true, "selected", false);
+                $('#mechanic').trigger("chosen:updated");
+            }
+        });
     }
 
     function addProduct(){  
@@ -2151,6 +2193,8 @@ $(document).ready(function () {
             getEstimatedTime();
             getGrandTotal();
             countServices();
+            filterTags();
+            filterMechanics();
             $("#services").prop("disabled", false);
             $("#services").prop("selectedIndex", 0).trigger("chosen:updated");
             $("#products").prop("disabled", true);
@@ -2228,7 +2272,7 @@ $(document).ready(function () {
             $("#lessdiscount").html("- PHP " + discountedAmt);
             $("#discountedamt").val(totalAmtDue);
         }
-            $("#totalamountdue").html("PHP " + totalAmtDue);
+            $("#totalamountdue").html("PHP <span style='color:red;'>" + totalAmtDue + "</span> ");
             $("#totalamtdue").val(grandTotal);
     }
     

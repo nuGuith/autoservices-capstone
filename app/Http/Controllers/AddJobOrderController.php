@@ -278,12 +278,12 @@ class AddJobOrderController extends Controller
         $estimate = Estimate::findOrFail($id);
         $automobile = Automobile::findOrFail($estimate->AutomobileID);
         $customer = Customer::findOrFail($automobile->CustomerID);
-
         
         $serviceperformed = DB::table('service_performed AS sp')
             ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->join('service_category AS sc', 'sc.servicecategoryid', '=', 'svc.servicecategoryid')
             ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
-            ->select('sp.*', 'svc.*')
+            ->select('sp.*', 'svc.*', 'sc.servicecategoryname')
             ->get();
 
         $productused = DB::table('product_used AS pu')
@@ -635,6 +635,23 @@ class AddJobOrderController extends Controller
                                     ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
             ->get();
         return response()->json(compact('estimates'));
+    }
+
+    public function filterMechanic(Request $request, $id)
+    {
+        $skills = $request->input('filterID', []);
+
+        $mechanic = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->join('personnel_skill as ps', 'ph.personnelid', '=', 'ps.personnelid')
+            ->where(['pj.jobdescriptionid' => 5, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->whereIn('ps.skillid', $skills)
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->orderBy('ph.personnelid', 'desc')
+            ->distinct('personnelfullname')
+            ->get();
+        return response()->json(compact('mechanic','skills'));
     }
 
     public function getFilteredProductList($id)

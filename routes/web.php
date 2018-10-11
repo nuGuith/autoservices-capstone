@@ -231,6 +231,7 @@ Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDis
 Route::get('/addjoborder/{id}/filterPlateNo', 'AddJoborderController@filterPlateNo');
 Route::get('/addjoborder/{id}/unfilterPlateNo', 'AddJobOrderController@unfilterPlateNo');
 Route::get('/addjoborder/{id}/unfilterEstimateIDs', 'AddJobOrderController@unfilterEstimateIDs');
+Route::get('/addjoborder/{id}/filterMechanic', 'AddJobOrderController@filterMechanic');
 
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
