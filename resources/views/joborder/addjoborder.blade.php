@@ -2043,6 +2043,23 @@ $(document).ready(function () {
         //selectedService = null;
     }
 
+    $("#mechFilters").on("click", function(){
+        $('#mechFilterModal').modal('show');
+    });
+
+    $(function(){ 
+        $('#filterSwitch').on('switchChange.bootstrapSwitch', function(event){
+            if($(this).is(':checked')){   
+                $('#filterStatus').html('Inactive');
+                $('table.list input[type=checkbox]').each(function(){$(this).prop('checked', false);});
+            }
+            else{
+                $('#filterStatus').html('Active');
+                $('table.list input[type=checkbox]').each(function(){$(this).prop('checked', true);});
+            }
+        })
+    });
+
     function filterTags(){
         var tbody = $("<tbody>");
         var row = $("<tr>");
@@ -2068,29 +2085,47 @@ $(document).ready(function () {
     }
 
     $('#btnApply').on('click', function(){
+        filterID = new Array();
+        $('table.list input[type=checkbox]').each(function(){
+            if(this.checked == true) filterID.push($(this).val());
+        });
         filterMechanics();
+    });
+
+    $('table.list').on('click', '#filterTag', function(){
+        var temp = $(this).val();
+        var total = 0, unchecked = 0;
+        $('table.list input[type=checkbox]').each(function(){
+            total++;
+            if(this.checked == false) unchecked++;
+            if($(this).val() == temp) this.checked = true;
+        });
+        if (total == unchecked) $('#filterSwitch').bootstrapSwitch('state', true);
+        else if(unchecked < total) $('#filterSwitch').bootstrapSwitch('state', false);
     });
 
     function filterMechanics(){
         var formData = $('#filterIDForm').serialize();
-
         $.ajax({
             type: "GET",
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/addjoborder/1/filterMechanic",
             dataType: "JSON",
             data: formData,
+            async: false,
             success:function(data){
                 var options = '';
                 var count = Object.keys(data.mechanic).length;
-                if (count > 0)
-                    $('#mechanic').empty().append('<option value="0"> Assign a Mechanic</option>');
-                else{
-                    if(serviceCtr == 0)
-                        $('#mechanic').empty().append('<option value="0"> No filter criteria(skills) in effect. </option>');    
-                    else
+                if ((count == 0 && serviceCtr == 0))
+                    unfilterMechanics();
+                else if (serviceCtr > 0 && filterID.length == 0){
+                    $('#mechanic').empty().append('<option value="0"> No filter criteria(skills) in effect. </option>');
+                    unfilterMechanics();
+                }    
+                else if (count > 0)
+                    $('#mechanic').empty().append('<option value="0"> Assign a Mechanic </option>');
+                else if (count == 0 && serviceCtr > 0 && filterID.length > 0)
                     $('#mechanic').empty().append('<option value="0"> No mechanic matched the criteria. </option>');
-                }
 
                 $('#mechanic').trigger("chosen:updated");
                 for(var i = 0; i < count; i++) {
@@ -2098,6 +2133,24 @@ $(document).ready(function () {
                 }
                 $('#mechanic').append(options);
                 $("#mechanic option[value='0']").prop("disabled", true, "selected", false);
+                $('#mechanic').trigger("chosen:updated");
+            }
+        });
+    }
+
+    function unfilterMechanics(){
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/1/unfilterMechanic",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var options = '';
+                var count = Object.keys(data.mechanic).length;
+                for(var i = 0; i < count; i++) {
+                    options += '<option value ="' + data.mechanic[i].personneljobid + '">' + data.mechanic[i].personnelfullname +'</option>';
+                }
+                $('#mechanic').append(options);
                 $('#mechanic').trigger("chosen:updated");
             }
         });
@@ -2343,21 +2396,6 @@ $(document).ready(function () {
         }
         packageID = selectedID;
 	});
-
-    $("#mechFilters").on("click", function(){
-        $('#mechFilterModal').modal('show');
-    });
-
-    $(function(){ 
-        $('#filterSwitch').on('switchChange.bootstrapSwitch', function(event){
-            if($(this).is(':checked')){   
-                $('#filterStatus').html('Inactive');
-            }
-            else{
-                $('#filterStatus').html('Active');
-            }
-        })
-    });
 
     var old = null;
     $("#mechanic").change(function(){
