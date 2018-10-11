@@ -282,8 +282,5 @@ Route::get('/report-joborder', 'PDFController@joborder');
 //Queries
 Route::get('/queries', 'QueriesController@index');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
-<<<<<<< HEAD
 Route::get('/report-sales', 'PDFController@sales');
-=======
 Route::get('/report-netsales', 'PDFController@netsales');
->>>>>>> guesshee-mae
