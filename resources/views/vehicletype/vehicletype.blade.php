@@ -520,7 +520,7 @@ $(document).ready(function () {
         var cols = "";
 
         cols += '<td class="form-group"><input type="text"  id="editmodel'+counter+'" class="form-control" name="model[]" placeholder="model"' + counter + '"/></td>';
-        cols += '<td class="form-group"><input type="text"  id="edityear'+counter+'" class="form-control" name="year[]" placeholder="Year"' + counter + '"/></td>';
+        cols += '<td class="form-group"><input type="number"  id="edityear'+counter+'" class="form-control" name="year[]" placeholder="Year"' + counter + '"/></td>';
         cols += '<td style="border-color: white"><input type="button" class="ibtneDel btn  btn-danger btn-md btn-md hvr-float-shadow" value ="X"></td>';
 
         newRow.append(cols);
