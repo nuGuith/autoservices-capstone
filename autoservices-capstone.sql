@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2018 at 02:33 PM
+-- Generation Time: Oct 11, 2018 at 04:35 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -502,6 +502,7 @@ CREATE TABLE `job_order` (
   `JobDuration` smallint(3) DEFAULT NULL,
   `TotalAmountDue` decimal(14,2) DEFAULT NULL,
   `DiscountedAmount` decimal(14,2) NOT NULL,
+  `isFinalized` tinyint(1) DEFAULT '0',
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -511,26 +512,48 @@ CREATE TABLE `job_order` (
 -- Dumping data for table `job_order`
 --
 
-INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `AutomobileID`, `InspectionID`, `PersonnelPerformedID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `JobStartDate`, `JobEndDate`, `Terms_Agreement`, `Diagnosis`, `Agreement_Timestamp`, `Release_Timestamp`, `JobDuration`, `TotalAmountDue`, `DiscountedAmount`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, '', NULL, NULL, NULL, NULL, '2018-08-10 00:00:00', '2018-09-29 07:18:56', NULL, NULL, '4500.00', 1, '2018-09-29 07:18:56', '2018-08-10 02:04:34'),
-(15, 1, 2, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-08-14 23:37:27', '2018-08-19 06:38:27', NULL, NULL, '499.00', 1, '2018-08-14 15:37:27', '2018-08-14 15:37:27'),
-(16, 8, 3, NULL, NULL, 1, 1, NULL, NULL, 1, '', NULL, NULL, NULL, NULL, '2018-08-14 23:39:45', '2018-09-29 07:18:48', NULL, NULL, '499.00', 1, '2018-09-29 07:18:48', '2018-08-14 15:39:45'),
-(20, 2, 4, NULL, NULL, 1, 1, 1, 1, 1, '', NULL, NULL, NULL, NULL, '2018-08-14 23:59:22', '2018-09-29 07:18:38', NULL, NULL, '499.00', 1, '2018-09-29 07:18:38', '2018-08-14 15:59:22'),
-(22, 9, 5, NULL, NULL, 1, 1, 1, 1, 1, '', NULL, NULL, NULL, NULL, '2018-08-15 01:53:27', '2018-09-29 07:18:32', NULL, NULL, '499.00', 1, '2018-09-29 07:18:32', '2018-08-14 17:53:27'),
-(23, 94, 15, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', '2018-09-30 05:12:27', NULL, NULL, NULL, '2018-08-24 03:50:56', '2018-10-01 02:50:11', NULL, NULL, '499.00', 1, '2018-10-01 02:50:11', '2018-08-23 19:50:56'),
-(25, 42, 25, NULL, NULL, 3, NULL, NULL, NULL, 1, 'Ongoing', '2018-10-01 09:54:55', NULL, NULL, NULL, '2018-09-16 06:54:28', '2018-10-01 09:55:22', NULL, NULL, '499.00', 1, '2018-10-01 09:55:22', '2018-09-15 22:54:28'),
-(26, 25, 12, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-01 14:20:15', '2018-10-01 14:20:15', NULL, '51200.75', '0.00', 1, '2018-10-01 06:20:15', '2018-10-01 06:20:15'),
-(31, 106, 22, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-04 06:16:29', NULL, NULL, NULL, '2018-10-01 15:07:44', '2018-10-04 06:16:51', NULL, '2625.00', '875.00', 1, '2018-10-04 06:16:51', '2018-10-01 07:07:44'),
-(45, 111, 39, NULL, NULL, 1, NULL, NULL, 2, 1, 'Pending', '2018-10-04 07:29:27', NULL, NULL, NULL, '2018-10-04 07:21:18', '2018-10-04 07:29:27', NULL, '38160.00', '9540.00', 1, '2018-10-04 07:29:27', '2018-10-03 23:21:18'),
-(48, 109, 42, NULL, NULL, 3, NULL, NULL, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 09:02:03', '2018-10-04 09:02:03', NULL, '52560.00', '13140.00', 1, '2018-10-04 01:02:03', '2018-10-04 01:02:03'),
-(49, 110, 26, NULL, NULL, 2, NULL, NULL, 2, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 10:26:48', '2018-10-05 06:01:31', NULL, '36700.00', '24960.00', 1, '2018-10-05 06:01:31', '2018-10-04 02:26:48'),
-(50, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:41:09', '2018-10-04 10:41:09', NULL, '56400.75', '40960.60', 1, '2018-10-04 02:41:09', '2018-10-04 02:41:09'),
-(51, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:46:49', '2018-10-04 10:46:49', NULL, '51200.75', '0.00', 1, '2018-10-04 02:46:49', '2018-10-04 02:46:49'),
-(52, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:56:01', '2018-10-04 10:56:01', NULL, '27150.00', '27150.00', 1, '2018-10-04 02:56:01', '2018-10-04 02:56:01'),
-(54, NULL, 44, NULL, NULL, 1, NULL, NULL, 4, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 13:49:44', '2018-10-04 13:49:44', NULL, '44100.52', '44100.52', 1, '2018-10-04 05:49:44', '2018-10-04 05:49:44'),
-(55, NULL, 45, NULL, NULL, 2, NULL, NULL, 4, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 13:58:22', '2018-10-04 13:58:22', NULL, '34400.00', '24080.00', 1, '2018-10-04 05:58:22', '2018-10-04 05:58:22'),
-(70, 112, 60, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-05 06:30:27', NULL, NULL, NULL, '2018-10-05 06:28:40', '2018-10-07 09:15:24', NULL, '38500.00', '28875.00', 1, '2018-10-07 09:15:24', '2018-10-04 22:28:40'),
-(84, NULL, 44, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-07 13:33:56', '2018-10-07 13:33:56', NULL, '54699.75', '54699.75', 1, '2018-10-07 05:33:56', '2018-10-07 05:33:56');
+INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `AutomobileID`, `InspectionID`, `PersonnelPerformedID`, `ServiceBayID`, `PromoID`, `PackageID`, `DiscountID`, `UserID`, `Status`, `JobStartDate`, `JobEndDate`, `Terms_Agreement`, `Diagnosis`, `Agreement_Timestamp`, `Release_Timestamp`, `JobDuration`, `TotalAmountDue`, `DiscountedAmount`, `isFinalized`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 3, 1, 1, NULL, 1, NULL, NULL, NULL, 1, '', NULL, NULL, NULL, NULL, '2018-08-10 00:00:00', '2018-10-11 14:34:50', NULL, NULL, '4500.00', 0, 1, '2018-10-11 14:34:50', '2018-08-10 02:04:34'),
+(15, 1, 2, NULL, NULL, 1, 1, NULL, NULL, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-08-14 23:37:27', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 15:37:27'),
+(16, 8, 3, NULL, NULL, 1, 1, NULL, NULL, 1, '', NULL, NULL, NULL, NULL, '2018-08-14 23:39:45', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 15:39:45'),
+(20, 2, 4, NULL, NULL, 1, 1, 1, 1, 1, '', NULL, NULL, NULL, NULL, '2018-08-14 23:59:22', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 15:59:22'),
+(22, 9, 5, NULL, NULL, 1, 1, 1, 1, 1, '', NULL, NULL, NULL, NULL, '2018-08-15 01:53:27', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 17:53:27'),
+(23, 94, 15, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', '2018-09-30 05:12:27', NULL, NULL, NULL, '2018-08-24 03:50:56', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-23 19:50:56'),
+(25, 42, 25, NULL, NULL, 3, NULL, NULL, NULL, 1, 'Ongoing', '2018-10-01 09:54:55', NULL, NULL, NULL, '2018-09-16 06:54:28', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-09-15 22:54:28'),
+(26, 25, 12, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-01 14:20:15', '2018-10-11 14:34:50', NULL, '51200.75', '0.00', 0, 1, '2018-10-11 14:34:50', '2018-10-01 06:20:15'),
+(31, 106, 22, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-04 06:16:29', NULL, NULL, NULL, '2018-10-01 15:07:44', '2018-10-11 14:34:50', NULL, '2625.00', '875.00', 0, 1, '2018-10-11 14:34:50', '2018-10-01 07:07:44'),
+(45, 111, 39, NULL, NULL, 1, NULL, NULL, 2, 1, 'Pending', '2018-10-04 07:29:27', NULL, NULL, NULL, '2018-10-04 07:21:18', '2018-10-11 14:34:50', NULL, '38160.00', '9540.00', 0, 1, '2018-10-11 14:34:50', '2018-10-03 23:21:18'),
+(48, 109, 42, NULL, NULL, 3, NULL, NULL, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 09:02:03', '2018-10-11 14:34:50', NULL, '52560.00', '13140.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 01:02:03'),
+(49, 110, 26, NULL, NULL, 2, NULL, NULL, 2, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 10:26:48', '2018-10-11 14:34:50', NULL, '36700.00', '24960.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:26:48'),
+(50, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:41:09', '2018-10-11 14:34:50', NULL, '56400.75', '40960.60', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:41:09'),
+(51, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:46:49', '2018-10-11 14:34:50', NULL, '51200.75', '0.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:46:49'),
+(52, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:56:01', '2018-10-11 14:34:50', NULL, '27150.00', '27150.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:56:01'),
+(54, NULL, 44, NULL, NULL, 1, NULL, NULL, 4, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 13:49:44', '2018-10-11 14:34:50', NULL, '44100.52', '44100.52', 0, 1, '2018-10-11 14:34:50', '2018-10-04 05:49:44'),
+(55, NULL, 45, NULL, NULL, 2, NULL, NULL, 4, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 13:58:22', '2018-10-11 14:34:50', NULL, '34400.00', '24080.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 05:58:22'),
+(70, 112, 60, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-05 06:30:27', NULL, NULL, NULL, '2018-10-05 06:28:40', '2018-10-11 14:34:50', NULL, '38500.00', '28875.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 22:28:40'),
+(84, NULL, 44, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-07 13:33:56', '2018-10-11 14:34:50', NULL, '54699.75', '54699.75', 0, 1, '2018-10-11 14:34:50', '2018-10-07 05:33:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_order_backjob`
+--
+
+CREATE TABLE `job_order_backjob` (
+  `BackJobID` int(10) NOT NULL,
+  `JobOrderID` int(10) DEFAULT NULL,
+  `ServiceBayID` int(10) NOT NULL,
+  `UserID` int(10) NOT NULL,
+  `Status` varchar(20) NOT NULL,
+  `JobStartDate` timestamp NULL DEFAULT NULL,
+  `JobEndDate` timestamp NULL DEFAULT NULL,
+  `Diagnosis` varchar(8000) DEFAULT NULL,
+  `JobDuration` smallint(3) DEFAULT NULL,
+  `Cost` decimal(14,2) DEFAULT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '1',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -608,8 +631,9 @@ CREATE TABLE `maintenance_header` (
 
 CREATE TABLE `package_backjob` (
   `PackageBackjobID` int(10) NOT NULL,
+  `BackJobID` int(10) NOT NULL,
   `PackageID` int(10) NOT NULL,
-  `DateTime` datetime NOT NULL,
+  `DateTime` datetime DEFAULT NULL,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
@@ -914,9 +938,13 @@ INSERT INTO `product` (`ProductID`, `ProductTypeID`, `ProductBrandID`, `ProductU
 
 CREATE TABLE `product_backjob` (
   `ProductBackjobID` int(10) NOT NULL,
-  `JobOrderID` int(10) NOT NULL,
-  `ProductID` int(10) NOT NULL,
-  `Date` date NOT NULL,
+  `BackJobID` int(10) NOT NULL,
+  `ProductUsedID` int(10) DEFAULT NULL,
+  `ServicePerformedID` int(10) NOT NULL,
+  `ProductID` int(10) DEFAULT NULL,
+  `Quantity` tinyint(5) NOT NULL,
+  `QuantityUsed` tinyint(5) NOT NULL,
+  `DateTime` datetime DEFAULT NULL,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
@@ -1232,8 +1260,9 @@ CREATE TABLE `product_vehicle` (
 
 CREATE TABLE `promo_backjob` (
   `PromoBackjobID` int(10) NOT NULL,
+  `BackJobID` int(10) DEFAULT NULL,
   `PromoID` int(10) NOT NULL,
-  `DateTime` datetime NOT NULL,
+  `DateTime` datetime DEFAULT NULL,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
@@ -1402,9 +1431,13 @@ INSERT INTO `service` (`ServiceID`, `ServiceCategoryID`, `ServiceName`, `SizeTyp
 
 CREATE TABLE `service_backjob` (
   `ServiceBackjobID` int(10) NOT NULL,
+  `BackJobID` int(10) NOT NULL,
   `ServicePerformedID` int(10) NOT NULL,
-  `ServiceID` int(10) NOT NULL,
-  `DateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `PersonnelPerformedID` int(10) DEFAULT NULL,
+  `CurrentStep` tinyint(3) DEFAULT NULL,
+  `StartDate` timestamp NULL DEFAULT NULL,
+  `EndDate` timestamp NULL DEFAULT NULL,
+  `DateTime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Cost` decimal(14,2) NOT NULL,
   `Note` varchar(255) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
@@ -1810,6 +1843,15 @@ ALTER TABLE `job_order`
   ADD KEY `FK_JobOrder_User` (`UserID`);
 
 --
+-- Indexes for table `job_order_backjob`
+--
+ALTER TABLE `job_order_backjob`
+  ADD PRIMARY KEY (`BackJobID`),
+  ADD KEY `FK_Backjob_JobOrder` (`JobOrderID`) USING BTREE,
+  ADD KEY `FK_Backjob_ServiceBay` (`ServiceBayID`) USING BTREE,
+  ADD KEY `FK_Backjob_User` (`UserID`) USING BTREE;
+
+--
 -- Indexes for table `job_schedule`
 --
 ALTER TABLE `job_schedule`
@@ -1843,7 +1885,8 @@ ALTER TABLE `maintenance_header`
 --
 ALTER TABLE `package_backjob`
   ADD PRIMARY KEY (`PackageBackjobID`),
-  ADD KEY `FK_PackageBackjob_Package` (`PackageID`);
+  ADD KEY `FK_PackageBackjob_Package` (`PackageID`),
+  ADD KEY `FK_PackageBackjob_Backjob` (`BackJobID`);
 
 --
 -- Indexes for table `package_header`
@@ -1936,8 +1979,8 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_backjob`
   ADD PRIMARY KEY (`ProductBackjobID`),
-  ADD KEY `FK_ProductBackjob_JobOrder` (`JobOrderID`),
-  ADD KEY `FK_ProductBackjob_Product` (`ProductID`);
+  ADD KEY `FK_ProductBackjob_JobOrder` (`BackJobID`),
+  ADD KEY `FK_ProductBackjob_Product` (`ProductUsedID`);
 
 --
 -- Indexes for table `product_brand`
@@ -2002,7 +2045,8 @@ ALTER TABLE `product_vehicle`
 --
 ALTER TABLE `promo_backjob`
   ADD PRIMARY KEY (`PromoBackjobID`),
-  ADD KEY `FK_PromoBackjob_Promo` (`PromoID`);
+  ADD KEY `FK_PromoBackjob_Promo` (`PromoID`),
+  ADD KEY `FK_PromoBackjob_Backjob` (`BackJobID`);
 
 --
 -- Indexes for table `promo_freeitems`
@@ -2056,7 +2100,8 @@ ALTER TABLE `service`
 ALTER TABLE `service_backjob`
   ADD PRIMARY KEY (`ServiceBackjobID`),
   ADD KEY `FK_ServiceBackjob_SvcPerformed` (`ServicePerformedID`),
-  ADD KEY `FK_ServicePerf_Service` (`ServiceID`);
+  ADD KEY `FK_ServiceBackjob_Backjob` (`BackJobID`) USING BTREE,
+  ADD KEY `FK_ServiceBackjob_PersonnelJobPerf` (`PersonnelPerformedID`);
 
 --
 -- Indexes for table `service_bay`
@@ -2195,6 +2240,12 @@ ALTER TABLE `job_description`
 --
 ALTER TABLE `job_order`
   MODIFY `JobOrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT for table `job_order_backjob`
+--
+ALTER TABLE `job_order_backjob`
+  MODIFY `BackJobID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `job_schedule`
@@ -2469,6 +2520,12 @@ ALTER TABLE `job_order`
   ADD CONSTRAINT `FK_JobOrder_User` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `job_order_backjob`
+--
+ALTER TABLE `job_order_backjob`
+  ADD CONSTRAINT `FK_BackJob_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `job_schedule`
 --
 ALTER TABLE `job_schedule`
@@ -2493,6 +2550,7 @@ ALTER TABLE `maintenance_header`
 -- Constraints for table `package_backjob`
 --
 ALTER TABLE `package_backjob`
+  ADD CONSTRAINT `FK_PackageBackjob_Backjob` FOREIGN KEY (`BackJobID`) REFERENCES `job_order_backjob` (`BackJobID`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_PackageBackjob_Package` FOREIGN KEY (`PackageID`) REFERENCES `package_header` (`PackageID`) ON UPDATE CASCADE;
 
 --
@@ -2561,8 +2619,8 @@ ALTER TABLE `product`
 -- Constraints for table `product_backjob`
 --
 ALTER TABLE `product_backjob`
-  ADD CONSTRAINT `FK_ProductBackjob_JobOrder` FOREIGN KEY (`JobOrderID`) REFERENCES `job_order` (`JobOrderID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_ProductBackjob_Product` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ProductBackjob_JobOrder` FOREIGN KEY (`BackJobID`) REFERENCES `job_order_backjob` (`BackJobID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_ProductBackjob_Product` FOREIGN KEY (`ProductUsedID`) REFERENCES `product_used` (`ProductUsedID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product_damaged`
@@ -2604,6 +2662,7 @@ ALTER TABLE `product_vehicle`
 -- Constraints for table `promo_backjob`
 --
 ALTER TABLE `promo_backjob`
+  ADD CONSTRAINT `FK_PromoBackjob_Backjob` FOREIGN KEY (`BackJobID`) REFERENCES `job_order_backjob` (`BackJobID`),
   ADD CONSTRAINT `FK_PromoBackjob_Promo` FOREIGN KEY (`PromoID`) REFERENCES `promo_header` (`PromoID`) ON UPDATE CASCADE;
 
 --
@@ -2630,8 +2689,9 @@ ALTER TABLE `service`
 -- Constraints for table `service_backjob`
 --
 ALTER TABLE `service_backjob`
-  ADD CONSTRAINT `FK_ServiceBackjob_SvcPerformed` FOREIGN KEY (`ServicePerformedID`) REFERENCES `service_performed` (`ServicePerformedID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_ServicePerf_Service` FOREIGN KEY (`ServiceID`) REFERENCES `service` (`ServiceID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ServiceBackjob_Backjob` FOREIGN KEY (`BackJobID`) REFERENCES `job_order_backjob` (`BackJobID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_ServiceBackjob_PersonnelJobPerf` FOREIGN KEY (`PersonnelPerformedID`) REFERENCES `personnel_job_performed` (`PersonnelPerformedID`),
+  ADD CONSTRAINT `FK_ServiceBackjob_SvcPerformed` FOREIGN KEY (`ServicePerformedID`) REFERENCES `service_performed` (`ServicePerformedID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `service_performed`
