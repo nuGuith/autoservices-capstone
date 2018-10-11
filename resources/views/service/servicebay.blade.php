@@ -118,10 +118,10 @@
                                             &nbsp;Edit Service Bay</h4>
                             </div>
                             <div class="modal-body" style="padding-left: 47px;">
-                                <div class="row m-t-5">
+                            <form id="editForm">
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Service Bay Name: <span style="color: red">*</span></h5>
-                                        <p>
                                             {!! 
                                                 Form::input ('servicebayname','text', null, [
                                                 'id'=>'servicebayname',
@@ -133,14 +133,12 @@
                                                 'required'
                                                 ])
                                             !!}
-                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Description: <span style="color: red"></span></h5>
-                                        <p>
                                             {!! 
                                                 Form::input ('description','text', null, [
                                                 'id'=>'description',
@@ -151,7 +149,6 @@
                                                 'maxlength'=>'255'
                                                 ])
                                             !!}
-                                        </p>
                                         <input id="servicebayid" name="servicebayid" type="hidden" value=null>
                                     </div>
                                 </div>
@@ -187,6 +184,7 @@
                                     !!}
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -205,10 +203,10 @@
                                             &nbsp;Add Service Bay</h4>
                             </div>
                             <div class="modal-body" style="padding-left: 47px;">
-                                <div class="row m-t-5">
+                                <form id="addForm">
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Service Bay Name: <span style="color: red">*</span></h5>
-                                        <p>
                                             {!!
                                                 Form::input ('name','text', Input::old('servicebayname'), [
                                                 'id'=>'servicebayname',
@@ -220,14 +218,12 @@
                                                 'required'
                                                 ])
                                             !!}
-                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Description: <span style="color: red"></span></h5>
-                                        <p>
                                             {!! 
                                                 Form::input ('description','text', null, [
                                                 'id'=>'description',
@@ -238,7 +234,6 @@
                                                 'maxlength'=>'255'
                                                 ])
                                             !!}
-                                        </p>
                                     </div>
                                 </div>
                             <br>
@@ -368,6 +363,92 @@
             document.getElementById("deleteId").value = id;
             $('#deleteModal').modal('show');
         }
+</script>
+
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            servicebayname: {
+                message: 'The service bay name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The service bay name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The service bay name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The service bay name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            servicebayname: {
+                message: 'The service bay name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The service bay name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The service bay name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The service bay name only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+    
+});
+
 </script>
 
 <!-- global scripts modals-->

@@ -11,13 +11,16 @@ class AddPromoController extends Controller
       $product = DB::table('product')
                 ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
                 ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
+                ->where('product.isActive',1)
                 ->get();
 
       $service = DB::table('service')
                 ->leftjoin('service_category', 'service.ServiceCategoryID', 'service_category.ServiceCategoryID')
+                ->where('service.isActive',1)
                 ->get();
 
       $items = DB::table('promo_freeitems')
+                ->where('isActive',1)
                 ->get();
 
     	return view('promo.addpromo')
@@ -79,4 +82,4 @@ class AddPromoController extends Controller
             ]);
           }
       }
-    }
+}

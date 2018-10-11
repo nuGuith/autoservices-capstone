@@ -23,6 +23,20 @@
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
 
+<!-- <style type="text/css">
+#addForm.chosen-choices {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 34px;
+    padding: 6px 12px;
+}
+#addForm .form-control-feedback:{
+    /* To make the feedback icon visible */
+    /*z-index: 100;*/
+    /*float: bottom;*/
+ }
+
+</style> -->
         <!-- CONTENT -->
         <div id="content" class="bg-container">
 
@@ -37,12 +51,6 @@
                         </div>
                         <div class="col-sm-6 col-12"  >
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item">
-                                    <a href="/">
-                                        <i class="fa fa-home"></i>
-                                        Dashboard
-                                    </a>
-                                </li>
                                 <li class="breadcrumb-item">
                                     <a href="#">
                                         <i class="fa fa-pencil-square-o"></i>
@@ -115,6 +123,13 @@
                                 </div>
                                 <!-- END TABLE -->
 
+
+
+<form id="chosenForm" method="post" class="form-horizontal">
+    
+    
+</form>
+
              <!-- START EDIT MODAL -->
            {!! Form::open(array('id' => 'editForm', 'url' => 'producttype', 'action' => 'ProductTypeController@update', 'method' => 'PUT')) !!}
             <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
@@ -129,10 +144,9 @@
                             </div>
                             <div class="modal-body" style="padding-left: 47px;">
                                 
-                                <div class="row m-t-5">
+                                <div class="form-group row m-t-5">
                                     <div class="col-md-11">
                                         <h5>Product Type: <span style="color: red">*</span></h5>
-                                        <p>
                                             {{ Form::input('producttypename', 'text', Input::old('productypename'), [
                                                     'id' => 'producttypename',
                                                     'name' => 'producttypename',
@@ -142,8 +156,7 @@
                                                     'required'
                                                 ])
                                             }}
-                                        </p>
-                                        <input id="productcategoryid" name="productcategoryid" type="hidden" value=null>
+                                        <input id="productcategoryid" name="" type="hidden" value=null>
                                     </div>
                                 </div>
 
@@ -151,13 +164,18 @@
                                     <div class="col-md-11">
                                         <h5>Product Category: <span style="color: red">*</span></h5>
                                             <p class="m-t-10">
-                                                {{ Form::select('productcategories-A', $categories, null, array(
-                                                    'class' => 'form-control chzn-select',
-                                                    'id' => 'productcategories-A',
-                                                    'name' => 'productcategoryid')
+                                            </p>
+                                            <div class="form-group">
+                                                {{ Form::select('productcategoryid', $categories, null, array(
+                                                    'class' => 'form-control',
+                                                    'id' => 'categoryid',
+                                                    'name' => 'productcategoryid',
+                                                    )
                                                     ) 
                                                 }}
-                                            </p>
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="productcategoryid"></span>
+                                        </div>
+                                            
                                         <input id="producttypeid" name="producttypeid" type="hidden" value=null>
                                     </div>
                                 </div>
@@ -210,11 +228,29 @@
                                 </h4>
                             </div>
                             <div class="modal-body" style="padding-left: 47px;">
-                                
+                            
+
                                 <div class="row m-t-5">
                                     <div class="col-md-11">
+                                        <h5>Product Category: <span style="color: red">*</span></h5>
+                                            <p class="m-t-10">
+                                            </p>
+                                            <div class="form-group"> 
+                                                {{ Form::select('productcategoryid', $categories, null, array(
+                                                'class' => 'chzn-select form-control',
+                                                'id' => 'categoryid',
+                                                'name' => 'productcategoryid',
+                                                'placeholder'=>'Please select a category', )
+                                                ) 
+                                                }}
+                                                <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="productcategoryid"></span>
+                                            </div>  
+                                    </div>
+                                </div>
+
+                                <div class="form-group row m-t-5">
+                                    <div class="col-md-11">
                                         <h5>Product Type: <span style="color: red">*</span></h5>
-                                        <p>
                                             {{ 
                                                 Form::input('producttypename', 'text', Input::old('producttypename'), [
                                                 'id' => 'producttypename',
@@ -225,23 +261,23 @@
                                                 'required'
                                                 ])
                                             }}
-                                        </p>
                                     </div>
                                 </div>
 
-                                <div class="row m-t-5">
-                                    <div class="col-md-11">
-                                        <h5>Product Category: <span style="color: red">*</span></h5>
-                                            <p class="m-t-10">
-                                                {{ Form::select('productcategories-E', $categories, null, array(
-                                                'class' => 'form-control chzn-select',
-                                                'id' => 'productcategories-E',
-                                                'name' => 'productcategoryid')
-                                                ) 
-                                                }}
-                                            </p>
+                                <!-- <div class="form-group ">
+                                    <label class="col-sm-3 control-label">Favorite color</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control chosen-select" name="colors" multiple data-placeholder="Choose 2-4 colors" data-bv-trigger="blur">
+                                            <option value="black">Black</option>
+                                            <option value="blue">Blue</option>
+                                            <option value="green">Green</option>
+                                            <option value="orange">Orange</option>
+                                            <option value="red">Red</option>
+                                            <option value="yellow">Yellow</option>
+                                            <option value="white">White</option>
+                                        </select>
                                     </div>
-                                </div>
+                                </div> -->
 
                                     <br>
                                     <div id="show-errors">
@@ -264,7 +300,7 @@
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
-                                <div class="examples transitions m-t-5">
+                                <div class="form-group examples transitions m-t-5">
                                     {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
                                         'type'=>'submit',
                                         'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
@@ -302,7 +338,7 @@
                                 <div class="examples transitions m-t-5">
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                 </div>
-                                <div class="examples transitions m-t-5">
+                                <div class="form-group examples transitions m-t-5">
                                     {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;OK', [
                                         'type'=>'submit',
                                         'class'=>'btn btn-success warning source confirm m-l-10 adv_cust_mod_btn',
@@ -349,6 +385,11 @@
     });
 </script>
 <script>
+    /*function setSelected(id){
+        var btn = "editBtn" + id;
+        alert(document.getElementById("#tbl").rows[0].cols[1].innerHTML);
+        document.getElementById("#productcategoryid").value = $(this).data("categoryname");
+    }*/
      function editModal(id){
             $.ajax({
                 type: "GET",
@@ -356,7 +397,7 @@
                 dataType: "JSON",
                 success:function(data){
                     $("#producttypename").val(data.type.ProductTypeName);
-                    $("#categoryid").val(data.type.ProductCategoryID).trigger('chosen:updated');;
+                    $("#categoryid").val(data.type.ProductCategoryID).trigger('chosen:updated');
                     $("#producttypeid").val(data.type.ProductTypeID);
                 }
             });
@@ -366,12 +407,165 @@
             document.getElementById("deleteId").value = id;
             $('#deleteModal').modal('show');
         }
+</script>
 
-$(document).ready(function(){
-    $('#productcategories-A option[value=0]').prop("disabled", "disabled");
-    $('#productcategories-E option[value=0]').prop("disabled", "disabled");
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#addForm')
+        .find('[name="productcategoryid"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#addForm').bootstrapValidator('revalidateField', 'productcategoryid');
+            })           
+            .end()
+
+
+        .find('[name="colors"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#addForm').bootstrapValidator('revalidateField', 'colors');
+            })
+
+            .end()
+
+        .bootstrapValidator({
+        message: 'This value is not valid', 
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        // excluded: [':disabled', ':hidden', ':not(:visible)'],    
+        fields: {
+            feedbackIcons: 'true',
+                producttypename: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The category name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The category name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The service category name only accept alphanumeric values. '
+                    },
+                }
+            },
+                productcategoryid: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose a category',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('productcategoryid').val();
+                                return (options != null && options.length >= 1);
+                                // var options = validator.getFieldElements('productcategoryid').val();
+                                // return (options != null && options.length >= 1 && options.length <= 4);
+                            }
+                        }
+                    }
+                },
+                colors: {
+                    validators: {
+                        callback: {
+                            message: 'Please choose 2-4 color you like most',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('colors').val();
+                                return (options != null && options.length >= 2 && options.length <= 4);
+                            }
+                        }
+                    }
+                },
+            }
+        });
 });
 </script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm')
+        .find('[name="productcategoryid"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#editForm').bootstrapValidator('revalidateField', 'productcategoryid');
+            })           
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid', 
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        // excluded: [':disabled', ':hidden', ':not(:visible)'],      
+        fields: {
+            producttypename: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The product type name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The category name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The service category name only accept alphanumeric values. '
+                    },
+                }
+            },
+            productcategoryid: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose a category',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('productcategoryid').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    }
+                },
+        }
+    });
+
+    
+});
+</script>
+
 
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>

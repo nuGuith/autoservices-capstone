@@ -118,6 +118,7 @@
                 <!--ADD MODAL -->
                  <div class="modal fade in " id="addModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                        <form id="addForms">
                         <div class="modal-content">
                             <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -126,27 +127,22 @@
                             </div>
                             <div class="modal-body" style="padding-left: 55px;">
                                 
-                            <form id="popup-validation" onsubmit="return jQuery(this).validationEngine('validate');">                             
+                                                         
                                 <!--Textfield: Free Items -->
-                                <div class="row m-t-5">  
+                                <div class="form-group row m-t-5">  
                                     <div class="col-md-11 ">
                                         <h5>Free Item: <span style="color: red">*</span></h5>
-                                            <p class ="m-t-10">
-                                                <input id="afreeitem" name="freeitem" type="text" placeholder="Price"class="validate[required, custom[onlyLetterNumber]] form-control" >
-                                            </p>
+                                                <input id="afreeitem" name="freeitem" type="text" placeholder="Item" class="form-control m-t-10" >
                                     </div>
                                  </div>
 
                                  <!--Textfield: Free Items -->
-                                <div class="row m-t-5">  
+                                <div class="form-group row m-t-5">  
                                     <div class="col-md-11 ">
                                         <h5>Description: <span style="color: red">*</span></h5>
-                                            <p class ="m-t-10">
-                                                <input id="adescription" name="description" type="text" placeholder="Price"class="validate[required] form-control">
-                                            </p>
+                                                <input id="adescription" name="description" type="text" placeholder="Description" class="form-control m-t-10">
                                     </div>
                                  </div>
-                            </form>
                                  
                             </div>
 
@@ -158,10 +154,11 @@
                               </div>
                                 <div class="examples transitions m-t-5">
                                   <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                    <button id='addform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <button  type="submit" id='addform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
+                            </form>
                         </div>
                         </div>
                     </div>
@@ -171,36 +168,34 @@
 
             <!--EDIT MODAL -->
             <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
+                
                     <div class="modal-dialog modal-md">
+                        <form id="editForms">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
-                                            &nbsp;&nbsp;Edit Service Price</h4>                  
+                                            &nbsp;&nbsp;Edit Free Item</h4>                  
                             </div>
 
 
                         <div class="modal-body" style="padding-left: 55px;">
-                                
+                            
 
                                  <!--Textfield: Free Items -->
-                                <div class="row m-t-5">  
+                                <div class="form-group row m-t-5">  
                                     <div class="col-md-11 ">
                                         <h5>Free Item: <span style="color: red">*</span></h5>
-                                            <p class ="m-t-10">
-                                                <input id="efreeitem" name="freeitem" type="text" placeholder="Price"class="form-control">
-                                            </p>
+                                                <input id="efreeitem" name="freeitem" type="text" placeholder="Item"class="form-control m-t-10">
                                     </div>
                                  </div>
 
                                  <!--Textfield: Free Items -->
-                                <div class="row m-t-5">  
+                                <div class="form-group row m-t-5">  
                                     <div class="col-md-11 ">
                                         <h5>Description: <span style="color: red">*</span></h5>
-                                            <p class ="m-t-10">
-                                                <input id="edescription" name="description" type="text" placeholder="Price"class="form-control">
+                                                <input id="edescription" name="description" type="text" placeholder="Description"class="form-control m-t-10">
                                                 <input id = 'did' hidden>
-                                            </p>
                                     </div>
                                  </div>
                                  
@@ -212,10 +207,10 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button type="submit" id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
-                            </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -282,14 +277,6 @@
     new WOW().init();
 </script>
 
-    <script type="text/javascript" src="vendors/jquery-validation-engine/js/jquery.validationEngine.js"></script>
-    <script type="text/javascript" src="vendors/jquery-validation-engine/js/jquery.validationEngine-en.js"></script>
-    <script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
-    <script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-    <!--End of plugin scripts-->
-    <!--Page level scripts-->
-    <script type="text/javascript" src="js/form.js"></script>
-    <!-- <script type="text/javascript" src="js/pages/form_validation.js"></script> -->
 
 
 <!-- global scripts modals-->
@@ -427,28 +414,156 @@ new WOW().init();
 
 </script>
 
-<script>
-// $("#popup-validation").validationEngine('attach', {showOneMessage: true, scroll: false});
 
-// $('#popup-validation').validationEngine('hide');
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 
-
-// jQuery("#popup-validation").validationEngine('attach', {
-//    return: false;
-// });
-
-    // $('#popup-validation').validationEngine('hideAll');
-
-// $('#popup-validation').validationEngine({validationEventTrigger: 'submit'});
-
-
-$("#popup-validation").validationEngine('attach',{
-    onValidationComplete: function(form, status){
-        if(status === true){
-            // some treatment
-        }
-    }
-});    
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#chosenForm')
+        .find('[name="colors"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#chosenForm').bootstrapValidator('revalidateField', 'colors');
+            })
+            .end()
+        .bootstrapValidator({
+            excluded: ':disabled',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                colors: {
+                    validators: {
+                        callback: {
+                            message: 'Please choose 2-4 color you like most',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('colors').val();
+                                return (options != null && options.length >= 2 && options.length <= 4);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+});
 </script>
 
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForms').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            freeitem: {
+                message: 'The free item is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The free item is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The free item only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The free item only accept alphanumeric values. '
+                    },
+                }
+            },
+            description: {
+                message: 'The description is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The description is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The description only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The description only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForms').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            freeitem: {
+                message: 'The free item is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The free item is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The free item only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The free item only accept alphanumeric values. '
+                    },
+                }
+            },
+            description: {
+                message: 'The description is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The description is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The description only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The description only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+</script>
 @stop

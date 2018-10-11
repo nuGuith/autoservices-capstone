@@ -19,6 +19,14 @@
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
 
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style> 
+
         <!-- CONTENT -->
         <div id="content" class="bg-container">
 
@@ -77,7 +85,7 @@
                                                 <tr role="row">
                                                     
                                                     <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 18%;"><b>Promo</b></th>
-                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>Product and Services</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Product and Services</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Free</b></th>
                                                     <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 10%;"><b>Price</b></th>
                                                     <th style="width: 15%;" class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" ><b>Actions</b></th>
@@ -87,7 +95,7 @@
                                             @foreach($pack as $cb)
                                                 @if($cb->isActive == 1)
                                                 <tr role="row" class="even">
-                                                    <td hidden>{{$cb->PromoID}}</td>
+                                                    <!-- <td hidden>{{$cb->PromoID}}</td> -->
                                                     <td>{{$cb->PromoName}}</td>
                                                     
                                                     <td class="center">
@@ -97,7 +105,8 @@
 
                                                               @if($prod->PromoID == $cb->PromoID)
 
-                                                             <li>{{$prod->ProductName}}</li>
+                                                             <li>{{$prod->ProductName}} - 
+                                                             {{$prod->Size}} {{$prod->Unit}} - {{$prod->Quantity}}pc(s)</li>
 
                                                               @endif
 
@@ -123,7 +132,7 @@
 
                                                               @if($fre->PromoID == $cb->PromoID)
 
-                                                             <li>{{$fre->ItemName}} ({{$fre->Description}})</li>
+                                                             <li>{{$fre->ItemName}}  - {{$fre->Description}}</li>
 
                                                               @endif
 
@@ -140,7 +149,7 @@
                                                     </button>
                                                
                                                      <!--DELETE BUTTON-->
-                                                    <button name = '' class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="del(this.name);" data-toggle="modal" data-href="#responsive" href="#deleteModal" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                                    <button name = '{{{$cb->PromoID}}}' class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="del(this.name);" data-toggle="modal" data-href="#responsive" href="#deleteModal" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                     </button>
                                                     
                                                     </td>
@@ -163,6 +172,7 @@
         <!--END CONTENT -->
 <!-- EDIT MODAL -->
     <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
+        <form id="promoForm">
                     <div class="modal-dialog modal-lg" style="margin-left: 180px ">
                         <div class="modal-content" style="width: 980px;">
                             <div class="modal-header bg-primary">
@@ -266,6 +276,7 @@
 
   <!--PROMO DETAILS-->
     <div class="col-lg-6 m-t-10">
+        
         <div class="card">
             <div class="card-header bg-black">
                 Promo Details
@@ -274,22 +285,21 @@
             <div class="card-block">
             <div class="tab">
                 
-                <div class="input-group">
+                <div class="row">
                     <div class="col-md-7 m-t-15">
+                        <div class="form-group">
                         <h5 style = "">Promo:</h5>
-                        <p>
-
                              <input id="eid" hidden>
-                            <input id="promoname" name="promoname" type="text" placeholder="Promo Name" class="form-control  m-t-5" style = "width: 210px;" >
-                        </p>
+                            <input id="promoname" name="promoname" type="text" placeholder="Promo Name" class="form-control  m-t-5"  >
+                        </div>
                     </div>
 
 
                     <div class="col-md-5 m-t-15">
                         <h5 style = "">Computed Price:</h5>
                         <div class="input-group m-t-5" style = "width: 139px;" >
-                            <input id="computePrice" type="text" class="form-control" disabled="disabled" placeholder ="Php.">
-                            <span class="input-group-addon">.00</span>
+                            <input id="computePrice" type="number" class="form-control" disabled="disabled" placeholder ="Php." style="text-align: right">
+                            <!-- <span class="input-group-addon">.00</span> -->
                         </div>
                     </div>
                 </div>
@@ -358,18 +368,18 @@
 
 
 
-                <div class="input-group lter form_elements_datepicker" id="dateRangePickerBlock">
-                    <div class="col-md-12 m-t-5">
+                <div class="row lter form_elements_datepicker" id="dateRangePickerBlock">
+                    <div class="form-group col-md-12 m-t-5">
                         <h5 style = "">Date Range:</h5>
-                    <form>
+                    <!-- <form> -->
                          <div class="input-group">
                             
-                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy" required>
                              <span class="input-group-addon m-t-5">
                                 <i class="fa fa-calendar"></i>
                             </span>
                         </div>
-                    </form>
+                    <!-- </form> -->
                     </div>
                 </div>
 
@@ -382,23 +392,28 @@
             </div> -->
 
 
-            <div class="input-group">
+            <div class="row">
                     <div class="col-md-7 m-t-10">
                         <h5>Warranty: <span style="color: red"></span></h5>
-                        <p>
-                            <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
-                        </p>
+                        <div class="form-group">
+                            <input type="number" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
+                        </div>
                     </div>
 
                     <div class="col-md-5 m-t-10">
-                        <p class="m-t-25">
+                        <div class="m-t-25">
+                        </div>
+                        <div class="form-group">
                             <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option selected disabled>Please Choose</option>
                                 <option value="Days">Day(s)</option>
                                 <option value="Weeks">Week(s)</option>
                                 <option value="Months">Month(s)</option>
                                 <option value="Years">Year(s)</option>
                             </select>
-                        </p>
+                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
+                        
+                        </div>
                     </div>
                 </div>
 
@@ -407,12 +422,14 @@
             <div class="card-footer bg-black">
                 <div class="input-group">
 
-                    <div class="col-md-8 m-t-5">
+                    <div class="col-md-9 m-t-0">
                     
                         <div class="input-group" >
-                            <h5 style = "width: 90px;"class="m-t-10">Promo Price:</h5>
-                            <input id = "promoprice" type="text" class="form-control" style = "width: 100px;" placeholder ="Php";>
+                            <h5 style = "width: 150px;"class="m-t-10">Promo Price:</h5>
+                            <div class="form-group">
                             
+                            <input id = "promoprice" type="number" name="price" step="0.01" min="0" class="form-control" style = "width: 180px;" placeholder ="Php";>
+                            </div>
                         </div>
                     </div>
 
@@ -437,14 +454,50 @@
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id='editform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button id='editform' type="submit" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </form>
                 </div>
             <!--END OF EDIT MODAL -->
+
+
+            <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-trash"></i>
+                                            &nbsp;&nbsp;Delete this record?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Are you sure do you want to delete this record?</h5>
+                                    <input id="deleteId" name="deleteId" type="hidden">
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id = "delete" class ='btn btn-danger source confirm m-l-10 adv_cust_mod_btn' data-dismiss='modal'><i class="fa fa-trash"></i>&nbsp;OK </button>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 <!-- global scripts sweet alerts-->
 <script type="text/javascript" src="js/components.js"></script>
@@ -460,6 +513,7 @@
 <script>
     new WOW().init();
 </script>
+
 
 <script>
 
@@ -638,9 +692,9 @@ $(document).ready(function(){
                             // add values to the cells
                             cell1.innerHTML = data['prod'][i]['ProductID'];
                             cell2.innerHTML = data['prod'][i]['ProductName'];
-                            cell3.innerHTML = data['prod'][i]['ProductTypeName']+" - "+data['prod'][i]['UnitTypeName']+' '+'<input type="text" hidden style="width:2cm;" id="hidTotal'+data['prod'][i]['ProductName'].replace(/'/g, '').replace(/ /g,'')+'" value="0">';
+                            cell3.innerHTML = data['prod'][i]['ProductTypeName']+" - "+data['nprod'][i]['Size']+" "+data['prod'][i]['UnitTypeName']+' '+'<input type="number" hidden style="width:2cm;" id="hidTotal'+data['prod'][i]['ProductName'].replace(/'/g, '').replace(/ /g,'')+'" value="0">';
 
-                            cell4.innerHTML = data['prod'][i]['Price']+' '+'<input type="text" hidden style="width:2cm;" id="hidprice'+data['prod'][i]['ProductName'].replace(/'/g, '').replace(/ /g,'')+'" value="'+data['prod'][i]['Price']+'">';
+                            cell4.innerHTML = data['prod'][i]['Price']+' '+'<input type="number" hidden style="width:2cm;" id="hidprice'+data['prod'][i]['ProductName'].replace(/'/g, '').replace(/ /g,'')+'" value="'+data['prod'][i]['Price']+'">';
 
                             cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" name="quantity" id="qty'+data['prod'][i]['ProductName'].replace(/'/g, '').replace(/ /g,'')+'" value="'+data['prod'][i]['Quantity']+'" class="form-control" style="width: 30px;";>'
                             cell6.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
@@ -715,7 +769,7 @@ $(document).ready(function(){
                             // add values to the cells
                             cell1.innerHTML = data['nprod'][i]['ProductID'];
                             cell2.innerHTML = data['nprod'][i]['ProductName'];
-                            cell3.innerHTML = data['nprod'][i]['ProductTypeName']+" - "+data['nprod'][i]['UnitTypeName'];
+                            cell3.innerHTML = data['nprod'][i]['ProductTypeName']+" - "+data['nprod'][i]['Size']+" "+data['nprod'][i]['UnitTypeName'];
                             cell4.innerHTML = data['nprod'][i]['Price'];
                             cell5.innerHTML = "<input type='checkbox' name='prodcheck-tab1'>";
                             
@@ -805,8 +859,8 @@ function prodtab1_To_tab2()
                 // add values to the cells
                 cell1.innerHTML = producttab1.rows[i+1].cells[0].innerHTML;
                 cell2.innerHTML = producttab1.rows[i+1].cells[1].innerHTML;
-                cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
-                cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="text" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
+                cell3.innerHTML = producttab1.rows[i+1].cells[2].innerHTML+' '+'<input type="number" hidden style="width:2cm;" id="hidTotal'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="0">';
+                cell4.innerHTML = producttab1.rows[i+1].cells[3].innerHTML+' '+'<input type="number" hidden style="width:2cm;" id="hidprice'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" value="'+producttab1.rows[i+1].cells[3].innerHTML+'">';
                 $("#computePrice").val(parseFloat(totalTempPrice))
                 cell5.innerHTML = '<input type="number" onchange="computeQty(this.id)" id="qty'+producttab1.rows[i+1].cells[1].innerHTML.replace(/'/g, '').replace(/ /g,'')+'" class="form-control" style="width: 30px;"  value="1";>'
                 cell6.innerHTML = "<input type='checkbox' name='prodcheck-tab2'>";
@@ -1056,6 +1110,150 @@ function servicetab2_To_tab1()
                         }
             }
 
+function del(id){
+      document.getElementById('deleteId').value = id;
+      // alert(id)
+
+    }
+
+$("#delete").on("click", function() {
+
+      var del = $('#deleteId').val();
+     
+      $.ajax({
+        type:"POST",
+        url:"/delpromo",
+        data:
+        {
+          id:del,
+          '_token': $('#token').val()
+
+        },
+        success: function(data){
+                        location.reload();
+
+                  },
+                        error: function(xhr)
+                      {
+                        alert("Error!");
+                      }
+
+                    });
+
+    });
+
 </script>
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#promoForm')
+    .find('[name="durationmode"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#promoForm').bootstrapValidator('revalidateField', 'durationmode');
+            })           
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid', 
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            promoname: {
+                message: 'The package name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The promo name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The promo name only accepts of alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The promo name only accept alphanumeric values. '
+                    },
+                }
+            },
+            warranty: {
+                message: 'The warranty time is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The warranty is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The warranty only accept numeric values. '
+                    },
+                }
+            },
+            durationmode: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose product type',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('durationmode').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    }, 
+                },
+            price: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+            reportrange: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+           
+        }
+    });
+
+
+});
+
+</script>
+
+
 <!--End Free Item table 1 to Free Item Table 2-->
 @stop

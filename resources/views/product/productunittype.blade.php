@@ -130,9 +130,8 @@
                             </div>
                             <div class="modal-body" style="padding-left: 45px; padding-right: 50px;">
                                         <div class="row m-t-10">
-                                            <div class="col-lg-7">
+                                            <div class="form-group col-lg-7">
                                             <h5>Product Unit Type: <span style="color: red">*</span></h5>
-                                                <p>
                                                     {{ 
                                                         Form::input('unittypename', 'text', 
                                                         Input::old('unittypename'), [
@@ -144,11 +143,9 @@
                                                         'required'
                                                         ])
                                                     }}
-                                                </p>
                                             </div>
-                                            <div class="col-lg-5">
+                                            <div class="form-group col-lg-5">
                                                 <h5>Abbreviation: <span style="color: red">*</span></h5>
-                                                <p>
                                                     {{ Form::input('unit', 'text',
                                                         Input::old('unit'), [
                                                         'id' => 'unit',
@@ -160,7 +157,6 @@
                                                         'required'
                                                         ])
                                                     }}
-                                                </p>
 
                                                 <input id="productunittypeid" name="productunittypeid" type="hidden" value=null>
                                             </div>
@@ -212,10 +208,8 @@
                             </div>
                             <div class="modal-body" style="padding-left: 45px; padding-right: 50px;">
                                         <div class="row m-t-10">
-                                            <div class="col-lg-7">
+                                            <div class="form-group col-lg-7">
                                             <h5>Product Unit Type: <span style="color: red">*</span></h5>
-                                            
-                                                <p>
                                                     {{ 
                                                         Form::input('unittypename', 'text',
                                                         Input::old('unittypename'), [
@@ -227,12 +221,10 @@
                                                         'required'
                                                         ])
                                                     }}
-                                                </p>
                                             </div>
 
-                                            <div class="col-lg-5">
+                                            <div class="form-group col-lg-5">
                                                 <h5>Abbreviation: <span style="color: red">*</span></h5>
-                                                <p>
                                                     {{ Form::input('unit', 'text',
                                                         Input::old('unit'), [
                                                         'id' => 'unit',
@@ -244,7 +236,6 @@
                                                         'required'
                                                         ])
                                                     }}
-                                                </p>
                                             </div>
                                         </div>
                                     
@@ -367,6 +358,126 @@
             document.getElementById("deleteId").value = id;
             $('#deleteModal').modal('show');
         }
+</script>
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid', 
+        // excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',  
+        excluded: [':disabled', ':hidden', ':not(:visible)'],    
+        fields: {
+            feedbackIcons: 'true',
+            unittypename: {
+                message: 'The unit type is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The unit type is required and cannot be empty. '
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The unit type only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The unit type only accept alphanumeric values. '
+                    },
+                }
+            },
+            unit: {
+                message: 'The abbreviation is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The abbreviation is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The abbreviation only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The unit type only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#editForm').bootstrapValidator({
+        message: 'This value is not valid', 
+        // excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',  
+        excluded: [':disabled', ':hidden', ':not(:visible)'],    
+        fields: {
+            feedbackIcons: 'true',
+            unittypename: {
+                message: 'The unit type is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The unit type is required and cannot be empty. '
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The unit type only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The unit type only accept alphanumeric values. '
+                    },
+                }
+            },
+            unit: {
+                message: 'The abbreviation is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The abbreviation is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The abbreviation only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The unit type only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
 </script>
 
 <!-- global scripts modals-->

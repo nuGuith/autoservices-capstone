@@ -129,7 +129,7 @@
 
 
                                                         <!--DELETE BUTTON-->
-                                                        <button name = '{{$makes->MakeID}}' onclick="deleteVT(this.name);" class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                                        <button name = '{{$makes->MakeID}}' onclick="deleteVT(this.name);" class="btn btn-danger hvr-float-shadow tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
                                                         </button>
 
                                                     </td>
@@ -147,6 +147,7 @@
                  <div class="modal fade in " id="addModal" tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
+                            <form id="addForm">
                             <div class="modal-header bg-info">
                                 <button id = "closebutton" type="reset" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
@@ -157,9 +158,13 @@
 
                                     <!--Texfield: Vehicle MAke-->
                                     <div class="col-md-3 m-t-10">
-                                        <h5>Vehicle Make <span style="color: red">*</span>
-                                        <p class ="m-t-20">
-                                            <input id="make" name="make" type="text" placeholder="Make" class="form-control"></p>
+                                        
+                                        <h5>Vehicle Make <span style="color: red">*</span></h5>
+                                        <div class ="m-t-20">
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="make" name="make" type="text" placeholder="Make" class="form-control">
+                                        </div>
                                     </div>
 
                                     <!--Textfield: Year, Bradnd/ CheckBox: AT, MT-->
@@ -175,13 +180,13 @@
                                             </thead>
                                             <tbody>
                                             <tr>
-                                            <td>
-                                                <input type="text" name="model" id="model" placeholder="model" class="form-control"/>
+                                            <td class="form-group">
+                                                <input type="text" name="model[]" id="model" placeholder="model" class="form-control"/>
+                                            </td>
+                                            <td class="form-group">
+                                                <input type="text" name="year[]" id="year" placeholder="Year" class="form-control"/>
                                             </td>
                                             <td>
-                                                <input type="text" name="year"id="year" placeholder="Year" class="form-control"/>
-                                            </td>
-                                            <td> 
                                                 <!--ADD ROw FOR ADD MODAL-->
                                                 <div class="examples transitions m-t-0">
                                                 <button type="button" id="addrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i></button>
@@ -204,23 +209,25 @@
                               </div>
                                 <div class="examples transitions m-t-5">
                                     <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                    <button id = "addform" class="btn btn-success    " data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <button id = "addform" type="submit" class="btn btn-success success_clr   " data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                   </button>
                                 </div>
 
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
                 <!-- END OF ADD MODAL-->
 
 
                 <!-- EDIT MODAL-->
-                <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
+                <div class="modal fade in " id="editModal"  tabindex="-1" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-lg">
+                    <form id="editForm">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
-                                <button id = "closebutton" type="reset"  class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <button id = "closebutton" type="reset"  class="close" data-dismiss="modal" aria-hidden="true" onClick="window.location.reload()">×</button>
                                 <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
                                             &nbsp;&nbsp;Edit Vehicle Type</h4>
                             </div>
@@ -231,11 +238,13 @@
 
                                     <!--Textfield: vehicle Make-->
                                     <div class="col-md-3 m-t-10">
-                                        <h5>Vehicle Make <span style="color: red">*</span>
-                                        <p class ="m-t-20">
-                                            <input id="editmake" name="make" type="text" placeholder="Make"
-                                                   class="form-control"></p>
-                                                   <input id = 'mkid' hidden>
+                                        <h5>Vehicle Make <span style="color: red">*</span></h5>
+                                        <div class ="m-t-20">
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="editmake" name="make" type="text" placeholder="Make" class="form-control">
+                                        </div>
+                                        <input id = 'mkid' hidden>
                                     </div>
 
                                     <!--Textfield: model, Year / Checkbox: MT, AT -->
@@ -250,31 +259,26 @@
                                             </thead>
                                             <tbody>
                                             <!-- <tr>
-                                            <td>
-                                                <input type="text" name="name" placeholder="model" class="form-control"/>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="year" placeholder="Year" class="form-control"/>
-                                            </td>
-                                            <td style="width: 115px;">
-                                                <input id="automatic" name="automatic" type="checkbox" value="automatic" class="input-small custom-checkbox custom-control">
-                                                 <label for="automatic">Automatic</label>
-                                            </td>
-                                            <td style="width: 95px;">
-                                                <input id="manual" name="manual" type="checkbox" value="manual" class="input-small custom-checkbox custom-control">
-                                                <label for="manual">Manual</label>
-                                            </td>
-                                            <td>
-                                                ADD ROW FOR EDIT MODAL
+                                              <td>
                                                 <div class="examples transitions m-t-5">
                                                 <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i></button>
                                              </div>
                                             </td>
-                                            DELETE ROW FOR EDIT MODAL
-                                            <td  style="border-color: white" rules="rows"><i class="deleteeditRow"></i>
-                                            </td>
+                                            
                                             </tr> -->
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                              <td>
+                                              </td>
+                                              <td></td>
+                                              <td colspan="3">
+                                                <div class="examples transitions m-t-5">
+                                                <button type="button" id="editrow" value="Add Row" class="btn btn-warning hvr-float-shadow" ><i class="fa fa-plus text-white"></i></button>
+                                             </div>
+                                            </td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
 
@@ -284,14 +288,15 @@
                             <!--Button: Close and Save Changes-->
                             <div class="modal-footer">
                               <div class="examples transitions m-t-5">
-                                <button id = "closebutton" type="reset"  data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                <button id = "closebutton" type="reset" onClick="window.location.reload()"  data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="editform" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button id="editform" class="btn btn-success success_clr" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
                 <!-- END OF EDIT MODAL-->
@@ -367,13 +372,13 @@ $("#addform").on("click", function () {
         '_token': $('#token').val()
       },
       success: function(data){
-  			            	alert("Success");
+                            // alert("Success");
                       location.reload();
-  							},
-  		                error: function(xhr)
-  			            {
-  			              location.reload();
-  			            }
+                            },
+                        error: function(xhr)
+                        {
+                          location.reload();
+                        }
 
 
 
@@ -391,21 +396,19 @@ $("#editform").on("click", function () {
 
  var emodel = [];
  var eyear= [];
- var eid= [];
 
 
  for(var i=0; i<counter; i++){
 
  var emod = $('#editmodel'+i+'').val()
  var eyr = $('#edityear'+i+'').val()
- var ei = $('#editid'+i+'').val()
+
 
    emodel.push(emod);
    eyear.push(eyr);
-   eid.push(ei);
+
 }
-
-
+// alert(eid)
 $.ajax({
   url: "/editvehicletype",
   type: "POST",
@@ -419,16 +422,13 @@ $.ajax({
   '_token': $('#token').val()
 },
 success: function(data){
-                alert("Success");
+                // alert("Success");
                 location.reload();
           },
                 error: function(xhr)
               {
-              location.reload();
+              alert('Error!');
               }
-
-
-
 
 });
 
@@ -446,7 +446,8 @@ function deleteVT(id){
     '_token': $('#token').val()
   },
   success: function(data){
-                  alert("Success");
+                  location.reload();
+
             },
                   error: function(xhr)
                 {
@@ -480,25 +481,28 @@ function updateVT(id){
   document.getElementById('editmake').value = mk;
 
   var md = data['Mod'][0]['Model'];
+  eid = [];
 
   for (var i=0;i<data.Mod.length;i++){
 
     var newRow = $("<tr>");
     var cols = "";
 
-    cols += '<td><input type="text" id="editid'+counter+'" hidden value="'+data['Mod'][i]['ModelID']+'"/> <input type="text" id="editmodel'+counter+'" value="'+data['Mod'][i]['Model']+'"class="form-control" name="model" placeholder="model"/></td>';
-    cols += '<td><input type="text" id="edityear'+counter+'" value="'+data['Mod'][i]['year']+'"class="form-control" name="year" placeholder="Year"/></td>';
-    cols += '<td style="border-color: white"><input type="button" class="ibteDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
+    cols += '<td class="form-group"><input type="text" id="editid'+counter+'" hidden value="'+data['Mod'][i]['ModelID']+'"/> <input type="text" id="editmodel'+counter+'" value="'+data['Mod'][i]['Model']+'"class="form-control" name="model[]" placeholder="model"/></td>';
+    cols += '<td class="form-group"><input type="text" id="edityear'+counter+'" value="'+data['Mod'][i]['year']+'"class="form-control" name="year[]" placeholder="Year"/></td>';
+    cols += '<td style="border-color: white"><input type="button" class="ibtneDel btn  btn-danger btn-md btn-md hvr-float-shadow" value ="X"></td>';
+    eid.push(data['Mod'][i]['ModelID']);
+
+
 
     newRow.append(cols);
     $("table.edit-order-list").append(newRow);
     counter++;
 
+    $('#editForm').bootstrapValidator('addField', 'model[]');
+    $('#editForm').bootstrapValidator('addField', 'year[]');
+
   }
-
-
-
-
   },
   error: function(xhr)
   {
@@ -529,16 +533,17 @@ $(document).ready(function () {
         var cols = "";
 
 
-        cols += '<td><input type="text" id="model'+counter+'" class="form-control" name="model" placeholder="model"/></td>';
-        cols += '<td><input type="text" id="year'+counter+'"class="form-control" name="year" placeholder="Year"/></td>';
-       
+        cols += '<td class="form-group"><input type="text" id="model'+counter+'" class="form-control" name="model[]" placeholder="model"/></td>';
+        cols += '<td class="form-group"><input type="text" id="year'+counter+'"class="form-control" name="year[]" placeholder="Year"/></td>';
+
         cols += '<td><input type="button" class="ibteDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
 
         newRow.append(cols);
         $("table.add-order-list").append(newRow);
         counter++;
 
-
+        $('#addForm').bootstrapValidator('addField', 'model[]');
+        $('#addForm').bootstrapValidator('addField', 'year[]');
     });
 
 
@@ -561,28 +566,208 @@ $(document).ready(function () {
 <!--script for table edit model and year-->
 <script>
 $(document).ready(function () {
-    var counter = 0;
 
     $("#editrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
 
-        cols += '<td><input type="text" class="form-control" name="model" placeholder="model"' + counter + '"/></td>';
-        cols += '<td><input type="text" class="form-control" name="year" placeholder="Year"' + counter + '"/></td>';
+        cols += '<td class="form-group"><input type="text"  id="editmodel'+counter+'" class="form-control" name="model[]" placeholder="model"' + counter + '"/></td>';
+        cols += '<td class="form-group"><input type="text"  id="edityear'+counter+'" class="form-control" name="year[]" placeholder="Year"' + counter + '"/></td>';
         cols += '<td style="border-color: white"><input type="button" class="ibtneDel btn  btn-danger btn-md btn-md hvr-float-shadow" value ="X"></td>';
 
         newRow.append(cols);
         $("table.edit-order-list").append(newRow);
         counter++;
+
+        $('#editForm').bootstrapValidator('addField', 'model[]');
+        $('#editForm').bootstrapValidator('addField', 'year[]');
     });
 
 
     $("table.edit-order-list").on("click", ".ibtneDel", function (event) {
-        $(this).closest("tr").remove();
-        counter -= 1
+        if(counter == 1)
+        {
+          alert('Must Have atleast 1 Row');
+        }
+        else{
+          $(this).closest("tr").remove();
+          counter -= 1
+
+        }
+
     });
 
 });
+
+$('#editModal').on('hidden', function () {
+  document.location.reload();
+})
+editm
+</script>
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            make: {
+                message: 'Is not valid',
+                validators: {
+                    notEmpty: {
+                        message: ' Required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                }
+            },
+            'model[]': {
+                message: 'Is not valid',
+                validators: {
+                    notEmpty: {
+                        message: ' Required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                }
+            },
+            'year[]': {
+                message: 'The service bay name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: ' Required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    })
+
+    .on('error.field.bv', function(e, data) {
+          if (data.bv.getSubmitButton()) {
+              data.bv.disableSubmitButtons(false);
+          }
+      })
+      .on('success.field.bv', function(e, data) {
+          if (data.bv.getSubmitButton()) {
+              data.bv.disableSubmitButtons(false);
+          }
+      });
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForm').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            make: {
+                message: 'Is not valid',
+                validators: {
+                    notEmpty: {
+                        message: ' Required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                }
+            },
+            'model[]': {
+                message: 'Is not valid',
+                validators: {
+                    notEmpty: {
+                        message: ' Required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                }
+            },
+            'year[]': {
+                message: 'The service bay name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'Required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: ' Only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+
+
+});
+
 </script>
 <!--end script of table edit model-->
 

@@ -22,11 +22,12 @@ class MechanicSkillsController extends Controller
      */
     public function index()
     {
-      $view = DB::table('personnel_job as pj')
-           ->LEFTJOIN('personnel_header as ph','pj.PersonnelID','=','ph.PersonnelID')
-           ->LEFTJOIN('job_description as jd','pj.JobDescriptionID','=','jd.JobDescriptionID')
-           ->WHERE('jd.JobDescription',"Mechanic")
-           ->WHERE('pj.isActive',1)
+
+      $view = DB::table('personnel_skill as ps')
+           ->JOIN('personnel_header as ph','ph.PersonnelID','=','ps.PersonnelID')
+           ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
+           ->JOIN('skill_header as sh','ps.SkillID','=','sh.SkillID')
+           ->WHERE('pj.JobDescriptionID',11)
            ->get();
 
       $skill = DB::table('skill_header')
@@ -40,7 +41,25 @@ class MechanicSkillsController extends Controller
             ->WHERE('ps.isActive',1)
             ->get();
 
-        return view ('personnel.mechanicskills',compact('view','skill','perskill'));
+      $personnel = DB::table('personnel_skill as ps')
+           ->JOIN('personnel_header as ph','ph.PersonnelID','=','ps.PersonnelID')
+            ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
+            ->WHERE('pj.JobDescriptionID',11)
+           ->Groupby('ps.PersonnelID')
+           ->WHERE('ps.isActive',1)
+           ->get();
+
+      $per= DB::table('personnel_job')
+            ->JOIN('personnel_header', 'personnel_job.PersonnelID', '=', 'personnel_header.PersonnelID')
+            ->WHERE('JobDescriptionID',11)
+            ->Groupby('personnel_header.PersonnelID')
+            ->WHERE('personnel_header.isActive',1)
+            ->get();
+           // dd($personnel);
+
+            // dd($per);
+
+        return view ('personnel.mechanicskills',compact('view','skill','perskill','personnel','per'));
     }
 
     /**

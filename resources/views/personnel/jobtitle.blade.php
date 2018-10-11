@@ -120,6 +120,7 @@
     <!-- ADD MODAL -->
     <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                        <form  id="addForms">
                         <div class="modal-content">
                             <div class="modal-header bg-info">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -127,14 +128,13 @@
                                             &nbsp;Add Job Title</h4>
                             </div>
                             <div class="modal-body"  style="padding-left: 45px;">
+                            
 
-                                        <div class="row m-t-10">
+                                        <div class="form-group row m-t-10">
                                             <div class="col-md-11">
                                                <h5>Job Title: <span style="color: red">*</span></h5>
-                                                <p class ="m-t-10">
                                                   <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                                <input id="jobtitle" name="jobtitle" type="text" placeholder="Job Title"class="form-control">
-                                            </p>
+                                                <input id="jobtitle" name="jobtitle" type="text" placeholder="Job Title"class="form-control m-t-10">
                                           </div>
                                         </div>
                                     </div>
@@ -146,10 +146,11 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="addform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <button type="submit" id="addform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -160,6 +161,7 @@
             <!-- EDIT MODAL -->
     <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
+                        <form id="editForms">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -167,14 +169,13 @@
                                             &nbsp;Edit Job Title</h4>
                             </div>
                             <div class="modal-body"  style="padding-left: 45px;">
+                            
 
-                                        <div class="row m-t-10">
+                                        <div class="form-group row m-t-10">
                                             <div class="col-md-11">
                                                <h5>Job Title: <span style="color: red">*</span></h5>
-                                                <p class ="m-t-10">
                                                 <input id = 'eid' hidden>
-                                                <input id="ejobtitle" name="jobtitle" type="text" placeholder="Job Title"class="form-control">
-                                            </p>
+                                                <input id="ejobtitle" name="jobtitles" type="text" placeholder="Job Title"class="form-control m-t-10">
                                           </div>
                                         </div>
                                     </div>
@@ -186,11 +187,12 @@
                                     <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    <button type="submit" id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
             <!--END OF EDIT MODAL -->
@@ -388,5 +390,92 @@ $("#editform").on("click", function () {
 </script>
 
 <!--functions-->
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addForms').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            jobtitle: {
+                message: 'The job title is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The job title is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The job title only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The job title only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editForms').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',      
+        fields: {
+            feedbackIcons: 'true',
+            jobtitles: {
+                message: 'The job title is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The job title is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The job title only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The job title only accept alphanumeric values. '
+                    },
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+
 
 @stop

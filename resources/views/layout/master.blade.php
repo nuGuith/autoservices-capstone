@@ -201,6 +201,8 @@
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Category
                             </a>
                         </li>
+
+                        
                         <li {!! (Request::is('service')  ? 'class="active"' : '') !!} >
                             <a href="/service" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Services
@@ -231,11 +233,11 @@
                                 <i class="fa fa-angle-right"></i> &nbsp; Service Bay
                             </a>
                         </li>
-                        <li {!! (Request::is('inspectionchecklist')  ? 'class="active"' : '') !!} >
+                        <!-- <li {!! (Request::is('inspectionchecklist')  ? 'class="active"' : '') !!} >
                             <a href="/inspectionchecklist" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i> &nbsp; Inspection Checklist
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
                 <li {!! (Request::is('jobtitle')|| Request::is('skills') || Request::is('personnel') || Request::is('mechanicskills') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;" >
@@ -252,12 +254,7 @@
                             </a>
                         </li>
 
-                        <li {!! (Request::is('skills')  ? 'class="active"' : '') !!} >
-                            <a href="/skills" style="padding-left:10%; padding-right: 10%;">
-                                <i class="fa fa-angle-right"></i>
-                                    &nbsp;Skills
-                            </a>
-                        </li>
+
                          
                         <li {!! (Request::is('personnel')  ? 'class="active"' : '') !!} >
                             <a href="/personnel" style="padding-left:10%; padding-right: 10%;">
@@ -312,6 +309,13 @@
                     </a>
                 </li>
 
+                <li {!! (Request::is('tax')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/tax" style="padding-left:10%; padding-right: 10%;">
+                        <i class="fa fa-percent"></i>
+                        <span class="link-title">&nbsp; Additional Tax</span>
+                    </a>
+                </li>
+
                     <br>
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; TRANSACTION</span>
                 
@@ -322,12 +326,12 @@
                     </a>
                 </li>
                 
-                <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
+                <!-- <li {!! (Request::is('inspect')  ? 'class="active"' : '') !!}  style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/inspect" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-search"></i>
                         <span class="link-title">&nbsp; Inspect Vehicle</span>
                     </a>
-                </li>
+                </li> -->
                 <li {!! (Request::is('estimates')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
                     <a href="/estimates" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-file-text"></i>

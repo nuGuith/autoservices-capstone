@@ -102,18 +102,16 @@
 
                         <td>
                             <ul style="padding-left: 1.2em;">
-                                <li>
+
                                   @foreach($pj as $job)
 
                                   @if($job->PersonnelID == $view->PersonnelID)
-
+                                  <li>
                                   {{$job->JobDescription}}
 
                                   @endif
 
                                   @endforeach
-
-
                                 </li>
                             </ul>
                         </td>
@@ -136,6 +134,10 @@
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
 
+
+
+
+
    <!-- ADD MODAL -->
     <form id="addper" enctype="multipart/form-data">
     <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
@@ -153,85 +155,77 @@
                             <div class="row m-t-10">
 
                                     <div class="col-md-5">
+                                        <div class="">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                             <div class="fileinput-new" style ="background-color: #d3d3d3">
 
                                             </div>
                                             <div class="fileinput-preview fileinput-exists img-thumbnail">
                                             </div>
-                                            <div class="m-t-20 text-center">
+                                            <div class="form-group m-t-20 text-center">
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">Change</span>
-                                                    <input type="file" id='image' name="image"></span>
-                                                <a href="#" class="btn btn-warning fileinput-exists"
-                                                           data-dismiss="fileinput">Remove</a>
+                                                    <input type="file" id='image' name="image" required=""></span></input>
+                                                <a href="#" class="btn btn-warning fileinput-exists"data-dismiss="fileinput">Remove</a>
                                             </div>
                                         </div>
+                                    </div>
 
 
                                 <input type="hidden" id="__token" value="{{ csrf_token() }}">
+                                <div class="form-group">
                                         <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
 
                                         @foreach($jt as $jobt)
-                                        <p class="row" style="margin: 0px;">
-                                            <input type="checkbox"class="m-t-5 m-l-10" value="{{$jobt->JobDescriptionID}}" name="{{$jobt->JobDescriptionID}}" onclick="myFunction(this.name)">
-                                            <label class="m-t-0">&nbsp;&nbsp;&nbsp;{{$jobt->JobDescription}}</label>
-                                        </p>
+                                        <div class="m-t-10 checkbox" style="margin: 0px;">
+                                            <input type="checkbox" class=""  value="{{$jobt->JobDescriptionID}}" name="jobs[]" id="{{$jobt->JobDescriptionID}}" onclick="myFunction(this.id)">
+                                            <label class="">&nbsp;&nbsp;&nbsp;{{$jobt->JobDescription}}</label>
+                                        </div>
                                         @endforeach
-
                                     </div>
+
+                            </div>
                                 <!-- </div> -->
 
 
                                 <div class="col-md-7">
+                                    <div class="form-group">
                                         <h5>First Name: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="fname" name="skills" type="text" placeholder="First Name"class="form-control">
-                                        </p>
+                                            <input id="fname" name="fname" type="text" placeholder="First Name"class="form-control m-t-10">
+                                    </div>
 
+
+                                    <div class="form-group">
                                         <h5>Middle Name: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="mname" name="mname" type="text" placeholder="Middle Name"class="form-control">
-                                        </p>
+                                            <input id="mname" name="mname" type="text" placeholder="Middle Name"class="form-control m-t-10">
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Surname: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="sname" name="sname" type="text" placeholder="Surname"class="form-control">
-                                        </p>
+                                            <input id="sname" name="sname" type="text" placeholder="Surname"class="form-control m-t-10">
+                                    </div>
 
+
+                                    <div class="form-group">
                                         <h5>Address: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="address" name="address" type="text" placeholder="Address" class="form-control">
-                                        </p>
+                                            <input id="address" name="address" type="text" placeholder="Address" class="form-control m-t-10">
+                                    </div>
 
-                                        <h5>Date of Birth: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id = 'dob' type="date" class="form-control" placeholder="dd-mm-yyyy">
-                                        </p>
+                                    <div class="form-group">
+                                    <h5>Date of Birth: <span style="color: red">*</span></h5>
+                                            <input id = 'dob' type="date" name="dob "class="form-control m-t-10" required="" >
+                                    </div>
 
-                                        <h5>Contact No.: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="phones" name="contact" placeholder="(999) 9999-9999" class="form-control m-t-10" type="text" >
-                                        </p>
+                                    <div class="form-group">
+                                        <h5>Contact Number: <span style="color: red">*</span></h5>
+                                            <input id = "phones" name="contact" class="form-control m-t-10" required="" >
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Email Address: <span style="color: red">*</span></h5>
-                                        <p>
-                                        <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
-                                        </p>
-
-
-                                        <h5 id="labelpass" style="display:none">Password: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10" id="pass" style="display:none">
-                                            <input id="pass" name="pass" type="password" placeholder="Password" class="form-control">
-                                        </p>
-
-                                        <!-- <h5 id="labelpass" style="display:none">Password: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10" id="pass" style="display:none">
-                                            <input id="pass" name="pass" type="password" placeholder="Password" class="form-control">
-                                        </p> -->
-
-
+                                        <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'" required="">
+                                    </div>
 
 
                                 </div>
@@ -245,12 +239,12 @@
 
                             <!--Button: Close and Save Changes -->
                             <div class="modal-footer">
-                              <div class="examples transitions m-t-5">
+                              <div class="form-group examples transitions m-t-5">
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
-                                <div class="examples transitions m-t-5">
+                                <div class="form-group examples transitions m-t-5">
                                     <input type="hidden" id="token" value="{{ csrf_token() }}">
-                                    <button id='addform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    <button  type ="submit" id='addform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
                                     </button>
                                 </div>
                             </div>
@@ -273,6 +267,8 @@
                                 <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
                                             &nbsp;Edit Personnel</h4>
                             </div>
+
+
                     <div class="modal-body"  style="padding-left: 45px; padding-right: 45px;">
                         <h4>Personnel Information:</h4>
                         <div class ="col-md-12">
@@ -285,114 +281,89 @@
 
                                             </div>
                                             <div class="fileinput-preview fileinput-exists img-thumbnail">
+
                                             </div>
-                                            <div class="m-t-20 text-center">
+                                            <div class="form-group m-t-20 text-center">
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">Change</span>
-                                                    <input id="eimage" type="file" name="eimage"></span>
+                                                    <input id="eimage" type="file" name="eimage" required></span>
                                                 <a href="#" class="btn btn-warning fileinput-exists"
                                                            data-dismiss="fileinput">Remove</a>
                                             </div>
                                         </div>
-
-
+                                        <!-- Making way for JT DD -->
+                                    <!-- <div class="form-group">
                                         <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
 
 
                                         @foreach($jt as $jtype)
-                                        <p class="row" style="margin: 0px;">
-                                            <input type="checkbox"class="m-t-5 m-l-10" id="JT{{$jtype->JobDescriptionID}}" name="{{$jtype->JobDescriptionID}}" onclick="editFunction(this.name)">
+                                        <div class="m-t-10 checkbox" style="margin: 0px;">
+                                            <input type="checkbox" class="" value="{{$jtype->JobDescriptionID}}" id="{{$jtype->JobDescriptionID}}" name="jobs[]" onclick="editFunction(this.id)">
                                             <label class="m-t-0">&nbsp;&nbsp;&nbsp;{{$jtype->JobDescription}}</label>
-                                        </p>
+                                        </div>
                                         @endforeach
 
-                                        <!-- <p class="row" style="margin: 0px;">
-                                            <input type="checkbox"class="m-t-5 m-l-10">
-                                            <label class="m-t-0">&nbsp;&nbsp;&nbsp;Quality Asurrance</label>
-                                        </p>
+                                    </div> -->
 
-                                        <p class="row" style="margin: 0px;">
-                                            <input type="checkbox"class="m-t-5 m-l-10">
-                                            <label class="m-t-0">&nbsp;&nbsp;&nbsp;Inventory</label>
-                                        </p>
-
-                                        <p class="row" style="margin: 0px;">
-                                            <input type="checkbox"class="m-t-5 m-l-10" id="editmyCheckS"  onclick="editmyFunction2()">
-                                            <label class="m-t-0">&nbsp;&nbsp;&nbsp;Secretary</label>
-                                        </p>
-
-                                        <p class="row" style="margin: 0px;">
-                                            <input type="checkbox"class="m-t-5 m-l-10" id="editmyCheck"  onclick="editmyFunction()">
-                                            <label class="m-t-0">&nbsp;&nbsp;&nbsp;Mechanic</label>
-                                        </p> -->
+                                    <div class="form-group">
+                                        <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
 
 
 
-                                        <h5  class="m-t-10" id="editlabel" style="display:none">Mechanic Skills: <span style="color: red">*</span></h5>
-                                        <p class="m-t-10"id="edittext" style="display:none">
-                                        <select  class="form-control  chzn-select" multiple size="3">
-                                            <option value="United States">Aircon</option>
-                                            <option value="United Kingdom">Wheel Alignment</option>
-                                        </select>
-                                        </p>
+                                        <div class="m-t-10 checkbox" style="margin: 0px;">
+                                          <select class="form-control chzn-select" id="jt" name="jobs[]"  tabindex="3" multiple="">
+                                                  <option disabled>Choose Skills</option>
+                                                @foreach($jt as $jtype)
+                                              <option value = "{{$jtype->JobDescriptionID}}">{{$jtype->JobDescription}}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+
 
                                     </div>
-                                <!-- </div> -->
+
+
+                                </div>
 
 
                                 <div class="col-md-7">
-
+                                    <div class="form-group">
                                         <h5>First Name: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
                                           <input id="eid" hidden>
-                                            <input id="efname" name="skills" type="text" placeholder="First Name"class="form-control">
-                                        </p>
+                                          <input id="efname" name="fname" type="text" placeholder="First Name"class="form-control m-t-10">
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Middle Name: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="emname" name="mname" type="text" placeholder="Middle Name"class="form-control">
-                                        </p>
+                                            <input id="emname" name="mname" type="text" placeholder="Middle Name"class="form-control m-t-10">
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Surname: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="esname" name="sname" type="text" placeholder="Surname"class="form-control">
-                                        </p>
+                                            <input id="esname" name="sname" type="text" placeholder="Surname"class="form-control m-t-10">
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Address: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="eaddress" name="address" type="text" placeholder="Address" class="form-control">
-                                        </p>
+                                            <input id="eaddress" name="address" type="text" placeholder="Address" class="form-control m-t-10">
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Date of Birth: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id='edate' type="date" class="form-control" placeholder="dd-mm-yyyy">
-                                        </p>
+                                            <input id='edate' type="date" class="form-control m-t-10" name="dob" placeholder="dd-mm-yyyy" required>
+                                    </div>
 
-                                        <h5>Contact No.: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10">
-                                            <input id="ephones" name="contact" placeholder="(999) 999-9999" class="form-control m-t-10" type="number">
-                                        </p>
+                                    <div class="form-group">
+                                        <h5>Contact Number: <span style="color: red">*</span></h5>
+                                            <input id = "phones" name="contact" class="form-control m-t-10" required="" >
+                                    </div>
 
+                                    <div class="form-group">
                                         <h5>Email Address: <span style="color: red">*</span></h5>
-                                        <p>
                                         <input id="eemail" name="email" type="email" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
-                                        </p>
-
-
-                                        <h5 id="editlabelpass" style="display:none">Password: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10" id="editpass" style="display:none">
-                                            <input id="editpass" name="editpass" type="password" placeholder="Password" class="form-control">
-                                        </p>
-<!--
-                                        <h5 id="editlabelpass" style="display:none">Password: <span style="color: red">*</span></h5>
-                                        <p class ="m-t-10" id="editpass" style="display:none">
-                                            <input id="editpass" name="editpass" type="password" placeholder="Password" class="form-control">
-                                        </p> -->
-
-
-
-
+                                    </div>
                                 </div>
 
 
@@ -404,11 +375,11 @@
 
                             <!--Button: Close and Save Changes -->
                             <div class="modal-footer">
-                              <div class="examples transitions m-t-5">
+                              <div class="form-group examples transitions m-t-5">
                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                               </div>
-                                <div class="examples transitions m-t-5">
-                                    <button id='editform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                <div class="form-group examples transitions m-t-5">
+                                    <button type="submit" id='editform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
                                     </button>
                                 </div>
                             </div>
@@ -501,7 +472,7 @@
      $("#addform").on("click", function () {
 
 
-    var form_data = $('#addper').serialize();     
+    var form_data = $('#addper').serialize();
        var pic = $('#image').val();
        var fname = $('#fname').val();
        var mname = $('#mname').val();
@@ -549,16 +520,16 @@
                         processData: false,
                         success: function (response) {
                             // alert("succ")
-                            window.location.href = "personnel"; 
+                            window.location.href = "personnel";
                         },
                         error:function(xhr){
 
-                            // window.location.href = "driver_info"; 
+                            // window.location.href = "driver_info";
                             // alert("errorr");
                         }
 
                     });
-             }       
+             }
                    },
                          error: function(xhr)
                        {
@@ -582,6 +553,9 @@
                  id:id,
                },
                success: function(data){
+                 $(".chzn-select").chosen();
+                 jtitle = [];
+                 jpid = [];
                  document.getElementById('eid').value = data['per'][0]['PersonnelID'];
                  document.getElementById('efname').value = data['per'][0]['FirstName'];
                  document.getElementById('emname').value = data['per'][0]['MiddleName'];
@@ -590,11 +564,15 @@
                  document.getElementById('edate').value = data['per'][0]['Birthday'];
                  document.getElementById('ephones').value = data['per'][0]['ContactNo'];
                  document.getElementById('eemail').value = data['per'][0]['EmailAddress'];
-                 document.getElementById('eimage').value = data['per'][0]['image'];
+                 // document.getElementById('eimage').value = data['per'][0]['image'];
 
+                 for(var x=0;x<data.job.length;x++)
+                 {
+                   jtitle.push(data['job'][x]['JobDescriptionID'])
+                   jpid.push(data['job'][x]['PersonnelJobID'])
+                 }
 
-                // alert('qwe');
-
+                   $("#jt").val(jtitle).trigger("chosen:updated");
 
 
 
@@ -609,7 +587,7 @@
 
      $("#editform").on("click", function () {
 
-    var form_data = $('#editper').serialize();    
+    var form_data = $('#editper').serialize();
        var epic = $('#eimage').val();
        var efname = $('#efname').val();
        var emname = $('#emname').val();
@@ -620,6 +598,8 @@
        var eemail = $('#eemail').val();
        var eid = $('#eid').val();
 
+       var s = $('#jt').val();
+       // alert(s);
 
        $.ajax({
          type:"POST",
@@ -635,6 +615,8 @@
            bday:ebday,
            num:ephones,
            email:eemail,
+           jtitle:s,
+           jpid:jpid,
 
            '_token': $('#token').val()
          },
@@ -657,16 +639,16 @@
                         processData: false,
                         success: function (response) {
                             // alert("succ")
-                            window.location.href = "personnel"; 
+                            window.location.href = "personnel";
                         },
                         error:function(xhr){
 
-                            // window.location.href = "driver_info"; 
+                            // window.location.href = "driver_info";
                             // alert("errorr");
                         }
 
                     });
-             }  
+             }
 
                    },
                          error: function(xhr)
@@ -717,6 +699,8 @@
      });
 
      function myFunction(id){
+
+     // alert(temp)
          var temp = 0;
 
        if (jtarr.length > 0){
@@ -749,10 +733,6 @@
          // alert('push1st')
 
        }
-
-
-
-
 
      }
 
@@ -904,5 +884,318 @@ function editmyFunction2() {
 }
 </script> -->
 <!--END -->
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#addper').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+             image: {
+                validators: {
+                    file: {
+                        extension: 'jpeg,png',
+                        type: 'image/jpeg,image/png',
+                        maxSize: 2048 * 1024,
+                        message: 'The selected file is not valid'
+                    }
+                },
+                 notEmpty: {
+                        message: ' required and cannot be empty. '
+                    },
+            },
+            'jobs[]': {
+                validators: {
+                    choice: {
+                        min: 1,
+                        // max: 4,
+                        message: 'Please choose %s or more job title, '
+                    },
+
+                    notEmpty: {
+                        message: ' required and cannot be empty. '
+                    },
+                }
+            },
+            fname: {
+                message: 'The first name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The first name is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The first name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The first name only accept alphanumeric values. '
+                    },
+                }
+            },
+            mname: {
+                message: 'The middle name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The middle name is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The middle name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The middle name only accept alphanumeric values. '
+                    },
+                }
+            },
+            sname: {
+                message: 'The surname is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The surname is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The surname only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The surname only accept of alphanumeric values. '
+                    },
+                }
+            },
+            address: {
+                message: 'The address is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The address is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The address only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@*_={}()|\;<>,.?%^&]+/,
+                        message: 'The address only accept alphanumeric values. '
+                    },
+                }
+            },
+            dob: {
+                message: 'The birth date is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The birth date is required and cannot be empty. '
+                    },
+                    date: {
+                        format: 'mm/dd/yyyy',
+                        message: 'The birth date is not valid'
+                    }
+                }
+            },
+            contact: {
+                message: 'The contact no. is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The contact no. is required and cannot be empty. '
+                    },
+                    regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The contact only accept numeric values. '
+                    },
+
+
+                }
+            },
+            email: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The email is required and cannot be empty. '
+                    },
+
+                }
+            },
+        }
+    });
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#editper').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+             eimage: {
+                validators: {
+                    file: {
+                        extension: 'jpeg,png',
+                        type: 'image/jpeg,image/png',
+                        maxSize: 2048 * 1024,
+                        message: 'The selected file is not valid'
+                    }
+                },
+                 notEmpty: {
+                        message: ' required and cannot be empty. '
+                    },
+            },
+            'jobs[]': {
+                validators: {
+                    choice: {
+                        min: 1,
+                        // max: 4,
+                        message: 'Please choose %s or more job title, '
+                    },
+
+                    notEmpty: {
+                        message: ' required and cannot be empty. '
+                    },
+                }
+            },
+            fname: {
+                message: 'The first name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The first name is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The first name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The first name only accept alphanumeric values. '
+                    },
+                }
+            },
+            mname: {
+                message: 'The middle name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The middle name is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The middle name only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The middle name only accept alphanumeric values. '
+                    },
+                }
+            },
+            sname: {
+                message: 'The surname is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The surname is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The surname only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The surname only accept of alphanumeric values. '
+                    },
+                }
+            },
+            address: {
+                message: 'The address is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The address is required and cannot be empty. '
+                    },
+
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The address only accept alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@*_={}()|\;<>,.?%^&]+/,
+                        message: 'The address only accept alphanumeric values. '
+                    },
+                }
+            },
+            dob: {
+                message: 'The birth date is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The birth date is required and cannot be empty. '
+                    },
+                    date: {
+                        format: 'mm/dd/yyyy',
+                        message: 'The birth date is not valid'
+                    }
+                }
+            },
+            contact: {
+                message: 'The contact no. is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The contact no. is required and cannot be empty. '
+                    },
+                    regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The contact only accept numeric values. '
+                    },
+
+
+                }
+            },
+            email: {
+                message: 'The email is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The email is required and cannot be empty. '
+                    },
+
+                }
+            },
+        }
+    });
+
+
+
+
+
+});
+
+</script>
 
 @stop

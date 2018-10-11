@@ -19,12 +19,12 @@ class VehicleTypeController extends Controller
         $models = DB::table('automobile_model as md')
           ->leftJoin('automobile_make as mk', 'mk.makeid', '=', 'md.makeid')
           ->leftJoin('automobile as auto', 'auto.modelid', '=', 'md.modelid')
-        	->select('md.ModelID','md.MakeID', 'md.Model','md.year')
-        	->where('md.isActive', 1)
+          ->select('md.ModelID','md.MakeID', 'md.Model','md.year')
+          ->where('md.isActive', 1)
           ->where('mk.isActive',1)
-        	->get();
+          ->get();
 
-    	return view('vehicletype.vehicletype', compact('makes', 'models'));
+      return view('vehicletype.vehicletype', compact('makes', 'models'));
     }
 
     public function addvehicletype(){
@@ -59,12 +59,14 @@ class VehicleTypeController extends Controller
       $vm = DB::table('automobile_make as mk')
       ->SELECT('mk.MakeID','mk.Make')
       ->where('mk.MakeID',Input::get('MakeID'))
+      ->where('mk.isActive', 1)
       ->get();
 
       //get vehicle $model
       $vmod = DB::table('automobile_model as md')
       ->SELECT('md.ModelID','md.Model','md.year','md.Transmission')
       ->WHERE('md.MakeID',Input::get('MakeID'))
+      ->where('md.isActive', 1)
       ->get();
 
       return \Response::json(['Brand'=>$vm,'Mod'=>$vmod]);
@@ -83,25 +85,32 @@ class VehicleTypeController extends Controller
       $emod = Input::get('model');
       $eyear = Input::get('year');
       $eid  = Input::get('id');
+      $emake = Input::get('makeid');
+
+        //clear existing record based on ModelID
+          for($i=0;$i<count($eid);$i++)
+          {
+
+          DB::table('automobile_model')
+          ->WHERE('ModelID','=', $eid[$i])
+          ->delete();
+          }
+
+          //Insert new record
+          for($i=0;$i<count($emod);$i++)
+          {
+
+            $model = array("Model"=>$emod[$i],"MakeID"=>$emake,"year"=>$eyear[$i]);
+            DB::table('automobile_model')->insert($model);
+
+
+          }
 
 
 
-      for($i=0;$i<=count($emod);$i++)
-      {
-
-      DB::table('automobile_model as md')
-      ->WHERE('md.ModelID',$eid[$i])
-      ->UPDATE(['md.Model'=>$emod[$i],'md.year'=>$eyear[$i]]);
-
-      }
 
 
-
-
-
-
-
-    }
+}
 
     public function Deletevehicletype(){
 

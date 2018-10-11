@@ -25,6 +25,8 @@ class PromoController extends Controller
       //PRODUCT
    	 $pr = DB::table('promo_product_inclusions')
       ->leftjoin('product', 'promo_product_inclusions.ProductID','=','product.ProductID')
+      ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
+      ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
       ->get();
 
       //SERVICE
@@ -166,4 +168,27 @@ public function promoshow()
           }
 
     }
+
+    public function delete(){
+
+      DB::table('promo_header')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+      DB::table('promo_product_inclusions')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+      DB::table('promo_service_inclusions')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+      DB::table('promo_freeitems_inclusions')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+    
+
+    }
+ 
 }
