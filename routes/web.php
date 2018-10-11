@@ -31,7 +31,6 @@ Route::resource('productcategory', 'ProductCategoryController');
 Route::post('/productcategory', 'ProductCategoryController@store');
 Route::put('/productcategory', 'ProductCategoryController@update');
 Route::patch('/productcategory', 'ProductCategoryController@delete');
-Route::patch('/productcategory', 'ProductCategoryController@reactivate');
 
 //Maintenance - Product Type
 Route::resource('producttype', 'ProductTypeController');
