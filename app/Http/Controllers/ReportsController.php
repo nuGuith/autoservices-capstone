@@ -25,7 +25,13 @@ class ReportsController extends Controller
       ->select('e.*', 'a.PlateNo', 'c.LastName','c.FirstName', DB::raw('DATE(e.created_at) AS EDate'))
       ->get();
 
-    return view('reports.estimate_report', compact('estimates'));
+    $joborder = DB::table('job_order as jo')
+      ->join('estimate as e', 'e.EstimateID', '=', 'jo.EstimateID')
+      ->where('jo.isActive', 1)
+      ->select('JobOrderID', 'jo.EstimateID')
+      ->get();
+
+    return view('reports.estimate_report', compact('estimates', 'joborder'));
   }
 
   public function inspection()
@@ -49,16 +55,20 @@ class ReportsController extends Controller
     return view('reports.inspection_report', compact('inspections', 'inspects'));
   }
 
-  public function joborder()
+  public function joborder(Request $request)
   {
+    $startdate = $request->startdate;
+    $enddate = $request->enddate;
+
     $jos = DB::table('job_order as jo')
       ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
       ->where(['jo.isActive' => 1, 'jo.Status'=>'Finalized'])
+      ->whereBetween('jo.created_at', [$startdate, $enddate])
       ->select('jo.JobOrderID', 'jo.TotalAmountDue', 'a.PlateNo', 'c.LastName', 'c.FirstName', DB::raw('DATE(jo.created_at) AS JODate'))
       ->get();
 
-    return view('reports.joborder_report', compact('jos'));
+    return view('reports.joborder_report', compact('jos', 'startdate', 'enddate'));
   }
 
   public function jobordersales()

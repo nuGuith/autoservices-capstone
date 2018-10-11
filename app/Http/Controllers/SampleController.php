@@ -17,6 +17,7 @@ use App\Personnel;
 use App\Discount;
 use App\Service;
 use App\Product;
+use App\JobDescription;
 use PDF;
 class SampleController extends Controller
 {
@@ -151,10 +152,20 @@ class SampleController extends Controller
 
     $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
 
-    $personnel = DB::table('personnel_header')
+    /*$personnel = DB::table('personnel_header')
       ->where('personnelid',$joborder->PersonnelID)
       ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
-      ->first();
+      ->first();*/
+    
+    $personneljob = DB::table('personnel_job as pj')
+      ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')
+      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1])
+      ->select('pj.*', 'pjp.*')
+      ->get();
+    
+    $jobdescription = JobDescription::findOrFail($personneljob->JobDescriptionID);
+
+    dd($jobdescription);
 
     $serviceperformed = DB::table('service_performed AS sp')
       ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
@@ -180,7 +191,7 @@ class SampleController extends Controller
       ->select(DB::raw('SUM(pu.SubTotal) as ProductCost'))
       ->first();
       
-    $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release'))
+    $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release', 'personneljob', 'jobdescription'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');
@@ -207,7 +218,7 @@ class SampleController extends Controller
     
     $serviceperformed = DB::table('service_performed AS sp')
         ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
-        ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
+        ->where(['sp.joborderid' => $id, 'sp.isActive' => 1, 'sp.isPerformed' => 1])
         ->select('sp.*', 'svc.*')
         ->get();
   

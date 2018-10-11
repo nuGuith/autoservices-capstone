@@ -86,22 +86,40 @@
                                             <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>ESTIMATE ID</b></th>
                                             <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PLATE NO.</b></th>
                                             <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>CUSTOMER NAME</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>DATE</b></th>
+                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>DATE</b></th>
+                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>JOB ORDER ID</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($estimates as $estimate)
-                                        <tr role="row" class="even">
-                                            <td>ES000{{ $estimate->EstimateID }}</td>
-                                            <td>{{ $estimate->PlateNo }}</td>
-                                            <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
-                                            <td>
-                                                <?php
-                                                    $date = date('F d, Y', strtotime($estimate->EDate));
-                                                    echo $date;
-                                                ?>
-                                            </td>
-                                        </tr>
+                                            @foreach($joborder as $jo)
+                                                @if($jo->EstimateID==$estimate->EstimateID)
+                                                    <tr>
+                                                        <td>ES000{{ $estimate->EstimateID }}</td>
+                                                        <td>{{ $estimate->PlateNo }}</td>
+                                                        <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
+                                                        <td>
+                                                            <?php
+                                                                $date = date('F d, Y', strtotime($estimate->EDate));
+                                                                echo $date;
+                                                            ?>
+                                                        </td>
+                                                        <td>JO000{{ $jo->JobOrderID }}</td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                            <tr role="row" class="even">
+                                                <td>ES000{{ $estimate->EstimateID }}</td>
+                                                <td>{{ $estimate->PlateNo }}</td>
+                                                <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
+                                                <td>
+                                                    <?php
+                                                        $date = date('F d, Y', strtotime($estimate->EDate));
+                                                        echo $date;
+                                                    ?>
+                                                </td>
+                                                <td>N/A</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -211,6 +229,5 @@
     cb(start, end);
 });
 </script>
-
 
 @stop

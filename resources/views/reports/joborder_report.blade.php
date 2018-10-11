@@ -154,7 +154,6 @@
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
-<script type ="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 
 <script>
     $(function() {
@@ -165,10 +164,10 @@
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         
-        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var startDate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var endDate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
             
-        if (enddate == startdate)
+        if (endDate == startDate)
             $('#reportdate').text(""+start.format('MMMM D, YYYY'));
         else
             $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
@@ -187,6 +186,26 @@
     }, cb);
 
     cb(start, end);
+
+    $.ajax({
+        type: "GET",
+        url: "/joborder",
+        data: {
+            'startDate' :  startDate,
+            'endDate' : endDate
+        }
+        }).done(function(data) {
+            var table = $('#editable_table').DataTable({        
+                "aaData": data,
+                destroy: true,
+                "columns": [
+                    { "data" : "JobOrderID" },
+                    { "data" : "FirstName" },
+                    { "data" : "JODate" },
+                    { "data" : "TotalAmountDue" }  
+                ]
+            });
+    });
 });
 </script>
 
