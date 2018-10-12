@@ -639,7 +639,7 @@ class AddJobOrderController extends Controller
 
     public function filterMechanic(Request $request, $id)
     {
-        $skills = $request->input('filterID', []);
+        $skills = $request->input('filterTag', []);
 
         $mechanic = DB::table('personnel_header as ph')
             ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
@@ -652,6 +652,19 @@ class AddJobOrderController extends Controller
             ->distinct('personnelfullname')
             ->get();
         return response()->json(compact('mechanic','skills'));
+    }
+    
+    public function unfilterMechanic($id)
+    {
+        $mechanic = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->where(['pj.jobdescriptionid' => 5, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->orderBy('ph.personnelid', 'desc')
+            ->distinct('personnelfullname')
+            ->get();
+        return response()->json(compact('mechanic'));
     }
 
     public function getFilteredProductList($id)
