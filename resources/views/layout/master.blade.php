@@ -418,8 +418,8 @@
                     <span class="link-title" style="border-radius: 4px; margin: 0% 5% 0%">&nbsp;&nbsp; UTILITIES</span>
                 
 
-                <li {!! (Request::is('settings')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/settings" style="padding-left:10%; padding-right: 10%;">
+                <li {!! (Request::is('utilities')  ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/utilities" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-cogs"></i>
                         <span class="link-title">&nbsp; Manage Settings</span>
                     </a>
