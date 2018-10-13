@@ -558,6 +558,15 @@
 
 <!--SCRIPT FOR ESTIMATE TABLE -->
 <script>
+$(document).keypress(function(e) {
+  if ($("#productSuggest").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#btnGo').click();
+  }
+  if ($("#confirmationModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#btnSaveProceed').click();
+  }
+});
+
 $(document).ready(function () {
     
     $("#estimates option[value='0']").prop("disabled",true);
@@ -1061,7 +1070,7 @@ $(document).ready(function () {
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                     cols += '<td style="border-left:none !important"><center><button type="button" id="productid" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
 
                     newProductRow.append(cols);
@@ -1128,8 +1137,14 @@ $(document).ready(function () {
             });
 
             $(this).closest("tr").remove();
+            $("#services").prop("disabled", false);
+            $("#services").prop("selectedIndex", 0);
             $('#services option[value="'+id+'"]').prop("disabled", false);
             $('#services').trigger("chosen:updated");
+            $("#addRow").prop("disabled", true);
+            $("#labor").val(null);
+            $("#products").val(null);
+            $("#products").prop("disabled", "disabled").trigger('chosen:updated');
             getEstimatedTime();
             getGrandTotal();
 

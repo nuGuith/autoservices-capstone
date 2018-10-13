@@ -288,8 +288,10 @@ class AddJobOrderController extends Controller
 
         $productused = DB::table('product_used AS pu')
             ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->where(['estimateid' => $id, 'pu.isActive' => 1])
-            ->select('pu.*', 'pr.*')
+            ->select('pu.*', 'pr.*', DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"))
             ->get();
 
         $estimateids->prepend('Please choose an Estimate ID',0);
@@ -573,12 +575,17 @@ class AddJobOrderController extends Controller
         $automobile = Automobile::findOrFail($estimate->AutomobileID);
         $customer = Customer::findOrFail($automobile->CustomerID);
         $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service as se', 'sp.serviceid', '=', 'se.serviceid')
+            ->join('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
             ->where(['sp.estimateid' => $id, 'sp.isActive' => 1])
-            ->select('sp.*')
+            ->select('sp.*', 'sc.*', 'se.*')
             ->get();
         $productused = DB::table('product_used AS pu')
-            ->where(['estimateid' => $id, 'isActive' => 1])
-            ->select('pu.*')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
+            ->where(['estimateid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*', DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"))
             ->get();
         return response()->json(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'productused'));
     }

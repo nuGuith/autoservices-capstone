@@ -487,13 +487,13 @@
                                         </tr>
                                             @foreach($productused as $pu)
                                                 @if($sp->ServicePerformedID == $pu->ServicePerformedID)
-                                                <tr class="product" id="svc{!!$sp->ServiceID!!}">
+                                                <tr class="product" id="svc{!!$sp->ServiceID!!}" data-productid="{!!$pu->ProductID!!}">
                                                     <td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="{!!$pu->ProductID!!}"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="{!!$pu->ProductUsedID!!}"><input type="hidden" style="width:50px; text-align:right;" name="prodservperf[]" placeholder="" class="form-control" value="{!!$sp->ServicePerformedID!!}"></td>
                                                     <td style="border-right:none !important">
                                                         <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="{!!$pu->Quantity!!}" data-serviceid="{!!$sp->ServiceID!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
-                                                    <span style="color:red">Product:</span><br>{!!$pu->ProductName!!}
+                                                    <span style="color:red">Product:</span><br>{!!$pu->fullproductname!!}
                                                     </td>
                                                     <td style="border-right:none !important">
                                                         <input type="hidden" style="width:50px; text-align:right;" placeholder="Labor" class="form-control">
@@ -514,70 +514,13 @@
                                                 @endif
                                             @endforeach
                                         @endforeach
-                                        <tr id="discount">
-                                            <td style="border-right:none !important"></td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;" placeholder="Quantity" class="form-control">
-                                            </td>   
-                                            <td style="border-right:none !important">  
-                                                <span style="color:red">Discount:</span>
-                                                <br>
-                                            </p>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" placeholder="Labor" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                               <a></a>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:60px; text-align: right" readonly placeholder="0%" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:80px; text-align: right;color:red" readonly placeholder=".00" class="form-control">
-                                            </td>
-                                            <!--Delete Row Inside Job Order Table -->
-                                            <td style="border-left:none !important">
-                                                <button type="button" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button>
-                                            </td> 
-                                           </tr>
                                     </tbody>
                                     @elseif(Route::current()->getName() != 'fromEstimate')
                                     <tbody >
-                                            <!--Example: for Discount-->
-                                            <!--Hidden Field: Quantity Labor, Assign Mechanic -->
-                                            <tr id="discount">
-                                            <td style="border-right:none !important"></td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:55px;"  placeholder="Quantity" class="form-control">
-                                            </td>   
-                                            <td style="border-right:none !important">  
-                                                <span style="color:red">Discount:</span>
-                                                <br>
-                                            </p>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="hidden" style="width:50px;" placeholder="Labor" class="form-control">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                               <a></a>
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:60px; text-align: right" readonly placeholder="0%" class="form-control" value="">
-                                            </td>
-                                            <td style="border-right:none !important">
-                                                <input type="text" style="width:80px; text-align: right;color:red" readonly placeholder=".00" class="form-control" value="">
-                                            </td>
-                                            <!--Delete Row Inside Job Order Table -->
-                                            <td style="border-left:none !important">
-                                                <button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button>
-                                            </td> 
-                                           </tr>
-
-                                        </tbody>
-                                        <!--Overall Total -->
+                                    </tbody>
+                                    <!--Overall Total -->
                                     @endif
-                                    <tfoot>
+                                    <tfoot id="footer">
                                         <tr>
                                             <th colspan="2" style="text-align: left;">Estimated Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <span id="estimated" style="text-align: center; color: blue"></span>
@@ -816,6 +759,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- START SUBMIT MODAL -->
                 <div class="modal fade in " id="confirmationModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
@@ -851,6 +795,39 @@
                     </div>
                 </div>
                 <!-- END SUBMIT MODAL -->
+
+                <!-- START EXISTENCE CHECK MODAL -->
+                <div class="modal fade in" id="existCheckModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-warning"></i>
+                                    &nbsp;Warning
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h4>The service already exists.</h4>
+                                    <h5 id="errorInfo" style="font-weight:light;">It appears, this service is already staged in the table. (You've already added this)</h5>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">
+                                        Close
+                                    </button>
+                                </div>
+                                <div class="m-t-5">
+                                    <button id="btnOkay" data-dismiss="modal" style="border:1px solid #008A60" onclick="" type="button" class="btn btn-success">
+                                        &nbsp;Okay
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXISTENCE CHECK MODAL -->
                 
                 <!-- START PRODUCT SUGGESTIONS MODAL -->
                 <div class="modal fade in " id="productSuggest" tabindex="-3" role="dialog" aria-hidden="false">
@@ -895,7 +872,7 @@
                                     <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">No, I want to manually add products.</button>
                                 </div>
                                 <div class="examples transitions m-t-5">
-                                    <button id="btnGo" type="button" data-dismiss="modal" onclick="" class="btn btn-success">
+                                    <button id="btnGo" type="button" data-dismiss="modal" class="btn btn-success">
                                         &nbsp;Proceed
                                     </button>
                                 </div>
@@ -906,7 +883,7 @@
                 <!-- END PRODUCT SUGGESTIONS MODAL -->
 
                 <!-- START MECHANIC FILTER MODAL -->
-                <div class="modal fade in " id="mechFilterModal" tabindex="-3" role="dialog" aria-hidden="false">
+                <div class="modal fade in" id="mechFilterModal" tabindex="-3" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -1036,7 +1013,26 @@
 
 
 <!--SCRIPT FOR EVERYTHING HIHI, ANG DUMI NG CODE KO AHAHAKKK -->
-<script> 
+<script>
+
+$(document).keypress(function(e) {
+  if ($("#productSuggest").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#productSuggest').modal('hide');
+    $('#btnGo').click();
+  }
+  if ($("#mechFilterModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#mechFilterModal').modal('hide');
+    $('#btnApply').click();
+  }
+  if ($("#confirmationModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#confirmationModal').modal('hide');
+    $('#btnSaveProceed').click();
+  }
+  if ($("#existCheckModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#existCheckModal').modal('hide');
+    $('#btnOkay').click();
+  }
+});
 
 $(document).ready(function () {
 
@@ -1063,6 +1059,9 @@ $(document).ready(function () {
     var reasonsConfirmed = false;
     var selectedMechIndex = 0;
     var filterID = new Array();
+    var filterTag = new Array();
+    var filterSwitch = true;
+    var okay = false;
 
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -1102,6 +1101,7 @@ $(document).ready(function () {
         getEstimatedTime();
         getDiscountedPrice();
         filterTags();
+        bindListenerToBtnDel();
     }
 
     if((estimate.ServiceBayID > 0) || (estimate.ServiceBayID != null)){
@@ -1119,6 +1119,7 @@ $(document).ready(function () {
             $("#AT").prop("checked", false);
         }
         $('#transmission').val(automobile.Transmission);
+        $('#automobile_models').prop('disabled', true);
         $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
         modelID = (automobile.ModelID);
         $('#model').val(modelID);
@@ -1201,6 +1202,7 @@ $(document).ready(function () {
             $(this).prop("disabled", false);
         });
         $('#automobile_models').prop("disabled", false);
+        $('#plateno').prop("disabled", false);
 
         var formData = $('#jobForm').serialize();
         alert(formData);
@@ -1213,7 +1215,8 @@ $(document).ready(function () {
                 data: formData,
                 type: 'POST',
                 success: function(data) { 
-                    $('#automobile_models').prop("disabled", true);    
+                    $('#automobile_models').prop("disabled", true);
+                    $('#plateno').prop("disabled", true);    
                     alert("Yey.");
                     routeID = 1;
                     redirect = data.newRoute;
@@ -1251,32 +1254,12 @@ $(document).ready(function () {
         }
     });
 
-    $("table.list").on("click", ".btnDel", function (event) {
+    /* $("table.list").on("click", ".btnDel", function (event) {
         
         if (estimateID !== null){
-            var id = $(this).data('serviceid');
-            var svcid = "svc" + id;
-                            
-            //remove all products included in this service
-            $('table tr').each( function() {
-                if ((this.id) == svcid) 
-                    $(this).closest("tr").remove();
-            });
-
-            deleted.push($(this).closest("tr").attr('name'));
-            //alert(deleted);
-            $(this).closest("tr").remove();
-            $('#services option[value="'+id+'"]').prop("disabled", false);
-            $('#services').trigger("chosen:updated");
-            getEstimatedTime();
-            getGrandTotal();
-            getDiscountedPrice();
-            filterTags();
-            filterMechanics();
-            countServices();
-            if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+            bindListenerToBtnDel();
         }
-    });
+    }); */
 
     $("table.list").on("click", "#productid", function(event){
         var remaining = 1;
@@ -1358,26 +1341,7 @@ $(document).ready(function () {
     });
 
     //Button: Delete Row
-    $("table.order-list").on("click", ".btnDel", function (event) {
-        if($(this).closest("tr#discount")){ 
-            var newDiscountRow = $('<tr id="discount">');
-            var cols = "";
-            cols += '<td style="border-right:none !important"></td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
-            cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br> </td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px;text-align: right" name="unitprice" placeholder="0%" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" name="price " placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></td>';
-            newDiscountRow.append(cols);
-            $("tr#discount").replaceWith(newDiscountRow);
-            $("#discounts").val(null).trigger("chosen:updated");
-            getGrandTotal();
-            getDiscountedPrice();
-            $(this).closest("tr").remove();
-        }
-        
+    /* $("table.order-list").on("click", ".btnDel", function (event) {
         if($(this).closest("tr#promo")){
             $("#promos").val(null).trigger("chosen:updated");
         }
@@ -1394,7 +1358,7 @@ $(document).ready(function () {
             });
         }
             
-    });
+    }); */
 
     function createChosen(){
         $('table td select').each(function(){
@@ -1588,6 +1552,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/addjoborder/"+estimateID+"/showEstimate",
             dataType: "JSON",
+            async: false,
             success:function(data){
                 $('#estimates').val(data.estimate.EstimateID).trigger('chosen:updated');
                 $('#customers').val(data.automobile.CustomerID).trigger('chosen:updated');
@@ -1600,6 +1565,7 @@ $(document).ready(function () {
                 $('#pwd_sc_no').val(data.customer.PWD_SC_No);
                 $('#address').val(data.customer.CompleteAddress);
                 $('#plateno').val(data.automobile.PlateNo);
+                $('#plateno').prop('disabled', true);
                 $('#automobile_models').val(data.automobile.ModelID).trigger('chosen:updated');
                 modelID = data.automobile.ModelID;
                 $('#chassisno').val(data.automobile.ChassisNo);
@@ -1620,8 +1586,103 @@ $(document).ready(function () {
                     $("#automobiles").prop("disabled", "disabled").trigger('chosen:updated');
                 }
                 filterServices();
+                @if(Route::current()->getName() != 'fromEstimate')
+                    showEstimateDetails(data);
+                @endif
             }
         });
+    }
+
+    function showEstimateDetails(data){
+        
+        var svcCount = Object.keys(data.serviceperformed).length;
+        var prodCount = Object.keys(data.productused).length;
+        var pid, sid, ServiceID, ServiceName, ServicePerformedID, CategoryID, CategoryName, LaborCost, EstimatedTime;
+        var cols = "";
+        for(var i = 0; i < svcCount; ++i){
+            sid = data.serviceperformed[i].ServicePerformedID;
+            ServiceID = data.serviceperformed[i].ServiceID;
+            ServiceName = data.serviceperformed[i].ServiceName;
+            ServicePerformedID = data.serviceperformed[i].ServicePerformedID;
+            CategoryID = data.serviceperformed[i].ServiceCategoryID;
+            CategoryName = data.serviceperformed[i].ServiceCategoryName;
+            LaborCost = data.serviceperformed[i].LaborCost;
+            EstimatedTime = data.serviceperformed[i].EstimatedTime;
+
+            var newServiceRow = $("<tr class='service' id='"+ ServiceID +"' name='"+ ServicePerformedID +"' data-servicecategoryid='"+ CategoryID +"'  data-servicecategoryname='"+ CategoryName +"'>");
+            cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ ServiceName +'<br><input type="hidden" id="'+ ServicePerformedID +'" name="serviceperformed[]" value="'+ ServicePerformedID +'"><input type="hidden" id="include" name="include[]" value="True"></td>';
+            cols += '<td style="border-right:none !important"><a></a></td>';
+            cols += '<td style="border-right:none !important"></td>';
+            cols += '<td style="border-right:none !important"><input type="text" style="width:75px; text-align:right;" id="laborcost" name="labor" placeholder="Labor" class="form-control" value="'+ LaborCost +'" readonly></td>';
+            cols += '<td  style="border-right:none !important"><input type="hidden" name="personnelperformed[]"><select id="personnelperformed" name="personnelperformed[]" class="form-control chzn-select" style="width:110px;">@foreach($mechanic as $id => $name)<option value="{{$id}}">{{$name}}</option> @endforeach</select></td>';
+            cols += '<td style="border-right:none !important"><input type="hidden" style="width:60px;" id="unitprice" class="form-control" value="'+ LaborCost +'"></td>';
+            cols += '<td style="border-right:none !important"><input type="text" style="width:80px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="'+ LaborCost +'" readonly></td>';
+            cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="svcInclude" name="include[]" type="checkbox" checked value="True"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
+                    
+            newServiceRow.append(cols);
+            $(newServiceRow).insertBefore("#footer");
+            createChosen();
+            $("#services option[value='"+ ServiceID +"']").prop("disabled", true);
+            $("#services").trigger("chosen:updated");
+            cols = "";
+            for(var j = 0; j < prodCount; ++j){
+                pid = data.productused[j].ServicePerformedID;
+                if(pid == sid){
+                    var ProductID, ProductName, ProductUsedID, Quantity, Price, SubTotal;
+                    ProductID = data.productused[j].ProductID;
+                    ProductName = data.productused[j].fullproductname;
+                    ProductUsedID = data.productused[j].ProductUsedID;
+                    Quantity = data.productused[j].Quantity;
+                    Price = data.productused[j].Price;
+                    SubTotal = data.productused[j].SubTotal;
+
+                    var newProductRow = $("<tr class='product' data-productid='"+ProductID+"' id='svc"+ServiceID+"'>");
+                    cols = "";
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ ProductID +'"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="'+ ProductUsedID +'"><input type="hidden" style="width:50px; text-align:right;" name="prodservperf[]" placeholder="" class="form-control" value="'+ ServicePerformedID +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><span style="color:red">Product:</span><br>'+ ProductName +'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><a></a></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="'+ Price +'" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ SubTotal +'"></td>';
+                    cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="prodInclude" type="checkbox" checked value="true"></center></td>';
+
+                    newProductRow.append(cols);
+                    $(newProductRow).insertBefore("#footer");
+                    if (ctr != 1){ newProductRow = $("<tr>"); cols = ""; }
+                    cols = "";
+                }
+            }
+        }
+        
+        $("table td input").bind({
+            keyup: function() { getGrandTotal(); },
+            mouseleave: function() { $(this).blur(); getGrandTotalNoQty(); },
+            focusout: function() { getGrandTotalNoQty(); }
+        });
+        $("table.order-list").on("click", "#productid", function(event){
+            var remaining = 1;
+            var id = $(this).attr('name');
+            var svcid = "svc" + id;
+            var this_ServiceID = "#" + id;
+            $('table tr').each( function() { if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid){ remaining++; } });
+            if(remaining == 1) {
+                $('#itemsTable').find(this_ServiceID).remove();
+                $('#services option[value="'+id+'"]').prop("disabled", false);
+                $('#services').trigger("chosen:updated");            
+                            
+                countServices();
+                $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+            }
+            getEstimatedTime();
+            getGrandTotal();
+        });
+
+        $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
+        bindListenerToBtnDel();
+        getEstimatedTime();
+        getGrandTotal();
+        filterTags();
     }
 
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
@@ -1854,7 +1915,7 @@ $(document).ready(function () {
     function filterServices(){
         $.ajax({
             type: "GET",
-            url: "addestimates/"+modelID+"/getServicePrice",
+            url: "/addestimates/"+modelID+"/getServicePrice",
             dataType: "JSON",
             success:function(data){
                 var options = '';
@@ -1877,11 +1938,11 @@ $(document).ready(function () {
             }
         });
     }
-
+    var selectedSvc = null;
     /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
     $("#services").change(function () {
         var selectedID = $(this).val();
-        var selectedSvc = $('#services :selected').text();
+        selectedSvc = $('#services :selected').text();
         selectedService = selectedID;
 
         if (modelID < 1){
@@ -1892,6 +1953,7 @@ $(document).ready(function () {
         }
 
         if (modelID > 0){
+            var exists = false;
             $('#products').empty().append('<option value=0 >Choose a Product</option>');
             $('#products').trigger("chosen:updated");
             var select = $('#products');
@@ -1900,40 +1962,105 @@ $(document).ready(function () {
             $('#labor').addClass('focused_input');
             $('#products').prop("disabled", false);
             $('#productSuggest').find('tbody').empty();
-            var tbody = $("<tbody>");
+            exists = checkIfServiceExists(selectedID);
+            if (exists){
+                var productCount = checkExistence(selectedID);
+                if(productCount == 0){
+                    okay = false;
+                    $('#existCheckModal').modal('show');
+                    $('#services').val(0).trigger('chosen:updated');
+                }
+                else if (productCount > 0) {
+                    okay = true;
+                    $('#errorInfo').html("This service already exists in the table, however, there are products that belongs to this service that are not added yet. You may proceed.");
+                    $('#existCheckModal').modal('show');
+                }
+            }
+            else{
+                resumeOperation(selectedID);
+            }
+        }
+    });
 
-            $.ajax({
-                type: "GET",
-                url: "/addjoborder/"+selectedID+"/getFilteredProductList",
-                dataType: "JSON",
-                async: false,
-                success:function(data){
-                    var options = '';
-                    var row = $("<tr>");
-                    var cols = "";
-                    var count = Object.keys(data.products).length;
-                    for (var i = 0; i < count; i++) {
+    $('#btnOkay').on('click', function(){
+        if(okay) resumeOperation(selectedService);
+    });
+
+    function checkIfProductExists(id){
+        var result = false;
+        var svcid = "svc"+selectedService;
+        $('table tr').each(function(){
+            if( $(this).attr('class') == "product" && $(this).data('productid') == id && this.id == svcid ) result = true;
+        });
+        return result;
+    }
+
+    function checkIfServiceExists(id){
+        var result = false;
+        $('table tr').each(function(){
+            if( $(this).attr('class') == "service" && this.id == id)
+            result = true;
+        });
+        return result;
+    }
+
+    function checkExistence(id){
+        var existentProducts = 0;
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+id+"/getFilteredProductList",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var exists = false;
+                var count = Object.keys(data.products).length;
+                for (var i = 0; i < count; i++) {
+                    exists = checkIfProductExists(data.products[i].productid);
+                    if(exists){existentProducts++;}
+                }
+            }
+        });
+        return existentProducts;
+    }
+
+    function resumeOperation(selectedID){
+        var tbody = $("<tbody>");
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/getFilteredProductList",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var options = '';
+                var row = $("<tr>");
+                var cols = "";
+                var exists = false;
+                var count = Object.keys(data.products).length;
+                selectProduct.length = 0;
+                for (var i = 0; i < count; i++) {
+                    exists = checkIfProductExists(data.products[i].productid);
+                    if(!exists){
                         options += '<option value="' + data.products[i].productid + '">' + data.products[i].fullproductname + '</option>';
                         cols += '<td style="border-right:none !important">'+ data.products[i].fullproductname +'</td>';
                         cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align:right; height:10px;" readonly placeholder=".00" value='+ data.products[i].price +' class="form-control"></td>';
-                        selectProduct[i] = parseInt(data.products[i].productid);
+                        selectProduct.push(parseInt(data.products[i].productid));
                         row.append(cols);
                         tbody.append(row);
                         row = $("<tr>");
                         cols = "";
                     }
-                    ctr = count;
-                    $("#products").append(options);
-                    $("#products option[value='0']").prop("disabled",true, "selected",false);
-                    $('#products').trigger("chosen:updated");
                 }
-            });
-            $('#servicename').html(selectedSvc);
-            $(tbody).insertBefore("#prodSuggestFooter");
-            disableOutsideClick();
-            $('#productSuggest').modal('show');
-        }
-    });
+                ctr = count;
+                $("#products").append(options);
+                $("#products option[value='0']").prop("disabled",true, "selected",false);
+                $('#products').trigger("chosen:updated");
+            }
+        });
+        $('#servicename').html(selectedSvc);
+        $(tbody).insertBefore("#prodSuggestFooter");
+        disableOutsideClick();
+        $('#productSuggest').modal('show');
+    }
 
     $("#products").change(function () {
         var selectedID = $(this).val();
@@ -1979,11 +2106,21 @@ $(document).ready(function () {
     });
 
     $('#btnGo').on("click", function(){
-        addService();
-        addProduct();
-        getEstimatedTime();
-        getGrandTotal();
-        resetFields();
+        if(okay){
+            addProduct();
+            getEstimatedTime();
+            getGrandTotal();
+            resetFields();
+            okay = false;
+        }
+        else if (!okay){
+            addService();
+            addProduct();
+            getEstimatedTime();
+            getGrandTotal();
+            resetFields();
+            okay = false;
+        }
     });
 
     function disableOutsideClick(){
@@ -2023,20 +2160,23 @@ $(document).ready(function () {
                 cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
                 
                 newServiceRow.append(cols);
-                $(newServiceRow).insertBefore("#discount");
+                if(document.getElementById("discount") != null)
+                    $(newServiceRow).insertBefore("#discount");
+                else
+                    $(newServiceRow).insertBefore("#footer");
+                
                 createChosen();
-
-                bindListenerToBtnDel();
 
                 $("#services option[value='"+selectedService+"']").prop("disabled", true);
                 $("#services").trigger("chosen:updated");
-
-                $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
                 
                 ++serviceCtr;
                 cols = "";
             }
         });
+
+        $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
+        bindListenerToBtnDel();
         filterTags();
         filterMechanics();
         dismissed=false;
@@ -2052,10 +2192,14 @@ $(document).ready(function () {
             if($(this).is(':checked')){   
                 $('#filterStatus').html('Inactive');
                 $('table.list input[type=checkbox]').each(function(){$(this).prop('checked', false);});
+                filterID.length = 0;
+                filterTag.length = 0;
+                filterSwitch = false;
             }
             else{
                 $('#filterStatus').html('Active');
                 $('table.list input[type=checkbox]').each(function(){$(this).prop('checked', true);});
+                filterSwitch = true;
             }
         })
     });
@@ -2064,13 +2208,21 @@ $(document).ready(function () {
         var tbody = $("<tbody>");
         var row = $("<tr>");
         var cols = "";
+        var temp1 = new Array();
+        var temp2 = new Array();
         filterID = new Array();
-        var filterTag = new Array();
+        filterTag = new Array();
         $('table.order-list tr').each(function(){
             if($(this).attr('class') == 'service'){
-                filterID.push($(this).data('servicecategoryid'));
-                filterTag.push($(this).data('servicecategoryname'));
+                temp1.push($(this).data('servicecategoryid'));
+                temp2.push($(this).data('servicecategoryname'));
             }
+        });
+        $.each(temp1, function(key, value){
+            if ($.inArray(value,filterID)==-1) filterID.push(value);
+        });
+        $.each(temp2, function(key, value){
+            if ($.inArray(value,filterTag)==-1) filterTag.push(value);
         });
         var count = filterID.length;
         for (var i = 0; i < count; i++) {
@@ -2089,6 +2241,7 @@ $(document).ready(function () {
         $('table.list input[type=checkbox]').each(function(){
             if(this.checked == true) filterID.push($(this).val());
         });
+        countServices();
         filterMechanics();
     });
 
@@ -2116,17 +2269,28 @@ $(document).ready(function () {
             success:function(data){
                 var options = '';
                 var count = Object.keys(data.mechanic).length;
+                //alert("Count: "+count+" serviceCtr: "+serviceCtr+" FilterID: "+filterID.length);
                 if ((count == 0 && serviceCtr == 0))
                     unfilterMechanics();
-                else if (serviceCtr > 0 && filterID.length == 0){
-                    $('#mechanic').empty().append('<option value="0"> No filter criteria(skills) in effect. </option>');
+                else if (count == 0 && serviceCtr > 0 && filterID.length == 0){
                     unfilterMechanics();
                 }    
-                else if (count > 0)
+                else if (count > 0){
                     $('#mechanic').empty().append('<option value="0"> Assign a Mechanic </option>');
-                else if (count == 0 && serviceCtr > 0 && filterID.length > 0)
+                    $('table select').each( function(){
+                        $(this).empty().append('<option value="0"> Assign a Mechanic </option>');
+                        $("option[value='0']", this).prop("disabled", true, "selected", false);
+                        $(this).trigger("chosen:updated");
+                    });
+                }
+                else if (count == 0 && serviceCtr > 0 && filterID.length > 0){
                     $('#mechanic').empty().append('<option value="0"> No mechanic matched the criteria. </option>');
-
+                    $('table select').each( function(){
+                        $(this).empty().append('<option value="0"> No mechanic matched the criteria. </option>');
+                        $("option[value='0']", this).prop("disabled", true, "selected", false);
+                        $(this).trigger("chosen:updated");
+                    });
+                }
                 $('#mechanic').trigger("chosen:updated");
                 for(var i = 0; i < count; i++) {
                     options += '<option value ="' + data.mechanic[i].personneljobid + '">' + data.mechanic[i].personnelfullname +'</option>';
@@ -2134,6 +2298,12 @@ $(document).ready(function () {
                 $('#mechanic').append(options);
                 $("#mechanic option[value='0']").prop("disabled", true, "selected", false);
                 $('#mechanic').trigger("chosen:updated");
+
+                $('table select').each( function(){
+                    $(this).append(options);
+                    $("option[value='0']", this).prop("disabled", true, "selected", false);
+                    $(this).trigger("chosen:updated");
+                });
             }
         });
     }
@@ -2150,13 +2320,24 @@ $(document).ready(function () {
                 for(var i = 0; i < count; i++) {
                     options += '<option value ="' + data.mechanic[i].personneljobid + '">' + data.mechanic[i].personnelfullname +'</option>';
                 }
+                if(filterSwitch) $('#mechanic').empty().append('<option value="0"> Assign a Mechanic </option>');
+                else $('#mechanic').empty().append('<option value="0"> No filter criteria(skills) in effect. </option>');
                 $('#mechanic').append(options);
                 $('#mechanic').trigger("chosen:updated");
+
+                $('table select').each( function(){
+                    if(filterSwitch) $(this).empty().append('<option value="0"> Assign a Mechanic </option>');
+                    else $(this).empty().append('<option value="0"> No filter criteria(skills) in effect. </option>');
+                    $(this).append(options);
+                    $("option[value='0']", this).prop("disabled", true, "selected", false);
+                    $(this).trigger("chosen:updated");
+                });
             }
         });
     }
 
     function addProduct(){  
+        ctr = selectProduct.length;
         for(var k = 0; k < ctr; k++){
             $.ajax({
                 type: "GET",
@@ -2164,13 +2345,13 @@ $(document).ready(function () {
                 dataType: "JSON",
                 async: false,
                 success: function (data) {
-                    var newProductRow = $("<tr class='product' id='svc"+selectedService+"'>");
+                    var newProductRow = $("<tr class='product' id='svc"+selectedService+"' data-productid='"+ selectProduct[k] +"'>");
                     cols = "";
                     var pr = data.product.price;
                     pr = parseFloat(pr).toFixed(2);
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
                     cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" onkeypress="return event.charCode >= 48 && event.charCode <= 57" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
-                    cols += '<td style="border-right:none !important">'+ data.product.fullproductname +'</td>';
+                    cols += '<td style="border-right:none !important"><span style="color:red;">Product:</span><br/>'+ data.product.fullproductname +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><a></a></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
@@ -2178,7 +2359,12 @@ $(document).ready(function () {
                     cols += '<td style="border-left:none !important"><center><button type="button" id="productid" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
 
                     newProductRow.append(cols);
-                    $(newProductRow).insertBefore("#discount");
+                    if(document.getElementById("discount") != null)
+                        $(newProductRow).insertBefore("#discount");
+                    else if (okay)
+                        $(newProductRow).insertAfter( $(".service").closest("tr#"+selectedService) );
+                    else
+                        $(newProductRow).insertBefore("#footer");
 
                     if (ctr != 1){
                         newProductRow = $("<tr>");
@@ -2186,53 +2372,39 @@ $(document).ready(function () {
                     }
 
                     cols = "";
-
                     $("table td input").bind({
-                        keyup: function() {
-                            getGrandTotal();
-                        },
-                        mouseleave: function() {
-                            $(this).blur();
-                            getGrandTotalNoQty();
-                        },
-                        focusout: function() {
-                            getGrandTotalNoQty();
-                        }
+                        keyup: function() { getGrandTotal(); },
+                        mouseleave: function() {  $(this).blur(); getGrandTotalNoQty(); },
+                        focusout: function() { getGrandTotalNoQty(); }
                     });
-
-                    bindListenerToBtnDel();
-
-                    $("table.order-list").on("click", "#productid", function(event){
-                        var remaining = 1;
+            
+                    $("table.order-list button").bind("click", function(){
+                        var remaining = 0;
                         var id = $(this).attr('name');
-                        var svcid = "svc" + id;
                         var this_ServiceID = "#" + id;
-                        $('table tr').each( function() {
-                            if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid){
-                                remaining++;
-                            }
-                        });
+                        var svcid = "svc" + id;
+                        
+                        $('table tr').each( function(){ if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid) remaining++; });
                         if(remaining == 1) {
                             $('#itemsTable').find(this_ServiceID).remove();
                             $('#services option[value="'+id+'"]').prop("disabled", false);
-                            $('#services').trigger("chosen:updated");            
-                            
-                            countServices();
+                            $('#services').trigger("chosen:updated");
                             $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
                         }
-                        getEstimatedTime();
-                        getGrandTotal();
                     });
                 }
             });
         }
 
+        bindListenerToBtnDel();
     }
 
+    var ctr;
     function bindListenerToBtnDel(){
         $("table.order-list").on("click", ".btnDel", function (event) {
             var id = $(this).data('serviceid');
             var svcid = "svc" + id;
+            $(this).closest("tr").remove();
                         
             //remove all products included in this service
             $('table tr').each( function() {
@@ -2240,21 +2412,21 @@ $(document).ready(function () {
                     $(this).closest("tr").remove();
             });
 
-            $(this).closest("tr").remove();
             $('#services option[value="'+id+'"]').prop("disabled", false);
             $('#services').trigger("chosen:updated");
-            getEstimatedTime();
-            getGrandTotal();
-            countServices();
-            filterTags();
-            filterMechanics();
             $("#services").prop("disabled", false);
             $("#services").prop("selectedIndex", 0).trigger("chosen:updated");
             $("#products").prop("disabled", true);
             $("#products").val(null).trigger("chosen:updated");
             $("#addRow").prop("disabled", true);
+            getEstimatedTime();
+            getGrandTotal();
+            filterTags();
+            filterMechanics();
 
             if(isNaN(serviceCtr) || serviceCtr == 0) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+            event.stopPropagation();
+            event.stopImmediatePropagation();
         });
     }
 
@@ -2306,7 +2478,7 @@ $(document).ready(function () {
                 cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="discountamt" name="discountamt" placeholder=".00" class="form-control"></td>';
                 cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
                 newDiscountRow.append(cols);
-                $("tr#discount").replaceWith(newDiscountRow);
+                $(newDiscountRow).insertBefore("#footer");
             }
 	    });
             getDiscountedPrice();
