@@ -31,15 +31,20 @@
                         </h4>
                     </div>
 
-                    <div class="col-sm-6 col-12">
-                        <ol  class="breadcrumb float-right   ">
+                    <div class="col-sm-6 col-12"  >
+                        <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/serviceproduct">
+                                <a href="#">
                                     <i class="fa fa-users" data-pack="default" data-tags=""></i>
                                     Personnel
                                 </a>
                             </li>
-                            <li class="active breadcrumb-item">Mechanic Skills</li>
+                            <li class="breadcrumb-item">
+                                <a href="/mechanicskills">
+                                    Mechanic Skills
+                                </a>
+                            </li>
+                            <!-- <li class="active breadcrumb-item">Calendar</li> -->
                         </ol>
                     </div>
 

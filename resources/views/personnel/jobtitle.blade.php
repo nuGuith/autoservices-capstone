@@ -35,8 +35,13 @@
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/jobdescription">
+                                <a href="#">
                                     <i class="fa fa-users" data-pack="default" data-tags=""></i>
+                                    Personnel
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/jobdescription">
                                     Job Title
                                 </a>
                             </li>

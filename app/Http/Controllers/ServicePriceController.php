@@ -35,22 +35,18 @@ class ServicePriceController extends Controller
                 ->get();
 
         $view = DB::table('service_price as sp')
-                ->LEFTJOIN('service as sr','sp.ServiceID','=','sr.ServiceID')
                 ->LEFTJOIN('automobile_model as mod','sp.ModelID','=','mod.ModelID')
                 ->LEFTJOIN('automobile_make as mk','mod.MakeID','=','mk.MakeID')
-                ->WHERE('sp.isActive',1)
+                ->WHERE('sp.isActive', 1)
                 ->GET();
 
-        $sname =DB::table('service_price as sp')
+        $sname = DB::table('service_price as sp')
                 ->LEFTJOIN('service as s','sp.ServiceID','=','s.ServiceID')
-                ->SELECt('s.ServiceName','sp.Price','sp.ServiceID','sp.ServicePriceID')
+                ->SELECT('s.ServiceName','sp.Price','sp.ServiceID','sp.ServicePriceID', 'sp.ModelID')
                 ->WHERE('sp.isActive',1)
-                ->groupby('sp.ServiceID')
-
+                ->groupby('sp.Price')
                 ->GET();
-        // dd($sname);
-
-
+        //dd($sname);
 
         return view ('service.serviceprice',compact('vehicle','service','view','sname'));
     }

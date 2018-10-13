@@ -97,11 +97,16 @@
                     <li>
                         <?php
                             $duration = $sp->WarrantyDuration;
+                            $mileage = $sp->WarrantyMileage;
 
-                            if($duration == 0 || $duration == null)
-                                echo("N/A");
-                            else
+                            if(($duration != 0 || $duration != null)&&($mileage != 0 || $mileage != null))
+                                echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode . "/" . $sp->WarrantyMileage . "km";
+                            elseif(($duration != 0 || $duration != null)&&($mileage == 0 || $mileage == null))
                                 echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode;
+                            elseif(($duration == 0 || $duration == null)&&($mileage != 0 || $mileage != null))
+                                echo $sp->WarrantyMileage ."km";
+                            else
+                                echo("N/A");
                         ?>
                     </li>
                 @endforeach

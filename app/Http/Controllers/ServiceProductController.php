@@ -30,13 +30,15 @@ class ServiceProductController extends Controller
 
         $product = DB::table('product')
                 ->LEFTJOIN('product_unit_type as pu','product.ProductUnitTypeID','=','pu.ProductUnitTypeID')
-                ->SELECT('ProductID','ProductBrandID','ProductName','Size','pu.Unit')
+                ->LEFTJOIN('product_brand as pb', 'product.ProductBrandID', '=', 'pb.ProductBrandID')
+                ->SELECT('ProductID','product.ProductBrandID','BrandName', 'ProductName','Size','pu.Unit')
                 ->WHERE('product.isActive',1)
                 ->GET();
 
         $view = DB::table('product_service as ps')
                 ->LEFTJOIN('Product as p','ps.ProductID','=','p.ProductID')
                 ->LEFTJOIN('service as s','ps.ServiceID','=','s.ServiceID')
+                ->LEFTJOIN('product_brand as pb', 'p.ProductBrandID', '=', 'pb.ProductBrandID')
                 ->LEFTJOIN('product_unit_type as pu','p.ProductUnitTypeID','=','pu.ProductUnitTypeID')
                 ->WHERE('ps.isActive',1)
                 ->GET();

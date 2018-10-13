@@ -91,7 +91,7 @@
                                         <ul style="padding-left: 1.7em;">
                                             @foreach($view as $vw)
                                                 @if($count->ServiceID == $vw->ServiceID)
-                                                    <li>{{$vw->ProductName}} - {{$vw->Size}}{{$vw->Unit }}</li>
+                                                    <li>{{ $vw->BrandName }} {{$vw->ProductName}} - {{$vw->Size}}{{$vw->Unit }}</li>
 
                                                 @endif
                                             @endforeach
@@ -163,7 +163,7 @@
                                             <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
                                                     <option disabled>Choose Product</option>
                                                     @foreach($product as $prod)
-                                                    <option value="{{$prod->ProductID}}">{{$prod->ProductName}} - {{$prod->Size}}{{$prod->Unit}}</option>
+                                                    <option value="{{$prod->ProductID}}">{{ $prod->BrandName }} {{$prod->ProductName}} - {{$prod->Size}}{{$prod->Unit}}</option>
                                                     @endforeach
                                                 </select>
                                             <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="product"></span>
@@ -235,7 +235,7 @@
                                             <select class="form-control chzn-select" id="eproduct" name="eproduct" multiple="">
                                                     <option disabled>Choose Product</option>
                                                     @foreach($product as $pr)
-                                                    <option value="{{$pr->ProductID}}">{{$pr->ProductName}} - {{$pr->Size}}{{$pr->Unit}}</option>
+                                                    <option value="{{$pr->ProductID}}">{{ $pr->BrandName }} {{$pr->ProductName}} - {{$pr->Size}}{{$pr->Unit}}</option>
                                                     @endforeach
                                                 </select>
                                         <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="eproduct"></span>
