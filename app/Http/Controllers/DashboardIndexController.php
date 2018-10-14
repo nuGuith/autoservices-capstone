@@ -29,9 +29,35 @@ class DashboardIndexController extends Controller
                 ->where('status', '=', 'pending')
                 ->count();
 
+        // $backjob_ongoing = DB::table('job_order_backjob')
+        //         ->where('status', '=', 'ongoing')
+        //         ->count();
+
+        // $backjob_pending = DB::table('job_order_backjob')
+        //         ->where('status', '=', 'pending')
+        //         ->count();
+        
+        // $backjob_auto = DB::table('job_order_backjob as bj')
+        //         ->join('job_order as jo', 'bj.joborderid', '=', 'jo.joborderid')
+        //         ->where('isActive', 1)
+        //         ->get();
+        
+        $backjob = DB::table('job_order_backjob')
+                ->where('isActive', 1)
+                ->get();
+
+        $count_backjob = DB::table('job_order_backjob')
+                ->where('isActive', 1)
+                ->count();
+
         $joborder = JobOrder::orderBy('joborderid', 'desc')
                 ->where('status', '=', 'ongoing')
                 ->get();
+
+        $pending_jo = JobOrder::orderBy('joborderid', 'desc')
+                ->where('status', '=', 'pending')
+                ->get();
+
         $automobiles = DB::table('automobile as auto')
                 ->join('customer as c', 'auto.customerid', '=', 'c.customerid')
                 ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'c.ContactNo','c.CompleteAddress','auto.AutomobileID', 'auto.CustomerID', 'auto.PlateNo', 'auto.ModelID', 'auto.Mileage', 'auto.Transmission', 'auto.Color', 'ChassisNo')
@@ -40,7 +66,7 @@ class DashboardIndexController extends Controller
                 ->select('CustomerID', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress')
                 ->get();
 
-        return view('dashboard.index', compact('count_ongoing', 'count_pending', 'joborder', 'automobiles', 'customers'));
+        return view('dashboard.index', compact('count_ongoing', 'count_pending', 'pending_jo', 'count_backjob','backjob', 'joborder', 'automobiles', 'customers'));
     }
 
 }
