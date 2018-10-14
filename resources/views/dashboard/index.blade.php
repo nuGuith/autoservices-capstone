@@ -199,7 +199,6 @@
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Job Order ID</b></th>
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Vehicle</b></th>
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Status</b></th>
-                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 50%;"><b>Time</b></th>
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
                                     </tr>
                                 </thead>
@@ -207,22 +206,25 @@
                                 @foreach($backjob as $bj)
                                     <tr role="row" class="even">
                                         <td class="center">
-                                            {{$bj->BackJobID}}
+                                            BJ00{{$bj->BackJobID}}
                                         </td>
                                         <td class="center">
                                             JO00{{$bj->JobOrderID}}
                                         </td>
                                         <td class="center">
-
+                                            @foreach($automobiles as $automobile) 
+                                                @if($bj->AutomobileID == $automobile->AutomobileID)
+                                                    <b>{{$automobile->PlateNo}}</b>
+                                                @endif
+                                            @endforeach
                                         </td>
                                         <td>
                                             {{$bj->Status}}
                                         </td>
-                                        <td></td>
                                         <td>  
                                             <div class="examples transitions m-t-5">
                                                 <!--VIEW BUTTON-->
-                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/updatejoborder/{{$bj->BackJobID}}" >
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/updatebackjob/{{$bj->BackJobID}}" >
                                                 <i class="fa fa-eye text-white"></i>
                                                 </a>
                                             </div>

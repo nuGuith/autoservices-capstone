@@ -132,7 +132,7 @@
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                    <button onclick="window.location='{{ url("/viewJob") }}'" class="btn btn-primary hvr-float-shadow adv_cust_mod_btn gray tipso_bounceIn" data-tipso="Job Order " data-background=" #6495ED">
+                                                    <!-- <button onclick="window.location='{{ url("/viewJob") }}'" class="btn btn-primary hvr-float-shadow adv_cust_mod_btn gray tipso_bounceIn" data-tipso="Job Order " data-background=" #6495ED">
                                                     <i class="fa fa-gear" ></i>
                                                     </button>
                                                     <button onclick="window.location='{{ url("/viewEstimates") }}'" class="btn btn-danger hvr-float-shadow adv_cust_mod_btn gray tipso_bounceIn"  data-tipso="Estimates" data-background=" #FF4D4D">
@@ -140,6 +140,20 @@
                                                     </button>
                                                     <button type="button" id="updateBtn1"  class="btn btn-success tipso_bounceIn" data-background=" #008C62" data-color="white" data-tipso="Back Job"  data-toggle="modal" data-href="#responsive" href="#viewModal">
                                                         <i class="fa fa-rotate-left text-green"></i>
+                                                    </button> -->
+                                                    <button class="btn btn-primary adv_cust_mod_btn fadein tipso_bounceIn"
+                                                    data-tipso="Job Orders" data-background=" #6495ED" data-toggle="modal" data-target="#modal-3">
+                                                    <i class="fa fa-gear"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger adv_cust_mod_btn fadein tipso_bounceIn"
+                                                    data-tipso="Estimates" data-background=" #FF4D4D"
+                                                    data-toggle="modal" data-target="#modal-2">
+                                                    <i class="fa fa-file-text"></i>
+                                                    </button>
+                                                    <button class="btn btn-success adv_cust_mod_btn fadein tipso_bounceIn"
+                                                    data-tipso="Back Jobs" data-background="#008C62"
+                                                    data-toggle="modal" data-target="#modal-1">
+                                                    <i class="fa fa-rotate-left text-green"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -154,7 +168,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--Button: Back, SAVe-->
+                    <!--Button: Back-->
                     <div class="card-footer bg-black disabled m-t-15">
                         <div class="examples transitions m-t-5 pull-right">
                             <button onclick="window.location='{{ url("/customerinformation") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/customerinformation">
@@ -166,6 +180,154 @@
                 </div>
             </div>
         </div>
+
+        <!-- BACK JOB -->
+        <div class="modal" tabindex="-1" id="modal-1" role="dialog"
+                     aria-labelledby="modalLabelfade" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <h4 class="modal-title text-white" id="modalLabelfade">Back Job</h4>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-bordered table-hover dataTable no-footer" id="backjob" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Back Job ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Job Order ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Vehicle</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Status</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 50%;"><b>Time</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr role="row" class="even">
+                                        <td class="center">
+                                        </td>
+                                        <td class="center">
+                                        </td>
+                                        <td class="center">
+
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td></td>
+                                        <td>  
+                                            <div class="examples transitions m-t-5">
+                                                <!--VIEW BUTTON-->
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/updatejoborder/" >
+                                                <i class="fa fa-eye text-white"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn  btn-success" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- BACK JOB -->
+            <!--JOB ORDERS -->
+                <div class="modal" tabindex="-1" id="modal-3" role="dialog"
+                     aria-labelledby="modalLabelfade" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h4 class="modal-title text-white" id="modalLabelfade">Job Orders</h4>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-bordered table-hover dataTable no-footer" id="joborder" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Job Order ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Start Date</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>End Date</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Status</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($showjoborder as $jo)
+                                    <tr role="row" class="even">
+                                        <td class="center">
+                                            JO00{{$jo->JobOrderID}}
+                                        </td>
+                                        <td class="center">
+                                            {{$jo->JobStartDate}}
+                                        </td>
+                                        <td class="center">
+                                            {{$jo->JobEndDate}}
+                                        </td>
+                                        <td>{{$jo->Status}}</td>
+                                        <td>  
+                                            <div class="examples transitions m-t-5">
+                                                <!--VIEW BUTTON-->
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/viewjoborder/{{$jo->JobOrderID}}" >
+                                                <i class="fa fa-eye text-white"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- JOB ORDERS -->
+        <!--ESTIMATES -->
+                <div class="modal" tabindex="-1" id="modal-2" role="dialog"
+                     aria-labelledby="modalLabelfade" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h4 class="modal-title text-white" id="modalLabelfade">Estimates</h4>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-bordered table-hover dataTable no-footer" id="estimate" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Date</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Estimate ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Job Order ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr role="row" class="even">
+                                        <td class="center">
+                                        </td>
+                                        <td class="center">
+                                        </td>
+                                        <td></td>
+                                        <td>  
+                                            <div class="examples transitions m-t-5">
+                                                <!--VIEW BUTTON-->
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/updatejoborder/" >
+                                                <i class="fa fa-eye text-white"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- ESTIMATES -->
         <!-- /.inner -->
     </div>
         <!-- /.outer -->
@@ -189,7 +351,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
-<script>
+<!-- <script>
      function showHistory(automobileid){
         $.ajax({
             type: "GET",
@@ -201,7 +363,28 @@
         });
         $('#viewModal').modal('show');
     }
+</script> -->
+
+<script>
+$(document).ready(function() {
+    $('#joborder').DataTable({});
+} );
+
 </script>
+
+<script>
+$(document).ready(function() {
+    $('#estimate').DataTable({});
+} );
+
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#backjob').DataTable({});
+} );
+</script>
+
 
 
 @stop

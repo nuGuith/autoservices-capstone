@@ -42,9 +42,13 @@ class DashboardIndexController extends Controller
         //         ->where('isActive', 1)
         //         ->get();
         
-        $backjob = DB::table('job_order_backjob')
-                ->where('isActive', 1)
-                ->get();
+        $backjob = DB::table('job_order_backjob as bj')
+        ->join('job_order as jo', 'bj.joborderid', '=', 'jo.joborderid')
+        ->join('automobile as au', 'jo.automobileid', '=', 'au.automobileid')
+        // ->where(['bj.backjobid' => $id, 'bj.isActive' => 1])
+        ->where('bj.isActive', 1)
+        ->select('au.*', 'bj.*', 'jo.*')
+        ->get();
 
         $count_backjob = DB::table('job_order_backjob')
                 ->where('isActive', 1)

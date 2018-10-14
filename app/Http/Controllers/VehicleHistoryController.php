@@ -41,8 +41,15 @@ class VehicleHistoryController extends Controller
             ->select('a.*', 'mk.*', 'am.*')
             ->get();
 
+        $showjoborder = DB::table('job_order as JO')
+            ->join('automobile as AM', 'AM.automobileid', '=', 'JO.automobileid')
+            ->where(['JO.isActive'=>1, 'AM.customerid'=>$id])
+            ->select('JO.*', 'AM.*')
+            ->get();
         //dd($automobiles);
-        return view ('customer.viewvehiclehistory', compact('customer', 'automobiles'));
+
+
+        return view('customer.viewvehiclehistory', compact('customer', 'automobiles', 'showjoborder'));
     }
 
     public function showHistory($id)
@@ -58,7 +65,7 @@ class VehicleHistoryController extends Controller
 
     public function showJobOrder($id)
     {
-        //
+
     }
 
     /**
