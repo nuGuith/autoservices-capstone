@@ -416,6 +416,7 @@
             document.getElementById('einitialprice').value = data['ret'][0]['InitialPrice'];
             document.getElementById('ewarranty').value = data['ret'][0]['WarrantyDuration'];
             document.getElementById('edurationmode').value = data['ret'][0]['WarrantyDurationMode'];
+            document.getElementById('ewarrantymileage').value = data['ret'][0]['WarrantyMileage'];
 
             $('#eservicecategory').val(data['ret'][0]['ServiceCategoryID']).trigger('chosen:updated');
 

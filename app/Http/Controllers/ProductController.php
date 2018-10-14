@@ -85,11 +85,12 @@ class ProductController extends Controller
 
       $war = $product->input('warranty');
       $WDM =  $product->input('durationmode');
+      $mil = $product->input('warrantymileage');
 
   		$date        = date('Y-m-d h:i:s');
 
 		$data = array('ProductTypeID'=>$producttype, 'ProductBrandID'=>$brand, 'ProductUnitTypeID'=>$unit, 'ProductName'=>$productname,
-                  'Description'=>$description, 'Price'=>$price, 'Size'=>$size,'WarrantyDuration'=>$war,'WarrantyDurationMode'=>$WDM);
+                  'Description'=>$description, 'Price'=>$price, 'Size'=>$size,'WarrantyDuration'=>$war,'WarrantyDurationMode'=>$WDM, 'WarrantyMileage'=>$mil);
 
 		DB::table('product')->insert($data);
 
@@ -163,11 +164,12 @@ class ProductController extends Controller
 
     $WarrantyDuration = $product->input('warrantyedit');
     $WarrantyDurationMode = $product->input('durationmodeedit');
+    $WarrantyMileage = $product->input('warrantymileageedit');
 
     DB::table('product')
     ->WHERE('ProductID',$id)
     ->UPDATE(['ProductTypeID'=>$ProductName,'ProductTypeID'=>$ProductTypeID,'ProductBrandID'=>$ProductBrandID,'ProductUnitTypeID'=>$ProductUnitTypeID,'ProductName'=>$ProductName,
-              'Description'=>$Description,'Description'=>$Description,'Price'=>$Price,'Size'=>$Size,'WarrantyDuration'=>$WarrantyDuration,'WarrantyDurationMode'=>$WarrantyDurationMode]);
+              'Description'=>$Description,'Description'=>$Description,'Price'=>$Price,'Size'=>$Size,'WarrantyDuration'=>$WarrantyDuration,'WarrantyDurationMode'=>$WarrantyDurationMode, 'WarrantyMileage'=>$WarrantyMileage]);
 
     return redirect()->to('/product');
 

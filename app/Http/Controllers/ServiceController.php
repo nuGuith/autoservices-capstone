@@ -53,7 +53,7 @@ class ServiceController extends Controller
 
     public function ret(){
       $ret = DB::table('service')
-      ->SELECT('ServiceID','ServiceCategoryID','ServiceName','EstimatedTime', 'InitialPrice','WarrantyDuration','WarrantyDurationMode')
+      ->SELECT('ServiceID','ServiceCategoryID','ServiceName','EstimatedTime', 'InitialPrice','WarrantyDuration','WarrantyDurationMode', 'WarrantyMileage')
       ->WHERE('ServiceID',Input::get('id'))
       ->get();
 
@@ -78,9 +78,8 @@ class ServiceController extends Controller
       DB::table('service')
         ->WHERE('ServiceID',$edid)
         ->UPDATE(['ServiceCategoryID'=>$esc,'ServiceName'=>$eservicename, 'EstimatedTime'=>$eetime,'InitialPrice'=>$eip,
-      'WarrantyDuration'=>$ewarr,'WarrantyDurationMode'=>$edm, 'WarrantyMileage'=>$emil]);
+      'WarrantyDuration'=>$ewarr, 'WarrantyMileage'=>$emil, 'WarrantyDurationMode'=>$edm]);
 
-     
     }
 
 

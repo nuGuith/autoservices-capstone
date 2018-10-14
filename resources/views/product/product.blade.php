@@ -95,15 +95,20 @@
                                         <td>
                                             <?php
                                                 $duration = $product->WarrantyDuration;
+                                                $mileage = $product->WarrantyMileage;
 
-                                                if($duration == 0 || $duration == null)
-                                                    echo("N/A");
-                                                else
+                                                if(($duration != 0 || $duration != null)&&($mileage != 0 || $mileage != null))
+                                                    echo $product->WarrantyDuration . " " . $product->WarrantyDurationMode . "/" . $product->WarrantyMileage . "km";
+                                                elseif(($duration != 0 || $duration != null)&&($mileage == 0 || $mileage == null))
                                                     echo $product->WarrantyDuration . " " . $product->WarrantyDurationMode;
+                                                elseif(($duration == 0 || $duration == null)&&($mileage != 0 || $mileage != null))
+                                                    echo $product->WarrantyMileage ."km";
+                                                else
+                                                    echo("N/A");
                                             ?>
                                         </td>
                                         <td>
-                                        <!--EDIT BUTTON-->
+                                            <!--EDIT BUTTON-->
                                             <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal" onclick="updateProductGet(this.name);" name="{{$product->ProductID}}"><i class="fa fa-pencil text-white"></i>
                                             </button>
                                             <!--DELETE BUTTON-->
@@ -194,6 +199,16 @@
                                                 </div>
                                             </div>
                                             <div class="row m-t-5">
+                                                <div class="col-md-11">
+                                                    <h5>Description: <span style="color: red"></span></h5>
+                                                    <p>
+                                                        <input type="text" id="description" name="description" placeholder="Description"class="form-control m-t-10"/>
+                                                    </p>
+                                                <!--  <input id="serviceid" name="serviceid" type="hidden" value=null> -->
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row m-t-5">
                                                 <div class="col-md-6">
                                                     <h5>Warranty: <span style="color: red"></span></h5>
                                                     <p>
@@ -212,16 +227,12 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="row m-t-5">
+                                            <div class="form-group row m-t-5">
                                                 <div class="col-md-11">
-                                                    <h5>Description: <span style="color: red"></span></h5>
-                                                    <p>
-                                                        <input type="text" id="description" name="description" placeholder="Description"class="form-control m-t-10"/>
-                                                    </p>
-                                                <!--  <input id="serviceid" name="serviceid" type="hidden" value=null> -->
+                                                    <h5>Warranty(mileage): <span style="color: red"></span></h5>
+                                                    <input type="number" id="warrantymileage" name="warrantymileage" placeholder="Mileage" class="form-control m-t-10"/>
                                                 </div>
                                             </div>
-                                            <br>
                                             <div id="show-errors">
                                                 @if ($errors->update->any())
                                                     <div class="alert alert-danger">
@@ -328,6 +339,15 @@
                                                 </div>
                                             </div>
                                             <div class="row m-t-5">
+                                                <div class="col-md-11">
+                                                    <h5>Description: <span style="color: red"></span></h5>
+                                                    <p>
+                                                        <input type="text" id="descriptionedit" name="descriptionedit" placeholder="Description"class="form-control m-t-10"/>
+                                                    </p>
+                                                <!--  <input id="serviceid" name="serviceid" type="hidden" value=null> -->
+                                                </div>
+                                            </div><br>
+                                            <div class="row m-t-5">
                                                 <div class="col-md-6">
                                                     <h5>Warranty: <span style="color: red"></span></h5>
                                                     <p>
@@ -346,15 +366,12 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="row m-t-5">
+                                            <div class="form-group row m-t-5">
                                                 <div class="col-md-11">
-                                                    <h5>Description: <span style="color: red"></span></h5>
-                                                    <p>
-                                                        <input type="text" id="descriptionedit" name="descriptionedit" placeholder="Description"class="form-control m-t-10"/>
-                                                    </p>
-                                                <!--  <input id="serviceid" name="serviceid" type="hidden" value=null> -->
+                                                    <h5>Warranty(mileage): <span style="color: red"></span></h5>
+                                                    <input type="number" id="warrantymileageedit" name="warrantymileageedit" placeholder="Mileage" class="form-control m-t-10"/>
                                                 </div>
-                                            </div><br>
+                                            </div>
                                             <div id="show-errors">
                                                 @if ($errors->update->any())
                                                     <div class="alert alert-danger">
@@ -495,6 +512,7 @@
         $('#priceedit').val(data['product'][0]['Price']);
         $('#descriptionedit').val(data['product'][0]['Description']);
         $('#warrantyedit').val(data['product'][0]['WarrantyDuration']);
+        $('#warrantymileageedit').val(data['product'][0]['WarrantyMileage']);
 
         $('#descriptionedit').val(data['product'][0]['Description']);
 
@@ -505,6 +523,7 @@
 
         $('#durationmodeedit').val(data['product'][0]['WarrantyDurationMode']).trigger("chosen:updated");
         $('#unitedit').val(data['product'][0]['ProductUnitTypeID']).trigger("chosen:updated");
+        
 
 
         //
