@@ -480,7 +480,7 @@
                                                 </td>
                                             <td style="border-left:none !important">
                                                 <center>
-                                                    <input style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="svcInclude" name="include[]" type="checkbox" checked value="True">
+                                                    <input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="{!!$sp->ServiceID!!}" id="svcInclude" name="include[]" type="checkbox" checked value="True">
                                                     <button type="button" id="svc" name="{!!$sp->EstimatedTime!!}"  class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button>
                                                 </center>
                                             </td>
@@ -1290,8 +1290,8 @@ $(document).ready(function () {
     //$('input:checkbox').prop('checked', true);
 
     $("table.order-list").on("click", "#svcInclude", function (event){
+        var id = $(this).data('serviceid');
         if(!(this.checked)){
-            var id = $(this).data('serviceid');
             $(this).val(false);
 
             //deselect all products included in this service
@@ -1303,7 +1303,6 @@ $(document).ready(function () {
             });
         }
         else{
-            var id = $(this).data('serviceid');
             $(this).val(true);
 
             //select all products included in this service
@@ -1313,6 +1312,32 @@ $(document).ready(function () {
                 if ((this.id) == "quantity" && $(this).data('serviceid') == id)
                     $(this).prop("readonly", false);
             });
+        }
+    });
+
+    $("table.order-list").on("click", "#prodInclude", function (event){
+        var id = $(this).data('serviceid');
+
+        if(!(this.checked)){
+            var remaining = 1;
+            //check kung mag-isa na lang ba siya
+            $('table tr td input[type=checkbox]').each( function() {
+                if ((this.id) == "prodInclude" && $(this).data('serviceid') == id && $(this).attr('class') == "product" && this.checked == true) 
+                    remaining++;
+            });
+            if(remaining == 1){
+                $('table tr td input[type=checkbox]').each( function() {
+                    if ((this.id) == "svcInclude" && $(this).data('serviceid') == id && $(this).attr('class') == "service") 
+                        $(this).prop("checked", false);
+                });
+            }
+        }
+        else{
+            //select the parent service
+            $('table tr td input[type=checkbox]').each( function() {
+                if ((this.id) == "svcInclude" && $(this).data('serviceid') == id && $(this).attr('class') == "service") 
+                    $(this).prop("checked", true);
+            })
         }
     });
 
@@ -1617,7 +1642,7 @@ $(document).ready(function () {
             cols += '<td  style="border-right:none !important"><input type="hidden" name="personnelperformed[]"><select id="personnelperformed" name="personnelperformed[]" class="form-control chzn-select" style="width:110px;">@foreach($mechanic as $id => $name)<option value="{{$id}}">{{$name}}</option> @endforeach</select></td>';
             cols += '<td style="border-right:none !important"><input type="hidden" style="width:60px;" id="unitprice" class="form-control" value="'+ LaborCost +'"></td>';
             cols += '<td style="border-right:none !important"><input type="text" style="width:80px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="'+ LaborCost +'" readonly></td>';
-            cols += '<td style="border-left:none !important"><center><input style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="svcInclude" name="include[]" type="checkbox" checked value="True"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
+            cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="svcInclude" name="include[]" type="checkbox" checked="true" value="True"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
                     
             newServiceRow.append(cols);
             $(newServiceRow).insertBefore("#footer");

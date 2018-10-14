@@ -247,6 +247,7 @@ Route::patch('/updatejoborder/resetJobOrder', 'UpdateJobOrderController@resetJob
 //Back Job
 Route::resource('/backjob','BackJobController');
 Route::resource('/addbackjob','AddBackJobController');
+Route::get('/addbackjob/{id}/showJobOrder', 'AddBackJobController@showJobOrder');
 Route::resource('/editbackjob','EditBackJobController');
 Route::resource('/updatebackjob','UpdateBackJobController');
 Route::resource('/viewbackjob','ViewBackJobController');

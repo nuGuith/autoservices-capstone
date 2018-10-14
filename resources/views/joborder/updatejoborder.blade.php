@@ -380,9 +380,9 @@
                                     <div class="col-lg-12">
                                         <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
                                             <div class="card">
-                                                <div class="card-header" role="tab" id="headingTwo">
+                                                <!-- <div class="card-header" role="tab" id="headingTwo">
                                                     <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="" aria-controls="collapseTwo" active="false">
-                                                        <!--Label: balance -->
+                                                        Label: balance
                                                         <h5 class="mb-0">
                                                             <span style="color:gray">Billing:
                                                                 <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
@@ -392,7 +392,7 @@
                                                             </span>
                                                         </h5>
                                                     </a>
-                                                </div>
+                                                </div> -->
 
                                             <!-- Payment Details -->
                                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordionEx">

@@ -598,7 +598,11 @@ class AddJobOrderController extends Controller
             ->select('estimateid', DB::table('estimate')->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
             ->get();
         $joborder = JobOrder::where('AutomobileID', '=', $automobile->AutomobileID)->first();
-        $customer = Customer::findOrFail($id);
+        $customer = DB::table('customer AS c')
+            ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
+            ->where(['c.isActive' => 1, 'c.customerid' =>$automobile->CustomerID])
+            ->select('c.*', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+            ->first();
         $plates = DB::table('automobile AS auto')
                 ->where(['auto.customerid' => $id, 'auto.isActive' => 1])
                 ->select('auto.plateno','auto.automobileid')

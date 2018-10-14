@@ -40,70 +40,79 @@ class AddBackJobController extends Controller
         ->select('inspectiontypeid', 'inspectiontypename')
         ->get();
 
-        $estimateids = Estimate::orderBy('estimateid', 'desc')
-        ->where('isActive', 1)
-        ->select('estimateid', DB::table('estimate')
-                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
-        ->pluck('estimate_desc','estimateid');
-
-        $joborderids = JobOrder::orderBy('estimateid', 'desc')
-        ->where('isActive', 1)
+        $joborderids = JobOrder::orderBy('joborderid', 'desc')
+        ->where(['isActive' => 1, 'isFinalized' => 1])
         ->select('joborderid', DB::table('joborder')
                                 ->raw("CONCAT('ID: ',joborderid, ' - ', updated_at)  AS joborder_desc"))
         ->pluck('joborder_desc', 'joborderid');
 
-        $personnels = PersonnelHeader::where('isActive', 1)
-        ->select('personnelid', DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS personnelfullname"))
-        ->pluck('personnelfullname','personnelid');
-    
-        $service_bays = ServiceBay::where('isActive', 1)
-        ->pluck('servicebayname', 'servicebayid');
-
-        $estimateids->prepend('Please choose an Estimate ID', 0);
-        $joborderids->prepend('Please choose a Job Order ID', 0);
-
-        $estimate = new Estimate;
-        $joborder = new JobOrder;
-
-        return view('backjob.addbackjob', compact('inspects', 'checklists', 'estimateids', 'joborderids', 'personnels', 'service_bays'));
-    }
-
-    public function fromEstimate($id)
-    {
-        $estimateids = Estimate::orderBy('estimateid', 'desc')
-        ->where('isActive', 1)
-        ->select('estimateid', DB::table('estimate')
-                                ->raw("CONCAT('ID: ',estimateid, ' - ', updated_at)  AS estimate_desc"))
-        ->pluck('estimate_desc','estimateid');
-
         $customerids = DB::table('customer AS c')
-        ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
-        ->orderBy('a.customerid', 'desc')
-        ->where('c.isActive', 1)
-        ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
-        ->groupBy('fullname')
-        ->distinct('fullname')
-        ->pluck('fullname','c.customerid');
+            ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
+            ->orderBy('a.customerid', 'desc')
+            ->where('c.isActive', 1)
+            ->select('c.customerid', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+            ->groupBy('fullname')
+            ->distinct('fullname')
+            ->pluck('fullname','c.customerid');
         
         $automobiles = Automobile::orderBy('created_at', 'desc')
-        ->where('isActive', 1)
-        ->pluck('plateno','automobileid');
+            ->where('isActive', 1)
+            ->groupBy('plateno')
+            ->distinct('plateno')
+            ->pluck('plateno','automobileid');
 
-        $automobile_models = DB::table('automobile_model')
-                                ->leftJoin('automobile_make', 'automobile_model.makeid', '=', 'automobile_make.makeid')
-                                ->where('automobile_model.isActive',1)
-                                ->pluck(DB::raw("CONCAT(make, ' - ', model, ' - ', SUBSTRING(year, 1, 4),'.',SUBSTRING(year, 6, 2))  AS automobile_models"), 'modelid');
+        $mechanic = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 5, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','pj.personneljobid');
 
-        $estimate = Estimate::findOrFail($id);
-        $automobile = Automobile::findOrFail($estimate->AutomobileID);
+        $serviceadvisor = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 1, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','pj.personneljobid');
+        
+        $qualityanalyst = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 4, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','pj.personneljobid');
+        
+        $inventorymanager = DB::table('personnel_header as ph')
+            ->join('personnel_job as pj', 'ph.personnelid', '=', 'pj.personnelid')
+            ->orderBy('ph.personnelid', 'desc')
+            ->where(['pj.jobdescriptionid' => 3, 'ph.isActive' => 1, 'pj.isActive' => 1])
+            ->select('pj.personneljobid', DB::raw("CONCAT(ph.firstname, ph.middlename, ph.lastname)  AS personnelfullname"))
+            ->groupBy('personnelfullname')
+            ->distinct('personnelfullname')
+            ->pluck('personnelfullname','pj.personneljobid');
+        
+        $service_bays = ServiceBay::where('isActive', 1)
+            ->pluck('servicebayname', 'servicebayid');
 
-        $estimateids->prepend('Please choose an Estimate ID',0);
+        $joborderids->prepend('Please choose a Job Order ID', 0);
+        $customerids->prepend('Please select a Customer',0);
+        $automobiles->prepend('Please select a Plate Number',0);
+        $mechanic->prepend('Assign a Mechanic', 0);
+        $serviceadvisor->prepend('Assign a Service Advisor', 0);
+        $qualityanalyst->prepend('Assign a Quality Analyst', 0);
+        $inventorymanager->prepend('Assign an Inventory Manager', 0);
+        $service_bays->prepend('Please select a Service Bay',0);
 
-
-        $currentRoute = Route::currentRouteName();
-
-        return view('inspect.addinspect', compact('estimateids', 'customerids', 'automobiles', 'automobile_models', 'currentRoute'));
+        return view('backjob.addbackjob', compact('inspects', 'checklists', 'joborderids', 'customerids', 'automobiles', 'mechanic',  'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'service_bays'));
     }
+
+
     public function create()
     {
         //
@@ -131,6 +140,64 @@ class AddBackJobController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function showJobOrder($id)
+    {
+        $joborder = DB::table('job_order as jo')
+            ->join('automobile as au', 'jo.automobileid', '=', 'au.automobileid')
+            ->join('customer as cs', 'au.customerid', '=', 'cs.customerid')
+            ->where('jo.joborderid', $id)
+            ->select('cs.*', 'au.*', 'jo.*', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+            ->groupBy(['cs.firstname', 'au.automobileid'])
+            ->orderBy('cs.customerid', 'asc')
+            ->distinct('cs.fullname')
+            ->first();
+        $automobile = DB::table('automobile as au')
+            ->join('automobile_model as am', 'au.modelid', '=', 'am.modelid')
+            ->join('automobile_make as ak', 'am.makeid', '=', 'ak.makeid')
+            ->where('automobileid', $joborder->AutomobileID)
+            ->select('am.*', 'ak.*', 'au.*', DB::raw('CONCAT(ak.make, " ", am.model) as make_model'))
+            ->first();
+        $customer = DB::table('customer AS c')
+            ->join('automobile as a', 'c.customerid', '=', 'a.customerid')
+            ->where(['c.isActive' => 1, 'c.customerid' =>$joborder->CustomerID])
+            ->select('c.*', DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS fullname"))
+            ->groupBy('fullname')
+            ->orderBy('c.customerid', 'asc')
+            ->first();
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service as se', 'sp.serviceid', '=', 'se.serviceid')
+            ->join('service_category as sc', 'se.servicecategoryid', '=', 'sc.servicecategoryid')
+            ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'sc.*', 'se.*', DB::raw("CONCAT(warrantyduration, ' ', warrantydurationmode) as warrantyperiod"), DB::raw('0 as hasWarranty'))
+            ->get();
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
+            ->where(['joborderid' => $id, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*', DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"), DB::raw("CONCAT(warrantyduration, ' ', warrantydurationmode) as warrantyperiod"), DB::raw('0 as hasWarranty'))
+            ->get();
+        $currentdate = date("Y-m-d H:i:s");
+
+        foreach($serviceperformed as $sp){
+            $sp->warrantyperiod = strtotime($joborder->Release_Timestamp."+ ".$sp->warrantyperiod);
+            $sp->warrantyperiod = date("Y-m-d H:i:s", $sp->warrantyperiod);
+            if($currentdate <= $sp->warrantyperiod)
+                $sp->hasWarranty = true;
+            else
+                $sp->hasWarranty = false;
+        }
+        foreach($productused as $pu){
+            $pu->warrantyperiod = strtotime($joborder->Release_Timestamp."+ ".$pu->warrantyperiod);
+            $pu->warrantyperiod = date("Y-m-d H:i:s", $pu->warrantyperiod);
+            if($currentdate <= $pu->warrantyperiod)
+                $pu->hasWarranty = true;
+            else
+                $pu->hasWarranty = false;
+        }
+        return response()->json(compact('joborder', 'customer', 'automobile', 'serviceperformed', 'productused', 'currentdate'));
     }
 
     /**
@@ -165,12 +232,5 @@ class AddBackJobController extends Controller
     public function delete(Request $request)
     {
        
-    }
-
-    public function showEstimate($id)
-    {
-        $estimate = Estimate::findOrFail($id);
-        $customer = Customer::findOrFail($automobile->CustomerID);
-        return response()->json(compact('estimate', 'customer'));
     }
 }
