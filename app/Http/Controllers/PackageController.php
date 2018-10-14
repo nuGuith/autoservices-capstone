@@ -30,6 +30,7 @@ class PackageController extends Controller
      $pr = DB::table('package_product_inclusions')
       ->leftjoin('product', 'package_product_inclusions.ProductID','=','product.ProductID')
       ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
+      ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
       ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
       // ->where('product.isActive',1)             
       ->get();
@@ -56,6 +57,7 @@ public function packageshow()
        $pr = DB::table('package_product_inclusions')
       ->leftjoin('product', 'package_product_inclusions.ProductID','=','product.ProductID')
     ->leftjoin('product_type', 'product_type.ProductTypeID','=','product.ProductTypeID')
+    ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
     ->leftjoin('product_unit_type', 'product_unit_type.ProductUnitTypeID','=','product.ProductUnitTypeID')
       ->WHERE('PackageID',Input::get('id'))
       ->get();
@@ -73,6 +75,7 @@ public function packageshow()
   
   $npr= DB::table('product')
     ->leftjoin('product_type', 'product_type.ProductTypeID','=','product.ProductTypeID')
+    ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
     ->leftjoin('product_unit_type', 'product_unit_type.ProductUnitTypeID','=','product.ProductUnitTypeID')
       ->WHERE('product.isActive',1)
       ->whereNotIn('ProductID', $pquery)
@@ -101,6 +104,7 @@ public function packageshow()
       $packageName = Input::get('packageName');
       $price = Input::get('price');
       $warranty = Input::get('warranty');
+      $mileage = Input::get('mileage');
       $durationMode = Input::get('durationMode');
       $productId = Input::get('productId');
       $serviceId = Input::get('serviceId');
@@ -110,7 +114,7 @@ public function packageshow()
 
       DB::table('package_header')
       ->WHERE('PackageID',$packageID)
-      ->UPDATE(['PackageName'=>$packageName,'Price'=>$price,'WarrantyDuration'=>$warranty,'WarrantyDurationMode'=>$durationMode]);
+      ->UPDATE(['PackageName'=>$packageName,'Price'=>$price,'WarrantyDuration'=>$warranty,'WarrantyDurationMode'=>$durationMode, 'WarrantyMileage'=>$mileage]);
 
   DB::table('package_product_inclusions')->where('PackageID', $packageID)->delete();
   DB::table('package_service_inclusions')->where('PackageID', $packageID)->delete();

@@ -32,27 +32,23 @@
         }
     </style>
 
-
-
     <!-- end of plugin styles -->
     <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
-
     <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
     <!-- <link type="text/css" rel="stylesheet" href="css/pages/advanced_components.css"/> -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-        <!-- CONTENT -->
-        <div id="content" class="bg-container">
 
-            <header class="head">
-                <div class="main-bar">
-                    <div class="row" style = "height: 47px;">
+    <!-- CONTENT -->
+    <div id="content" class="bg-container">
+        <header class="head">
+            <div class="main-bar">
+                <div class="row" style = "height: 47px;">
                     <div class="col-6">
                         <h4 class="m-t-15">
-                             <i class="fa fa-bookmark"></i>
+                            <i class="fa fa-bookmark"></i>
                             Package
                         </h4>
                     </div>
-
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right   ">
                             <li class="breadcrumb-item " >
@@ -64,267 +60,215 @@
                             <li class="active breadcrumb-item">&nbsp;Add Package</li>
                         </ol>
                     </div>
-
-                    </div>
                 </div>
-            </header>
-
-            <div class="outer">
-                <div class="inner bg-container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card" >
-
-
+            </div>
+        </header>
+        <div class="outer">
+            <div class="inner bg-container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card" >
                             <div class="card-header bg-primary disabled text-white" ><i class= "fa fa-plus-square"></i>&nbsp;&nbsp;Add Package</div>
-                            <div class="card-block">
+                                <div class="card-block">
+                                    <div class="row m-t-5">
+                                        <!--PRODUCT, SERVICE, FREE ITEM TAB-->
+                                        <div class="col-lg-6 m-t-10">
+                                            <div class="card">
+                                                <div class="card-header bg-white">
+                                                    <ul class="nav nav-tabs card-header-tabs float-left">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" href="#tab1" data-toggle="tab">Products</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="#tab2" data-toggle="tab">Services</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="card-block">
+                                                    <div class="tab-content m-t-15">
+                                                        <!--PRODUCT TAB-->
+                                                        <div class="tab-pane active" id="tab1">
+                                                            <table class="table  table-bordered table-hover dataTable no-footer" id="producttab1" role="grid">
+                                                                <thead>
+                                                                    <tr style="background-color: #f5f5f5">
+                                                                        <th>#</th>
+                                                                        <th><b>Product</b></th>
+                                                                        <th><b>Description</b></th>
+                                                                        <th><b>Price</b></th>
+                                                                        <th style="width: 5%;"><b>Select</b></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                @foreach($product as $prod)
+                                                                    <tr>
+                                                                        <td>{{$prod->ProductID}}</td>
+                                                                        <td>{{ $prod->BrandName }} - {{$prod->ProductName}}</td>
+                                                                        <td>{{$prod->ProductTypeName}} {{$prod->Size}} - {{$prod->UnitTypeName}}</td>
+                                                                        <td>{{$prod->Price}}</td>
+                                                                        <td><input type="checkbox" name="prodcheck-tab1"></td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </table>
+                                                            <div class="tab tab-btn">
+                                                                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="prodtab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <!--END PRODUCT TAB-->
 
+                                                        <!--SERVICE TAB-->
+                                                        <div class="tab-pane" id="tab2">
+                                                            <table class="table table-bordered table-hover dataTable no-footer" id="servicetab1" role="grid">
+                                                                <thead>
+                                                                    <tr style="background-color: #f5f5f5">
+                                                                        <th>#</th>
+                                                                        <th><b>Service</b></th>
+                                                                        <th><b>Category</b></th>
+                                                                        <th><b>Price</b></th>
+                                                                        <th style="width: 5%;"><b>Select</b></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                @foreach($service as $serv)
+                                                                    <tr>
+                                                                        <td>{{$serv->ServiceID}}</td>
+                                                                        <td>{{$serv->ServiceName}}</td>
+                                                                        <td>{{$serv->ServiceCategoryName}}</td>
+                                                                        <td>{{$serv->InitialPrice}}</td>
+                                                                        <td><input type="checkbox" name="servicecheck-tab1"></td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </table>
+                                                            <!--DELETE BUTTON-->
+                                                            <div class="tab tab-btn">
+                                                                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="servicetab1_To_tab2();"><i class="fa fa-arrow-right text-white " ></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <!--END SERVICE TAB-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <div class="row m-t-5">
-
-
-                        <!--PRODUCT, SERVICE, FREE ITEM TAB-->
-                         <div class="col-lg-6 m-t-10">
-                            <div class="card">
-                                <div class="card-header bg-white">
-                                    <ul class="nav nav-tabs card-header-tabs float-left">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#tab1" data-toggle="tab">Products</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#tab2" data-toggle="tab">Services</a>
-                                        </li>
-                                    </ul>
+                                        <!--Package DETAILS-->
+                                        <div class="col-lg-6 m-t-10">
+                                            <form id="packForm">
+                                                <div class="card">
+                                                    <div class="card-header bg-black">Package Details</div>
+                                                        <div class="card-block">
+                                                            <div class="tab">
+                                                                <div class="row">
+                                                                    <div class="col-md-7 m-t-15">
+                                                                        <div class="form-group">
+                                                                            <h5 style = "">Package:</h5>
+                                                                            <input id="packageName" name="packagename" type="text" placeholder="Package Name" class="form-control m-t-5"  >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-5 m-t-15">
+                                                                        <div class="form-group">
+                                                                            <h5 style = "">Computed Price:</h5>
+                                                                            <div class="input-group m-t-5">
+                                                                                <input type="number" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice">
+                                                                                <!-- <span class="input-group-addon">.00</span> -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Package Details Product Table-->
+                                                            <div class ="m-t-15">
+                                                                <table class="table  table-striped table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">
+                                                                    <thead>
+                                                                        <tr style="background-color: #f5f5f5">
+                                                                            <th>#</th>
+                                                                            <th>Product</th>
+                                                                            <th>Description</th>
+                                                                            <th>Price</th>
+                                                                            <th>Quantity</th>
+                                                                            <th style="width: 5%;">Select</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                                <div class="tab tab-btn">
+                                                                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="prodtab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <!--End Package Details Product Table-->
+                                                            <!--Package Details Service Table-->
+                                                            <div class ="m-t-15">
+                                                                <table class="table table-bordered table-hover dataTable no-footer" id="servicetab2" role="grid">
+                                                                    <thead>
+                                                                        <tr style="background-color: #f5f5f5">
+                                                                            <th>#</th>
+                                                                            <th>Service</th>
+                                                                            <th>Category</th>
+                                                                            <th>Price</th>
+                                                                            <th style="width: 5%;">Select</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                                <div class="tab tab-btn">
+                                                                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="servicetab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
+                                                                </div>
+                                                            </div><br><br>
+                                                            <!--End Package Details Service Table-->
+                                                            <div class="row">
+                                                                <div class="col-md-7">
+                                                                    <h5>Warranty: <span style="color: red"></span></h5>
+                                                                    <div class="form-group">
+                                                                        <input type="number" min="1" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="m-t-25"></div>
+                                                                    <div class="form-group">
+                                                                        <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                                                            <option disabled selected>Please choose</option>
+                                                                            <option value="Day">Day(s)</option>
+                                                                            <option value="Week">Week(s)</option>
+                                                                            <option value="Month">Month(s)</option>
+                                                                            <option value="Year">Year(s)</option>
+                                                                        </select>
+                                                                        <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-7 m-t-10">
+                                                                    <h5>Warranty(mileage): <span style="color: red"></span></h5>
+                                                                    <input type="number" id="warrantymileage" name="warrantymileage" placeholder="Mileage" class="form-control m-t-10"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer bg-black">
+                                                            <div class="input-group">
+                                                                <div class="col-md-8 m-t-5">
+                                                                    <div class="input-group" >
+                                                                        <h5 style = "width: 190px;"class="m-t-10">Package Price:</h5>
+                                                                        <div class="form-group"> 
+                                                                            <input type="number" min="1" step="0.01" class="form-control" style = "width: 130px;" id="packagePrice" name="price" placeholder ="Php";>
+                                                                            <!-- <span class="input-group-addon">.00</span> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2 m-t-5">
+                                                                    <div class="input-group examples transitions" >
+                                                                        <button type="submit" class="btn btn-success source success_clr m-l-0 hvr-float-shadow" style ="width: 160px; left: 35px;" id="submitForm"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                                                    </div>
+                                                                </div>
+                                                                <!--btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!--END Package DETAILS-->
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-black disabled"></div>
                                 </div>
-
-    <div class="card-block">
-    <div class="tab-content m-t-15">
-
-        <!--PRODUCT TAB-->
-        <div class="tab-pane active" id="tab1">
-
-            <table class="table  table-bordered table-hover dataTable no-footer" id="producttab1" role="grid">
-                <thead>
-                    <tr style="background-color: #f5f5f5">
-                        <th>#</th>
-                        <th><b>Product</b></th>
-                        <th><b>Description</b></th>
-                        <th><b>Price</b></th>
-                        <th style="width: 5%;"><b>Select</b></th>
-                    </tr>
-                </thead>
-                @foreach($product as $prod)
-                <tr>
-                  <td>{{$prod->ProductID}}</td>
-                  <td>{{$prod->ProductName}}</td>
-                  <td>{{$prod->ProductTypeName}} {{$prod->Size}} - {{$prod->UnitTypeName}}</td>
-                  <td>{{$prod->Price}}</td>
-                  <td><input type="checkbox" name="prodcheck-tab1"></td>
-                </tr>
-                @endforeach
-            </table>
-
-
-
-             <div class="tab tab-btn">
-                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="prodtab1_To_tab2();"><i class="fa fa-arrow-right text-white" ></i></button>
-            </div>
-        </div>
-        <!--END PRODUCT TAB-->
-
-
-        <!--SERVICE TAB-->
-        <div class="tab-pane" id="tab2">
-
-            <table class="table table-bordered table-hover dataTable no-footer" id="servicetab1" role="grid">
-                <thead>
-                    <tr style="background-color: #f5f5f5">
-                        <th>#</th>
-                        <th><b>Service</b></th>
-                        <th><b>Category</b></th>
-                        <th><b>Price</b></th>
-                        <th style="width: 5%;"><b>Select</b></th>
-                    </tr>
-                </thead>
-                @foreach($service as $serv)
-                <tr>
-                  <td>{{$serv->ServiceID}}</td>
-                  <td>{{$serv->ServiceName}}</td>
-                  <td>{{$serv->ServiceCategoryName}}</td>
-                  <td>{{$serv->InitialPrice}}</td>
-                  <td><input type="checkbox" name="servicecheck-tab1"></td>
-                </tr>
-                @endforeach
-
-            </table>
-            <!--DELETE BUTTON-->
-
-
-            <div class="tab tab-btn">
-                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#428bca" data-color="white" data-tipso="Move" onclick="servicetab1_To_tab2();"><i class="fa fa-arrow-right text-white " ></i></button>
-            </div>
-        </div>
-        <!--END SERVICE TAB-->
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!--Package DETAILS-->
-    <div class="col-lg-6 m-t-10">
-        <form id="packForm">
-        <div class="card">
-            <div class="card-header bg-black">
-                Package Details
-            </div>
-
-            <div class="card-block">
-            <div class="tab">
-
-                <div class="row">
-                    
-                    <div class="col-md-7 m-t-15">
-                    <div class="form-group">
-                        <h5 style = "">Package:</h5>
-                            <input id="packageName" name="packagename" type="text" placeholder="Package Name" class="form-control m-t-5"  >
-                    </div>
-                    </div>
-
-
-                    <div class="col-md-5 m-t-15">
-                    <div class="form-group">
-                        <h5 style = "">Computed Price:</h5>
-                        <div class="input-group m-t-5">
-                            <input type="number" class="form-control" disabled="disabled" placeholder ="Php." id="computePrice">
-                            <!-- <span class="input-group-addon">.00</span> -->
-                        </div>
-                    </div>
-                    </div>
-
-
-                </div>
-
-                <div class="row">
-                    <div class="col-md-7">
-                        <h5>Warranty: <span style="color: red"></span></h5>
-                        <div class="form-group">
-                            <input type="number" min="1" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10"/>
-                        </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="m-t-25">
-                        </div>
-                        <div class="form-group">
-                            <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
-                                <option disabled selected>Please choose</option>
-                                <option value="Days">Day(s)</option>
-                                <option value="Weeks">Week(s)</option>
-                                <option value="Months">Month(s)</option>
-                                <option value="Years">Year(s)</option>
-                            </select>
-                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!--Package Details Product Table-->
-            <div class ="m-t-15">
-                <table class="table  table-striped table-bordered table-hover  dataTable no-footer" id="producttab2" role="grid">
-                <thead>
-                    <tr style="background-color: #f5f5f5">
-                        <th>#</th>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                </thead>
-                </table>
-
-
-                <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="prodtab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
-                </div>
-            </div>
-            <!--End Package Details Product Table-->
-
-
-            <!--Package Details Service Table-->
-            <div class ="m-t-15">
-                <table class="table table-bordered table-hover dataTable no-footer" id="servicetab2" role="grid">
-                <thead>
-                    <tr style="background-color: #f5f5f5">
-                        <th>#</th>
-                        <th>Service</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th style="width: 5%;">Select</th>
-                    </tr>
-                </thead>
-                </table>
-
-
-                <div class="tab tab-btn">
-                    <button class="btn btn-warning hvr-float-shadow adv_cust_mod_btn m-t-5 tipso_bounceIn" style = "left: 370px;" data-background="#ffbb33" data-color="white" data-tipso="Move" onclick="servicetab2_To_tab1();"><i class="fa fa-arrow-left text-white" ></i></button>
-                </div>
-            </div>
-            <!--End Package Details Service Table-->
-
-
-        </div>
-
-            <div class="card-footer bg-black">
-                <div class="input-group">
-
-                    <div class="col-md-8 m-t-5">
-                    
-                        <div class="input-group" >
-                        <h5 style = "width: 190px;"class="m-t-10">Package Price:</h5>
-                        <div class="form-group">
-                            
-                            <input type="number" min="1" step="0.01" class="form-control" style = "width: 130px;" id="packagePrice" name="price" placeholder ="Php";>
-                            <!-- <span class="input-group-addon">.00</span> -->
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                    <div class="col-md-2 m-t-5">
-                        <div class="input-group examples transitions" >
-                            <button type="submit" class="btn btn-success source success_clr m-l-0 hvr-float-shadow" style ="width: 160px; left: 35px;" id="submitForm"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
-                        </div>
-                    </div>
-                    <!--btn btn-success  source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn  -->
-                </div>
-            </div>
-
-        </div>
-    </form>
-     </div>
-    <!--END Package DETAILS-->
-
-
-                    </div>
-               </div>
-
-
-                 <div class="card-footer bg-black disabled"></div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- /.outer -->
-    <!--END CONTENT -->
+                <!-- /.outer -->
+                <!--END CONTENT -->
 
 <!-- global scripts sweet alerts-->
 <script type="text/javascript" src="js/components.js"></script>
@@ -395,6 +339,7 @@ $(document).ready(function(){
           packageName : $('#packageName').val(),
           price : $('#packagePrice').val(),
           warranty : $('#warranty').val(),
+          mileage : $('#warrantymileage').val(),
           durationMode : $('#durationmode').val(),
           productId : submitProdIdVal,
           serviceId : submitServiceIdVal,
@@ -402,9 +347,13 @@ $(document).ready(function(){
         },
         success: function()
         {
-          // alert('success')
-          window.location.href = '/package';
-        }
+            window.location.href = "package";
+                   },
+                         error: function(xhr)
+                       {
+                         //alert("Error!");
+                         window.location.href = "package";
+                       }
     });
   });
 });
@@ -694,36 +643,6 @@ $(document).ready(function(){
                     },
                 }
             },
-            warranty: {
-                message: 'The warranty time is not valid',
-                validators: {
-                    notEmpty: {
-                        message: 'The warranty is required and cannot be empty. '
-                    },
-                regexp: {
-                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
-                        message: 'The warranty only accept numeric values. '
-                    },
-                }
-            },
-            durationmode: {
-                    feedbackIcons: 'false',
-                    trigger: 'focus blur',
-                    live: 'enabled',
-                    validators: {
-                        callback: {
-                            message: 'Please choose product type',
-                            callback: function(value, validator) {
-                                // Get the selected options
-                                var options = validator.getFieldElements('durationmode').val();
-                                return (options != null && options.length >= 1);
-                            }
-                        }
-                    },
-                     notEmpty: {
-                        message: 'The unit is required and cannot be empty. '
-                    }, 
-                },
             price: {
                 message: 'The price is not valid',
                 validators: {

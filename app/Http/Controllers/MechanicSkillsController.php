@@ -24,10 +24,10 @@ class MechanicSkillsController extends Controller
     {
 
       $view = DB::table('personnel_skill as ps')
-           ->JOIN('personnel_header as ph','ph.PersonnelID','=','ps.PersonnelID')
+           ->JOIN('personnel_header as ph','ps.PersonnelID','=','ph.PersonnelID')
            ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
            ->JOIN('skill_header as sh','ps.SkillID','=','sh.SkillID')
-           ->WHERE('pj.JobDescriptionID',11)
+           ->WHERE('pj.JobDescriptionID', 5)
            ->get();
 
       $skill = DB::table('skill_header')
@@ -38,22 +38,22 @@ class MechanicSkillsController extends Controller
       $perskill = DB::table('personnel_skill as ps')
             ->LEFTJOIN('personnel_header as ph','ps.PersonnelID','=','ph.PersonnelID')
             ->LEFTJOIN('skill_header as sh','ps.SkillID','=','sh.SkillID')
-            ->WHERE('ps.isActive',1)
+            ->WHERE(['ps.isActive'=>1, 'sh.isActive'=>1])
             ->get();
 
       $personnel = DB::table('personnel_skill as ps')
            ->JOIN('personnel_header as ph','ph.PersonnelID','=','ps.PersonnelID')
             ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
-            ->WHERE('pj.JobDescriptionID',11)
+            ->WHERE('pj.JobDescriptionID', 5)
            ->Groupby('ps.PersonnelID')
            ->WHERE('ps.isActive',1)
            ->get();
 
       $per= DB::table('personnel_job')
             ->JOIN('personnel_header', 'personnel_job.PersonnelID', '=', 'personnel_header.PersonnelID')
-            ->WHERE('JobDescriptionID',11)
+            ->WHERE('JobDescriptionID', 5)
             ->Groupby('personnel_header.PersonnelID')
-            ->WHERE('personnel_header.isActive',1)
+            ->WHERE('personnel_header.isActive', 1)
             ->get();
            // dd($personnel);
 
@@ -156,7 +156,7 @@ class MechanicSkillsController extends Controller
         for($z=0;$z<count($darr);$z++){
 
           DB::table('personnel_skill')
-          ->WHERE('PSID',$darr[$z])
+          ->WHERE('PersonnelSkillID',$darr[$z])
           ->UPDATE(['isActive'=>0]);
 
         }
@@ -166,7 +166,7 @@ class MechanicSkillsController extends Controller
         for($i=0;$i<$prodcount;$i++){
 
           DB::table('personnel_skill')
-          ->WHERE('PSID',$id[$i])
+          ->WHERE('PersonnelSkillID',$id[$i])
           ->UPDATE(['SkillID'=>$eskill[$i],'PersonnelID'=>$emp]);
 
 
