@@ -1,5 +1,5 @@
 @extends('layout.master') <!-- Include Master PAge -->
-@section('Title','Estimate Report') <!-- Page Title -->
+@section('Title','Backjob Report') <!-- Page Title -->
 @section('content')
 
     <link type="text/css" rel="stylesheet" href="{{ asset('vendors/sweetalert/css/sweetalert2.min.css') }}"/>
@@ -27,96 +27,101 @@
     <!-- end of plugin styles -->
 
         <!-- CONTENT -->
-<div id="content" class="bg-container">
-    <header class="head">
-        <div class="main-bar">
-            <div class="row" style = "height: 47px;">
-                <div class="col-6">
-                    <h4 class="m-t-15">
-                        <i class="fa fa-file"></i>
-                            Estimate Report
-                    </h4>
-                </div>
-                    <div class="col-sm-6 col-12"  >
-                        <ol  class="breadcrumb float-right">
-                            <li class="breadcrumb-item " >
-                                <a href="/estimate_report">
-                                    <i class="fa fa-file" data-pack="default" data-tags=""></i>
-                                    Estimate Report
-                                </a>
-                            </li>
-                        </ol>
+        <div id="content" class="bg-container">
+            <header class="head">
+                <div class="main-bar">
+                    <div class="row" style = "height: 47px;">
+                        <div class="col-6">
+                            <h4 class="m-t-15">
+                                <i class="fa fa-rotate-left"></i>
+                                    Backjob Report
+                            </h4>
+                        </div>
+                            <div class="col-sm-6 col-12"  >
+                                <ol  class="breadcrumb float-right">
+                                    <li class="breadcrumb-item " >
+                                        <a href="/estimate_report">
+                                            <i class="fa fa-file" data-pack="default" data-tags=""></i>
+                                            Backjob Report
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
                     </div>
-            </div>
-        </div>
-    </header>
+                </div>
+            </header>
             <div class="outer">
                 <div class="inner bg-container">
                     <div class="card">
                         <div class="card-header default_bg_dark">
                             <div align="center" class="m-t-10">
-                                <h3> ESTIMATE TRANSACTIONS REPORT </h3>
+                                <h3> BACKJOB TRANSACTIONS REPORT </h3>
                                 <h4 id="reportdate"></h3>
                             </div>
                         </div>
-                            <div class="card-block m-t-5" id="user_body">
-                                <div class="col-lg-4 input_field_sections">
-                                    <form>
-                                        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
-                                            <i class="fa fa-calendar"></i>&nbsp;
-                                            <span></span> 
-                                            <i class="fa fa-caret-down"></i>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="card-block m-t-0">
-                                    <div class="table-toolbar">
-                                        <div class="btn-group">
-                                            <div class="btn-group float-right users_grid_tools">
-                                                <div class="tools"></div>
-                                            </div>
+                        <div class="card-block m-t-5" id="user_body">
+                            <div class="col-lg-4 input_field_sections">
+                                <form>
+                                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
+                                        <i class="fa fa-calendar"></i>&nbsp;
+                                        <span></span> 
+                                        <i class="fa fa-caret-down"></i>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-block m-t-0">
+                                <div class="table-toolbar">
+                                    <div class="btn-group">
+                                        <div class="btn-group float-right users_grid_tools">
+                                            <div class="tools"></div>
                                         </div>
                                     </div>
-                                <div>
-
-                                <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>ESTIMATE ID</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PLATE NO.</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>CUSTOMER NAME</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>DATE</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>JOB ORDER ID</b></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($estimates as $estimate)
-                                            <tr>
-                                                <td>ES000{{ $estimate->EstimateID }}</td>
-                                                <td>{{ $estimate->PlateNo }}</td>
-                                                <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
-                                                <td>
-                                                    <?php
-                                                        $date = date('F d, Y', strtotime($estimate->EDate));
-                                                        echo $date;
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    @foreach($joborder as $jo) 
-                                                        @if($jo->EstimateID==$estimate->EstimateID)
-                                                            JO000{{ $jo->JobOrderID }}
+                                </div>
+                            <div>
+                            <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
+                                        <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>SERVICES AND PRODUCTS</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>DATE</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>TOTAL</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($backjobs as $backjob)
+                                        <tr>
+                                            <td>JO000{{ $backjob->JobOrderID }}</td>
+                                            <td>
+                                                <b>Service:</b>
+                                                <ul>
+                                                    @foreach($services as $service)
+                                                        @if($service->BackJobID==$backjob->BackJobID)
+                                                            <li>{{ $service->ServiceName }}</li>
                                                         @endif
                                                     @endforeach
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <input type=hidden id="start">
-                            <input type=hidden id="end">
-                    <!-- FOOTER 
+                                                </ul>
+                                                <b>Product:</b>
+                                                <ul>
+                                                    @foreach($products as $product)
+                                                        @if($product->BackJobID==$backjob->BackJobID)
+                                                            <li>{{ $product->BrandName }} {{ $product->ProductName }} - {{ $product->Size }} {{ $product->Unit }}</li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                    $date = date('F d, Y', strtotime($backjob->BJDate));
+                                                    echo $date;
+                                                ?>
+                                            </td>
+                                            <td>Php {{ $backjob->Cost }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- FOOTER 
                         <div class="card-footer bg-black disabled">
                             <div class="examples transitions m-t-5 pull-right">
                                 <div class="btn-group">
@@ -126,12 +131,12 @@
                                 </div>
                             </div>
                         </div>
-                    FOOTER -->
+                        FOOTER -->
                     </div>
                 </div>
             </div>
                     <!-- /.inner -->
-</div>
+        </div>
                 <!-- /.outer -->
         <!--END CONTENT -->
 
@@ -161,7 +166,7 @@
 <script type="text/javascript" src="{{ asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
-<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('vendors/switchery/js/switchery.min.js') }}"></script>
 <script type="text/javascript" src="js/pages/radio_checkbox.js"></script>
 <!-- end of global scripts-->
 <!-- plugin scripts -->
@@ -171,7 +176,7 @@
 <script type="text/javascript" src="vendors/jquery-tagsinput/js/jquery.tagsinput.js"></script>
 <script type="text/javascript" src="vendors/validval/js/jquery.validVal.min.js"></script>
 <script type="text/javascript" src="vendors/inputmask/js/jquery.inputmask.bundle.js"></script>
-<script type="text/javascript" src="vendors/moment/js/moment.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendors/moment/js/moment.min.js') }}"></script>
 <script type="text/javascript" src="vendors/daterangepicker/js/daterangepicker.js"></script>
 <script type="text/javascript" src="vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
@@ -186,7 +191,6 @@
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
-<script type ="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 
 <script>
     $(function() {
@@ -217,9 +221,8 @@
         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
-    
-    cb(start, end);
 
+    cb(start, end);
 });
 </script>
 

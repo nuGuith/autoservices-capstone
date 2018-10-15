@@ -10,11 +10,14 @@ class AddPackageController extends Controller
     public function addpackage(){
       $product = DB::table('product')
                 ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
+                ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
                 ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
+                ->where('product.isActive',1)
                 ->get();
 
       $service = DB::table('service')
                 ->leftjoin('service_category', 'service.ServiceCategoryID', 'service_category.ServiceCategoryID')
+                ->where('service.isActive',1)
                 ->get();
 
     	return view('package.addpackage')
@@ -30,6 +33,7 @@ class AddPackageController extends Controller
           'PackageName' => $request->input('packageName'),
           'Price' => $request->input('price'),
           'WarrantyDuration' => $request->input('warranty'),
+          'WarrantyMileage' => $request->input('mileage'),
           'WarrantyDurationMode' => $request->input('durationMode')
         ]);
         // get latest package id

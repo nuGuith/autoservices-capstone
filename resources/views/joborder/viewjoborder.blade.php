@@ -370,8 +370,9 @@
                             <button onclick="window.location='{{ url("/joborder") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/estimates">
                                 <i class="fa fa-arrow-left" ></i>
                                 &nbsp;Back
-                            </button>           
-                            <button onclick="window.location='{{ url("/joborderform") }}'" class="btn btn-info btn-raised" style ="width: 80px;"  >
+                            </button>  
+                            <a href="/joborderform/{{ $joborder->JobOrderID }}" target="_blank">         
+                            <button class="btn btn-info btn-raised" style ="width: 80px;"  >
                                 <i class="fa fa-print text-white" ></i>
                                 &nbsp; Print
                             </button>

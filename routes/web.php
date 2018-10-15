@@ -31,7 +31,6 @@ Route::resource('productcategory', 'ProductCategoryController');
 Route::post('/productcategory', 'ProductCategoryController@store');
 Route::put('/productcategory', 'ProductCategoryController@update');
 Route::patch('/productcategory', 'ProductCategoryController@delete');
-Route::patch('/productcategory', 'ProductCategoryController@reactivate');
 
 //Maintenance - Product Type
 Route::resource('producttype', 'ProductTypeController');
@@ -65,10 +64,11 @@ Route::put('/servicecategory', 'ServiceCategoryController@update');
 Route::patch('/servicecategory', 'ServiceCategoryController@delete');
 
 //Maintenance - Services
-Route::resource('service','ServiceController');
-Route::post('/service', 'ServiceController@store');
-Route::put('/service', 'ServiceController@update');
-Route::patch('/service', 'ServiceController@delete');
+Route::get('/service','ServiceController@service');
+Route::post('/delservice','ServiceController@delete');
+Route::GET('/retservice','ServiceController@ret');
+Route::POST('/addservice','ServiceController@add');
+Route::POST('/editservice','ServiceController@edit');
 
 //Maintenance - Service Steps
 Route::resource('servicesteps','ServiceStepsController');
@@ -147,6 +147,7 @@ Route::POST('/savePackage','AddPackageController@savePackage');
 Route::get('/addpackage','AddPackageController@addpackage');
 Route::GET('/retpagkage','packageController@packageshow');
 Route::POST('/editpackage','packageController@editpackage');
+Route::post('/delpackage', 'packageController@delete');
 
 //Maintenance - Promo
 Route::get('/promo','PromoController@promo');
@@ -168,6 +169,14 @@ Route::POST('/adddiscount','DiscountController@add');
 Route::GET('/RetrieveDiscount','DiscountController@ret');
 Route::POST('/editdiscount','DiscountController@edit');
 Route::POST('/deldiscount','DiscountController@delete');
+
+//Maintenance - Tax
+Route::get('/tax','TaxController@tax');
+Route::POST('/addtax','TaxController@add');
+Route::GET('/rettax','TaxController@ret');
+Route::POST('/edittax','TaxController@edit');
+Route::POST('/deltax','TaxController@delete');
+
 
 
 //404 bladeac
@@ -259,19 +268,25 @@ Route::get('/indexx','SampleController@inspect');
 Route::get('/inspectform','SampleController@inspect_pdf');
 Route::get('/estimateform/{id}','SampleController@estimate_pdf');
 Route::get('/receipt','SampleController@receipt_pdf');
-Route::get('/joborderform','SampleController@joborder_pdf');
+Route::get('/joborderform/{id}','SampleController@joborder_pdf');
+Route::get('/warrantyform/{id}', 'SampleController@warranty_pdf');
 
 //Reports - Sample
 Route::get('/estimate_report', 'ReportsController@estimate');
 Route::get('/inspection_report', 'ReportsController@inspection');
 Route::get('/joborder_report', 'ReportsController@joborder');
 Route::get('/jobordersales_report', 'ReportsController@jobordersales');
-Route::get('/netsales_report', 'ReportsController@netsales');
+Route::get('/backjob_report', 'ReportsController@backjob');
+Route::get('/sales_report', 'ReportsController@sales');
 Route::get('/payment_report', 'ReportsController@payment');
 
 //Reports - Printable Forms
 Route::get('/report-estimate', 'PDFController@estimate');
 Route::get('/report-inspection', 'PDFController@inspection');
 Route::get('/report-joborder', 'PDFController@joborder');
+
+//Queries
+Route::get('/queries', 'QueriesController@index');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
+Route::get('/report-sales', 'PDFController@sales');
 Route::get('/report-netsales', 'PDFController@netsales');
