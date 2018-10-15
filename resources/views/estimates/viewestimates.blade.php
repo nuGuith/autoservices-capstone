@@ -54,6 +54,8 @@
                             <div class="card-header bg-black">
                                 <span class="fa fa-eye fa-lg"></span>&nbsp;
                                 View Estimate
+                                <button type="button" style="float:right;" onclick="window.location='{{ url("/addjoborder/$id/fromEstimate") }}'" class="btn btn-success hvr-float-shadow adv_cust_mod_btn gray">
+                                    </i>&nbsp;Proceed to Job Order &rarr;</button> 
                              </div>
 
 

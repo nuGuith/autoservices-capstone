@@ -57,7 +57,9 @@
 
                             <div class="card-block m-t-15">
 
-                            <!--Start Customer Information -->                
+                            <!--Start Customer Information -->
+                            <button type="button" style="float:right;" onclick="window.location='{{ url("/addjoborder/$id/fromEstimate") }}'" class="btn btn-success hvr-float-shadow adv_cust_mod_btn gray">
+                                    </i>&nbsp;Proceed to Job Order &rarr;</button>                 
                             <h4 class="m-t-10">Customer Information</h2>
                             <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
                             
@@ -233,7 +235,7 @@
                                                 <tr class="product" id="svc{!!$sp->ServiceID!!}" data-productid="{!!$pu->ProductID!!}">
                                                     <td style="border-right:none !important">
                                                         <input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="{!!$sp->ServiceID!!}">
-                                                        <input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="{!!$sp->ProductID!!}"></td>
+                                                        <input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="{!!$pu->ProductID!!}"></td>
                                                     <td style="border-right:none !important">
                                                         <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                     </td>

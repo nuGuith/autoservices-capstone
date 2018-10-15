@@ -427,7 +427,48 @@
                             </div>
                     </div> <!-- This end div is for margin top -->
 
-                    
+                    <!-- START Mileage check MODAL -->
+                    <div  class="modal show" id="modal-3" role="dialog" aria-labelledby="modalLabelbouncedown">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger">
+                                    <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                                &nbsp;Mileage</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col m-t-15">
+                                        <h4>Before everything else, we need you to enter the current mileage of the customer's vehicle.</h4>
+                                        <div>
+                                            <br>
+                                            <hr style="color:gray; padding-bottom:5px;">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <h5>Previous Mileage: </h5>
+                                                    <input id="prevMileageMod" type="number" class="form-control" placeholder="Mileage" readonly style="margin-top:3%;">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h5>Current Mileage: <span id="required" style="font-size:12px; color:red; visibility:hidden;">&nbsp;Required.</span></h5>
+                                                    <input id="currMileageMod" type="number" class="form-control" placeholder="Current Mileage" style="margin-top:3%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer m-t-10">
+                                    <!-- <div class="examples transitions m-t-5">
+                                        <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">Cancel</button>
+                                    </div> -->
+                                    <div class="examples transitions m-t-5">
+                                        <button id="btnConfirm" type="button" class="btn btn-outline-success">
+                                            &nbsp;Confirm
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END RESET MODAL -->
                     
                     <!-- END -->
                             <div class="card-footer bg-black">
@@ -523,15 +564,39 @@ $(document).ready(function(){
         });
     }
 
+    var min = null;
     /* SELECT RECORD via ESTIMATE ID SEARCH */
     $("#joborders").on("change", function () {
         var selectedID = $(this).val();
         joborderID = selectedID;
-        showJobOrder(joborderID);
+        showJobOrder();
+        $('#currMileageMod').val("");
+        $('#required').css('visibility', 'hidden');
+        $('#modal-3').modal('show');
     });
 
-    function showJobOrder(id){
-        joborderID = id;
+    $('#btnConfirm').on('click', function(){
+        var curr = $('#currMileageMod').val();
+        if(curr == null || curr == "")
+            $('#required').css('visibility', 'visible');
+        else{
+            $('#currMileage').html(curr);
+            showJobOrder();
+            $('#modal-3').modal('hide');
+        }
+    });
+
+    $('#currMileageMod').on('keyup', function(e){
+        if ($(this).val() < min 
+            && e.keyCode !== 46 // keycode for delete
+            && e.keyCode !== 8 // keycode for backspace
+        ) {
+        e.preventDefault();
+        $(this).val(min);
+        }
+    });
+
+    function showJobOrder(){
         $.ajax({
             type: "GET",
             url: "/addbackjob/"+joborderID+"/showJobOrder",
@@ -551,6 +616,9 @@ $(document).ready(function(){
                 $('#chassisno').html(data.automobile.ChassisNo);
                 $('#mileage').html(data.automobile.Mileage);
                 $('#prevMileage').html(data.automobile.Mileage);
+                $('#prevMileageMod').val(data.automobile.Mileage);
+                $('#currMileageMod').attr('min', data.automobile.Mileage);
+                min = data.automobile.Mileage;
                 $('#color').html(data.automobile.Color);
                 $('#transmission').html(data.automobile.Transmission);
                 showJobOrderDetails(data);
@@ -578,7 +646,7 @@ $(document).ready(function(){
             EstimatedTime = data.serviceperformed[i].EstimatedTime;
             WarrantyPeriod = data.serviceperformed[i].warrantyperiod;
             hasWarranty = data.serviceperformed[i].hasWarranty;
-            if(hasWarranty) ServiceName = "<del>" + ServiceName + "</del>";
+            if(!hasWarranty) ServiceName = "<del>" + ServiceName + "</del>";
 
             newServiceRow = $("<tr class='service' id='"+ ServiceID +"' name='"+ ServicePerformedID +"' data-servicecategoryid='"+ CategoryID +"'  data-servicecategoryname='"+ CategoryName +"'>");
             cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ ServiceName +'<br><input type="hidden" id="'+ ServicePerformedID +'" name="serviceperformed[]" value="'+ ServicePerformedID +'"><input type="hidden" id="include" name="include[]" value="True"></td>';
@@ -589,9 +657,9 @@ $(document).ready(function(){
             cols += '<td style="border-right:none !important"><input type="hidden" style="width:60px;" id="unitprice" class="form-control" value="'+ LaborCost +'"></td>';
             cols += '<td style="border-right:none !important"><input type="text" style="width:80px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="'+ LaborCost +'" readonly></td>';
             if(!hasWarranty)
-                cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True" data-toggle="tooltip" data-placement="top" title="This service is within warranty." data-trigger="hover"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
+                cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True" data-toggle="tooltip" data-placement="top" title="Warranty expired on: '+WarrantyPeriod+'." data-trigger="hover" disabled ><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
             else
-                cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True" disabled data-toggle="tooltip" data-placement="top" title="Warranty expired on: '+WarrantyPeriod+'." data-trigger="hover"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
+                cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True"data-toggle="tooltip" data-placement="top" title="This service is within warranty." data-trigger="hover"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
                     
             newServiceRow.append(cols);
             tbody.append(newServiceRow);
@@ -608,24 +676,24 @@ $(document).ready(function(){
                     SubTotal = data.productused[j].SubTotal;
                     WarrantyPeriod = data.productused[j].warrantyperiod;
                     hasWarranty = data.productused[j].hasWarranty;
-                    if(hasWarranty) ProductName = "<del>" + ProductName + "</del>";
+                    if(!hasWarranty) ProductName = "<del>" + ProductName + "</del>";
 
                     newProductRow = $("<tr class='product' data-productid='"+ ProductID +"' id='svc"+ ServiceID +"'>");
                     cols = "";
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ ProductID +'"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="'+ ProductUsedID +'"><input type="hidden" style="width:50px; text-align:right;" name="prodservperf[]" placeholder="" class="form-control" value="'+ ServicePerformedID +'"></td>';
                     if(!hasWarranty)
-                        cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control"></td>';
-                    else
                         cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control" readonly></td>';
+                    else
+                        cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><span style="color:red">Product:</span><br>'+ ProductName +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><a></a></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="'+ Price +'" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ SubTotal +'"></td>';
                     if(!hasWarranty)
-                        cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true" data-toggle="tooltip" data-placement="top" title="This product is within warranty." data-trigger="hover"></center></td>';
+                        cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true" data-toggle="tooltip" data-placement="top" title="Warranty expired on: '+WarrantyPeriod+'."  data-trigger="hover" disabled></center></td>';
                     else
-                        cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true" disabled data-toggle="tooltip" data-placement="top" title="Warranty expired on: '+WarrantyPeriod+'." data-trigger="hover"></center></td>';
+                        cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true" data-toggle="tooltip" data-placement="top" title="This product is within warranty." data-trigger="hover"></center></td>';
 
                     newProductRow.append(cols);
                     tbody.append(newProductRow);

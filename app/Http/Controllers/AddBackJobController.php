@@ -182,20 +182,28 @@ class AddBackJobController extends Controller
         $currentdate = date("Y-m-d H:i:s");
 
         foreach($serviceperformed as $sp){
-            $sp->warrantyperiod = strtotime($joborder->Release_Timestamp."+ ".$sp->warrantyperiod);
-            $sp->warrantyperiod = date("Y-m-d H:i:s", $sp->warrantyperiod);
-            if($currentdate <= $sp->warrantyperiod)
+            if($sp->warrantyperiod == "0 " || $sp->warrantyperiod == 0)
                 $sp->hasWarranty = true;
-            else
-                $sp->hasWarranty = false;
+            else{
+                $sp->warrantyperiod = strtotime($joborder->Release_Timestamp."+ ".$sp->warrantyperiod);
+                $sp->warrantyperiod = date("Y-m-d H:i:s", $sp->warrantyperiod);
+                if($currentdate <= $sp->warrantyperiod)
+                    $sp->hasWarranty = true;
+                else
+                    $sp->hasWarranty = false;
+            }
         }
         foreach($productused as $pu){
-            $pu->warrantyperiod = strtotime($joborder->Release_Timestamp."+ ".$pu->warrantyperiod);
-            $pu->warrantyperiod = date("Y-m-d H:i:s", $pu->warrantyperiod);
-            if($currentdate <= $pu->warrantyperiod)
+            if($pu->warrantyperiod == "0 " || $pu->warrantyperiod == 0)
                 $pu->hasWarranty = true;
-            else
-                $pu->hasWarranty = false;
+            else{
+                $pu->warrantyperiod = strtotime($joborder->Release_Timestamp."+ ".$pu->warrantyperiod);
+                $pu->warrantyperiod = date("Y-m-d H:i:s", $pu->warrantyperiod);
+                if($currentdate <= $pu->warrantyperiod)
+                    $pu->hasWarranty = true;
+                else
+                    $pu->hasWarranty = false;
+            }
         }
         return response()->json(compact('joborder', 'customer', 'automobile', 'serviceperformed', 'productused', 'currentdate'));
     }

@@ -178,7 +178,7 @@ class AddEstimatesController extends Controller
             $products = $request->product;
             $quantity = $request->quantity;
             $untprice = $request->unitprice;
-            $laborcost = $request->totalprice;
+            $laborcost = $request->labor;
             $serviceid= $request->serviceid;
 
             //if (is_array($services) || is_object($services))
@@ -189,7 +189,7 @@ class AddEstimatesController extends Controller
                 ServicePerformed::create([
                         'ServiceID' => $service,
                         'EstimateID' => $estimate->EstimateID,
-                        'LaborCost' => $laborcost[$svckey]
+                        'LaborCost' => (float) $laborcost[$svckey]
                     ]);
                 
                 $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();
