@@ -93,21 +93,21 @@
                                             <td>JO000{{ $backjob->JobOrderID }}</td>
                                             <td>
                                                 <b>Service:</b>
-                                                    <ul>
-                                                        @foreach($services as $service)
-                                                            @if($service->BackJobID==$backjob->BackJobID)
-                                                                <li>{{ $service->ServiceName }}</li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
+                                                <ul>
+                                                    @foreach($services as $service)
+                                                        @if($service->BackJobID==$backjob->BackJobID)
+                                                            <li>{{ $service->ServiceName }}</li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
                                                 <b>Product:</b>
-                                                    <ul>
-                                                        @foreach($products as $product)
-                                                            @if($product->BackJobID==$backjob->BackJobID)
-                                                                <li>{{ $product->BrandName }} {{ $product->ProductName }} - {{ $product->Size }} {{ $product->Unit }}</li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
+                                                <ul>
+                                                    @foreach($products as $product)
+                                                        @if($product->BackJobID==$backjob->BackJobID)
+                                                            <li>{{ $product->BrandName }} {{ $product->ProductName }} - {{ $product->Size }} {{ $product->Unit }}</li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
                                             </td>
                                             <td>
                                                 <?php
