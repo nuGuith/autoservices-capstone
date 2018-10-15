@@ -46,10 +46,24 @@ class VehicleHistoryController extends Controller
             ->where(['JO.isActive'=>1, 'AM.customerid'=>$id])
             ->select('JO.*', 'AM.*')
             ->get();
+
+        $showestimate = DB::table('estimate as es')
+            ->join('automobile as AM', 'AM.automobileid', '=', 'es.automobileid')
+            ->where(['es.isActive'=>1, 'AM.customerid'=>$id])
+            ->select('es.*', 'AM.*')
+            ->get();
+
+        $showbackjob = DB::table('job_order_backjob as bj')
+            ->join('job_order as jo', 'bj.joborderid', '=', 'jo.joborderid')
+            ->join('automobile as am', 'jo.automobileid', '=', 'am.automobileid')
+            ->join('customer as cus', 'am.customerid', '=', 'cus.customerid')
+            ->where(['bj.isActive'=>1, 'cus.customerid'=>$id])
+            ->select('bj.*', 'jo.*', 'am.*', 'cus.*')
+            ->get();
         //dd($automobiles);
 
 
-        return view('customer.viewvehiclehistory', compact('customer', 'automobiles', 'showjoborder'));
+        return view('customer.viewvehiclehistory', compact('customer', 'automobiles', 'showjoborder', 'showestimate', 'showbackjob'));
     }
 
     public function showHistory($id)

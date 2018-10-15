@@ -159,7 +159,7 @@
 
 
             <!-- EDIT MODAL -->
-    <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
+            <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
                     <div class="modal-dialog modal-md">
                         <form id="editForms">
                         <div class="modal-content">

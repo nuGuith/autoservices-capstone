@@ -36,15 +36,15 @@
                     <div class="col-6">
                         <h4 class="m-t-15">
                             <i class="fa fa-info"></i>
-                            &nbsp;Vehicle Information
+                            &nbsp;Vehicle History
                         </h4>
                     </div>
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/vehicleinformation">
+                                <a href="/customerinformation">
                                     <i class="fa fa-info" data-pack="default" data-tags=""></i>
-                                    &nbsp;Vehicle Information
+                                    &nbsp;Customer Information
                                 </a>
                             </li>
                             <li class="active breadcrumb-item">&nbsp;Vehicle History</li>
@@ -142,7 +142,7 @@
                                                         <i class="fa fa-rotate-left text-green"></i>
                                                     </button> -->
                                                     <button class="btn btn-primary adv_cust_mod_btn fadein tipso_bounceIn"
-                                                    data-tipso="Job Orders" data-background=" #6495ED" data-toggle="modal" data-target="#modal-3">
+                                                    data-tipso="Job Orders" data-background=" #6495ED" data-toggle="modal" data-target="#modal-3" data-id="{{$automobile->AutomobileID}}">
                                                     <i class="fa fa-gear"></i>
                                                     </button>
                                                     <button class="btn btn-danger adv_cust_mod_btn fadein tipso_bounceIn"
@@ -202,16 +202,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($showbackjob as $backjob)
                                     <tr role="row" class="even">
+                                        <td class="center">{{$backjob->BackJobID}}</td>
+                                        <td class="center">{{$backjob->JobOrderID}}</td>
                                         <td class="center">
+                                        @foreach($automobiles as $automobile)
+                                            @foreach($showjoborder as $joborder)
+                                                @if($backjob->JobOrderID == $joborder->JobOrderID)
+                                                    @if($joborder->AutomobileID == $automobile->AutomobileID)
+                                                        {{$automobile->PlateNo}}
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                         </td>
-                                        <td class="center">
-                                        </td>
-                                        <td class="center">
-
-                                        </td>
-                                        <td>
-                                        </td>
+                                        <td>{{$backjob->Status}}</td>
                                         <td></td>
                                         <td>  
                                             <div class="examples transitions m-t-5">
@@ -222,6 +228,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                             </div>
@@ -303,21 +310,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($showestimate as $estimate)
                                     <tr role="row" class="even">
                                         <td class="center">
+                                        {{$estimate->created_at}}
                                         </td>
                                         <td class="center">
+                                        {{$estimate->EstimateID}}
                                         </td>
-                                        <td></td>
+                                        <td>
+                                        @foreach($showjoborder as $joborder)
+                                            @if($estimate->EstimateID == $joborder->EstimateID)
+                                                {{$joborder->JobOrderID}}
+                                            @endif
+                                        @endforeach
+                                        </td>
                                         <td>  
                                             <div class="examples transitions m-t-5">
                                                 <!--VIEW BUTTON-->
-                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/updatejoborder/" >
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/viewestimates/{{$estimate->EstimateID}}" >
                                                 <i class="fa fa-eye text-white"></i>
                                                 </a>
                                             </div>
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                             </div>
@@ -385,6 +402,13 @@ $(document).ready(function() {
 } );
 </script>
 
-
+<script>
+$(document).ready(function(){
+    $('modal-3').on('click', '.AutomobileID', function(){
+        document.getElementById("AutomobileID").value = $(this).attr('data-id');
+        console.log($(this).attr('data-id'));
+    });
+});
+</script>
 
 @stop

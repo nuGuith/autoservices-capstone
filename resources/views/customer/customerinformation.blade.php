@@ -90,7 +90,7 @@
                                                     <i class="fa fa-eye text-white"></i>
                                                 </a>
                                                  <!--EDIT BUTTON-->
-                                                <button id="editBtn({!!$customer->CustomerID!!})"class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" onclick="editModal({!!$customer->CustomerID!!})" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal">
+                                                <button id="{{$customer->CustomerID}}" onclick="ret(this.name);"class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" onclick="editModal" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal">
                                                     <i class="fa fa-pencil text-white"></i>
                                                 </button>
                                             </div>
@@ -104,10 +104,10 @@
                     <!-- END EXAMPLE TABLE PORTLET-->
 
                     <!-- START EDIT MODAL -->
-                    {!! Form::open(array('id' => 'editForm', 'url' => 'customerinformation', 'action' => 'CustomerInformation@update', 'method' => 'PUT')) !!}
                     <div class="modal fade in " id="editModal" tabindex="-3" role="dialog" aria-hidden="false">
                         <div class="modal-dialog modal-md">
                             <div class="modal-content">
+                            <form id="editForm">
                                 <div class="modal-header bg-primary">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     <h4 class="modal-title text-white">
@@ -125,7 +125,8 @@
                                                         <span style="color:red">*</span>
                                                     </h5>
                                                     <p>
-                                                        <input id="firstname" name="firstname" type="text" placeholder="First Name" class="form-control m-t-10">
+                                                        <input id = 'cid' hidden>
+                                                        <input id="efirstname" name="firstname" type="text" placeholder="First Name" class="form-control m-t-10">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -133,7 +134,7 @@
                                                         <span style="color:red">*</span>
                                                     </h5>
                                                     <p>
-                                                        <input id="middlename" name="middlename" type="text" placeholder="Middle Name" class="form-control m-t-10">
+                                                        <input id="emiddlename" name="middlename" type="text" placeholder="Middle Name" class="form-control m-t-10">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -141,19 +142,19 @@
                                                         <span style="color: red">*</span>
                                                     </h5>
                                                     <p>
-                                                        <input id="lastname" name="lastname" type="text" placeholder="Last Name" class="form-control m-t-10">
+                                                        <input id="elastname" name="lastname" type="text" placeholder="Last Name" class="form-control m-t-10">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12 ">
                                                     <h5>Contact No: <span style="color:red">*</span></h5>
                                                     <p>
-                                                        <input id="contactno" name="contactno" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask">
+                                                        <input id="econtactno" name="contactno" placeholder="(999) 999-9999"" class="form-control m-t-10" type="text" data-inputmask='"mask": "(999) 999-9999"' data-mask">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12 ">
                                                     <h5>Address: <span style="color:red">*</span></h5>
                                                     <p>
-                                                        <input id="completeaddress" name="completeaddress" type="text" placeholder="Address" class=" form-control m-t-10">
+                                                        <input id="ecompleteaddress" name="completeaddress" type="text" placeholder="Address" class=" form-control m-t-10">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -161,13 +162,13 @@
                                                         <span style="color:red"></span>
                                                     </h5>
                                                     <p>
-                                                        <input id="emailaddress" name="emailaddress" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
+                                                        <input id="eemailaddress" name="emailaddress" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <h5>Senior Citizen/PWD ID: <span style="color: red"></span></h5>
                                                     <p>
-                                                        <input id="pwd_sc_id" name="pwd_sc_id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
+                                                        <input id="epwd_sc_id" name="pwd_sc_id" type="text" placeholder="Senior Citizen/PWD ID" class="form-control m-t-10">
                                                     </p>
                                                 </div>                
                                             </div>
@@ -179,19 +180,14 @@
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
                                     </div>
                                     <div class="examples transitions m-t-5">
-                                        {!!  Form::button('<i class="fa fa-save text-white"></i>&nbsp; Save Changes', [
-                                            'type'=>'submit',
-                                            'class'=>'btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn',
-                                            'data-dismiss'=>'modal',
-                                            'style'=>'width:140px'
-                                            ])
-                                        !!}
-                                    </div>
+                                    <button type="submit" id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    </button>
                                 </div>
+                                </div>
+                            <div>
                             </div>
                         </div>
-                    </div>
-                    {!! Form::close() !!}        
+                    </div>      
                 </div>
             </div>
         </div>
@@ -221,32 +217,51 @@
 <script type="text/javascript" src="js/pages/tooltips.js"></script>
 
 <script>
-    $(window).on('load',function(){
-        @if($errors->update->any())
-            $('#editModal').modal('show');
-        @endif
+$(window).on('load',function(){
+    @if($errors->update->any())
+        $('#editModal').modal('show');
+    @endif
+});
+
+$("editForm").on('click', function(){
+
+    var custID = $('#cid').val();
+    var fname = $('#efirstname').val();
+    var mname = $('#emiddlename').val();
+    var lname = $('#elastname').val();
+    var contact = $('#econtactno').val();
+    var address = $('#ecompleteaddress').val();
+    var email = $('#eemailaddress').val();
+    var pwd_sc = $('#epwd_sc_id').val();
+
+    $.ajax({
+        type:"POST",
+        url:"/editcustomer",
+        data:
+        {
+            CID:custID,
+            FNAME:fname,
+            MNAME:mname,
+            LNAME:lname,
+            CONTACT:contact,
+            ADDRESS:address,
+            EMAIL:email,
+            PWD_SC:pwd_sc,
+            '_token': $('#token').val()
+        },
+        success: function(data)
+            {
+                location.reload();
+            },
+                error: function(xhr)
+                {
+                    alert("Error!");
+                }
     });
+
+});
 </script>
 
-<script>
-    function editModal(id){
-        $.ajax({
-            type: "GET",
-            url: "/customer/"+id+"/edit",
-            dataType: "JSON",
-            success:function(data){
-                $("#firstname").val(data.customer.FirstName);
-                $("#middlename").val(data.customer.MiddleName);
-                $("#lastname").val(data.customer.LastName);
-                $("#contactno").val(data.customer.ContactNo);
-                $("#completeaddress").val(data.customer.CompleteAddress);
-                $("#emailaddress").val(data.customer.EmailAddress);
-                $("#pwd_sc_id").val(data.customer.PWD_SC_ID);
-            }
-        });
-        $('#editModal').modal('show');
-    }
-</script>
 
 
 <!-- global scripts modals-->
