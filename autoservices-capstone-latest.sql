@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2018 at 06:31 PM
+-- Generation Time: Oct 15, 2018 at 08:17 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -73,7 +73,8 @@ INSERT INTO `automobile` (`AutomobileID`, `CustomerID`, `PlateNo`, `ModelID`, `M
 (61, 120, 'WEAAB', 3, 20000, 'A/T', 'Brown', 'KAJG45HHSDJF32', 1, '2018-10-11 19:13:48', '2018-10-11 19:13:48'),
 (62, 124, 'PJ0909', 1, 10000, 'M/T', 'Black', 'JMDKSFIENV1223', 1, '2018-10-13 06:59:38', '2018-10-13 06:59:38'),
 (63, 125, 'PJ0909', 1, 10000, 'M/T', 'Black', 'JMDKSFIENV1223', 1, '2018-10-13 07:00:48', '2018-10-13 07:00:48'),
-(64, 126, 'VANN023', 1, 10000, 'A/T', 'Blue', 'JNCVJKSD12209M', 1, '2018-10-13 07:05:01', '2018-10-13 07:05:01');
+(64, 126, 'VANN023', 1, 10000, 'A/T', 'Blue', 'JNCVJKSD12209M', 1, '2018-10-13 07:05:01', '2018-10-13 07:05:01'),
+(65, 127, 'BTH528', 1, 10000, 'A/T', 'Red', '5KBRL388080015', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06');
 
 -- --------------------------------------------------------
 
@@ -232,7 +233,8 @@ INSERT INTO `customer` (`CustomerID`, `FirstName`, `MiddleName`, `LastName`, `Co
 (120, 'Dodge Samuel ', 'Nerizon ', 'Culaniban', '(0916) 000-0021', NULL, 'Brgy. Sto. Tomas, Pasig City', NULL, NULL, NULL, 'dodgekun@gmail.com', 1, '2018-10-11 19:13:48', '2018-10-11 19:13:48'),
 (124, 'Patrick Joseph ', 'Pasion ', 'Concepcion', '(0990) 583-4532', NULL, 'Marikina City', NULL, NULL, NULL, NULL, 1, '2018-10-13 06:59:38', '2018-10-13 06:59:38'),
 (125, 'Patrick Joseph ', 'Pasion ', 'Concepcion', '(0990) 583-4532', NULL, 'Marikina City', NULL, NULL, NULL, NULL, 1, '2018-10-13 07:00:48', '2018-10-13 07:00:48'),
-(126, 'Ivann Ashley ', 'Reyes ', 'Nuguid', '(0910) 432-7718', NULL, 'Napindan, Taguig City', NULL, NULL, NULL, 'nuguidivannxx@gmail.com', 1, '2018-10-13 07:05:01', '2018-10-13 07:05:01');
+(126, 'Ivann Ashley ', 'Reyes ', 'Nuguid', '(0910) 432-7718', NULL, 'Napindan, Taguig City', NULL, NULL, NULL, 'nuguidivannxx@gmail.com', 1, '2018-10-13 07:05:01', '2018-10-13 07:05:01'),
+(127, 'Elizabeth ', 'Reyes ', 'Nuguid', '(0930) 057-5425', NULL, 'Napindan, Taguig City', NULL, NULL, NULL, 'beth.nuguid22@gmail.com', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06');
 
 -- --------------------------------------------------------
 
@@ -525,24 +527,25 @@ INSERT INTO `job_order` (`JobOrderID`, `EstimateID`, `AutomobileID`, `Inspection
 (16, 8, 3, NULL, NULL, 1, 1, NULL, NULL, 1, '', NULL, NULL, NULL, NULL, '2018-08-14 23:39:45', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 15:39:45'),
 (20, 2, 4, NULL, NULL, 1, 1, 1, 1, 1, '', NULL, NULL, NULL, NULL, '2018-08-14 23:59:22', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 15:59:22'),
 (22, 9, 5, NULL, NULL, 1, 1, 1, 1, 1, '', NULL, NULL, NULL, NULL, '2018-08-15 01:53:27', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-14 17:53:27'),
-(23, 94, 15, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', '2018-09-30 05:12:27', NULL, NULL, NULL, '2018-08-24 03:50:56', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-08-23 19:50:56'),
-(25, 42, 25, NULL, NULL, 3, NULL, NULL, NULL, 1, 'Ongoing', '2018-10-01 09:54:55', NULL, NULL, NULL, '2018-09-16 06:54:28', '2018-10-11 14:34:50', NULL, NULL, '499.00', 0, 1, '2018-10-11 14:34:50', '2018-09-15 22:54:28'),
+(23, 94, 15, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', '2018-09-30 05:12:27', NULL, NULL, NULL, '2018-08-24 03:50:56', '2018-10-14 11:00:36', NULL, NULL, '499.00', 0, 1, '2018-10-14 11:00:36', '2018-08-23 19:50:56'),
+(25, 42, 25, NULL, NULL, 3, NULL, NULL, NULL, 1, 'Ongoing', '2018-10-01 09:54:55', NULL, NULL, NULL, '2018-09-16 06:54:28', '2018-10-14 11:13:12', NULL, NULL, '499.00', 0, 1, '2018-10-14 11:13:12', '2018-09-15 22:54:28'),
 (26, 25, 12, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-01 14:20:15', '2018-10-11 14:34:50', NULL, '51200.75', '0.00', 0, 1, '2018-10-11 14:34:50', '2018-10-01 06:20:15'),
-(31, 106, 22, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-04 06:16:29', NULL, NULL, NULL, '2018-10-01 15:07:44', '2018-10-11 14:34:50', NULL, '2625.00', '875.00', 0, 1, '2018-10-11 14:34:50', '2018-10-01 07:07:44'),
+(31, 106, 22, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-04 06:16:29', NULL, NULL, NULL, '2018-10-01 15:07:44', '2018-10-14 01:37:53', NULL, '2625.00', '875.00', 1, 1, '2018-10-14 01:37:53', '2018-10-01 07:07:44'),
 (45, 111, 39, NULL, NULL, 1, NULL, NULL, 2, 1, 'Pending', '2018-10-04 07:29:27', NULL, NULL, NULL, '2018-10-04 07:21:18', '2018-10-11 14:34:50', NULL, '38160.00', '9540.00', 0, 1, '2018-10-11 14:34:50', '2018-10-03 23:21:18'),
 (48, 109, 42, NULL, NULL, 3, NULL, NULL, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 09:02:03', '2018-10-11 14:34:50', NULL, '52560.00', '13140.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 01:02:03'),
 (49, 110, 26, NULL, NULL, 2, NULL, NULL, 2, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 10:26:48', '2018-10-11 14:34:50', NULL, '36700.00', '24960.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:26:48'),
-(50, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:41:09', '2018-10-11 14:34:50', NULL, '56400.75', '40960.60', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:41:09'),
+(50, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 10:41:09', '2018-10-14 11:19:00', NULL, '56400.75', '40960.60', 0, 1, '2018-10-14 11:19:00', '2018-10-04 02:41:09'),
 (51, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:46:49', '2018-10-11 14:34:50', NULL, '51200.75', '0.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:46:49'),
 (52, 1, 2, NULL, NULL, 3, 1, 1, 1, 1, 'Ongoing', NULL, NULL, NULL, NULL, '2018-10-04 10:56:01', '2018-10-11 14:34:50', NULL, '27150.00', '27150.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 02:56:01'),
 (54, NULL, 44, NULL, NULL, 1, NULL, NULL, 4, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 13:49:44', '2018-10-11 14:34:50', NULL, '44100.52', '44100.52', 0, 1, '2018-10-11 14:34:50', '2018-10-04 05:49:44'),
 (55, NULL, 45, NULL, NULL, 2, NULL, NULL, 4, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-04 13:58:22', '2018-10-11 14:34:50', NULL, '34400.00', '24080.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 05:58:22'),
-(70, 112, 60, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-05 06:30:27', NULL, NULL, NULL, '2018-10-05 06:28:40', '2018-10-11 14:34:50', NULL, '38500.00', '28875.00', 0, 1, '2018-10-11 14:34:50', '2018-10-04 22:28:40'),
+(70, 112, 60, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-05 06:30:27', NULL, NULL, NULL, '2018-10-05 06:28:40', '2018-10-14 01:38:04', NULL, '38500.00', '28875.00', 1, 1, '2018-10-14 01:38:04', '2018-10-04 22:28:40'),
 (84, NULL, 44, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-07 13:33:56', '2018-10-11 14:34:50', NULL, '54699.75', '54699.75', 0, 1, '2018-10-11 14:34:50', '2018-10-07 05:33:56'),
 (85, 113, 61, NULL, NULL, 2, NULL, NULL, 3, 1, 'Finished', '2018-10-12 03:29:19', NULL, NULL, NULL, '2018-10-12 03:13:48', '2018-10-12 03:30:36', NULL, '44500.00', '33375.00', 0, 1, '2018-10-12 03:30:36', '2018-10-11 19:13:48'),
 (87, 105, 62, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-13 14:59:38', '2018-10-13 14:59:38', NULL, '52800.75', '52800.75', 0, 1, '2018-10-13 06:59:38', '2018-10-13 06:59:38'),
 (88, 105, 63, NULL, NULL, 2, NULL, NULL, NULL, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-13 15:00:48', '2018-10-13 15:01:28', NULL, '53300.75', '53300.75', 0, 1, '2018-10-13 07:01:28', '2018-10-13 07:00:48'),
-(89, NULL, 64, NULL, NULL, 1, NULL, NULL, 3, 1, 'Pending', '2018-10-13 15:05:24', NULL, NULL, NULL, '2018-10-13 15:05:01', '2018-10-13 15:05:24', NULL, '11499.00', '8624.25', 0, 1, '2018-10-13 15:05:24', '2018-10-13 07:05:01');
+(89, NULL, 64, NULL, NULL, 1, NULL, NULL, 3, 1, 'Finished', '2018-10-14 15:33:11', NULL, NULL, NULL, '2018-10-13 15:05:01', '2018-07-14 16:00:00', NULL, '11499.00', '8624.25', 1, 1, '2018-10-14 17:57:38', '2018-10-13 07:05:01'),
+(90, NULL, 65, NULL, NULL, 3, NULL, NULL, 3, 1, 'Pending', NULL, NULL, NULL, NULL, '2018-10-14 12:51:06', '2018-10-14 12:51:06', NULL, '6999.00', '5249.25', 0, 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06');
 
 -- --------------------------------------------------------
 
@@ -664,6 +667,7 @@ CREATE TABLE `package_header` (
   `Price` decimal(14,2) NOT NULL,
   `WarrantyDuration` int(3) DEFAULT NULL,
   `WarrantyDurationMode` varchar(5) DEFAULT NULL,
+  `WarrantyMileage` int(5) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -673,8 +677,8 @@ CREATE TABLE `package_header` (
 -- Dumping data for table `package_header`
 --
 
-INSERT INTO `package_header` (`PackageID`, `PackageName`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Summer Package', '999.00', 3, 'weeks', 1, '0000-00-00 00:00:00', '2018-08-10 01:55:14');
+INSERT INTO `package_header` (`PackageID`, `PackageName`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `WarrantyMileage`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Summer Package', '999.00', 3, 'weeks', NULL, 1, '0000-00-00 00:00:00', '2018-08-10 01:55:14');
 
 -- --------------------------------------------------------
 
@@ -816,7 +820,9 @@ INSERT INTO `personnel_job_performed` (`PersonnelPerformedID`, `JobOrderID`, `Pe
 (50, 87, 5, 1, '2018-10-13 06:59:38', '2018-10-13 06:59:38'),
 (51, 88, 1, 1, '2018-10-13 07:00:48', '2018-10-13 07:00:48'),
 (52, 89, 5, 1, '2018-10-13 07:05:01', '2018-10-13 07:05:01'),
-(53, 89, 5, 1, '2018-10-13 07:05:02', '2018-10-13 07:05:02');
+(53, 89, 5, 1, '2018-10-13 07:05:02', '2018-10-13 07:05:02'),
+(54, 90, 5, 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06'),
+(55, 90, 5, 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06');
 
 -- --------------------------------------------------------
 
@@ -928,7 +934,8 @@ CREATE TABLE `product` (
   `Price` decimal(14,2) NOT NULL,
   `Size` int(4) NOT NULL,
   `WarrantyDuration` int(3) DEFAULT NULL,
-  `WarrantyDurationMode` varchar(5) DEFAULT NULL,
+  `WarrantyDurationMode` varchar(6) DEFAULT NULL,
+  `WarrantyMileage` int(5) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -938,13 +945,14 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`ProductID`, `ProductTypeID`, `ProductBrandID`, `ProductUnitTypeID`, `ProductName`, `Description`, `Price`, `Size`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 1, 1, 'Semi Synthetic Oil', NULL, '500.00', 1, NULL, NULL, 1, '2018-07-31 15:13:49', '0000-00-00 00:00:00'),
-(2, 2, 2, 2, 'Scotch\'s Electrical Tape', NULL, '150.00', 1, NULL, NULL, 0, '2018-10-04 17:51:03', '0000-00-00 00:00:00'),
-(3, 13, 5, 3, 'Piston', NULL, '700.00', 1, NULL, NULL, 1, '2018-10-04 17:50:53', '2018-08-13 09:18:38'),
-(4, 15, 3, 3, 'Crank Rods', NULL, '500.00', 1, NULL, NULL, 1, '2018-10-04 17:50:58', '2018-08-13 09:18:38'),
-(5, 4, 4, 3, 'Piston', NULL, '499.00', 1, NULL, NULL, 1, '2018-08-28 04:06:59', '2018-08-28 04:06:59'),
-(6, 17, 8, 3, 'Leather Cleaner and Protectant', NULL, '2000.00', 1, NULL, NULL, 1, '2018-10-04 18:27:23', '2018-10-04 18:27:23');
+INSERT INTO `product` (`ProductID`, `ProductTypeID`, `ProductBrandID`, `ProductUnitTypeID`, `ProductName`, `Description`, `Price`, `Size`, `WarrantyDuration`, `WarrantyDurationMode`, `WarrantyMileage`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 1, 1, 'Semi Synthetic Oil', NULL, '500.00', 1, 3, 'months', 3000, 1, '2018-10-14 16:44:29', '0000-00-00 00:00:00'),
+(2, 2, 2, 2, 'Scotch\'s Electrical Tape', NULL, '150.00', 1, NULL, NULL, NULL, 0, '2018-10-04 17:51:03', '0000-00-00 00:00:00'),
+(3, 13, 5, 3, 'Piston', NULL, '700.00', 1, 0, NULL, NULL, 1, '2018-10-14 16:37:44', '2018-08-13 09:18:38'),
+(4, 15, 3, 3, 'Crank Rods', NULL, '500.00', 1, 0, NULL, NULL, 1, '2018-10-14 16:38:01', '2018-08-13 09:18:38'),
+(5, 4, 4, 3, 'Piston', NULL, '499.00', 1, 0, NULL, NULL, 1, '2018-10-14 16:37:58', '2018-08-28 04:06:59'),
+(6, 17, 8, 3, 'Leather Cleaner and Protectant', NULL, '2000.00', 1, 4, 'weeks', NULL, 1, '2018-10-14 16:38:17', '2018-10-04 18:27:23'),
+(7, 18, 6, 3, 'Oil Filter', NULL, '700.00', 1, 3, 'months', 3000, 1, '2018-10-15 00:11:38', '2018-10-15 00:11:38');
 
 -- --------------------------------------------------------
 
@@ -1082,7 +1090,8 @@ INSERT INTO `product_service` (`ProductServiceID`, `ProductID`, `ServiceID`, `is
 (3, 1, 2, b'1', '0000-00-00 00:00:00', '2018-08-13 10:33:12'),
 (4, 6, 4, b'1', '2018-10-04 18:27:40', '2018-08-28 12:10:36'),
 (5, 1, 4, b'1', '2018-10-04 18:18:24', '2018-08-28 12:10:50'),
-(6, 1, 2, b'1', '2018-10-04 18:18:26', '2018-08-28 12:11:07');
+(6, 1, 2, b'1', '2018-10-04 18:18:26', '2018-08-28 12:11:07'),
+(7, 7, 2, b'1', '2018-10-15 00:12:16', '2018-10-15 00:12:16');
 
 -- --------------------------------------------------------
 
@@ -1120,7 +1129,8 @@ INSERT INTO `product_type` (`ProductTypeID`, `ProductCategoryID`, `ProductTypeNa
 (14, 1, 'Camshafts', 1, '0000-00-00 00:00:00', '2018-08-13 08:40:45'),
 (15, 1, 'Crank Rods', 1, '0000-00-00 00:00:00', '2018-08-13 08:40:45'),
 (16, 5, 'Oil', 1, '2018-08-28 04:03:16', '2018-08-28 04:03:16'),
-(17, 15, 'Protectant', 1, '2018-10-04 18:26:26', '2018-10-04 18:26:26');
+(17, 15, 'Protectant', 1, '2018-10-04 18:26:26', '2018-10-04 18:26:26'),
+(18, 1, 'Oil Filter', 1, '2018-10-15 00:09:44', '2018-10-15 00:09:44');
 
 -- --------------------------------------------------------
 
@@ -1254,9 +1264,12 @@ INSERT INTO `product_used` (`ProductUsedID`, `JobOrderID`, `EstimateID`, `SalesI
 (122, 84, NULL, NULL, 98, 1, 1, 0, '2018-10-07', '0.00', b'0', 1, '2018-10-07 05:33:57', '2018-10-07 05:33:57'),
 (123, 85, 113, NULL, 99, 3, 5, 5, '2018-10-12', '3500.00', b'0', 1, '2018-10-12 03:30:03', '2018-10-11 19:04:58'),
 (124, 85, 113, NULL, 99, 4, 12, 6, '2018-10-12', '6000.00', b'0', 1, '2018-10-12 03:30:03', '2018-10-11 19:04:58'),
-(125, 89, NULL, NULL, 100, 6, 3, 3, '2018-10-13', '6000.00', b'0', 1, '2018-10-13 15:13:37', '2018-10-13 07:05:01'),
-(126, 89, NULL, NULL, 100, 1, 2, 0, '2018-10-13', '1000.00', b'0', 1, '2018-10-13 07:05:02', '2018-10-13 07:05:02'),
-(127, 89, NULL, NULL, 101, 1, 1, 0, '2018-10-13', '500.00', b'0', 1, '2018-10-13 07:05:02', '2018-10-13 07:05:02');
+(125, 89, NULL, NULL, 100, 6, 3, 3, '2018-10-13', '6000.00', b'0', 1, '2018-10-14 15:33:26', '2018-10-13 07:05:01'),
+(126, 89, NULL, NULL, 100, 1, 2, 1, '2018-10-13', '1000.00', b'0', 1, '2018-10-14 15:33:26', '2018-10-13 07:05:02'),
+(127, 89, NULL, NULL, 101, 1, 1, 1, '2018-10-13', '500.00', b'0', 1, '2018-10-14 15:33:37', '2018-10-13 07:05:02'),
+(128, 90, NULL, NULL, 102, 1, 1, 0, '2018-10-14', '500.00', b'0', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06'),
+(129, 90, NULL, NULL, 103, 6, 1, 0, '2018-10-14', '2000.00', b'0', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06'),
+(130, 90, NULL, NULL, 103, 1, 1, 0, '2018-10-14', '500.00', b'0', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06');
 
 -- --------------------------------------------------------
 
@@ -1350,6 +1363,7 @@ CREATE TABLE `promo_header` (
   `Price` decimal(14,2) NOT NULL,
   `WarrantyDuration` int(3) DEFAULT NULL,
   `WarrantyDurationMode` varchar(5) DEFAULT NULL,
+  `WarrantyMileage` int(5) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -1359,8 +1373,8 @@ CREATE TABLE `promo_header` (
 -- Dumping data for table `promo_header`
 --
 
-INSERT INTO `promo_header` (`PromoID`, `PromoName`, `StartDate`, `EndDate`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 'Summer Promo', '2018-08-01', '2018-08-21', '999.00', 3, 'weeks', 1, '2018-10-04 14:01:56', '2018-08-10 01:55:14');
+INSERT INTO `promo_header` (`PromoID`, `PromoName`, `StartDate`, `EndDate`, `Price`, `WarrantyDuration`, `WarrantyDurationMode`, `WarrantyMileage`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 'Summer Promo', '2018-08-01', '2018-08-21', '999.00', 3, 'weeks', NULL, 1, '2018-10-04 14:01:56', '2018-08-10 01:55:14');
 
 -- --------------------------------------------------------
 
@@ -1378,6 +1392,14 @@ CREATE TABLE `promo_product_inclusions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `promo_product_inclusions`
+--
+
+INSERT INTO `promo_product_inclusions` (`PromoID`, `ProductID`, `Quantity`, `isFree`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 1, 2, b'0', 1, '2018-10-14 23:57:45', '2018-10-14 23:57:45'),
+(1, 7, 1, b'0', 1, '2018-10-15 01:46:07', '2018-10-15 01:46:07');
+
 -- --------------------------------------------------------
 
 --
@@ -1391,6 +1413,13 @@ CREATE TABLE `promo_service_inclusions` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `promo_service_inclusions`
+--
+
+INSERT INTO `promo_service_inclusions` (`PromoID`, `ServiceID`, `isActive`, `updated_at`, `created_at`) VALUES
+(1, 2, 1, '2018-10-14 23:48:12', '2018-10-14 23:48:12');
 
 -- --------------------------------------------------------
 
@@ -1425,7 +1454,7 @@ CREATE TABLE `service` (
   `InitialPrice` decimal(14,2) NOT NULL,
   `Quantity` int(3) NOT NULL,
   `WarrantyDuration` int(3) DEFAULT NULL,
-  `WarrantyDurationMode` varchar(5) DEFAULT NULL,
+  `WarrantyDurationMode` varchar(6) DEFAULT NULL,
   `WarrantyMileage` int(5) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1437,10 +1466,10 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`ServiceID`, `ServiceCategoryID`, `ServiceName`, `SizeType`, `Class`, `EstimatedTime`, `InitialPrice`, `Quantity`, `WarrantyDuration`, `WarrantyDurationMode`, `WarrantyMileage`, `isActive`, `updated_at`, `created_at`) VALUES
-(1, 1, 'Engine Overhaul', '', '', 360, '2500.00', 0, NULL, NULL, NULL, 1, '2018-08-09 17:59:00', '2018-08-09 17:59:00'),
-(2, 3, 'Change Oil', NULL, NULL, 90, '250.00', 4, NULL, NULL, NULL, 1, '0000-00-00 00:00:00', '2018-08-13 10:32:49'),
+(1, 1, 'Engine Overhaul', NULL, NULL, 360, '2500.00', 0, 12, 'months', 12000, 1, '2018-10-14 16:34:29', '2018-08-09 17:59:00'),
+(2, 3, 'Change Oil', NULL, NULL, 90, '250.00', 4, 3, 'months', 3000, 1, '2018-10-14 16:33:13', '2018-08-13 10:32:49'),
 (3, 2, 'Carwash', NULL, NULL, 10, '100.00', 0, NULL, NULL, NULL, 1, '2018-08-19 08:54:54', '2018-08-17 06:41:42'),
-(4, 2, 'Interior Detailing', NULL, NULL, 200, '1300.00', 0, NULL, NULL, NULL, 1, '0000-00-00 00:00:00', '2018-08-17 06:41:42'),
+(4, 2, 'Interior Detailing', NULL, NULL, 200, '1300.00', 0, 3, 'weeks', NULL, 1, '2018-10-14 16:34:42', '2018-08-17 06:41:42'),
 (5, 2, 'Exterior Detailing', NULL, NULL, 200, '1200.00', 0, NULL, NULL, NULL, 1, '0000-00-00 00:00:00', '2018-08-17 06:41:42'),
 (6, 1, 'Underchassis', NULL, NULL, 180, '5000.00', 0, NULL, NULL, NULL, 1, '2018-08-17 06:42:19', '2018-08-17 06:41:42');
 
@@ -1607,8 +1636,10 @@ INSERT INTO `service_performed` (`ServicePerformedID`, `ServiceID`, `JobOrderID`
 (97, 1, 84, NULL, 47, 0, NULL, NULL, '50000.75', b'1', 1, '2018-10-07 05:33:57', '2018-10-07 05:33:57'),
 (98, 4, 84, NULL, 48, 0, NULL, NULL, '999.00', b'1', 1, '2018-10-07 05:33:57', '2018-10-07 05:33:57'),
 (99, 1, 85, 113, 49, 7, '2018-10-11 19:29:38', '2018-10-12 03:30:33', '35000.00', b'1', 1, '2018-10-12 03:30:34', '2018-10-11 19:04:58'),
-(100, 4, 89, NULL, 52, 0, '2018-10-13 07:05:27', NULL, '999.00', b'1', 1, '2018-10-13 15:05:27', '2018-10-13 07:05:01'),
-(101, 2, 89, NULL, 53, 0, NULL, NULL, '3000.00', b'1', 1, '2018-10-13 07:05:02', '2018-10-13 07:05:02');
+(100, 4, 89, NULL, 52, 2, '2018-10-14 07:33:14', '2018-10-14 15:33:26', '999.00', b'1', 1, '2018-10-14 15:33:26', '2018-10-13 07:05:01'),
+(101, 2, 89, NULL, 53, 5, '2018-10-14 07:33:29', '2018-10-14 15:33:37', '3000.00', b'1', 1, '2018-10-14 15:33:37', '2018-10-13 07:05:02'),
+(102, 2, 90, NULL, 54, 0, NULL, NULL, '3000.00', b'1', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06'),
+(103, 4, 90, NULL, 55, 0, NULL, NULL, '999.00', b'1', 1, '2018-10-14 04:51:06', '2018-10-14 04:51:06');
 
 -- --------------------------------------------------------
 
@@ -2218,7 +2249,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `automobile`
 --
 ALTER TABLE `automobile`
-  MODIFY `AutomobileID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `AutomobileID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `automobile_make`
@@ -2248,7 +2279,7 @@ ALTER TABLE `complaint`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `CustomerID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `discount`
@@ -2290,7 +2321,7 @@ ALTER TABLE `job_description`
 -- AUTO_INCREMENT for table `job_order`
 --
 ALTER TABLE `job_order`
-  MODIFY `JobOrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `JobOrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `job_order_backjob`
@@ -2350,7 +2381,7 @@ ALTER TABLE `personnel_job`
 -- AUTO_INCREMENT for table `personnel_job_performed`
 --
 ALTER TABLE `personnel_job_performed`
-  MODIFY `PersonnelPerformedID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `PersonnelPerformedID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `personnel_skill`
@@ -2368,7 +2399,7 @@ ALTER TABLE `process`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_backjob`
@@ -2398,13 +2429,13 @@ ALTER TABLE `product_damaged`
 -- AUTO_INCREMENT for table `product_service`
 --
 ALTER TABLE `product_service`
-  MODIFY `ProductServiceID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ProductServiceID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_type`
 --
 ALTER TABLE `product_type`
-  MODIFY `ProductTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ProductTypeID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `product_unit_type`
@@ -2416,7 +2447,7 @@ ALTER TABLE `product_unit_type`
 -- AUTO_INCREMENT for table `product_used`
 --
 ALTER TABLE `product_used`
-  MODIFY `ProductUsedID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `ProductUsedID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `promo_backjob`
@@ -2434,7 +2465,7 @@ ALTER TABLE `promo_freeitems`
 -- AUTO_INCREMENT for table `promo_header`
 --
 ALTER TABLE `promo_header`
-  MODIFY `PromoID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `PromoID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sales`
@@ -2470,7 +2501,7 @@ ALTER TABLE `service_category`
 -- AUTO_INCREMENT for table `service_performed`
 --
 ALTER TABLE `service_performed`
-  MODIFY `ServicePerformedID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `ServicePerformedID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `service_price`
