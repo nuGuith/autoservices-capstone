@@ -30,7 +30,6 @@ class PackageController extends Controller
      $pr = DB::table('package_product_inclusions')
       ->leftjoin('product', 'package_product_inclusions.ProductID','=','product.ProductID')
       ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
-      ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
       ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
       // ->where('product.isActive',1)             
       ->get();

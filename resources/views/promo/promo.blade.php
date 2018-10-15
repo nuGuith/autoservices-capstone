@@ -24,6 +24,7 @@
         input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+<<<<<<< HEAD
         },
         
         #promoform{
@@ -33,6 +34,13 @@
             transform: translate(-50%, -50%)
         }
     </style>
+=======
+        }
+    </style> 
+
+        <!-- CONTENT -->
+        <div id="content" class="bg-container">
+>>>>>>> guesshee-backup
 
     <!-- CONTENT -->
     <div id="content" class="bg-container">
@@ -77,6 +85,7 @@
                                 <div class="btn-group float-right users_grid_tools">
                                         <div class="tools"></div>
                                 </div>
+<<<<<<< HEAD
                             </div>
                         </div>
                         <div>
@@ -120,6 +129,66 @@
                                                                 <li>{{$fre->ItemName}}  - {{$fre->Description}}</li>
                                                             @endif
                                                         @endforeach 
+=======
+                            <div>
+                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                                            <thead>
+                                                <tr role="row">
+                                                    
+                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 18%;"><b>Promo</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Product and Services</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Free</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 10%;"><b>Price</b></th>
+                                                    <th style="width: 15%;" class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" ><b>Actions</b></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($pack as $cb)
+                                                @if($cb->isActive == 1)
+                                                <tr role="row" class="even">
+                                                    <!-- <td hidden>{{$cb->PromoID}}</td> -->
+                                                    <td>{{$cb->PromoName}}</td>
+                                                    
+                                                    <td class="center">
+                                                        <b>Products:</b>
+                                                        <ul>
+                                                             @foreach($pr as $prod)
+
+                                                              @if($prod->PromoID == $cb->PromoID)
+
+                                                             <li>{{$prod->ProductName}} - 
+                                                             {{$prod->Size}} {{$prod->Unit}} - {{$prod->Quantity}}pc(s)</li>
+
+                                                              @endif
+
+                                                             @endforeach 
+                                                        </ul>
+
+                                                        <b>Services:</b>
+                                                        <ul>
+                                                            @foreach($sr as $ser)
+
+                                                              @if($ser->PromoID == $cb->PromoID)
+
+                                                             <li>{{$ser->ServiceName}}</li>
+
+                                                              @endif
+
+                                                             @endforeach   
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                    <ul style="padding-left: 1.2em;">
+                                                         @foreach($fr as $fre)
+
+                                                              @if($fre->PromoID == $cb->PromoID)
+
+                                                             <li>{{$fre->ItemName}}  - {{$fre->Description}}</li>
+
+                                                              @endif
+
+                                                             @endforeach 
+>>>>>>> guesshee-backup
                                                     </ul>
                                                 </td>
                                                 <td>
@@ -165,6 +234,7 @@
     <!-- EDIT MODAL -->
     <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
         <form id="promoForm">
+<<<<<<< HEAD
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" style="width: 980px;">
                     <div class="modal-header bg-primary">
@@ -174,6 +244,15 @@
                             &nbsp;Edit Promo
                         </h4>
                     </div>
+=======
+                    <div class="modal-dialog modal-lg" style="margin-left: 180px ">
+                        <div class="modal-content" style="width: 980px;">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Edit Promo</h4>
+                            </div>
+>>>>>>> guesshee-backup
                     <div class="modal-body">
                         <h4>&nbsp;&nbsp;Promo Information:</h4>
                         <div class ="col-md-12">
@@ -245,6 +324,7 @@
                                         </div>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                             </div>
                             <!--PROMO DETAILS-->
                             <div class="col-lg-6 m-t-10">
@@ -378,6 +458,107 @@
                                 </div>
                             </div>
                             <!--END PROMO DETAILS-->
+=======
+    
+    <div class="card-block">
+    <div class="tab-content m-t-15">
+
+        <!--PRODUCT TAB-->  
+        <div class="tab-pane active" id="tab1">
+
+            <table class="table  table-bordered table-hover table-advance dataTable no-footer" id="producttab1" role="grid">                                       
+                    <tr style="background-color: #f5f5f5">
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th><b>Price</b></th>
+                        <th style="width: 5%;">Select</th>
+                    </tr>
+                   
+            </table>
+
+             <div class="tab tab-btn">
+                 <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "left: 360px;" onclick="prodtab1_To_tab2();"><i class="fa fa-arrow-right" ></i></button>
+            </div>
+        </div>
+        <!--END PRODUCT TAB--> 
+                                                        
+
+        <!--SERVICE TAB--> 
+        <div class="tab-pane" id="tab2">
+
+            <table class="table table-bordered table-hover table-advance dataTable no-footer" id="servicetab1" role="grid">                         
+                    <tr style="background-color: #f5f5f5">
+                        <th>#</th>
+                        <th>Service</th>
+                        <th>Category</th>
+                      <th><b>Price</b></th>
+                        <th style="width: 5%;">Select</th>
+                    </tr>
+                    
+
+            </table>
+ 
+            <div class="tab tab-btn">
+                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = " left: 360px;" onclick="servicetab1_To_tab2();"><i class="fa fa-arrow-right" ></i></button>
+            </div>
+        </div>
+        <!--END SERVICE TAB--> 
+        
+
+        <!--FREE ITEM TAB--> 
+        <div class="tab-pane" id="tab3">
+
+            <table class="table table-bordered table-hover table-advance dataTable no-footer" id="itemtab1" role="grid">                         
+                    <tr style="background-color: #f5f5f5">
+                        <th>#</th>
+                        <th>Free Items</th>
+                        <th>Description</th>
+                        <th style="width: 5%;">Select</th>
+                    </tr>
+                    
+
+            </table>
+ 
+            <div class="tab tab-btn">
+                <button class="btn btn-info hvr-float-shadow adv_cust_mod_btn m-t-5" style = "left: 360px;" onclick="itemtab1_To_tab2();"><i class="fa fa-arrow-right" ></i></button>
+            </div>
+        </div>
+        <!--END FREE ITEM TAB--> 
+                                                       
+    
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!--PROMO DETAILS-->
+    <div class="col-lg-6 m-t-10">
+        
+        <div class="card">
+            <div class="card-header bg-black">
+                Promo Details
+            </div>
+        
+            <div class="card-block">
+            <div class="tab">
+                
+                <div class="row">
+                    <div class="col-md-7 m-t-15">
+                        <div class="form-group">
+                        <h5 style = "">Promo:</h5>
+                             <input id="eid" hidden>
+                            <input id="promoname" name="promoname" type="text" placeholder="Promo Name" class="form-control  m-t-5"  >
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-5 m-t-15">
+                        <h5 style = "">Computed Price:</h5>
+                        <div class="input-group m-t-5" style = "width: 139px;" >
+                            <input id="computePrice" type="number" class="form-control" disabled="disabled" placeholder ="Php." style="text-align: right">
+                            <!-- <span class="input-group-addon">.00</span> -->
+>>>>>>> guesshee-backup
                         </div>
                     </div>
                 </div><br>
@@ -408,6 +589,7 @@
                         &nbsp;&nbsp;Delete this record?
                     </h4>
                 </div>
+<<<<<<< HEAD
                 <div class="modal-body">
                     <div class="col m-t-15">
                         <h5>Are you sure you want to delete this record?</h5>
@@ -420,6 +602,76 @@
                     </div>
                     <div class="examples transitions m-t-5">
                         <button id = "delete" class ='btn btn-danger source confirm m-l-10 adv_cust_mod_btn' data-dismiss='modal'><i class="fa fa-trash"></i>&nbsp;OK </button>
+=======
+            </div>
+             <!--End Promo Details Free Item Table-->
+
+
+
+                <div class="row lter form_elements_datepicker" id="dateRangePickerBlock">
+                    <div class="form-group col-md-12 m-t-5">
+                        <h5 style = "">Date Range:</h5>
+                    <!-- <form> -->
+                         <div class="input-group">
+                            
+                             <input type="text" class="form-control m-t-5" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy" required>
+                             <span class="input-group-addon m-t-5">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    <!-- </form> -->
+                    </div>
+                </div>
+
+            <!-- <div class="col-md-5 m-t-5">
+            <h5 style = "">Stock Range:</h5>
+                <div class="input-group m-t-5" style = "width: 139px;">
+                    <span class="input-group-addon"><i class="fa fa-bar-chart-o"></i></i></span>
+                    <input type="text" class="form-control">
+                </div>
+            </div> -->
+
+
+            <div class="row">
+                    <div class="col-md-7 m-t-10">
+                        <h5>Warranty: <span style="color: red"></span></h5>
+                        <div class="form-group">
+                            <input type="number" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" style = "width: 210px;"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 m-t-10">
+                        <div class="m-t-25">
+                        </div>
+                        <div class="form-group">
+                            <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
+                                <option selected disabled>Please Choose</option>
+                                <option value="Days">Day(s)</option>
+                                <option value="Weeks">Week(s)</option>
+                                <option value="Months">Month(s)</option>
+                                <option value="Years">Year(s)</option>
+                            </select>
+                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
+                        
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+                                 
+            <div class="card-footer bg-black">
+                <div class="input-group">
+
+                    <div class="col-md-9 m-t-0">
+                    
+                        <div class="input-group" >
+                            <h5 style = "width: 150px;"class="m-t-10">Promo Price:</h5>
+                            <div class="form-group">
+                            
+                            <input id = "promoprice" type="number" name="price" step="0.01" min="0" class="form-control" style = "width: 180px;" placeholder ="Php";>
+                            </div>
+                        </div>
+>>>>>>> guesshee-backup
                     </div>
                 </div>
             </div>
@@ -427,6 +679,66 @@
     </div>
 
 
+<<<<<<< HEAD
+=======
+                            </div>
+                        </div>
+                    </div>
+                     <br>
+
+                                    <input type="hidden" id="token" value="{{ csrf_token() }}">
+                            <!--Button: Close and Save Changes -->
+                            <div class="modal-footer">
+                              <div class="examples transitions m-t-5">
+                                <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                              </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id='editform' type="submit" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            <!--END OF EDIT MODAL -->
+
+
+            <div class="modal fade in " id="deleteModal" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-trash"></i>
+                                            &nbsp;&nbsp;Delete this record?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Are you sure do you want to delete this record?</h5>
+                                    <input id="deleteId" name="deleteId" type="hidden">
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id = "delete" class ='btn btn-danger source confirm m-l-10 adv_cust_mod_btn' data-dismiss='modal'><i class="fa fa-trash"></i>&nbsp;OK </button>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+>>>>>>> guesshee-backup
 <!-- global scripts sweet alerts-->
 <script type="text/javascript" src="js/components.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
@@ -443,6 +755,7 @@
 </script>
 
 
+<<<<<<< HEAD
 <!-- global scripts date picker-->
 <script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
 <script type="text/javascript" src="vendors/inputlimiter/js/jquery.inputlimiter.js"></script>
@@ -466,6 +779,8 @@
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
 
 
+=======
+>>>>>>> guesshee-backup
 <script>
 
 $(document).ready(function(){
@@ -1096,6 +1411,7 @@ $("#delete").on("click", function() {
 
     });
 
+<<<<<<< HEAD
 </script>
 
 
@@ -1179,5 +1495,120 @@ $("#delete").on("click", function() {
 </script>
 
 
+=======
+</script>
+
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+    $('#promoForm')
+    .find('[name="durationmode"]')
+            .chosen()
+            // Revalidate the color when it is changed
+            .change(function(e) {
+                $('#promoForm').bootstrapValidator('revalidateField', 'durationmode');
+            })           
+            .end()
+
+    .bootstrapValidator({
+        message: 'This value is not valid', 
+        excluded: ':disabled',
+        feedbackIcons: {
+            required: 'fa fa-asterisk',
+            valid: 'fa fa-check',
+            invalid: 'fa fa-times',
+            validating: 'fa fa-refresh',
+            },
+        trigger: 'blur',
+        submitButtons: 'button[type="submit"]',
+        fields: {
+            feedbackIcons: 'true',
+            promoname: {
+                message: 'The package name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The promo name is required and cannot be empty. '
+                    },
+                    
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: 'The promo name only accepts of alphanumeric values. '
+                    },
+                    regexp: {
+                        regexp: /^[^~`!$@#*_={}()|\;<>,.?%^&]+/,
+                        message: 'The promo name only accept alphanumeric values. '
+                    },
+                }
+            },
+            warranty: {
+                message: 'The warranty time is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The warranty is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The warranty only accept numeric values. '
+                    },
+                }
+            },
+            durationmode: {
+                    feedbackIcons: 'false',
+                    trigger: 'focus blur',
+                    live: 'enabled',
+                    validators: {
+                        callback: {
+                            message: 'Please choose product type',
+                            callback: function(value, validator) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('durationmode').val();
+                                return (options != null && options.length >= 1);
+                            }
+                        }
+                    },
+                     notEmpty: {
+                        message: 'The unit is required and cannot be empty. '
+                    }, 
+                },
+            price: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+            reportrange: {
+                message: 'The price is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The price is required and cannot be empty. '
+                    },
+                regexp: {
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        message: 'The price only accept numeric values. '
+                    },
+                }
+            },
+           
+        }
+    });
+
+
+});
+
+</script>
+
+
+>>>>>>> guesshee-backup
 <!--End Free Item table 1 to Free Item Table 2-->
 @stop

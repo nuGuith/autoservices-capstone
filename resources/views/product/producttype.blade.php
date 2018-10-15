@@ -35,6 +35,13 @@
     /*z-index: 100;*/
     /*float: bottom;*/
  }
+<<<<<<< HEAD
+=======
+
+</style> -->
+        <!-- CONTENT -->
+        <div id="content" class="bg-container">
+>>>>>>> guesshee-backup
 
 </style> -->
     <!-- CONTENT -->
@@ -86,6 +93,7 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div>
                             <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid" id="tbl">
                                 <thead>
@@ -112,6 +120,22 @@
                                     @endforeach
                                 </tbody>
                             </table>
+=======
+                        <div class="col-sm-6 col-12"  >
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item">
+                                    <a href="#">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                        Product Listing
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="/producttype">
+                                        Product Type
+                                    </a>
+                                </li>
+                            </ol>
+>>>>>>> guesshee-backup
                         </div>
                     </div>
                     <!-- END TABLE -->
@@ -130,10 +154,70 @@
                                         &nbsp;Edit Product Type
                                     </h4>
                                 </div>
+<<<<<<< HEAD
                                 <div class="modal-body" style="padding-left: 47px;">
                                     <div class="form-group row m-t-5">
                                         <div class="col-md-11">
                                             <h5>Product Type: <span style="color: red">*</span></h5>
+=======
+                            <div>
+                                        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid" id="tbl">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Product Type</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Product Category</b></th>
+                                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width:20%"><b>Actions</b></th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach ($producttypes as $producttype)
+                                                <tr role="row" class="even">                  
+                                                    <td>{!! $producttype->ProductTypeName !!}</td>
+                                                    <td>{!! $producttype->CategoryName !!}</td>
+                                                    <td>
+                                                        <!--EDIT BUTTON-->
+                                                        <button class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" id="editBtn{!!$producttype->ProductTypeID!!}" onclick="editModal({!!$producttype->ProductTypeID!!})"><i class="fa fa-pencil text-white"></i>
+                                                        </button>
+                                                        
+                                                        
+                                                        <!--DELETE BUTTON-->
+                                                        <button class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="deleteModal({!!$producttype->ProductTypeID!!})"  data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- END TABLE -->
+
+
+
+<form id="chosenForm" method="post" class="form-horizontal">
+    
+    
+</form>
+
+             <!-- START EDIT MODAL -->
+           {!! Form::open(array('id' => 'editForm', 'url' => 'producttype', 'action' => 'ProductTypeController@update', 'method' => 'PUT')) !!}
+            <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white">
+                                <i class="fa fa-pencil"></i>
+                                    &nbsp;Edit Product Type
+                                </h4>
+                            </div>
+                            <div class="modal-body" style="padding-left: 47px;">
+                                
+                                <div class="form-group row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Type: <span style="color: red">*</span></h5>
+>>>>>>> guesshee-backup
                                             {{ Form::input('producttypename', 'text', Input::old('productypename'), [
                                                 'id' => 'producttypename',
                                                 'name' => 'producttypename',
@@ -143,8 +227,32 @@
                                                 'required'
                                                 ])
                                             }}
+<<<<<<< HEAD
                                             <input id="productcategoryid" name="" type="hidden" value=null>
                                         </div>
+=======
+                                        <input id="productcategoryid" name="" type="hidden" value=null>
+                                    </div>
+                                </div>
+
+                                <div class="row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Category: <span style="color: red">*</span></h5>
+                                            <p class="m-t-10">
+                                            </p>
+                                            <div class="form-group">
+                                                {{ Form::select('productcategoryid', $categories, null, array(
+                                                    'class' => 'form-control',
+                                                    'id' => 'categoryid',
+                                                    'name' => 'productcategoryid',
+                                                    )
+                                                    ) 
+                                                }}
+                                            <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="productcategoryid"></span>
+                                        </div>
+                                            
+                                        <input id="producttypeid" name="producttypeid" type="hidden" value=null>
+>>>>>>> guesshee-backup
                                     </div>
                                     <div class="row m-t-5">
                                         <div class="col-md-11">
@@ -192,6 +300,7 @@
                             </div>
                         </div>
                     </div>
+<<<<<<< HEAD
                     {!! Form::close() !!}
                     <!-- END EDIT MODAL -->
 
@@ -227,6 +336,45 @@
                                     <div class="form-group row m-t-5">
                                         <div class="col-md-11">
                                             <h5>Product Type: <span style="color: red">*</span></h5>
+=======
+                </div>
+                {!! Form::close() !!}
+                <!-- START ADD MODAL -->
+                {!! Form::open(array('id' => 'addForm', 'url' => 'producttype', 'action' => 'ProductTypeController@store', 'method' => 'POST')) !!}
+                <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Product Type
+                                </h4>
+                            </div>
+                            <div class="modal-body" style="padding-left: 47px;">
+                            
+
+                                <div class="row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Category: <span style="color: red">*</span></h5>
+                                            <p class="m-t-10">
+                                            </p>
+                                            <div class="form-group"> 
+                                                {{ Form::select('productcategoryid', $categories, null, array(
+                                                'class' => 'chzn-select form-control',
+                                                'id' => 'categoryid',
+                                                'name' => 'productcategoryid',
+                                                'placeholder'=>'Please select a category', )
+                                                ) 
+                                                }}
+                                                <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="productcategoryid"></span>
+                                            </div>  
+                                    </div>
+                                </div>
+
+                                <div class="form-group row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Product Type: <span style="color: red">*</span></h5>
+>>>>>>> guesshee-backup
                                             {{ 
                                                 Form::input('producttypename', 'text', Input::old('producttypename'), [
                                                     'id' => 'producttypename',
@@ -237,6 +385,7 @@
                                                     'required'
                                                 ])
                                             }}
+<<<<<<< HEAD
                                         </div>
                                     </div>
                                     <!-- <div class="form-group ">
@@ -253,6 +402,27 @@
                                             </select>
                                         </div>
                                     </div> --><br>
+=======
+                                    </div>
+                                </div>
+
+                                <!-- <div class="form-group ">
+                                    <label class="col-sm-3 control-label">Favorite color</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control chosen-select" name="colors" multiple data-placeholder="Choose 2-4 colors" data-bv-trigger="blur">
+                                            <option value="black">Black</option>
+                                            <option value="blue">Blue</option>
+                                            <option value="green">Green</option>
+                                            <option value="orange">Orange</option>
+                                            <option value="red">Red</option>
+                                            <option value="yellow">Yellow</option>
+                                            <option value="white">White</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+
+                                    <br>
+>>>>>>> guesshee-backup
                                     <div id="show-errors">
                                         @if ($errors->add->any())
                                             <div class="alert alert-danger">
@@ -266,6 +436,7 @@
                                         @endif
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="modal-footer">
                                     <div class="examples transitions m-t-5">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
@@ -277,6 +448,21 @@
                                             'data-dismiss'=>'modal',
                                         ]) !!}
                                     </div>
+=======
+ 
+
+
+                            <div class="modal-footer">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                </div>
+                                <div class="form-group examples transitions m-t-5">
+                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;Save', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source cancel_add m-l-10 adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal',
+                                    ]) !!}
+>>>>>>> guesshee-backup
                                 </div>
                             </div>
                         </div>
@@ -303,6 +489,7 @@
                                         <input id="deleteId" name="deleteId" type="hidden" value=null>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="modal-footer m-t-10">
                                     <div class="examples transitions m-t-5">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
@@ -314,6 +501,14 @@
                                             'data-dismiss'=>'modal',
                                         ]) !!}
                                     </div>
+=======
+                                <div class="form-group examples transitions m-t-5">
+                                    {!! Form::button('<i class="fa fa-save text-white"></i>&nbsp;OK', [
+                                        'type'=>'submit',
+                                        'class'=>'btn btn-success warning source confirm m-l-10 adv_cust_mod_btn',
+                                        'data-dismiss'=>'modal',
+                                    ]) !!}
+>>>>>>> guesshee-backup
                                 </div>
                             </div>
                         </div>
@@ -381,6 +576,11 @@
 <script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
 <script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> guesshee-backup
 <script type="text/javascript">
     $(document).ready(function() {
     $('#addForm')
@@ -392,6 +592,10 @@
             })           
             .end()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> guesshee-backup
         .find('[name="colors"]')
             .chosen()
             // Revalidate the color when it is changed

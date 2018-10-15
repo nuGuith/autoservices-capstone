@@ -145,6 +145,7 @@ class SampleController extends Controller
         ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
         ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo', 'md.Year', 'auto.Color')
         ->first();
+<<<<<<< HEAD
 
     $customer = DB::table('customer')
         ->where('customerid', $model->CustomerID)
@@ -184,6 +185,30 @@ class SampleController extends Controller
       ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1, 'jd.JobDescription'=>"Quality Analyst"])
       ->select('pj.*', 'pjp.*', 'jd.*', 'ph.*')
       ->first();
+=======
+
+    $customer = DB::table('customer')
+        ->where('customerid', $model->CustomerID)
+        ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+        ->first();
+
+    $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
+
+    /*$personnel = DB::table('personnel_header')
+      ->where('personnelid',$joborder->PersonnelID)
+      ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
+      ->first();*/
+    
+    $personneljob = DB::table('personnel_job as pj')
+      ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')
+      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1])
+      ->select('pj.*', 'pjp.*')
+      ->get();
+    
+    $jobdescription = JobDescription::findOrFail($personneljob->JobDescriptionID);
+
+    dd($jobdescription);
+>>>>>>> guesshee-backup
 
     $serviceperformed = DB::table('service_performed AS sp')
       ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
@@ -209,7 +234,11 @@ class SampleController extends Controller
       ->select(DB::raw('SUM(pu.SubTotal) as ProductCost'))
       ->first();
       
+<<<<<<< HEAD
     $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release', 'mechanic', 'inventory', 'sa', 'qa', 'jobdescription'))
+=======
+    $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release', 'personneljob', 'jobdescription'))
+>>>>>>> guesshee-backup
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');

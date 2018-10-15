@@ -166,10 +166,14 @@
         
         var startDate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
         var endDate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+<<<<<<< HEAD
 
         alert(startDate);
         alert(endDate);
 
+=======
+            
+>>>>>>> guesshee-backup
         if (endDate == startDate)
             $('#reportdate').text(""+start.format('MMMM D, YYYY'));
         else
@@ -206,8 +210,33 @@
         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
+<<<<<<< HEAD
 
     cb(start, end);
+=======
+
+    cb(start, end);
+
+    $.ajax({
+        type: "GET",
+        url: "/joborder",
+        data: {
+            'startDate' :  startDate,
+            'endDate' : endDate
+        }
+        }).done(function(data) {
+            var table = $('#editable_table').DataTable({        
+                "aaData": data,
+                destroy: true,
+                "columns": [
+                    { "data" : "JobOrderID" },
+                    { "data" : "FirstName" },
+                    { "data" : "JODate" },
+                    { "data" : "TotalAmountDue" }  
+                ]
+            });
+    });
+>>>>>>> guesshee-backup
 });
 </script>
 

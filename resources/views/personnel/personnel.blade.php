@@ -62,14 +62,174 @@
                             </a>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <div class="card-block m-t-35" id="user_body">
                         <div class="table-toolbar">
                             <div class="btn-group">
                                 <div class="btn-group float-right users_grid_tools">
                                     <div class="tools"></div>
+=======
+                <div>
+
+        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                <thead>
+                    <tr role="row">
+
+                        <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Personnel Picture</b></th>
+                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Personnel</b></th>
+                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Job Title</b></th>
+                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1"><b>Actions</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @foreach($view as $view)
+                    <tr role="row" class="even">
+
+                        <td>
+
+                            <img src = "img/{{$view->image}}" style="width:150px;height:150px">
+                        </td>
+                        <td class="center">
+                            <ul style="padding-left: 1.2em;">
+                                <li><b>Name: </b>{{$view->FirstName}} {{$view->MiddleName}} {{$view->LastName}}  </li>
+                                <li><b>Address: </b>{{$view->CompleteAddress}}</li>
+                                <li><b>Contact No.: </b>{{$view->ContactNo}}</li>
+                            </ul>
+                        </td>
+
+                        <td>
+                            <ul style="padding-left: 1.2em;">
+
+                                  @foreach($pj as $job)
+
+                                  @if($job->PersonnelID == $view->PersonnelID)
+                                  <li>
+                                  {{$job->JobDescription}}
+
+                                  @endif
+
+                                  @endforeach
+                                </li>
+                            </ul>
+                        </td>
+                        <td class = "examples transitions">
+                            <!--EDIT BUTTON-->
+                            <button name="{{{$view->PersonnelID}}}" onclick="ret(this.name)" class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
+                            </button>
+
+
+                            <!--DELETE BUTTON-->
+                            <button name="{{{$view->PersonnelID}}}" onclick = "del(this.name)"class="btn btn-danger hvr-float-shadow  tipso_bounceIn" data-background="#FA8072" data-color="white" data-tipso="Delete" data-toggle="modal" data-href="#responsive" href="#deleteModal"><i class="fa fa-trash text-white"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+
+
+   <!-- ADD MODAL -->
+    <form id="addper" enctype="multipart/form-data">
+    <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Personnel</h4>
+                            </div>
+                    <div class="modal-body"  style="padding-left: 45px; padding-right: 45px;">
+                        <h4>Personnel Information:</h4>
+                        <div class ="col-md-12">
+
+                            <div class="row m-t-10">
+
+                                    <div class="col-md-5">
+                                        <div class="">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new" style ="background-color: #d3d3d3">
+
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists img-thumbnail">
+                                            </div>
+                                            <div class="form-group m-t-20 text-center">
+                                                <span class="btn btn-primary btn-file">
+                                                    <span class="fileinput-new">Select image</span>
+                                                    <span class="fileinput-exists">Change</span>
+                                                    <input type="file" id='image' name="image" required=""></span></input>
+                                                <a href="#" class="btn btn-warning fileinput-exists"data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                <input type="hidden" id="__token" value="{{ csrf_token() }}">
+                                <div class="form-group">
+                                        <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
+
+                                        @foreach($jt as $jobt)
+                                        <div class="m-t-10 checkbox" style="margin: 0px;">
+                                            <input type="checkbox" class=""  value="{{$jobt->JobDescriptionID}}" name="jobs[]" id="{{$jobt->JobDescriptionID}}" onclick="myFunction(this.id)">
+                                            <label class="">&nbsp;&nbsp;&nbsp;{{$jobt->JobDescription}}</label>
+                                        </div>
+                                        @endforeach
+                                    </div>
+
+                            </div>
+                                <!-- </div> -->
+
+
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <h5>First Name: <span style="color: red">*</span></h5>
+                                            <input id="fname" name="fname" type="text" placeholder="First Name"class="form-control m-t-10">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <h5>Middle Name: <span style="color: red">*</span></h5>
+                                            <input id="mname" name="mname" type="text" placeholder="Middle Name"class="form-control m-t-10">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Surname: <span style="color: red">*</span></h5>
+                                            <input id="sname" name="sname" type="text" placeholder="Surname"class="form-control m-t-10">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <h5>Address: <span style="color: red">*</span></h5>
+                                            <input id="address" name="address" type="text" placeholder="Address" class="form-control m-t-10">
+                                    </div>
+
+                                    <div class="form-group">
+                                    <h5>Date of Birth: <span style="color: red">*</span></h5>
+                                            <input id = 'dob' type="date" name="dob "class="form-control m-t-10" required="" >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Contact Number: <span style="color: red">*</span></h5>
+                                            <input id = "phones" name="contact" class="form-control m-t-10" required="" >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Email Address: <span style="color: red">*</span></h5>
+                                        <input id="email" name="email" type="text" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'" required="">
+                                    </div>
+
+
+>>>>>>> guesshee-backup
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div>
                             <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                 <thead>
@@ -202,9 +362,142 @@
                                             </button>
                                         </div>
                                     </div>
+=======
+                    </div>
+                     <br>
+
+                            <!--Button: Close and Save Changes -->
+                            <div class="modal-footer">
+                              <div class="form-group examples transitions m-t-5">
+                                <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                              </div>
+                                <div class="form-group examples transitions m-t-5">
+                                    <input type="hidden" id="token" value="{{ csrf_token() }}">
+                                    <button  type ="submit" id='addform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </form>
+            <!--END OF ADD MODAL -->
+
+
+
+    <!-- EDIT MODAL -->
+
+    <form id="editper" enctype="multipart/form-data">
+    <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Edit Personnel</h4>
+                            </div>
+
+
+                    <div class="modal-body"  style="padding-left: 45px; padding-right: 45px;">
+                        <h4>Personnel Information:</h4>
+                        <div class ="col-md-12">
+
+                            <div class="row m-t-10">
+
+                                    <div class="col-md-5">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new" style ="background-color: #d3d3d3">
+
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists img-thumbnail">
+
+                                            </div>
+                                            <div class="form-group m-t-20 text-center">
+                                                <span class="btn btn-primary btn-file">
+                                                    <span class="fileinput-new">Select image</span>
+                                                    <span class="fileinput-exists">Change</span>
+                                                    <input id="eimage" type="file" name="eimage" required></span>
+                                                <a href="#" class="btn btn-warning fileinput-exists"
+                                                           data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                        </div>
+                                        <!-- Making way for JT DD -->
+                                    <!-- <div class="form-group">
+                                        <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
+
+
+                                        @foreach($jt as $jtype)
+                                        <div class="m-t-10 checkbox" style="margin: 0px;">
+                                            <input type="checkbox" class="" value="{{$jtype->JobDescriptionID}}" id="{{$jtype->JobDescriptionID}}" name="jobs[]" onclick="editFunction(this.id)">
+                                            <label class="m-t-0">&nbsp;&nbsp;&nbsp;{{$jtype->JobDescription}}</label>
+                                        </div>
+                                        @endforeach
+
+                                    </div> -->
+
+                                    <div class="form-group">
+                                        <h5 style="padding-bottom: 10px;" class ="m-t-35 m-b-10">Job Title: <span style="color: red;">*</span></h5>
+
+
+
+                                        <div class="m-t-10 checkbox" style="margin: 0px;">
+                                          <select class="form-control chzn-select" id="jt" name="jobs[]"  tabindex="3" multiple="">
+                                                  <option disabled>Choose Skills</option>
+                                                @foreach($jt as $jtype)
+                                              <option value = "{{$jtype->JobDescriptionID}}">{{$jtype->JobDescription}}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <h5>First Name: <span style="color: red">*</span></h5>
+                                          <input id="eid" hidden>
+                                          <input id="efname" name="fname" type="text" placeholder="First Name"class="form-control m-t-10">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Middle Name: <span style="color: red">*</span></h5>
+                                            <input id="emname" name="mname" type="text" placeholder="Middle Name"class="form-control m-t-10">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Surname: <span style="color: red">*</span></h5>
+                                            <input id="esname" name="sname" type="text" placeholder="Surname"class="form-control m-t-10">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Address: <span style="color: red">*</span></h5>
+                                            <input id="eaddress" name="address" type="text" placeholder="Address" class="form-control m-t-10">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Date of Birth: <span style="color: red">*</span></h5>
+                                            <input id='edate' type="date" class="form-control m-t-10" name="dob" placeholder="dd-mm-yyyy" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Contact Number: <span style="color: red">*</span></h5>
+                                            <input id = "phones" name="contact" class="form-control m-t-10" required="" >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Email Address: <span style="color: red">*</span></h5>
+                                        <input id="eemail" name="email" type="email" placeholder="john@gmail.com" class="date_mask form-control m-t-10" data-inputmask="'alias': 'email'">
+                                    </div>
+>>>>>>> guesshee-backup
+                                </div>
+                            </div>
+                        </div>
+<<<<<<< HEAD
                     </form>
                     <!--END OF ADD MODAL -->
 
@@ -305,6 +598,19 @@
                                             </button>
                                         </div>
                                     </div>
+=======
+                    </div>
+                     <br>
+
+                            <!--Button: Close and Save Changes -->
+                            <div class="modal-footer">
+                              <div class="form-group examples transitions m-t-5">
+                                <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                              </div>
+                                <div class="form-group examples transitions m-t-5">
+                                    <button type="submit" id='editform' class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    </button>
+>>>>>>> guesshee-backup
                                 </div>
                             </div>
                         </div>
@@ -469,7 +775,11 @@
                  document.getElementById('edate').value = data['per'][0]['Birthday'];
                  document.getElementById('ephones').value = data['per'][0]['ContactNo'];
                  document.getElementById('eemail').value = data['per'][0]['EmailAddress'];
+<<<<<<< HEAD
                  //document.getElementById('eimage').value = data['per'][0]['image'];
+=======
+                 // document.getElementById('eimage').value = data['per'][0]['image'];
+>>>>>>> guesshee-backup
 
                  for(var x=0;x<data.job.length;x++)
                  {
@@ -503,7 +813,11 @@
        var eemail = $('#eemail').val();
        var eid = $('#eid').val();
 
+<<<<<<< HEAD
        var s = $('#ejt').val();
+=======
+       var s = $('#jt').val();
+>>>>>>> guesshee-backup
        // alert(s);
 
        $.ajax({
@@ -924,7 +1238,11 @@ function editmyFunction2() {
                         message: 'The contact no. is required and cannot be empty. '
                     },
                     regexp: {
+<<<<<<< HEAD
                         regexp: /^(0|[0-9]\d*)(\.\d+)?$/,
+=======
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+>>>>>>> guesshee-backup
                         message: 'The contact only accept numeric values. '
                     },
 
@@ -966,10 +1284,17 @@ function editmyFunction2() {
              eimage: {
                 validators: {
                     file: {
+<<<<<<< HEAD
                         extension: 'jpg,png',
                         type: 'image/jpeg,image/png',
                         maxSize: 3840*2160,
                         message: 'The selected file is not valid or the size is too large'
+=======
+                        extension: 'jpeg,png',
+                        type: 'image/jpeg,image/png',
+                        maxSize: 2048 * 1024,
+                        message: 'The selected file is not valid'
+>>>>>>> guesshee-backup
                     }
                 },
                  notEmpty: {
@@ -1076,7 +1401,11 @@ function editmyFunction2() {
                         message: 'The contact no. is required and cannot be empty. '
                     },
                     regexp: {
+<<<<<<< HEAD
                         regexp: /^(0|[0-9]\d*)(\.\d+)?$/,
+=======
+                        regexp: /^(0|[1-9]\d*)(\.\d+)?$/,
+>>>>>>> guesshee-backup
                         message: 'The contact only accept numeric values. '
                     },
 

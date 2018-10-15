@@ -18,6 +18,10 @@ class VehicleTypeController extends Controller
           ->where('md.isActive', 1)
           ->where('mk.isActive',1)
           ->get();
+<<<<<<< HEAD
+=======
+
+>>>>>>> guesshee-backup
       return view('vehicletype.vehicletype', compact('makes', 'models'));
     }
 
@@ -64,19 +68,45 @@ class VehicleTypeController extends Controller
       $eyear = Input::get('year');
       $eid  = Input::get('id');
       $emake = Input::get('makeid');
+<<<<<<< HEAD
         //clear existing record based on ModelID
           for($i=0;$i<count($eid);$i++)
           {
+=======
+
+        //clear existing record based on ModelID
+          for($i=0;$i<count($eid);$i++)
+          {
+
+>>>>>>> guesshee-backup
           DB::table('automobile_model')
           ->WHERE('ModelID','=', $eid[$i])
           ->delete();
           }
+<<<<<<< HEAD
           //Insert new record
           for($i=0;$i<count($emod);$i++)
           {
             $model = array("Model"=>$emod[$i],"MakeID"=>$emake,"year"=>$eyear[$i]);
             DB::table('automobile_model')->insert($model);
           }
+=======
+
+          //Insert new record
+          for($i=0;$i<count($emod);$i++)
+          {
+
+            $model = array("Model"=>$emod[$i],"MakeID"=>$emake,"year"=>$eyear[$i]);
+            DB::table('automobile_model')->insert($model);
+
+
+          }
+
+
+
+
+
+>>>>>>> guesshee-backup
 }
 
     public function Deletevehicletype(){

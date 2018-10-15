@@ -37,7 +37,11 @@ class ServicePriceController extends Controller
         $view = DB::table('service_price as sp')
                 ->LEFTJOIN('automobile_model as mod','sp.ModelID','=','mod.ModelID')
                 ->LEFTJOIN('automobile_make as mk','mod.MakeID','=','mk.MakeID')
+<<<<<<< HEAD
                 ->WHERE('sp.isActive', 1)
+=======
+                ->WHERE('sp.isActive',1)
+>>>>>>> guesshee-backup
                 ->GET();
 
         $sname = DB::table('service_price as sp')
@@ -48,6 +52,11 @@ class ServicePriceController extends Controller
                 ->GET();
         //dd($sname);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> guesshee-backup
         return view ('service.serviceprice',compact('vehicle','service','view','sname'));
     }
 

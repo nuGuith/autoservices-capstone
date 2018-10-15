@@ -25,7 +25,10 @@ class PromoController extends Controller
       //PRODUCT
    	 $pr = DB::table('promo_product_inclusions')
       ->leftjoin('product', 'promo_product_inclusions.ProductID','=','product.ProductID')
+<<<<<<< HEAD
       ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
+=======
+>>>>>>> guesshee-backup
       ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
       ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
       ->get();

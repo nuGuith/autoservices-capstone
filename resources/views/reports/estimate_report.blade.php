@@ -92,7 +92,27 @@
                                     </thead>
                                     <tbody>
                                         @foreach($estimates as $estimate)
+<<<<<<< HEAD
                                             <tr>
+=======
+                                            @foreach($joborder as $jo)
+                                                @if($jo->EstimateID==$estimate->EstimateID)
+                                                    <tr>
+                                                        <td>ES000{{ $estimate->EstimateID }}</td>
+                                                        <td>{{ $estimate->PlateNo }}</td>
+                                                        <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
+                                                        <td>
+                                                            <?php
+                                                                $date = date('F d, Y', strtotime($estimate->EDate));
+                                                                echo $date;
+                                                            ?>
+                                                        </td>
+                                                        <td>JO000{{ $jo->JobOrderID }}</td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                            <tr role="row" class="even">
+>>>>>>> guesshee-backup
                                                 <td>ES000{{ $estimate->EstimateID }}</td>
                                                 <td>{{ $estimate->PlateNo }}</td>
                                                 <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
@@ -102,6 +122,7 @@
                                                         echo $date;
                                                     ?>
                                                 </td>
+<<<<<<< HEAD
                                                 <td>
                                                     @foreach($joborder as $jo) 
                                                         @if($jo->EstimateID==$estimate->EstimateID)
@@ -109,13 +130,19 @@
                                                         @endif
                                                     @endforeach
                                                 </td>
+=======
+                                                <td>N/A</td>
+>>>>>>> guesshee-backup
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
+<<<<<<< HEAD
                             <input type=hidden id="start">
                             <input type=hidden id="end">
+=======
+>>>>>>> guesshee-backup
                     <!-- FOOTER 
                         <div class="card-footer bg-black disabled">
                             <div class="examples transitions m-t-5 pull-right">
@@ -217,9 +244,13 @@
         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
+<<<<<<< HEAD
     
     cb(start, end);
+=======
+>>>>>>> guesshee-backup
 
+    cb(start, end);
 });
 </script>
 

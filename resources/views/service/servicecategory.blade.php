@@ -118,10 +118,29 @@
                                         &nbsp;Edit Service Category
                                     </h4>
                                 </div>
+<<<<<<< HEAD
                                 <div class="modal-body" style="padding-left: 47px;">
                                     <div class="form-group row m-t-5">
                                         <div class="col-md-11" style="padding-right:25px;">
                                             <h5>Service Category: <span style="color: red">*</span></h5>
+=======
+                                <!-- END TABLE -->
+            <!-- START EDIT MODAL -->
+                {!! Form::open(array('id' => 'editForm', 'method' => 'PUT', 'url' => 'servicecategory', 'action' => 'ServiceCategoryController@update')) !!}
+                <!-- {!! csrf_field() !!} -->
+                <div class="modal fade in" id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                            &nbsp;Edit Service Category</h4>
+                            </div>
+                            <div class="modal-body" style="padding-left: 47px;">
+                                <div class="form-group row m-t-5">
+                                    <div class="col-md-11" style="padding-right:25px;">
+                                        <h5>Service Category: <span style="color: red">*</span></h5>
+>>>>>>> guesshee-backup
                                             {!! 
                                                 Form::input ('servicecategoryname','text', Input::old('servicecategoryname'), [
                                                 'id'=>'servicecategoryname',
@@ -133,6 +152,7 @@
                                                 'required'
                                                 ])
                                             !!}
+<<<<<<< HEAD
                                         </div>
                                     </div>                                
                                     <div class="form-group row m-t-5">
@@ -175,6 +195,25 @@
                                             'data-dismiss'=>'modal'
                                         ])
                                         !!}
+=======
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group row m-t-5">
+                                    <div class="col-md-11" style="padding-right:25px;">
+                                        <h5>Description: <span style="color: red">*</span></h5>   
+                                                {!! 
+                                                    Form::input ('description','text', Input::old('description'), [
+                                                    'id'=>'description',
+                                                    'name'=>'description',
+                                                    'type'=>'text',
+                                                    'placeholder'=>'Description',
+                                                    'class'=>'form-control m-t-10',
+                                                    'maxlength'=>'255'
+                                                    ])
+                                                !!}
+                                        <input id="servicecategoryid" name="servicecategoryid" type="hidden" value=null>                        
+>>>>>>> guesshee-backup
                                     </div>
                                 </div>
                             </div>
@@ -183,6 +222,7 @@
                     {!! Form::close() !!}
                     <!-- END EDIT MODAL -->
 
+<<<<<<< HEAD
                     <!-- START ADD MODAL -->
                     {!! Form::open(array('id' => 'addForm', 'url' => 'servicecategory', 'action' => 'ServiceCategoryController@store', 'method' => 'POST')) !!}
                     <!-- {!! csrf_field() !!} -->
@@ -200,6 +240,23 @@
                                     <div class="form-group row m-t-5">
                                         <div class="col-md-11">
                                             <h5>Service Category: <span style="color: red">*</span></h5>
+=======
+                <!-- START ADD MODAL -->
+                {!! Form::open(array('id' => 'addForm', 'url' => 'servicecategory', 'action' => 'ServiceCategoryController@store', 'method' => 'POST')) !!}
+                <!-- {!! csrf_field() !!} -->
+                <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Service Category</h4>
+                            </div>
+                            <div class="modal-body" style="padding-left: 47px;">
+                                <div class="form-group row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Service Category: <span style="color: red">*</span></h5>
+>>>>>>> guesshee-backup
                                             {!!
                                                 Form::input ('name','text', Input::old('servicecategoryname'), [
                                                 'id'=>'servicecategoryname',
@@ -211,6 +268,7 @@
                                                 'required'
                                                 ])
                                             !!}
+<<<<<<< HEAD
                                         </div>
                                     </div>                                
                                     <div class="form-group row m-t-5">
@@ -228,6 +286,29 @@
                                             !!}
                                         </div>
                                     </div><br>
+=======
+                                    </div>
+                                </div>
+                                
+                                 <div class="form-group row m-t-5">
+                                    <div class="col-md-11">
+                                        <h5>Description: <span style="color: red">*</span></h5>
+                                                {!! 
+                                                    Form::input ('description','text', Input::old('description'), [
+                                                    'id'=>'description',
+                                                    'name'=>'description',
+                                                    'type'=>'text',
+                                                    'placeholder'=>'Description',
+                                                    'class'=>'form-control m-t-10',
+                                                    'maxlength'=>'255'
+                                                    ])
+                                                !!}
+                                    </div>
+                                </div>
+                                                
+                                
+                                    <br>
+>>>>>>> guesshee-backup
                                     <div id="show-errors">
                                         @if ($errors->add->any())
                                             <div class="alert alert-danger">
@@ -347,9 +428,18 @@
         }
 </script>
 
+<<<<<<< HEAD
 <script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
 <script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 
+=======
+
+<script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
+<script type="text/javascript" src="vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+
+
+>>>>>>> guesshee-backup
 <script type="text/javascript">
    $(document).ready(function() {
     $('#addForm').bootstrapValidator({
@@ -402,7 +492,15 @@
 
         }
     })
+<<<<<<< HEAD
 });
+=======
+
+   
+
+});
+
+>>>>>>> guesshee-backup
 </script>
 
 <script type="text/javascript">
@@ -457,9 +555,21 @@
 
         }
     })
+<<<<<<< HEAD
 });
 </script>
 
+=======
+
+   
+
+});
+
+</script>
+
+
+
+>>>>>>> guesshee-backup
 <!-- global scripts modals-->
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <!--End of global scripts-->

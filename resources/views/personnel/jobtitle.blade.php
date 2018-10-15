@@ -106,6 +106,7 @@
                             </table>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <!-- END EXAMPLE TABLE PORTLET-->
 
                     <!-- ADD MODAL -->
@@ -125,6 +126,72 @@
                                             <div class="col-md-11">
                                                 <h5>Job Title: <span style="color: red">*</span></h5>
                                                 <input type="hidden" id="token" value="{{ csrf_token() }}">
+=======
+                <div>
+
+        <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                <thead>
+                    <tr role="row">
+
+           
+                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 55%;"><b>Job Title</b></th>
+                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1"><b>Actions</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @foreach($view as $jd)
+                    <tr role="row" class="even">
+
+                        
+                        <td class="center" >
+                          {{$jd->JobDescription}}
+                        </td>
+                        <td class = "examples transitions">
+                            <!--EDIT BUTTON-->
+                            <button name = "{{$jd->JobDescriptionID}}" onclick="ret(this.name);" class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" data-toggle="modal" data-href="#responsive" href="#editModal"><i class="fa fa-pencil text-white"></i>
+                            </button>
+
+
+                            <!--DELETE BUTTON-->
+                           <!--  <button name = '{{$jd->JobDescriptionID}}' onclick="del(this.name);" class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" data-toggle="modal" data-href="#responsive" href="#deleteModal" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                            </button> -->
+
+                     
+                            
+                            <!--DELETE BUTTON-->
+                            <button  name = '{{$jd->JobDescriptionID}}' onclick="del(this.name);" class="btn btn-danger hvr-float-shadow  tipso_bounceIn" data-toggle="modal" data-href="#responsive" href="#deleteModal" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+
+    <!-- ADD MODAL -->
+    <div class="modal fade in " id="addModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <form  id="addForms">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-plus"></i>
+                                            &nbsp;Add Job Title</h4>
+                            </div>
+                            <div class="modal-body"  style="padding-left: 45px;">
+                            
+
+                                        <div class="form-group row m-t-10">
+                                            <div class="col-md-11">
+                                               <h5>Job Title: <span style="color: red">*</span></h5>
+                                                  <input type="hidden" id="token" value="{{ csrf_token() }}">
+>>>>>>> guesshee-backup
                                                 <input id="jobtitle" name="jobtitle" type="text" placeholder="Job Title"class="form-control m-t-10">
                                           </div>
                                         </div>
@@ -139,6 +206,7 @@
                                             </button>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                 </div>
                             </form>
                         </div>
@@ -176,9 +244,63 @@
                                             </button>
                                         </div>
                                     </div>
+=======
+                                    <br>
+
+                            <!--Button: Close and Save Changes -->
+                            <div class="modal-footer">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button type="submit" id="addform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            <!--END OF ADD MODAL -->
+
+
+
+            <!-- EDIT MODAL -->
+            <div class="modal fade in " id="editModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <form id="editForms">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-pencil"></i>
+                                            &nbsp;Edit Job Title</h4>
+                            </div>
+                            <div class="modal-body"  style="padding-left: 45px;">
+                            
+
+                                        <div class="form-group row m-t-10">
+                                            <div class="col-md-11">
+                                               <h5>Job Title: <span style="color: red">*</span></h5>
+                                                <input id = 'eid' hidden>
+                                                <input id="ejobtitle" name="jobtitles" type="text" placeholder="Job Title"class="form-control m-t-10">
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                            <!--Button: Close and Save Changes -->
+                            <div class="modal-footer">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button type="submit" id="editform" class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" data-dismiss="modal"><i class="fa fa-save text-white"></i>&nbsp; Save Changes
+                                    </button>
+>>>>>>> guesshee-backup
                                 </div>
                             </form>
                         </div>
+                    </form>
                     </div>
                     <!--END OF EDIT MODAL -->
 

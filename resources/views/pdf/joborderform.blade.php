@@ -134,6 +134,7 @@ input{
 </table>
 <hr>
 <div style="margin-left: 400px;">
+<<<<<<< HEAD
     <span>TOTAL LABOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}</span><br>
     <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
     <span>
@@ -147,16 +148,33 @@ input{
         ?>
     </span><br>
     <span>TOTAL AMOUNT DUE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php {{ $joborder->TotalAmountDue }}</span>
+=======
+    <span>TOTAL LABOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}</span><br>
+    <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
+    <span>LESS *% of disc* DISCOUNT:</span><br>
+    <span>TOTAL AMOUNT DUE:</span>
+>>>>>>> guesshee-backup
 </div>
 <br><br>
 
 <table style="width:100%;">
     <tbody>
         <tr>
+<<<<<<< HEAD
             <td><ins>{{ $sa->FirstName }} {{ $sa->MiddleName }} {{ $sa->LastName }}</ins></td>
             <td><ins>{{ $qa->FirstName }} {{ $qa->MiddleName }} {{ $qa->LastName }}</ins></td>
             <td><ins>{{ $inventory->FirstName }} {{ $inventory->MiddleName }} {{ $inventory->LastName }}<ins></td>
             <td><ins>{{ $mechanic->FirstName }} {{ $inventory->MiddleName }} {{ $mechanic->LastName }}<ins></td>
+=======
+            <td>
+                <ins>
+                    
+                </ins>
+            </td>
+            <td><ins>Guesshee Almario</ins></td>
+            <td><ins>Guesshee Almario<ins></td>
+            <td><ins>Guesshee Almario<ins></td>
+>>>>>>> guesshee-backup
         </tr>
         <tr>
             <td><b>Service Advisor</b></td>
@@ -175,7 +193,11 @@ input{
 
 <div class="row">
     <div class="col-complaints">
+<<<<<<< HEAD
         <span style="align:center; padding-left:100px">{{ $customer->FullName }}</span>
+=======
+        &nbsp;
+>>>>>>> guesshee-backup
         <hr style="width:250px">
         <span style="padding-left:90px"> Signature over printed name <span>
     </div>

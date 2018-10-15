@@ -26,7 +26,11 @@ class ReportsController extends Controller
       ->get();
 
     $joborder = DB::table('job_order as jo')
+<<<<<<< HEAD
       ->join('estimate as e', 'jo.EstimateID', '=', 'e.EstimateID')
+=======
+      ->join('estimate as e', 'e.EstimateID', '=', 'jo.EstimateID')
+>>>>>>> guesshee-backup
       ->where('jo.isActive', 1)
       ->select('JobOrderID', 'jo.EstimateID')
       ->get();
@@ -55,12 +59,20 @@ class ReportsController extends Controller
     return view('reports.inspection_report', compact('inspections', 'inspects'));
   }
 
-  public function joborder()
+  public function joborder(Request $request)
   {
+    $startdate = $request->startdate;
+    $enddate = $request->enddate;
+
     $jos = DB::table('job_order as jo')
       ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
+<<<<<<< HEAD
       ->where(['jo.isActive' => 1, 'jo.Status'=>'Finished'])
+=======
+      ->where(['jo.isActive' => 1, 'jo.Status'=>'Finalized'])
+      ->whereBetween('jo.created_at', [$startdate, $enddate])
+>>>>>>> guesshee-backup
       ->select('jo.JobOrderID', 'jo.TotalAmountDue', 'a.PlateNo', 'c.LastName', 'c.FirstName', DB::raw('DATE(jo.created_at) AS JODate'))
       ->get();
 
@@ -110,6 +122,7 @@ class ReportsController extends Controller
 
   public function backjob()
   {
+<<<<<<< HEAD
     $backjobs = DB::table('job_order_backjob as bj')
       ->join('job_order as jo', 'bj.JobOrderID', '=', 'jo.JobOrderID')
       ->where('bj.isActive', 1)
@@ -133,18 +146,30 @@ class ReportsController extends Controller
       ->get();
 
     return view('reports.backjob_report', compact('backjobs', 'services', 'products'));
+=======
+    
+    return view('reports.backjob_report');
+>>>>>>> guesshee-backup
   }
 
   public function sales()
   {
     $sales = DB::table('job_order')
       ->where('isActive', 1)
+<<<<<<< HEAD
       ->select('JobOrderID', 'DiscountedAmount', 'TotalAmountDue', DB::raw('DATE(Agreement_Timestamp) as JODate, TotalAmountDue + DiscountedAmount as GrandTotal, TotalAmountDue-DiscountedAmount as disc'))
+=======
+      ->select('JobOrderID', 'DiscountedAmount', 'TotalAmountDue', DB::raw('DATE(Agreement_Timestamp) as JODate, TotalAmountDue-DiscountedAmount as disc'))
+>>>>>>> guesshee-backup
       ->get();
 
     $totalsales = DB::table('job_order')
       ->where('isActive', 1)
+<<<<<<< HEAD
       ->select(DB::raw('SUM(TotalAmountDue+DiscountedAmount) as sales'))
+=======
+      ->select(DB::raw('SUM(TotalAmountDue) as sales'))
+>>>>>>> guesshee-backup
       ->get();
 
     return view('reports.sales_report', compact('sales', 'totalsales'));
