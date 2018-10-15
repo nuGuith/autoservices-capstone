@@ -33,6 +33,7 @@ class PersonnelController extends Controller
 
       $pj = DB::table('personnel_job as pj')
       ->LEFTJOIN('job_description as jd','pj.JobDescriptionID','=','jd.JobDescriptionID')
+      ->WHERE('pj.isActive',1)
       ->get();
 
         return view ('personnel.personnel',compact('view','jt','pj'));

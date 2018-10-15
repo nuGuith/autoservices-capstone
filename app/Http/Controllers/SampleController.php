@@ -151,21 +151,38 @@ class SampleController extends Controller
         ->first();
 
     $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
-
-    /*$personnel = DB::table('personnel_header')
-      ->where('personnelid',$joborder->PersonnelID)
-      ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
-      ->first();*/
     
-    $personneljob = DB::table('personnel_job as pj')
+    $mechanic = DB::table('personnel_job as pj')
       ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')
-      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1])
-      ->select('pj.*', 'pjp.*')
-      ->get();
+      ->join('job_description as jd', 'pj.JobDescriptionID', '=', 'jd.JobDescriptionID')
+      ->join('personnel_header as ph', 'pj.PersonnelID', '=', 'ph.PersonnelID')
+      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1, 'jd.JobDescription'=>"Mechanic"])
+      ->select('pj.*', 'pjp.*', 'jd.*', 'ph.*')
+      ->first();
     
-    $jobdescription = JobDescription::findOrFail($personneljob->JobDescriptionID);
+    $inventory = DB::table('personnel_job as pj')
+      ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')
+      ->join('job_description as jd', 'pj.JobDescriptionID', '=', 'jd.JobDescriptionID')
+      ->join('personnel_header as ph', 'pj.PersonnelID', '=', 'ph.PersonnelID')
+      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1, 'jd.JobDescription'=>"Inventory Manager"])
+      ->select('pj.*', 'pjp.*', 'jd.*', 'ph.*')
+      ->first();
 
-    dd($jobdescription);
+    $sa = DB::table('personnel_job as pj')
+      ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')
+      ->join('job_description as jd', 'pj.JobDescriptionID', '=', 'jd.JobDescriptionID')
+      ->join('personnel_header as ph', 'pj.PersonnelID', '=', 'ph.PersonnelID')
+      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1, 'jd.JobDescription'=>"Service Advisor"])
+      ->select('pj.*', 'pjp.*', 'jd.*', 'ph.*')
+      ->first();
+    
+    $qa = DB::table('personnel_job as pj')
+      ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')
+      ->join('job_description as jd', 'pj.JobDescriptionID', '=', 'jd.JobDescriptionID')
+      ->join('personnel_header as ph', 'pj.PersonnelID', '=', 'ph.PersonnelID')
+      ->where(['pjp.joborderid' => $id, 'pj.isActive' => 1, 'jd.JobDescription'=>"Quality Analyst"])
+      ->select('pj.*', 'pjp.*', 'jd.*', 'ph.*')
+      ->first();
 
     $serviceperformed = DB::table('service_performed AS sp')
       ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
@@ -191,7 +208,7 @@ class SampleController extends Controller
       ->select(DB::raw('SUM(pu.SubTotal) as ProductCost'))
       ->first();
       
-    $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release', 'personneljob', 'jobdescription'))
+    $pdf = PDF::loadView('pdf.joborderform', compact('joborder', 'model', 'automobile', 'customer', 'servicebay', 'personnel', 'serviceperformed', 'productused', 'laborcost', 'product', 'release', 'mechanic', 'inventory', 'sa', 'qa', 'jobdescription'))
     ->setPaper([0, 0, 612, 936], 'portrait');
     // If you want to store the generated pdf to the server then you can use the store function
     $pdf->save(storage_path().'_filename.pdf');

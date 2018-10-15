@@ -10,6 +10,7 @@ class AddPromoController extends Controller
     public function addpromo(){
       $product = DB::table('product')
                 ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
+                ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
                 ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
                 ->where('product.isActive',1)
                 ->get();
@@ -28,6 +29,7 @@ class AddPromoController extends Controller
       ->with('service', $service)
       ->with('items', $items);
     }
+    
       public function savePromo(Request $request){
         $var = $request->input('StartDate');
         $date = str_replace('/', '-', $var);
@@ -44,7 +46,8 @@ class AddPromoController extends Controller
             'EndDate' => $varEnd,
             'Price' => $request->input('price'),
             'WarrantyDuration' => $request->input('warranty'),
-            'WarrantyDurationMode' => $request->input('durationMode')
+            'WarrantyDurationMode' => $request->input('durationMode'),
+            'WarrantyMileage' => $request->input('mileage'),
           ]);
           // get latest promo id
           $prmID = DB::table('promo_header')

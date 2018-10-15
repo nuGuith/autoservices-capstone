@@ -46,7 +46,6 @@
                                 styling: 'bootstrap3'
                                 });
                                 }
-
                                 window.onload = message;
                             </script>
                         @endif
@@ -327,36 +326,27 @@
 
 <!--script for table add model and year-->
 <script>
-
 $("#addform").on("click", function () {
-
       var make = $('#make').val();
       var md = $('#model').val();
       var myr = $('#year').val();
-
       var model = []
       var year = [];
-
       model.push(md);
       year.push(myr);
-
       for(var i=0; i<counter; i++){
         var mod = $('#model'+i+'').val()
         var yr = $('#year'+i+'').val()
-
         model.push(mod);
         year.push(yr);
       }
-
       $.ajax({
         url: "/Addvehicletype",
         type: "POST",
         data:{
-
         make:make,
         model:model,
         year:year,
-
         '_token': $('#token').val()
       },
       success: function(data){
@@ -369,20 +359,14 @@ $("#addform").on("click", function () {
                 }
       });
 });
-
 $("#editform").on("click", function () {
-
  var emake = $('#editmake').val()
  var emk = $('#mkid').val()
-
  var emodel = [];
  var eyear= [];
-
-
  for(var i=0; i<counter; i++){
  var emod = $('#editmodel'+i+'').val()
  var eyr = $('#edityear'+i+'').val()
-
    emodel.push(emod);
    eyear.push(eyr);
 }
@@ -391,7 +375,6 @@ $.ajax({
   url: "/editvehicletype",
   type: "POST",
   data:{
-
   make:emake,
   makeid:emk,
   model:emodel,
@@ -407,19 +390,14 @@ success: function(data){
               {
               alert('Error!');
               }
-
 });
-
 });
 //SOFT DELETE VEHICLE Type
-
 function deleteVT(id){
-
   $.ajax({
     url: "/Deletevehicletype",
     type: "POST",
     data:{
-
     mid:id,
     '_token': $('#token').val()
   },
@@ -432,8 +410,6 @@ function deleteVT(id){
         }
   });
 }
-
-
 //display data to edit modal
 function updateVT(id){
     $.ajax({
@@ -446,27 +422,21 @@ function updateVT(id){
     success: function(data){
         var mk = data['Brand'][0]['Make'];
         var mid = data['Brand'][0]['MakeID'];
-
         document.getElementById('mkid').value = mid;
         document.getElementById('editmake').value = mk;
-
         var md = data['Mod'][0]['Model'];
         eid = [];
-
         for (var i=0;i<data.Mod.length;i++){
             var newRow = $("<tr>");
             var cols = "";
-
             cols += '<td class="form-group"><input type="text" id="editid'+counter+'" hidden value="'+data['Mod'][i]['ModelID']+'"/> <input type="text" id="editmodel'+counter+'" value="'+data['Mod'][i]['Model']+'"class="form-control" name="model[]" placeholder="model"/></td>';
             cols += '<td class="form-group"><input type="number" id="edityear'+counter+'" value="'+data['Mod'][i]['year']+'"class="form-control" name="year[]" placeholder="Year"/></td>';
             cols += '<td style="border-color: white"><input type="button" class="ibtneDel btn  btn-danger btn-md btn-md hvr-float-shadow" value ="X"></td>';
             
             eid.push(data['Mod'][i]['ModelID']);
-
             newRow.append(cols);
             $("table.edit-order-list").append(newRow);
             counter++;
-
             $('#editForm').bootstrapValidator('addField', 'model[]');
             $('#editForm').bootstrapValidator('addField', 'year[]');
         }
@@ -478,30 +448,24 @@ function updateVT(id){
         }
     });
 }
-
 $(document).ready(function () {
     $("#closebutton").on("click",function(){
         $(".modal-body input").val("")
         $("#table.edit-order-list").closest("tr").remove();
     });
     counter = 0;
-
     $("#addrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
-
         cols += '<td class="form-group"><input type="text" id="model'+counter+'" class="form-control" name="model[]" placeholder="model"/></td>';
         cols += '<td class="form-group"><input type="number" id="year'+counter+'"class="form-control" name="year[]" placeholder="Year"/></td>';
         cols += '<td><input type="button" class="ibteDel btn  btn-danger btn-md hvr-float-shadow" value ="X"></td>';
-
         newRow.append(cols);
         $("table.add-order-list").append(newRow);
         counter++;
-
         $('#addForm').bootstrapValidator('addField', 'model[]');
         $('#addForm').bootstrapValidator('addField', 'year[]');
     });
-
     $("table.add-order-list").on("click", ".ibteDel", function (event) {
         $(this).closest("tr").remove();
         counter -= 1
@@ -518,19 +482,15 @@ $(document).ready(function () {
     $("#editrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";
-
         cols += '<td class="form-group"><input type="text"  id="editmodel'+counter+'" class="form-control" name="model[]" placeholder="model"' + counter + '"/></td>';
         cols += '<td class="form-group"><input type="number"  id="edityear'+counter+'" class="form-control" name="year[]" placeholder="Year"' + counter + '"/></td>';
         cols += '<td style="border-color: white"><input type="button" class="ibtneDel btn  btn-danger btn-md btn-md hvr-float-shadow" value ="X"></td>';
-
         newRow.append(cols);
         $("table.edit-order-list").append(newRow);
         counter++;
-
         $('#editForm').bootstrapValidator('addField', 'model[]');
         $('#editForm').bootstrapValidator('addField', 'year[]');
     });
-
     $("table.edit-order-list").on("click", ".ibtneDel", function (event) {
         if(counter == 1)
         {
@@ -542,11 +502,9 @@ $(document).ready(function () {
         }
     });
 });
-
 $('#editModal').on('hidden', function () {
   document.location.reload();
 })
-
 </script>
 
 <script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script>
@@ -573,7 +531,6 @@ $('#editModal').on('hidden', function () {
                         notEmpty: {
                             message: ' Required and cannot be empty. '
                         },
-
                         regexp: {
                             regexp: /^[a-zA-Z0-9]+$/,
                             message: ' Only accept alphanumeric values. '
@@ -590,7 +547,6 @@ $('#editModal').on('hidden', function () {
                         notEmpty: {
                             message: ' Required and cannot be empty. '
                         },
-
                         regexp: {
                             regexp: /^[a-zA-Z0-9]+$/,
                             message: ' Only accept alphanumeric values. '
@@ -607,7 +563,6 @@ $('#editModal').on('hidden', function () {
                         notEmpty: {
                             message: ' Required and cannot be empty. '
                         },
-
                         regexp: {
                             regexp: /^[a-zA-Z0-9]+$/,
                             message: ' Only accept alphanumeric values. '
@@ -620,7 +575,6 @@ $('#editModal').on('hidden', function () {
                 },
             }
         })
-
         .on('error.field.bv', function(e, data) {
             if (data.bv.getSubmitButton()) {
                 data.bv.disableSubmitButtons(false);
@@ -632,7 +586,6 @@ $('#editModal').on('hidden', function () {
             }
         });
     });
-
 </script>
 
 <script type="text/javascript">
@@ -656,7 +609,6 @@ $('#editModal').on('hidden', function () {
                         notEmpty: {
                             message: ' Required and cannot be empty. '
                         },
-
                         regexp: {
                             regexp: /^[a-zA-Z0-9]+$/,
                             message: ' Only accept alphanumeric values. '

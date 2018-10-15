@@ -92,23 +92,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($estimates as $estimate)
-                                            @foreach($joborder as $jo)
-                                                @if($jo->EstimateID==$estimate->EstimateID)
-                                                    <tr>
-                                                        <td>ES000{{ $estimate->EstimateID }}</td>
-                                                        <td>{{ $estimate->PlateNo }}</td>
-                                                        <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
-                                                        <td>
-                                                            <?php
-                                                                $date = date('F d, Y', strtotime($estimate->EDate));
-                                                                echo $date;
-                                                            ?>
-                                                        </td>
-                                                        <td>JO000{{ $jo->JobOrderID }}</td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                            <tr role="row" class="even">
+                                            <tr>
                                                 <td>ES000{{ $estimate->EstimateID }}</td>
                                                 <td>{{ $estimate->PlateNo }}</td>
                                                 <td>{{ $estimate->FirstName }} {{ $estimate->LastName }}</td>
@@ -118,12 +102,20 @@
                                                         echo $date;
                                                     ?>
                                                 </td>
-                                                <td>N/A</td>
+                                                <td>
+                                                    @foreach($joborder as $jo) 
+                                                        @if($jo->EstimateID==$estimate->EstimateID)
+                                                            JO000{{ $jo->JobOrderID }}
+                                                        @endif
+                                                    @endforeach
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
+                            <input type=hidden id="start">
+                            <input type=hidden id="end">
                     <!-- FOOTER 
                         <div class="card-footer bg-black disabled">
                             <div class="examples transitions m-t-5 pull-right">
@@ -225,8 +217,9 @@
         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
-
+    
     cb(start, end);
+
 });
 </script>
 
