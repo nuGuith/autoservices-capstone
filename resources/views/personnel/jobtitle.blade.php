@@ -143,6 +143,7 @@
                             </form>
                         </div>
                     </div>
+
                     <!--END OF ADD MODAL -->
 
                     <!-- EDIT MODAL -->

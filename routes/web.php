@@ -185,19 +185,12 @@ Route::get('/405',['as'=>'405','uses'=>'ErrorHandlerController@errorCode405']);
 
 //Transaction - Customer Information
 Route::resource('/customerinformation','CustomerController');
-Route::put('/customerinformation', 'CustomerController@update');
+Route::put('/editcustomer', 'CustomerController@edit');
 
 Route::get('/viewvehiclehistory/{id}','VehicleHistoryController@index');
 Route::get('/viewvehiclehistory/{id}/showHistory','VehicleHistoryController@showHistory');
 Route::get('/viewvehiclehistory/{id}/showJobOrder','VehicleHistoryController@showJobOrder');
 
-//Transaction - Customer Information
-Route::resource('/customerinformation','CustomerController');
-Route::put('/customerinformation', 'CustomerController@update');
-
-Route::get('/viewvehiclehistory/{id}','VehicleHistoryController@index');
-Route::get('/viewvehiclehistory/{id}/showHistory','VehicleHistoryController@showHistory');
-Route::get('/viewvehiclehistory/{id}/showJobOrder','VehicleHistoryController@showJobOrder');
 
 //Transaction - Inspect Vehicle
 Route::get('/inspect','InspectController@index');
@@ -290,3 +283,10 @@ Route::get('/queries', 'QueriesController@index');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
 Route::get('/report-sales', 'PDFController@sales');
 Route::get('/report-netsales', 'PDFController@netsales');
+
+//Utilities
+Route::resource('/utilities','UtilitiesController');
+Route::POST('/picutilities','UtilitiesController@perph');
+Route::GET('/retutilities','UtilitiesController@show');
+Route::POST('/editutilities','UtilitiesController@edit');
+
