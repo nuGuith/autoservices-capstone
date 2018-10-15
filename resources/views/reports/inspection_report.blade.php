@@ -63,11 +63,10 @@
                             <div class="card-block m-t-5" id="user_body">
                                 <div class="col-lg-4 input_field_sections">
                                     <form>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                                        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
+                                            <i class="fa fa-calendar"></i>&nbsp;
+                                            <span></span> 
+                                            <i class="fa fa-caret-down"></i>
                                         </div>
                                     </form>
                                 </div>
@@ -181,12 +180,14 @@
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
 
 <script>
-$(document).ready( function(){
-    var start = moment();
+    $(function() {
+
+    var start = moment().subtract(29, 'days');
     var end = moment();
 
-    function date(start, end){
+    function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        
         var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
         var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
             
@@ -199,18 +200,16 @@ $(document).ready( function(){
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
-        ranges:{
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
-    }, date);
+    }, cb);
 
-    date(start, end);
-
+    cb(start, end);
 });
 </script>
 

@@ -39,7 +39,7 @@
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/inspect">
+                                <a href="/jobordersales_report">
                                     <i class="fa fa-file" data-pack="default" data-tags=""></i>
                                     Job Order Sales Report
                                 </a>
@@ -61,11 +61,10 @@
                 <div class="card-block m-t-5" id="user_body">
                     <div class="col-lg-4 input_field_sections">
                         <form>
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                                <input type="text" class="form-control" id="reportrange" placeholder="dd/mm/yyyy-dd/mm/yyyy">
+                            <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> 
+                                <i class="fa fa-caret-down"></i>
                             </div>
                         </form>
                     </div>
@@ -90,47 +89,47 @@
                                 </td>
                                 <td>JO000{{ $joborder->JobOrderID }}</td>
                                 <td>
-                                    <!--@foreach($serviceperformed as $service)-->
-                                        <!--@if($joborder->JobOrderID == $service->JobOrderID)-->
+                                    @foreach($serviceperformed as $service)
+                                        @if($joborder->JobOrderID == $service->JobOrderID)
                                             <?php
                                                 $amount = $service->ServiceTotalPrice;
                                                 $value = 0.00;
                                                 $format = number_format($value, 2, ".", "");
 
-                                                if(($amount)==0)
+                                                if(($amount)==0||($amount)==null)
                                                     echo "Php"." ".$format;
                                                 else
                                                     echo "Php"." ".$amount;
                                             ?>
-                                        <!--@endif-->
-                                    <!--@endforeach-->        
+                                        @endif
+                                    @endforeach        
                                     </td>
                                     <td>
-                                        <!--@foreach($productused as $product)-->
-                                            <!--@if($joborder->JobOrderID == $product->JobOrderID)-->
+                                        @foreach($productused as $product)
+                                            @if($joborder->JobOrderID == $product->JobOrderID)
                                                 <?php
                                                     $amount = $product->ProductTotalPrice;
                                                     $value = 0.00;
                                                     $format = number_format($value, 2, ".", "");
 
-                                                    if(($amount)==0)
-                                                        echo "Php"." ".$format;
-                                                    else
+                                                    if(($amount)!=0||($amount)!=null)
                                                         echo "Php"." ".$amount;
+                                                    else
+                                                        echo "Php"." ".$format;
                                                 ?>
-                                            <!--@endif-->
-                                        <!--@endforeach-->
+                                            @endif
+                                        @endforeach
                                     </td>
                                 <td id="sales">
                                     <?php
-                                        $amount = $joborder->TotalAmountDue;
+                                        $amount = $joborder->JOGross;
                                         $value = 0.00;
                                         $format = number_format($value, 2, ".", "");
 
-                                        if(($amount)==0)
-                                            echo "Php"." ".$format;
-                                        else
+                                        if(($amount)!=0||($amount)!=null)
                                             echo "Php"." ".$amount;
+                                        else
+                                            echo "Php"." ".$format;
                                     ?>
                                 </td>
                             </tr>
@@ -173,7 +172,7 @@
 	                    </tfoot>
                     </table>
                 </div>
-                <!-- FOOTER -->
+                <!-- FOOTER
                 <div class="card-footer bg-black disabled">
                     <div class="examples transitions m-t-5 pull-right">
                         <div class="btn-group">
@@ -185,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-            <!-- /. FOOTER -->
+            FOOTER -->
          	</div>
         </div>
     </div>
@@ -245,14 +244,15 @@
 <!--end of plugin scripts-->
 <script type="text/javascript" src="{{ URL::asset('js/form.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/pages/datetime_piker.js') }}"></script>
-
 <script>
-$(document).ready( function(){
-    var start = moment();
+    $(function() {
+
+    var start = moment().subtract(29, 'days');
     var end = moment();
 
-    function date(start, end){
+    function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        
         var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
         var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
             
@@ -265,18 +265,16 @@ $(document).ready( function(){
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
-        ranges:{
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
-    }, date);
+    }, cb);
 
-    date(start, end);
-
+    cb(start, end);
 });
 </script>
 

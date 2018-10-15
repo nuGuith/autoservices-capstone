@@ -30,13 +30,15 @@ class ServiceProductController extends Controller
 
         $product = DB::table('product')
                 ->LEFTJOIN('product_unit_type as pu','product.ProductUnitTypeID','=','pu.ProductUnitTypeID')
-                ->SELECT('ProductID','ProductBrandID','ProductName','Size','pu.Unit')
+                ->LEFTJOIN('product_brand as pb', 'product.ProductBrandID', '=', 'pb.ProductBrandID')
+                ->SELECT('ProductID','product.ProductBrandID','BrandName', 'ProductName','Size','pu.Unit')
                 ->WHERE('product.isActive',1)
                 ->GET();
 
         $view = DB::table('product_service as ps')
                 ->LEFTJOIN('Product as p','ps.ProductID','=','p.ProductID')
                 ->LEFTJOIN('service as s','ps.ServiceID','=','s.ServiceID')
+                ->LEFTJOIN('product_brand as pb', 'p.ProductBrandID', '=', 'pb.ProductBrandID')
                 ->LEFTJOIN('product_unit_type as pu','p.ProductUnitTypeID','=','pu.ProductUnitTypeID')
                 ->WHERE('ps.isActive',1)
                 ->GET();
@@ -45,7 +47,7 @@ class ServiceProductController extends Controller
                 ->groupby('ps.ServiceID')
                 ->WHERE('ps.isActive',1)
                 ->get();
-       
+
         return view ('service.serviceproduct',compact('service','product','view','cnt'));
     }
 
@@ -77,7 +79,7 @@ class ServiceProductController extends Controller
      */
     public function store(Request $request)
     {
-       
+
     }
 
     /**
@@ -108,42 +110,35 @@ class ServiceProductController extends Controller
 
         $ser = Input::get('ser');
         $prod = Input::get('prod');
-        $id = Input::get('id');
-        $darr = Input::get('darr');
-        $count = Input::get('pscnt');
+        $arr = Input::get('arr');
 
+    if(count($arr)>0)
+    {
+    
+    for($i=0;$i<count($arr);$i++)
+    {
 
-        for($i=0;$i<$count;$i++) {
+    DB::table('product_service')
+    ->WHERE('ServiceID','=', $arr[$i])
+    ->delete();
+    }   
+    }
 
-      DB::table('product_service as ps')
-      ->WHERE('ps.ProductServiceID',$id[$i])
-      ->UPDATE(['ps.ProductID'=>$prod[$i],'ps.ServiceID'=>$ser]);
+    //Insert new record
+    for($i=0;$i<count($prod);$i++)
+    {
+
+      $insert = array("ProductID"=>$prod[$i],"ServiceID"=>$ser);
+      DB::table('product_service')->insert($insert);
 
     }
 
-        if(count($darr)>0){
-
-            for($x=0;$x<$darr;$x++){
-
-                   DB::table('product_service as ps')
-                     ->WHERE('ps.ProductServiceID',$darr[$x])
-                     ->UPDATE(['isActive'=>0]);
-
-            }
-
-        }
 
 
 
-          
-
-      
 
 
-        
 
-      
-        
     }
 
     /**
@@ -155,7 +150,7 @@ class ServiceProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+
     }
 
     /**
@@ -168,13 +163,13 @@ class ServiceProductController extends Controller
     {
         $did = Input::get('id');
 
-     
+
 
       DB::table('product_service as ps')
       ->WHERE('ps.ServiceID',$did)
       ->UPDATE(['isActive'=>0]);
 
-    
-       
+
+
     }
 }

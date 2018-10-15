@@ -28,7 +28,7 @@ class ProductController extends Controller
     		->select('*')
     		->join('product_type', 'product.ProductTypeID', '=', 'product_type.ProductTypeID')
     		->join('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
-    		->join('product_unit_type', 'product.ProductUnitTypeID', '=', 'product_unit_type.ProductUnitTypeID')
+    		->join('product_unit_type', 'product.ProductUnitTypeID', '=','product_unit_type.ProductUnitTypeID')
     		->where('product.isActive', '1')
     		->get();
 
@@ -36,7 +36,7 @@ class ProductController extends Controller
     		->select('*')
     		->where('isActive', '1')
     		->get();
-       
+
     	$prodbrand = DB::table('product_brand')
     		->select('*')
     		->where('isActive', '1')
@@ -45,13 +45,13 @@ class ProductController extends Controller
     	$produnittype = DB::table('product_unit_type')
 			->select('*')
     		->where('isActive', '1')
-    		->get();   
+    		->get();
 
     	$prodtype2 = DB::table('product_type')
     		->select('*')
     		->where('isActive', '1')
     		->get();
-       
+
     	$prodbrand2 = DB::table('product_brand')
     		->select('*')
     		->where('isActive', '1')
@@ -60,8 +60,9 @@ class ProductController extends Controller
     	$produnittype2 = DB::table('product_unit_type')
 			->select('*')
     		->where('isActive', '1')
-    		->get();    		
+    		->get();
 
+        // dd($prodbrand2);
         return view ('product.product')
         	->with('product', $product)->with('prodtype', $prodtype)->with('prodbrand', $prodbrand)->with('produnittype', $produnittype)->with('prodtype2', $prodtype2)->with('prodbrand2', $prodbrand2)->with('produnittype2', $produnittype2);
     }
@@ -74,17 +75,22 @@ class ProductController extends Controller
     public function create(Request $product)
     {
         //
-        $productname = $product->input('productname');
+      $productname = $product->input('productname');
   		$producttype = $product->input('producttype');
   		$brand       = $product->input('brand');
   		$size        = $product->input('size');
   		$unit        = $product->input('unit');
   		$price       = $product->input('price');
-  		$unit        = $product->input('unit');
   		$description = $product->input('description');
+
+      $war = $product->input('warranty');
+      $WDM =  $product->input('durationmode');
+      $mil = $product->input('warrantymileage');
+
   		$date        = date('Y-m-d h:i:s');
 
-		$data = array('ProductTypeID'=>$producttype, 'ProductBrandID'=>$brand, 'ProductUnitTypeID'=>$unit, 'ProductName'=>$productname, 'Description'=>$description, 'Price'=>$price, 'Size'=>$size, 'created_at'=>$date, 'updated_at'=>$date);
+		$data = array('ProductTypeID'=>$producttype, 'ProductBrandID'=>$brand, 'ProductUnitTypeID'=>$unit, 'ProductName'=>$productname,
+                  'Description'=>$description, 'Price'=>$price, 'Size'=>$size,'WarrantyDuration'=>$war,'WarrantyDurationMode'=>$WDM, 'WarrantyMileage'=>$mil);
 
 		DB::table('product')->insert($data);
 
@@ -104,7 +110,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-       
+
     }
 
     /**
@@ -129,12 +135,12 @@ class ProductController extends Controller
 
     	$product = DB::table('product')
 			  ->select('*')
-			  ->where('ProductID', Input::get('ProductIDedit'))
+			  ->where('ProductID', $product->input('ProductIDedit'))
 			  ->get();
 
 
 		return \Response::json(['product'=>$product]);
-        
+
     }
 
     /**
@@ -146,21 +152,27 @@ class ProductController extends Controller
      */
     public function update(Request $product)
     {
-	     
-	  $id = Input::get('ProductIDedit');
-	  $product = product::find($id);
-	  $product->ProductName = Input::get('productnameedit');
-	  $product->ProductTypeID = Input::get('unitedit');
-	  $product->ProductBrandID = Input::get('brandedit');
-	  $product->Size = Input::get('sizeedit');
-	  $product->Description = Input::get('descriptionedit');
-	  $product->Price = Input::get('priceedit');
-	  $date        = date('Y-m-d h:i:s');
-	  $product->updated_at = $date;
 
-	  $product->save();
+	  $id = $product->input('ProductIDedit');
+	  $ProductName = $product->input('productnameedit');
+	  $ProductUnitTypeID = $product->input('unitedit');
+	  $ProductBrandID = $product->input('brandedit');
+	  $Size = $product->input('sizeedit');
+	  $Description = $product->input('descriptionedit');
+	  $Price = $product->input('priceedit');
+    $ProductTypeID = $product->input('producttypeedit');
 
-	  return redirect()->to('product');  
+    $WarrantyDuration = $product->input('warrantyedit');
+    $WarrantyDurationMode = $product->input('durationmodeedit');
+    $WarrantyMileage = $product->input('warrantymileageedit');
+
+    DB::table('product')
+    ->WHERE('ProductID',$id)
+    ->UPDATE(['ProductTypeID'=>$ProductName,'ProductTypeID'=>$ProductTypeID,'ProductBrandID'=>$ProductBrandID,'ProductUnitTypeID'=>$ProductUnitTypeID,'ProductName'=>$ProductName,
+              'Description'=>$Description,'Description'=>$Description,'Price'=>$Price,'Size'=>$Size,'WarrantyDuration'=>$WarrantyDuration,'WarrantyDurationMode'=>$WarrantyDurationMode, 'WarrantyMileage'=>$WarrantyMileage]);
+
+    return redirect()->to('/product');
+
     }
 
     /**
@@ -169,14 +181,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete()
+    public function delete(Request $product)
     {
-      $getID = Input::get('deleteId');
+      $getID = $product->input('deleteId');
 
-      $p = product::find($getID);
-        $p->isActive='0';
-        $p->save();
+      DB::table('product')
+      ->WHERE('ProductID',$getID)
+      ->UPDATE(['isActive'=>0]);
+
+
         return \Redirect::back();
-       
+
     }
 }

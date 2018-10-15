@@ -33,6 +33,7 @@ class PersonnelController extends Controller
 
       $pj = DB::table('personnel_job as pj')
       ->LEFTJOIN('job_description as jd','pj.JobDescriptionID','=','jd.JobDescriptionID')
+      ->WHERE('pj.isActive',1)
       ->get();
 
         return view ('personnel.personnel',compact('view','jt','pj'));
@@ -58,7 +59,7 @@ class PersonnelController extends Controller
         $jt = Input::get('jt');
 // null photo
         $pic = "";
-        
+
         $data = array('FirstName'=>$f,'MiddleName'=>$m,'LastName'=>$s,
                       'Position'=>$pos,'Birthday'=>$bday,'ContactNo'=>$phone,'CompleteAddress'=>$add,'image'=>$pic,'emailaddress'=>$email);
 
@@ -95,22 +96,22 @@ public function perph()
     $uploadOk = 1;
     $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
     // Check if image file is a actual image or fake image
-    // if(isset($_POST["submit"])) 
+    // if(isset($_POST["submit"]))
     // {
     //     $check = getimagesize($_FILES["pic"]["tmp_name"]);
-    //     if($check !== false) 
+    //     if($check !== false)
     //     {
     //       // Session::flash( 'message',"File is an image - " . $check["mime"] . ".");
-           
+
     //         $uploadOk = 1;
-    //     } else 
+    //     } else
     //     {
     //       // Session::flash( 'message',"File is not an image.");
     //         $uploadOk = 0;
     //     }
     // }
     // Check if file already exists
-    // if (file_exists($target_file)) 
+    // if (file_exists($target_file))
     // {
     //  $id = Session::get('driverId');
     //     $company = MDriverInfo::find($id);
@@ -128,24 +129,24 @@ public function perph()
     // }
     // // Allow certain file formats
     // if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    // && $imageFileType != "gif" ) 
+    // && $imageFileType != "gif" )
     // {
-    //   Session::flash( 'message',"Sorry, only JPG, JPEG, PNG & GIF files are allowed.");   
-     
+    //   Session::flash( 'message',"Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+
     //     $uploadOk = 0;
     // }
     // // // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) 
+    if ($uploadOk == 0)
     {
        Session::flash( 'message',"Sorry, your file was not uploaded.");
 
-       
+
     // if everything is ok, try to upload file
-    } 
-    else 
+    }
+    else
     {
-      
-        if (move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file)) 
+
+        if (move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file))
         {
         // $shifttemp = PersonnelHeader::find($stid);
         // $shifttemp->image= ;
@@ -158,8 +159,8 @@ public function perph()
         // Session::flash('message', "Driver succesfully created!");
         // Session::forget('driverId');
         // return \Redirect::back();
-        } 
-        else 
+        }
+        else
         {
           Session::flash('title', 'Error!');
         Session::flash('type', 'error');
@@ -169,7 +170,7 @@ public function perph()
     }
   }
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -196,7 +197,7 @@ public function perph()
         ->get();
 
         $job = DB::table('personnel_job')
-            ->SELECT('JobDescriptionID')
+            ->SELECT('JobDescriptionID','PersonnelJobID')
             ->WHERE('PersonnelID',Input::get('id'))
             ->get();
 
@@ -221,15 +222,41 @@ public function perph()
       $eemail = Input::get('email');
       $ebday = Input::get('bday');
       $epos = "Manager";
+      $jt = Input::get('jtitle');
+      $jid = Input::get('jpid');
+      $pid = Input::get('id');
 
 
       DB::table('personnel_header')
       ->WHERE('PersonnelID',Input::get('id'))
       ->UPDATE(['FirstName'=>$ef,'MiddleName'=>$em,'LastName'=>$es,'CompleteAddress'=>$eadd,'ContactNo'=>$ephone,'EmailAddress'=>$eemail,
                 'Birthday'=>$ebday,'Position'=>$epos,'image'=>$epic]);
-
-
     Session::put('perId' , Input::get('id'));
+
+    //Clear Existing JP id
+  if(count($jid)>0)
+  {
+  
+    for($i=0;$i<count($jid);$i++)
+    {
+
+    DB::table('personnel_job')
+    ->WHERE('PersonnelJobID','=', $jid[$i])
+    ->delete();
+    } 
+  }
+
+    //Insert New/Edited
+    for($x=0;$x<count($jt);$x++)
+    {
+
+      $jp = array("PersonnelID"=>$pid,"JobDescriptionID"=>$jt[$x]);
+      DB::table('personnel_job')->insert($jp);
+
+    }
+
+
+
 
 
     }

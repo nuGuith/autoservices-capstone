@@ -16,7 +16,7 @@ use DateTables;
 class ServicePriceController extends Controller
 {
 
-     
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +26,6 @@ class ServicePriceController extends Controller
     {
         $vehicle = DB::table('automobile_make as mak')
                 ->LEFTJOIN('automobile_model as mod','mak.MakeID','=','mod.MakeID')
-                ->LEFTJOIN('automobile as a', 'mod.ModelID', '=', 'a.ModelID')
                 ->where('mak.isActive',1)
                 ->GET();
 
@@ -36,24 +35,19 @@ class ServicePriceController extends Controller
                 ->get();
 
         $view = DB::table('service_price as sp')
-                ->LEFTJOIN('service as sr','sp.ServiceID','=','sr.ServiceID')
                 ->LEFTJOIN('automobile_model as mod','sp.ModelID','=','mod.ModelID')
                 ->LEFTJOIN('automobile_make as mk','mod.MakeID','=','mk.MakeID')
-                ->LEFTJOIN('automobile as a', 'mod.ModelID', '=', 'a.ModelID')
-                ->WHERE('sp.isActive',1)
+                ->WHERE('sp.isActive', 1)
                 ->GET();
 
-        $sname =DB::table('service_price as sp')
+        $sname = DB::table('service_price as sp')
                 ->LEFTJOIN('service as s','sp.ServiceID','=','s.ServiceID')
-                ->SELECt('s.ServiceName','sp.Price','sp.ServiceID','sp.ServicePriceID')
+                ->SELECT('s.ServiceName','sp.Price','sp.ServiceID','sp.ServicePriceID', 'sp.ModelID')
                 ->WHERE('sp.isActive',1)
-                ->groupby('sp.ServiceID')
-
+                ->groupby('sp.Price')
                 ->GET();
-        // dd($sname);
+        //dd($sname);
 
-
-       
         return view ('service.serviceprice',compact('vehicle','service','view','sname'));
     }
 
@@ -85,7 +79,7 @@ class ServicePriceController extends Controller
      */
     public function store(Request $request)
     {
-       
+
     }
 
     /**
@@ -118,67 +112,26 @@ class ServicePriceController extends Controller
         $service = Input::get('eser');
         $price = Input::get('epr');
         $spid = Input::get('idarr');
-        $arr = Input::get('arr');
-        $darr = Input::get('darr');
-        $vcount = Input::get('vc');
 
+        if(count($spid)>0)
+        {
+        
+        for($i=0;$i<count($spid);$i++)
+        {
 
-
-            for($i=0;$i<$vcount;$i++){
-
-          DB::table('service_price')
-          ->WHERE('ServicePriceID',$spid[$i])
-          ->UPDATE(['ServiceID'=>$service,'ModelID'=>$evehicle[$i],'Price'=>$price]);
-
-
+        DB::table('service_price')
+        ->WHERE('ServicePriceID','=', $spid[$i])
+        ->delete();
+        }   
         }
 
+        for($i=0;$i<count($evehicle);$i++)
+      {
+          $PS = array("ServiceID"=>$service,"ModelID"=>$evehicle[$i],"Price"=>$price);
+          DB::table('service_price')->insert($PS);
 
-            if(count($darr)>0){  
+      }
 
-            for($z=0;$z<count($darr);$z++){
-
-              DB::table('service_price')
-              ->WHERE('ServicePriceID',$darr[$z])
-              ->UPDATE(['isActive'=>0]);
-
-            }
-
-             for($i=0;$i<$vcount;$i++){
-
-              DB::table('service_price')
-              ->WHERE('ServicePriceID',$spid[$i])
-              ->UPDATE(['ServiceID'=>$service,'ModelID'=>$evehicle[$i],'Price'=>$price]);
-
-
-            }
-            
-
-
-        }
-
-
-       
-
-    
-
-
-
-
-
-      //   if(count($arr)>0){
-      //   for($x=0;$x<count($arr);$x++){
-
-      //     $sp = array("ServiceID"=>$service,"ModelID"=>$arr[$x],'Price'=>$price);
-      //     DB::table('service_price')->insert($sp);
-      //   }
-
-
-      // }
-
-
-
-     
 }
 
 
@@ -191,7 +144,7 @@ class ServicePriceController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+
     }
 
     /**

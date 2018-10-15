@@ -25,6 +25,9 @@ class PromoController extends Controller
       //PRODUCT
    	 $pr = DB::table('promo_product_inclusions')
       ->leftjoin('product', 'promo_product_inclusions.ProductID','=','product.ProductID')
+      ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
+      ->leftjoin('product_type', 'product.ProductTypeID', 'product_type.ProductTypeID')
+      ->leftjoin('product_unit_type', 'product.ProductUnitTypeID', 'product_unit_type.ProductUnitTypeID')
       ->get();
 
       //SERVICE
@@ -52,8 +55,9 @@ public function promoshow()
 
        $pr = DB::table('promo_product_inclusions')
       ->leftjoin('product', 'promo_product_inclusions.ProductID','=','product.ProductID')
-	  ->leftjoin('product_type', 'product_type.ProductTypeID','=','product.ProductTypeID')
-	  ->leftjoin('product_unit_type', 'product_unit_type.ProductUnitTypeID','=','product.ProductUnitTypeID')
+	    ->leftjoin('product_type', 'product_type.ProductTypeID','=','product.ProductTypeID')
+      ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
+	    ->leftjoin('product_unit_type', 'product_unit_type.ProductUnitTypeID','=','product.ProductUnitTypeID')
       ->WHERE('PromoID',Input::get('id'))
       ->get();
 
@@ -75,6 +79,7 @@ public function promoshow()
 	
 	$npr= DB::table('product')
 	  ->leftjoin('product_type', 'product_type.ProductTypeID','=','product.ProductTypeID')
+    ->leftjoin('product_brand', 'product.ProductBrandID', '=', 'product_brand.ProductBrandID')
 	  ->leftjoin('product_unit_type', 'product_unit_type.ProductUnitTypeID','=','product.ProductUnitTypeID')
       ->WHERE('product.isActive',1)
       ->whereNotIn('ProductID', $pquery)
@@ -115,6 +120,7 @@ public function promoshow()
       $price = Input::get('price');
       $warranty = Input::get('warranty');
       $durationMode = Input::get('durationMode');
+      $mileage = Input::get('mileage');      
       $StartDate = Input::get('StartDate');
       $EndDate = Input::get('EndDate');
       $productId = Input::get('productId');
@@ -130,7 +136,7 @@ public function promoshow()
 
       DB::table('promo_header')
       ->WHERE('PromoID',$promoID)
-      ->UPDATE(['PromoName'=>$promoName,'StartDate'=>$varStart,'EndDate'=>$varEnd,'Price'=>$price,'WarrantyDuration'=>$warranty,'WarrantyDurationMode'=>$durationMode]);
+      ->UPDATE(['PromoName'=>$promoName,'StartDate'=>$varStart,'EndDate'=>$varEnd,'Price'=>$price,'WarrantyDuration'=>$warranty,'WarrantyDurationMode'=>$durationMode, 'WarrantyMileage'=>$mileage]);
 
 	DB::table('promo_product_inclusions')->where('PromoID', $promoID)->delete();
 	DB::table('promo_service_inclusions')->where('PromoID', $promoID)->delete();
@@ -166,4 +172,27 @@ public function promoshow()
           }
 
     }
+
+    public function delete(){
+
+      DB::table('promo_header')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+      DB::table('promo_product_inclusions')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+      DB::table('promo_service_inclusions')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+      DB::table('promo_freeitems_inclusions')
+      ->WHERE('PromoID',Input::get('id'))
+      ->UPDATE(['isActive'=>0]);
+
+    
+
+    }
+ 
 }
