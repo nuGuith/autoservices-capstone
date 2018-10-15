@@ -71,65 +71,31 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $customer = Customer::findOrFail($id);
-        return response()->json(compact('customer'));
+        $fname = Input::get('FNAME');
+        $mname = Input::get('MNAME');
+        $lname = Input::get('LNAME');
+        $contact = Input::get('CONTACT');
+        $address = Input::get('ADDRESS');
+        $email = Input::get('EMAIL');
+        $pwd_sc = Input::get('PWD_SC');
+
+        DB::table('customer')
+        ->WHERE('CustomerID', Input::get('CID'))
+        ->UPDATE(['FirstName'=>$fname, 'MiddleName'=>$mname, 'LastName'=>$lname, 'ContactNo'=>$contact, 'PWD_SC_No'=>$pwd_sc, 'CompleteAddress'=>$address, 'EmailAddress'=>$email]);
+
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int 
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-       $customNames = [
-            'lastname' => 'Last Name',
-            'middlename' => 'Middle Name',
-            'firstname' => 'First Name',
-            'contactno' => 'Contact Number',
-            'completeaddress' => 'Address',
-            'emailaddress' => 'Email Address',
-            'pwd_sc_id' => 'PWD/SC ID',
-        ];
-
-        $customMessages = [
-            'required' => 'The :attribute is required',
-            'unique' => 'The :attribute is already taken',
-            'max' => 'The :attribute has over the required maximum length.',
-            'regex' => 'You cannot input special characters' 
-        ];
-
-        $validation = Validator::make($request->all(), [
-            'lastname' => ['bail', 'required', 'max:150', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
-            'middlename' => ['bail', 'required', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
-            'firstname' => ['bail', 'required', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,?]+/'],
-            'contactno' => ['required','numeric'],
-            'completeaddress' => ['required']
-        ], $customMessages);
-
-        $validation->setAttributeNames($customNames);
-        if ($validation->fails()) {
-            return redirect('customer')
-                ->withErrors($validation, 'update')
-                ->withInput();
-        }
-        else{
-            try{
-                DB::table('customer')
-                    ->where('customer', $request->customerid)
-                    ->update(['firstname' => ($request->firstname), 'middlename' => ($request->middlename), 'lastname' => ($request->lastname), 'contactno' => ($request->contactno), 'completeaddress' => ($request->completeaddress), 'emailaddress' => ($request->emailaddress), 'pwd_sc_id' => ($request->pwd_sc_id)]);
-            }
-            catch(\Illuminate\Database\QueryException $e){
-                DB::rollBack();
-                $errors = $e->getMessage();
-                return redirect('customer')
-                    ->withErrors($errors, 'update');
-            }
-            $request->session()->flash('success', 'Record successfully updated.');
-            return redirect('customer');
-        }
+      
     }
 
     /**
