@@ -169,7 +169,7 @@ class AddEstimatesController extends Controller
                 'AutomobileID' => ($auto_id->AutomobileID),
                 'ServiceBayID' => ($request->servicebayid),
                 'PersonnelID' => ($request->personnelid),
-                'DiscountID' => ($request->discountid)
+                'TotalCost' => ($request->totalcost)
             ]);
 
             $estimate = Estimate::orderBy('estimateid', 'desc')->first();
@@ -178,7 +178,7 @@ class AddEstimatesController extends Controller
             $products = $request->product;
             $quantity = $request->quantity;
             $untprice = $request->unitprice;
-            $laborcost = $request->totalprice;
+            $laborcost = $request->labor;
             $serviceid= $request->serviceid;
 
             //if (is_array($services) || is_object($services))
@@ -189,7 +189,7 @@ class AddEstimatesController extends Controller
                 ServicePerformed::create([
                         'ServiceID' => $service,
                         'EstimateID' => $estimate->EstimateID,
-                        'LaborCost' => $laborcost[$svckey]
+                        'LaborCost' => (float) $laborcost[$svckey]
                     ]);
                 
                 $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();
@@ -254,13 +254,14 @@ class AddEstimatesController extends Controller
         return response()->json(compact('plates'));
     }
 
-    public function unfilterPlateNo()
-    {
-        $plates = Automobile::orderBy('created_at', 'desc')
+    public function unfilterPlateNo($id){
+        $plates = DB::table('automobile')
+            ->orderBy('created_at', 'desc')
             ->where('isActive', 1)
             ->groupBy('plateno')
             ->distinct('plateno')
-            ->pluck('plateno','automobileid');
+            ->select('plateno','automobileid')
+            ->get();
         return response()->json(compact('plates'));
     }
 
@@ -284,10 +285,15 @@ class AddEstimatesController extends Controller
 
     public function getProducts($id)
     {
-        $products = DB::table('product AS pr')
+        $products = DB::table('product as pr')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->join('product_service AS ps', 'pr.productid', 'ps.productid')
-            ->where(['ps.serviceid' => $id, 'ps.isActive' => 1])
-            ->select('pr.productname','pr.productid', 'pr.price')
+            ->orderBy('pr.productid', 'desc')
+            ->where(['ps.serviceid' => $id, 'pr.isActive' => 1])
+            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS productname"), 'pr.productid', 'pr.price')
+            ->groupBy('pr.productid')
+            ->distinct('pr.productid')
             ->get();
         return response()->json(compact('products'));
     }

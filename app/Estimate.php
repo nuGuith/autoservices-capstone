@@ -16,6 +16,7 @@ class Estimate extends Model
         'DiscountID',
         'PersonnelID',
         'ServiceBayID',
+        'TotalCost',
         'isActive',
         'updated_at'
     ];

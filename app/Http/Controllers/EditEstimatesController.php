@@ -86,8 +86,10 @@ class EditEstimatesController extends Controller
 
         $productused = DB::table('product_used AS pu')
             ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->where(['estimateid' => $id, 'pu.isActive' => 1])
-            ->select('pu.*', 'pr.*')
+            ->select('pu.*', 'pr.*', DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"))
             ->get();
     
         $complaint = DB::table('complaint as c')
@@ -101,7 +103,7 @@ class EditEstimatesController extends Controller
         $automobile_models->prepend('Select a Model', 0);
         $personnels->prepend('Select a Personnel', 0);
 
-        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels', 'serviceperformed', 'productused', 'complaint'));
+        return View('estimates.editestimates',compact('estimate','customer', 'model', 'automobile', 'automobile_models', 'service_bays', 'servicebay', 'services', 'products', 'personnels', 'serviceperformed', 'productused', 'complaint', 'id'));
     }
 
     /**
@@ -122,7 +124,43 @@ class EditEstimatesController extends Controller
      */
     public function store(Request $request)
     {
-       
+        $services = $request->service;
+        $products = $request->product;
+        $quantity = $request->quantity;
+        $untprice = $request->unitprice;
+        $laborcost = $request->totalprice;
+        $serviceid= $request->serviceid;
+
+        //if (is_array($services) || is_object($services))
+        foreach($services as $svckey=>$service){
+                
+            $subTotal = 0;
+            $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first();
+            ServicePerformed::create([
+                'ServiceID' => $service,
+                'EstimateID' => $estimate->EstimateID,
+                'LaborCost' => $laborcost[$svckey]
+            ]);
+                
+            $svcperf = DB::table('service_performed')->orderBy('serviceperformedid', 'desc')->first();
+
+            foreach($serviceid as $key=>$svcid){
+                if ($serviceid[$key] == $svcperf->ServiceID){
+                    if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key]))
+                        $quantity[$key] = 1;
+                            
+                    $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
+                    ProductsUsed::create([
+                        'estimateid' => $estimate->EstimateID,
+                        'serviceperformedid' => $svcperf->ServicePerformedID,
+                        'productid' => $products[$key],
+                        'dateused' => (date('Y-m-d')),
+                        'quantity' => $quantity[$key],
+                        'subtotal' => $subTotal
+                    ]);
+                }
+            }
+        }
     }
 
     /**

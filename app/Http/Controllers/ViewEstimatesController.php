@@ -75,7 +75,7 @@ class ViewEstimatesController extends Controller
             ->first();
 
         //dd($estimate);
-        return View('estimates.viewestimates',compact('estimate','customer', 'model', 'automobile', 'servicebay', 'personnel', 'productused', 'serviceperformed', 'complaint'));
+        return View('estimates.viewestimates',compact('estimate','customer', 'model', 'automobile', 'servicebay', 'personnel', 'productused', 'serviceperformed', 'complaint', 'id'));
     }
 
     /**

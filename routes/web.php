@@ -209,7 +209,7 @@ Route::get('/addestimates/{customer}/showCustomer', 'AddEstimatesController@show
 Route::get('/addestimates/{id}/getProducts', 'AddEstimatesController@getProducts');
 Route::get('/addestimates/{id}/getServicePrice', 'AddEstimatesController@getServicePrice');
 Route::get('/addestimates/{id}/filterPlateNo', 'AddEstimatesController@filterPlateNo');
-Route::get('/addestimates/unfilterPlateNo', 'AddEstimatesController@unfilterPlateNo');
+Route::get('/addestimates/{id}/unfilterPlateNo', 'AddEstimatesController@unfilterPlateNo');
 Route::get('/addestimates/{id}/getServiceDetails', 'AddEstimatesController@getServiceDetails');
 Route::get('/addestimates/{id}/getProductDetails', 'AddEstimatesController@getProductDetails');
 Route::get('/addestimates/{id}/getDiscountDetails', 'AddEstimatesController@getDiscountDetails');
@@ -230,8 +230,13 @@ Route::get('/addjoborder/{id}/getFilteredProductList', 'AddJobOrderController@ge
 Route::get('/addjoborder/{id}/getServiceDetails', 'AddJobOrderController@getServiceDetails');
 Route::get('/addjoborder/{id}/getProductDetails', 'AddJobOrderController@getProductDetails');
 Route::get('/addjoborder/{id}/getDiscountDetails', 'AddJobOrderController@getDiscountDetails');
+Route::get('/addjoborder/{id}/getPromoDetails', 'AddJobOrderController@getPromoDetails');
+Route::get('/addjoborder/{id}/getPackageDetails', 'AddJobOrderController@getPackageDetails');
 Route::get('/addjoborder/{id}/filterPlateNo', 'AddJoborderController@filterPlateNo');
 Route::get('/addjoborder/{id}/unfilterPlateNo', 'AddJobOrderController@unfilterPlateNo');
+Route::get('/addjoborder/{id}/unfilterEstimateIDs', 'AddJobOrderController@unfilterEstimateIDs');
+Route::get('/addjoborder/{id}/filterMechanic', 'AddJobOrderController@filterMechanic');
+Route::get('/addjoborder/{id}/unfilterMechanic', 'AddJobOrderController@unfilterMechanic');
 
 Route::get('/editjoborder/{id}','EditJobOrderController@index');
 Route::get('/viewjoborder/{id}', 'ViewJobOrderController@index');
@@ -246,6 +251,7 @@ Route::patch('/updatejoborder/resetJobOrder', 'UpdateJobOrderController@resetJob
 //Back Job
 Route::resource('/backjob','BackJobController');
 Route::resource('/addbackjob','AddBackJobController');
+Route::get('/addbackjob/{id}/showJobOrder', 'AddBackJobController@showJobOrder');
 Route::resource('/editbackjob','EditBackJobController');
 Route::resource('/updatebackjob','UpdateBackJobController');
 Route::resource('/viewbackjob','ViewBackJobController');
@@ -283,3 +289,4 @@ Route::resource('/utilities','UtilitiesController');
 Route::POST('/picutilities','UtilitiesController@perph');
 Route::GET('/retutilities','UtilitiesController@show');
 Route::POST('/editutilities','UtilitiesController@edit');
+

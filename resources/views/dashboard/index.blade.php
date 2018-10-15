@@ -29,6 +29,7 @@
 </style>
 
 
+
 <div id="content" class="bg-container">
 	<header class="head">
         <div class="main-bar">
@@ -332,6 +333,7 @@
 <script type="text/javascript" src="vendors/tipso/js/tipso.min.js"></script>
 <script type="text/javascript" src="js/pages/tooltips.js"></script>
 
+
 <!-- end of plugin scripts -->
 <script type="text/javascript" src="js/pages/modals.js"></script>
 <script type="text/javascript" src="js/pages/calendar.js"></script>
@@ -352,9 +354,11 @@ $(document).ready(function() {
 </script>
 
 <script>
+
 $(document).ready(function() {
     $('#backjob').dataTable({});
 } );
 </script>
+
 
 @stop

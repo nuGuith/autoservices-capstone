@@ -380,9 +380,9 @@
                                     <div class="col-lg-12">
                                         <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
                                             <div class="card">
-                                                <div class="card-header" role="tab" id="headingTwo">
+                                                <!-- <div class="card-header" role="tab" id="headingTwo">
                                                     <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="" aria-controls="collapseTwo" active="false">
-                                                        <!--Label: balance -->
+                                                        Label: balance
                                                         <h5 class="mb-0">
                                                             <span style="color:gray">Billing:
                                                                 <i style="padding-left: 300px; color:red" id="balance" name="balance"></i>
@@ -392,7 +392,7 @@
                                                             </span>
                                                         </h5>
                                                     </a>
-                                                </div>
+                                                </div> -->
 
                                             <!-- Payment Details -->
                                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordionEx">
@@ -752,8 +752,8 @@
                 var stepCtr;
                 var count = Object.keys(data.productused).length;
                 for (var i = 0; i < count; i++) {
-                    cols += '<td style="border-right:none !important">'+ data.productused[i].ProductName +' (<b>'+ data.productused[i].QuantityUsed +'</b>/' + data.productused[i].Quantity +' used)</td>';
-                    cols += '<td style="border-right:none !important"><div class="row btn-group" style="height:28px; margin-left:1%;"><input type="hidden" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><input type="number" style="width:55px; text-align:center; " id="quantity" data-produsedid="'+ data.productused[i].ProductUsedID +'" name="quantityused[]" placeholder="" min="1" class="form-control" max="'+ data.productused[i].Quantity +'"><button onclick="setMax('+ data.productused[i].ProductUsedID + ','+ data.productused[i].Quantity +');" type="button" style="background:#007ACC;border:none;color:white;margin-left:2px; padding: 0px 10px;" >Max</button></div></td>';
+                    cols += '<td style="border-right:none !important">'+ data.productused[i].ProductName +' (<b>'+ data.productused[i].QuantityUsed +'</b>/' + data.productused[i].Quantity +')</td>';
+                    cols += '<td style="border-right:none !important"><div class="row btn-group" style="height:28px; margin-left:1%;"><input type="hidden" name="productusedid[]" class="form-control hidden" value="'+ data.productused[i].ProductUsedID +'"><input type="number" style="width:55px; text-align:center; " id="quantity" data-produsedid="'+ data.productused[i].ProductUsedID +'" name="quantityused[]" placeholder="" min="1" class="form-control" max="'+ data.productused[i].Quantity +'"><button onclick="setMax('+ data.productused[i].ProductUsedID + ','+ data.productused[i].Quantity +');" type="button" style="background:#007ACC;border:none;color:white;margin-left:2px; padding: 0px 10px;" >Max</button></div> <span style="font-size:12.5px;"> <b>'+ data.productused[i].QuantityUsed +'</b>'+ ' of <b>' + data.productused[i].Quantity +'</b> used <b>'+ (data.productused[i].Quantity - data.productused[i].QuantityUsed) +'</b> left</span></td>';
                     row.append(cols);
                     tbody.append(row);
                     row = $("<tr>");

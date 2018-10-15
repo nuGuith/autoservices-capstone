@@ -374,7 +374,7 @@
                                                         <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     </div>
                                                 </th>
-                                                <th></th>
+                                                <th><input type="hidden" id="totalcost" name="totalcost"></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -384,11 +384,11 @@
                                     <div class="row m-t-5">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red"></span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2"></textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2" ></textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2"></textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2" value=""></textarea>
                                         </div>                              
                                     </div>
                                 <!--END OF ESTIMATE DETAILS -->
@@ -558,6 +558,15 @@
 
 <!--SCRIPT FOR ESTIMATE TABLE -->
 <script>
+$(document).keypress(function(e) {
+  if ($("#productSuggest").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#btnGo').click();
+  }
+  if ($("#confirmationModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#btnSaveProceed').click();
+  }
+});
+
 $(document).ready(function () {
     
     $("#estimates option[value='0']").prop("disabled",true);
@@ -670,6 +679,7 @@ $(document).ready(function () {
     /* SELECT RECORD via CUSTOMER NAME SEARCH */
     $("#customers").change(function () {
         var selectedID = $(this).val();
+        var autoID = 0;
         $.ajax({
             type: "GET",
             url: "/addestimates/"+selectedID+"/showCustomer",
@@ -700,7 +710,7 @@ $(document).ready(function () {
                 }
 
                 $('#transmission').val(data.automobile.Transmission);
-
+                autoID = data.automobile.AutomobileID;
                 var model = Object.keys(data.plates).length;
                 if (model < 2){
                     modelID = parseInt(data.automobile.ModelID);
@@ -728,6 +738,11 @@ $(document).ready(function () {
                     $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
                     $('#automobiles').trigger("chosen:updated");
                 }
+                if (count==1) {
+                    unfilterPlateNo(selectedID, autoID);
+                    $("#automobiles option[value='0']").prop("disabled", true, "selected", false);
+                    $('#automobiles').trigger("chosen:updated");
+                }
             }
         });
 
@@ -750,6 +765,27 @@ $(document).ready(function () {
         $('#selectPlateNo').addClass('focused_input');
         $("#AT").prop("checked", false);
         $("#MT").prop("checked", false);
+    }
+
+    function unfilterPlateNo(id, autoID){
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+id+"/unfilterPlateNo",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var count = Object.keys(data.plates).length;
+                var options = '';
+                $('#automobiles').empty().append('<option value = 0> Please select a Plate Number</option>');
+                $('#automobiles').trigger("chosen:updated");
+                for(var i = 0; i < count; i++){
+                    options += '<option value ="' + data.plates[i].automobileid + '">' + data.plates[i].plateno +'</option>';
+                }
+                $('#automobiles').append(options);
+                $('#automobiles').val(autoID);
+                $('#automobiles').trigger("chosen:updated");
+            }
+        });
     }
 
     /* SELECT RECORD via PLATE NUMBER SEARCH */
@@ -1032,9 +1068,9 @@ $(document).ready(function () {
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
                     cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" onkeypress="return event.charCode >= 48 && event.charCode <= 57" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
                     cols += '<td style="border-right:none !important">'+ data.product.productname +'</td>';
-                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
-                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
                     cols += '<td style="border-left:none !important"><center><button type="button" id="productid" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
 
                     newProductRow.append(cols);
@@ -1101,8 +1137,14 @@ $(document).ready(function () {
             });
 
             $(this).closest("tr").remove();
+            $("#services").prop("disabled", false);
+            $("#services").prop("selectedIndex", 0);
             $('#services option[value="'+id+'"]').prop("disabled", false);
             $('#services').trigger("chosen:updated");
+            $("#addRow").prop("disabled", true);
+            $("#labor").val(null);
+            $("#products").val(null);
+            $("#products").prop("disabled", "disabled").trigger('chosen:updated');
             getEstimatedTime();
             getGrandTotal();
 
@@ -1138,6 +1180,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
 
     function getGrandTotalNoQty(){
@@ -1171,6 +1214,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
 
 

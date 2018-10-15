@@ -56,35 +56,10 @@
                             <div class="card" >
 
                             <div class="card-block m-t-15">
-                            
 
-                            <!-- <div class="row m-t-15">
-                                    
-                                <div class="col-lg-6">
-                                    <h5>Search Customer Name:</h5>
-                                    <p>
-                                        <p class="m-t-10">
-                                        <select class="form-control  chzn-select" tabindex="2">
-                                            <option disabled selected>Choose Customer Name</option>
-                                            <option value="1">Xavier Tanguilan Eugenio</option>
-                                        </select>
-                                    </p>
-                                </div>
-                                <div class="col-lg-6 ">
-                                    <h5>Search Plate No:</h5>
-                                    <p>
-                                        <p class="m-t-10">
-                                        <select class="form-control  chzn-select" tabindex="2">
-                                            <option disabled selected>Choose Plate No.</option>
-                                            <option value="1">XTE 0202</option>
-                                        </select>
-                                    </p>
-                                </div>                        
-                            </div> -->
-
-
-                            
-                            <!--Start Customer Information -->                
+                            <!--Start Customer Information -->
+                            <button type="button" style="float:right;" onclick="window.location='{{ url("/addjoborder/$id/fromEstimate") }}'" class="btn btn-success hvr-float-shadow adv_cust_mod_btn gray">
+                                    </i>&nbsp;Proceed to Job Order &rarr;</button>                 
                             <h4 class="m-t-10">Customer Information</h2>
                             <hr style="margin-top: 10px; border: 2px solid #a7dfcd">
                             
@@ -110,112 +85,35 @@
                             <!--End Customer Information --> 
 
 
-                            <!--Start Vehicle Information --> 
-                            <h4 class ="m-t-25">Vehicle Information</h4>
+                            <!--START VEHICLE INFORMATION-->
+                            <h4 class ="m-t-25">Vehicle Information</h2>
                             <hr style="margin-top: 10px; border: 2px solid #6699cc">
 
-
-                            <!--Textfield: Plate No, Model, Chassis No, Mileage -->
+                            <!--Label: Customer Name,  Contact No. Email, Adress, Senior Citizen /PWD ID-->
                             <div class="row m-t-15">
-                                    <div class="col-lg-3">
-                                            <h5>Plate No.: <span style="color:red">*</span></h5>
-                                            <p>
-                                                <input id="plate" name="plate" type="text" placeholder="Plate No." class="form-control m-t-10" value="{{ $model->PlateNo }}">
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <h5>Model: <span style="color:red">*</span></h5>
-                                            <p class="m-t-10">
-                                                {{ Form::select(
-	                                                    'automobile_models',
-	                                                    $automobile_models,
-	                                                    null,
-	                                                    array(
-	                                                    'class' => 'form-control chzn-select',
-	                                                    'id' => 'automobile_models',
-	                                                    'name' => 'modelid')
-	                                                    ) 
-	                                            }}
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-3 ">
-                                           <h5>Chassis No.: <span style="color: red">*</span></h5>
-                                            <p>
-                                                <input id="chassis" name="chassis" type="text" placeholder="Chassis No." maxlength="6" class="form-control m-t-10" value="{{ $model->ChassisNo }}">
-                                            </p>
-                                        </div>
-
-                                        <div class="col-lg-3 ">
-                                            <h5>Mileage.: <span style="color: red">*</span></h5>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon m-t-10">
-                                                        <i class="fa fa-dashboard"></i>
-                                                    </span>
-                                                    <input id="mileage" name="mileage" type="number" placeholder="Miles" class="form-control m-t-10" value="{{ $model->Mileage }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-                                                </div>
-                                        </div>                         
-                                </div>
-
-                                <!--Textfield: Assign Mechanic, Service Bay -->
-                                <div class="row m-t-5">
-                                    <div class="col-lg-3">
-                                            <h5>Color: <span style="color: red">*</span></h5>
-                                            <p>
-                                                <input id="color" name="color" type="text" placeholder="Color"  class="form-control m-t-10" value="{{ $model->Color }}" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
-                                            </p>
-                                        </div>
-
-                                        <div id="transwrapper" class="col-lg-3">
-                                            <h5>Transmission: <span style="color:red">*</span></h5>
-                                            <div class="row checkbox-rotate m-t-15">
-                                            <input type="hidden" id="transmission" name="transmission" class="form-control m-t-10">
-                                            <p >
-                                                <label class="text-black"  style="padding-left: 45px;">
-                                                    <input id="MT" type="checkbox" value="MT" style="-webkit-transform: scale(1.4);">
-                                                    &nbsp;&nbsp;Manual 
-                                                </label>
-
-                                                <label class="text-black" style="padding-left: 45px;">
-                                                    <input id="AT" type="checkbox" value="AT" style="-webkit-transform: scale(1.4);">
-                                                    &nbsp;&nbsp;Automatic
-                                                </label>
-                                            </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <h5 style = "padding-bottom: 10px;">Estimated By: <span style="color: red">*</span></h5>
-                                            <p id="personnelwrapper">
-                                                {{ Form::select(
-                                                    'personnels',
-                                                    $personnels,
-                                                    null,
-                                                    array(
-                                                    'class' => 'form-control chzn-select',
-                                                    'id' => 'personnels',
-                                                    'name' => 'personnelid')
-                                                    ) 
-                                                }}
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <h5>Service Bay:</h5>
-                                            <p class="m-t-10">
-                                                {{ Form::select(
-	                                                    'servicebays',
-	                                                    $service_bays,
-	                                                    null,
-	                                                    array(
-	                                                    'class' => 'form-control chzn-select',
-	                                                    'id' => 'servicebays',
-	                                                    'name' => 'servicebayid')
-	                                                    ) 
-	                                            }}
-                                            </p>
-                                        </div> 
+                                    <div class="col-lg-6 m-t-5">
+                                            <h5><span style="color:gray">Plate No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->PlateNo }}</h5>                    
+                                    </div>  
+                                    <div class="col-lg-6 m-t-5">
+                                            <h5><span style="color:gray">Make:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Make }}</h5>               
                                     </div>
+                                    <div class="col-lg-6 m-t-10">
+                                            <h5><span style="color:gray">Chassis No.:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->ChassisNo }}</h5>
+                                    </div>
+                                    <div class="col-lg-6 m-t-10">
+                                            <h5><span style="color:gray">Model:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Model }}</h5>
+                                    </div>
+                                    <div class="col-lg-6 m-t-10">
+                                            <h5><span style="color:gray">Mileage:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Mileage }}</h5>
+                                    </div> 
+                                    <div class="col-lg-6 m-t-10">
+                                            <h5><span style="color:gray">Transmission:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Transmission }}</h5>
+                                    </div>
+                                    <div class="col-lg-6 m-t-10">
+                                            <h5><span style="color:gray">Color:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $automobile->Color }}</h5>
+                                    </div>             
+                                </div>
                             <!--END VEHICLE INFORMATION -->
-
-
 
 
                         <!--START ESTIMATE-->
@@ -309,20 +207,22 @@
                                         @foreach($serviceperformed as $sp)
                                         <tr class="service" id="{!!$sp->ServiceID!!}" name="{!!$sp->ServicePerformedID!!}">
                                             <td style="border-right:none !important">
-                                                {!!$sp->ServiceName!!}<br>
+                                                <span style="color:red;">Service:</span><br/>{!!$sp->ServiceName!!}<br>
                                             </td>
                                             <td  style="border-right:none !important">
                                                 <input type="hidden" style="width:55px;" id="quantity" name="quantity" placeholder="" value="1" readonly class="form-control hidden">
                                             </td>
-                                            <td style="border-right:none !important"><a></a></td>
                                             <td style="border-right:none !important">
-                                                <input type="text" style="width:70px; text-align:right;" id="laborcost" name="labor" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
+                                                <input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="{!!$sp->ServiceID!!}">
+                                            </td>
+                                            <td style="border-right:none !important">
+                                                <input type="text" style="width:70px; text-align:right;" id="laborcost" name="labor[]" placeholder="Labor" class="form-control" value="{!!$sp->LaborCost!!}" readonly>
                                             </td>
                                             <td style="border-right:none !important">
                                                 <input type="hidden" style="width:50px;" id="unitprice" name="unitprice" placeholder="" class="form-control" value="{!!$sp->LaborCost!!}">
                                             </td>
                                             <td style="border-right:none !important">
-                                                <input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="price" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
+                                                <input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="{!!$sp->LaborCost!!}">
                                                 </td>
                                             <td style="border-left:none !important">
                                                 <center>
@@ -332,19 +232,21 @@
                                         </tr>
                                             @foreach($productused as $pu)
                                                 @if($sp->ServicePerformedID == $pu->ServicePerformedID)
-                                                <tr class="product" id="svc{!!$sp->ServiceID!!}">
-                                                    <td style="border-right:none !important"></td>
+                                                <tr class="product" id="svc{!!$sp->ServiceID!!}" data-productid="{!!$pu->ProductID!!}">
                                                     <td style="border-right:none !important">
-                                                        <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                        <input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="{!!$sp->ServiceID!!}">
+                                                        <input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="{!!$pu->ProductID!!}"></td>
+                                                    <td style="border-right:none !important">
+                                                        <input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="{!!$pu->Quantity!!}" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                     </td>
                                                     <td style="border-right:none !important">
-                                                        {!!$pu->ProductName!!}
+                                                    <span style="color:red;">Product:</span><br/>{!!$pu->fullproductname!!}
                                                     </td>
                                                     <td style="border-right:none !important">
                                                         <input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
-                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
+                                                        <input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="{!!$pu->Price!!}" class="form-control">
                                                     </td>
                                                     <td style="border-right:none !important">
                                                         <input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice" placeholder=".00" class="form-control" value="{!!$pu->Price!!}">
@@ -360,7 +262,7 @@
                                         @endforeach
                                     </tbody>
                                      <!--Footer: Total Price-->
-                                    <tfoot>
+                                    <tfoot id="footer">
                                         <tr class="trrow">
                                             <th colspan="2" style="text-align: left;">Estimated Time: 
                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -390,11 +292,11 @@
                                     <div class="row m-t-5">
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Complaints: <span style="color: red">*</span></h5>
-                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2">{{ $complaint->Problem }}</textarea>
+                                            <textarea id="complaints" name="complaint" class="form-control" cols="30" rows="2" value="">@if(!(is_null($complaint))) {{ $complaint->Problem }} @endif</textarea>
                                         </div>
                                         <div class="col-lg-6">
                                             <h5 style = "padding-bottom: 10px;">Diagnosis: <span style="color: red"></span></h5>
-                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2">{{ $complaint->Diagnosis }}</textarea>
+                                            <textarea id="diagnosis" name="diagnosis" class="form-control" cols="30" rows="2">@if(!(is_null($complaint))) {{ $complaint->Diagnosis }} @endif</textarea>
                                         </div>                              
                                     </div>
                        
@@ -456,6 +358,123 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- START SUBMIT MODAL -->
+                <div class="modal fade in " id="confirmationModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Record Saved</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Done. We've already saved this record. Do you want to proceed to creating the Job Order now?</h5>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Cancel</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <a id="btnProceed" type="submit" class="btn btn-success">
+                                        &nbsp;Proceed &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SUBMIT MODAL -->
+
+                
+                <!-- START EXISTENCE CHECK MODAL -->
+                <div class="modal fade in" id="existCheckModal" tabindex="-2" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-warning"></i>
+                                    &nbsp;Warning
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h4>The service already exists.</h4>
+                                    <h5 id="errorInfo" style="font-weight:light;">It appears, this service is already staged in the table. (You've already added this)</h5>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">
+                                        Close
+                                    </button>
+                                </div>
+                                <div class="m-t-5">
+                                    <button id="btnOkay" data-dismiss="modal" style="border:1px solid #008A60" onclick="" type="button" class="btn btn-success">
+                                        &nbsp;Okay
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXISTENCE CHECK MODAL -->
+
+                <!-- START PRODUCT SUGGESTIONS MODAL -->
+                <div class="modal fade in " id="productSuggest" tabindex="-3" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title text-white"><i class="fa fa-save"></i>
+                                            &nbsp;Product suggestions</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col m-t-15">
+                                    <h5>Here are the product suggestions or the list of all the product(s) that might be needed for the service <strong><span id="servicename">Engine Overhaul</span></strong>. We can automatically add all of them for you.</h5>
+                                    <div>
+                                        <table class="table display nowrap dataTable no-footer" style="width:96%;">
+                                        </table>
+                                    </div>
+                                    <div style="display:block; width:100%; height:150px; overflow-y:scroll;">
+                                        <table id="prodSuggestTbl" class="table display nowrap dataTable" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <td><h5>Product</h5></td>
+                                                    <td><h5>Unit Price</h5></td>
+                                                </tr>
+                                            </thead>
+                                            <tfoot id="prodSuggestFooter">
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div><br>
+                                <div style="background:#F7F7F9; padding: 3%;" class="row m-t-6">
+                                    <div class="col-md-9">
+                                        <h6>If you don't like this feature, you can turn this off in <a style="color:#0366D6" href="#">Utilities</a> or just click the 'Turn off' button here.</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-outline-primary" style="border:1px solid #aeafaf;padding-top:4%;padding-bottom:4%; color: #0366D6; background-color:#FFFFFF" onMouseOver="this.style.backgroundColor='#0366D6';this.style.color='#FFFFFF'" onMouseOut="this.style.backgroundColor='#FFFFFF';this.style.color='#0366D6'">Turn off</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer m-t-10">
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnNo" type="button" data-dismiss="modal" class="btn btn-secondary adv_cust_mod_btn">No, I want to manually add products.</button>
+                                </div>
+                                <div class="examples transitions m-t-5">
+                                    <button id="btnGo" type="button" data-dismiss="modal" onclick="" class="btn btn-success">
+                                        &nbsp;Proceed
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PRODUCT SUGGESTIONS MODAL -->
+
             </div>
         </div>
                    
@@ -484,11 +503,29 @@
 
 
 <!--SCRIPT FOR ESTIMATE-->
-<script> 
+<script>
+
+$(document).keypress(function(e) {
+  if ($("#productSuggest").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#productSuggest').modal('hide');
+    $('#btnGo').click();
+  }
+  if ($("#confirmationModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#confirmationModal').modal('hide');
+    $('#btnSaveProceed').click();
+  }
+  if ($("#existCheckModal").is(':visible') && (e.keycode == 13 || e.which == 13)) {
+    $('#existCheckModal').modal('hide');
+    $('#btnOkay').click();
+  }
+});
+
+
 $(document).ready(function () {
 
-    var serviceCtr = 0;
-    var deleted = [];
+    var serviceCtr = 0, modelID = 0, ctr = 0;
+    var deleted = [], selectProduct = [];
+    var okay = false;
 
 
     $("#automobile_models option[value='0']").prop("disabled",true);
@@ -497,6 +534,7 @@ $(document).ready(function () {
     $("#services option[value='0']").prop("disabled",true);
     $("#products option[value='0']").prop("disabled",true);
     $('#products').prop('disabled', true);
+    $('#addRow').prop('disabled', true);
 
 
     var estimate = {!! json_encode($estimate->toArray()) !!};
@@ -518,9 +556,11 @@ $(document).ready(function () {
             $("#MT").prop("checked", true);
             $("#AT").prop("checked", false);
         }
+        modelID = parseInt(automobile.ModelID);
         $('#transmission').val(automobile.Transmission);
         $('#automobile_models').val(automobile.ModelID).trigger('chosen:updated');
         filterServices(automobile.ModelID);
+        //setDisabledServices();
     }
 
     getGrandTotal();
@@ -662,6 +702,231 @@ $(document).ready(function () {
         getEstimatedTime();
         getGrandTotal();
     });
+    $("#products").change(function () {
+        var selectedID = $(this).val();
+        $("#addRow").prop("disabled", false);
+        //alert(selectedID);
+
+        if(selectedID != null){
+            ctr = selectedID.length;
+            j = ctr;
+            //alert("Length: " + ctr);
+
+            for (i = 0; i < j; i++ )
+                if (selectedID[i] == null)
+                    ctr--;
+
+            for (i = 0; i < ctr; i++)
+                selectProduct[i] = selectedID[i];
+                
+        }
+    });
+
+    // ADD ITEMS Functions
+    var newProductRow = $("<tr/>");
+    $("#addRow").on("click", function (event) {
+        if (dismissed) addService();
+        $("#services").prop("disabled", false).trigger("chosen:updated");
+        addProduct();
+        getEstimatedTime();
+        getGrandTotal();
+        reset();
+    });
+
+    $('#btnNo').on("click", function(){
+        addService();
+        getEstimatedTime();
+        getGrandTotal();
+        $("#services").prop("disabled", true).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+    });
+
+    $('#close').on("click", function(){
+        dismissed = true;
+    });
+
+    $('#btnGo').on("click", function(){
+        if(okay){
+            addProduct();
+            getEstimatedTime();
+            getGrandTotal();
+            resetFields();
+            okay = false;
+        }
+        else if (!okay){
+            addService();
+            addProduct();
+            getEstimatedTime();
+            getGrandTotal();
+            resetFields();
+            okay = false;
+        }
+    });
+
+    function resetFields(){
+        $("#services").val(0).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+        $("#addRow").prop("disabled", true);
+        $("#labor").val(null);
+        $("#products").prop("disabled", "disabled").trigger('chosen:updated');
+    }
+
+    function disableOutsideClick(){
+        $('#productSuggest').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    function reset(){
+        $("#services").val(0).trigger("chosen:updated");
+        $("#products").val(null).trigger("chosen:updated");
+        $("#addRow").prop("disabled", true);
+        $("#labor").val(null);
+        $("#products").prop("disabled", "disabled").trigger('chosen:updated');
+    }
+
+    function addService(){
+        var cols = "";
+
+        $.ajax({
+            type: "GET",
+            url: "/addestimates/"+selectedService+"/getServiceDetails",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var newServiceRow = $("<tr class='service' id='"+selectedService+"'>");
+                var pr = $('#services :selected').data('price');
+                pr = parseFloat(pr).toFixed(2);
+                cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ data.service.servicename +'</td>';
+                cols += '<td  style="border-right:none !important"><input type="hidden" style="width:5px;" id="quantity" name="" placeholder="" class="form-control" value="1"></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="service[]" placeholder="" class="form-control" value="'+ selectedService +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" min="1" style="width:70px; text-align:right;" id="laborcost" name="labor[]" placeholder="Labor" class="form-control" value="'+ pr +'" readonly></td>';
+                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" id="unitprice" name="" placeholder="" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right"  id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                cols += '<td style="border-left:none !important"><center><button type="button" id="svc" data-serviceid="'+selectedService+'" name="'+data.service.estimatedtime+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button</center></td>';
+                $('#labor').removeClass("focused_input");
+                newServiceRow.append(cols);
+                $(newServiceRow).insertBefore("#footer");
+
+                bindListenerToBtnDel();
+
+                $("#services option[value='"+selectedService+"']").prop("disabled", true);
+                $("#services").trigger("chosen:updated");
+
+                $("#automobile_models").prop("disabled", "disabled").trigger("chosen:updated");
+
+                serviceCtr++;
+                cols = "";
+            }
+        });
+
+        dismissed=false;
+        //selectedService = null;
+    }
+
+    function addProduct(){  
+        ctr = selectProduct.length;
+        for(var k = 0; k < ctr; k++){
+            $.ajax({
+                type: "GET",
+                url: "/addjoborder/"+ selectProduct[k] +"/getProductDetails",
+                dataType: "JSON",
+                async: false,
+                success: function (data) {
+                    var newProductRow = $("<tr class='product' id='svc"+selectedService+"'>");
+                    cols = "";
+                    var pr = data.product.price;
+                    pr = parseFloat(pr).toFixed(2);
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:5px;" id="serviceid" name="serviceid[]" placeholder="" class="form-control" value="'+ selectedService +'"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ selectProduct[k] +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="number" min="1" max="999" onkeypress="return event.charCode >= 48 && event.charCode <= 57" style="width:55px; text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" class="form-control" value="1"></td>';
+                    cols += '<td style="border-right:none !important"><span style="color:red;">Product:</span><br/>'+ data.product.fullproductname +'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="labor" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value='+ pr +' class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:70px;text-align: right" id="totalprice" name="totalprice " placeholder=".00" class="form-control" value="'+ pr +'"></td>';
+                    cols += '<td style="border-left:none !important"><center><button type="button" id="productid" name="'+selectedService+'" class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-times text-white"></i></button></center></td>';
+
+                    newProductRow.append(cols);
+                    if (okay)
+                        $(newProductRow).insertAfter( $(".service").closest("tr#"+selectedService) );
+                    else
+                        $(newProductRow).insertBefore("#footer");
+
+                    if (ctr != 1){
+                        newProductRow = $("<tr>");
+                        cols = "";
+                    }
+
+                    cols = "";
+
+                    $("table td input").bind({
+                        keyup: function() {
+                            getGrandTotal();
+                        },
+                        mouseleave: function() {
+                            $(this).blur();
+                            getGrandTotalNoQty();
+                        },
+                        focusout: function() {
+                            getGrandTotalNoQty();
+                        }
+                    });
+
+                    bindListenerToBtnDel();
+
+                    $("table.list").on("click", "#productid", function(event){
+                        var remaining = 1;
+                        var id = $(this).attr('name');
+                        var svcid = "svc" + id;
+                        var this_ServiceID = "#" + id;
+                        $('table tr').each( function() {
+                            if ($(this).attr('class') == 'product' && $(this).attr('id') == svcid){
+                                remaining++;
+                            }
+                        });
+                        if(remaining == 1) {
+                            $('#itemsTable').find(this_ServiceID).remove();
+                            $('#services option[value="'+id+'"]').prop("disabled", false);
+                            $('#services').trigger("chosen:updated");
+                            serviceCtr--;
+                            $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+                        }
+                        getEstimatedTime();
+                        getGrandTotal();
+                    });
+                }
+            });
+        }
+
+    }
+
+    function bindListenerToBtnDel(){
+        
+        $("table.list").on("click", ".btnDel", function (event) {
+            var id = $(this).data('serviceid');
+            var svcid = "svc" + id;
+                        
+            //remove all products included in this service
+            $('table tr').each( function() {
+                if ((this.id) == svcid) 
+                    $(this).closest("tr").remove();
+            });
+
+            $(this).closest("tr").remove();
+            $('#services option[value="'+id+'"]').prop("disabled", false);
+            $('#services').trigger("chosen:updated");
+            getEstimatedTime();
+            getGrandTotal();
+            $("#services").prop("disabled", false);
+            $("#services").prop("selectedIndex", 0).trigger("chosen:updated");
+            $("#products").prop("disabled", true);
+            $("#products").val(null).trigger("chosen:updated");
+            $("#addRow").prop("disabled", true);
+
+            serviceCtr--;
+            if(isNaN(serviceCtr)) $("#automobile_models").prop("disabled", false).trigger("chosen:updated");
+        });
+    }
 
     function getGrandTotal(){
         grandTotal = 0;
@@ -690,6 +955,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
 
     function getGrandTotalNoQty(){
@@ -723,7 +989,9 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        $("#totalcost").val(grandTotal);
     }
+
 
     function getEstimatedTime(){
         totalEstimatedTime = 0;
@@ -743,6 +1011,17 @@ $(document).ready(function () {
         document.getElementById("estimated").innerHTML = "Approx. " +totalEstimatedTime + " mins. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(" + inHours + inMins + "mins.)";
         else
         document.getElementById("estimated").innerHTML = "No job to do.";
+    }
+
+    function setDisabledServices(){
+        var serviceid = null;
+        $('table tr').each(function(){
+            if($(this).attr('class') == 'service'){
+                serviceid = this.id;
+                $("#services option[value='"+serviceid+"']").prop('disabled', true);
+                $('#services').trigger("chosen:updated");
+            }
+        });
     }
     
     function filterServices(modelID){
@@ -767,8 +1046,131 @@ $(document).ready(function () {
                 $('#services').append(options);
                 $("#services option[value='0']").prop("disabled", true, "selected", false);
                 $('#services').trigger("chosen:updated");
+                // setDisabledServices();
             }
         });
+    }
+    var selectedSvc = null;
+    /* CHOOSE SERVICE TO FILTER THE PRODUCTS */
+    $("#services").change(function () {
+        var selectedID = $(this).val();
+        selectedSvc = $('#services :selected').text();
+        selectedService = selectedID;
+
+        if (modelID < 1){
+            alert('Please choose the model of your vehicle first as service prices vary from vehicle to vehicle. \n\nThank you.');
+            $('#services').prop('selectedIndex', 0);
+            $('#services').trigger("chosen:updated");
+        }
+
+        if (modelID > 0){
+            var exists = false;
+            $('#products').empty().append('<option value=0 >Choose a Product</option>');
+            $('#products').trigger("chosen:updated");
+            var select = $('#products');
+            var labor = $('#services :selected').data('price');
+            $('#labor').val(labor);
+            $('#labor').addClass('focused_input');
+            $('#products').prop('disabled', false);
+            $('#productSuggest').find('tbody').empty();
+            exists = checkIfServiceExists(selectedID);
+            if (exists){
+                var productCount = checkExistence(selectedID);
+                if(productCount == 0){
+                    okay = false;
+                    $('#existCheckModal').modal('show');
+                    $('#services').val(0).trigger('chosen:updated');
+                }
+                else if (productCount > 0) {
+                    okay = true;
+                    $('#errorInfo').html("This service already exists in the table, however, there are products that belongs to this service that are not added yet. You may proceed.");
+                    $('#existCheckModal').modal('show');
+                }
+            }
+            else{
+                resumeOperation(selectedID);
+            }
+        }
+    });
+
+    $('#btnOkay').on('click', function(){
+        if(okay) resumeOperation(selectedService);
+    });
+
+    function checkIfProductExists(id){
+        var result = false;
+        var svcid = "svc"+selectedService;
+        $('table tr').each(function(){
+            if( $(this).attr('class') == "product" && $(this).data('productid') == id && this.id == svcid ) result = true;
+        });
+        return result;
+    }
+
+    function checkIfServiceExists(id){
+        var result = false;
+        $('table tr').each(function(){
+            if( $(this).attr('class') == "service" && this.id == id)
+            result = true;
+        });
+        return result;
+    }
+
+    function checkExistence(id){
+        var existentProducts = 0;
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+id+"/getFilteredProductList",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var exists = false;
+                var count = Object.keys(data.products).length;
+                for (var i = 0; i < count; i++) {
+                    exists = checkIfProductExists(data.products[i].productid);
+                    if(!exists){existentProducts++;}
+                }
+            }
+        });
+        return existentProducts;
+    }
+
+    function resumeOperation(selectedID){
+        var tbody = $("<tbody>");
+        $.ajax({
+            type: "GET",
+            url: "/addjoborder/"+selectedID+"/getFilteredProductList",
+            dataType: "JSON",
+            async: false,
+            success:function(data){
+                var options = '';
+                var row = $("<tr>");
+                var cols = "";
+                var exists = false;
+                var count = Object.keys(data.products).length;
+                selectProduct.length = 0;
+                for (var i = 0; i < count; i++) {
+                    exists = checkIfProductExists(data.products[i].productid);
+                    if(!exists){
+                        options += '<option value="' + data.products[i].productid + '">' + data.products[i].fullproductname + '</option>';
+                        cols += '<td style="border-right:none !important">'+ data.products[i].fullproductname +'</td>';
+                        cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px; text-align:right; height:10px;" readonly placeholder=".00" value='+ data.products[i].price +' class="form-control"></td>';
+                        selectProduct.push(parseInt(data.products[i].productid));
+                        row.append(cols);
+                        tbody.append(row);
+                        row = $("<tr>");
+                        cols = "";
+                    }
+                }
+                ctr = count;
+                $("#products").append(options);
+                $("#products option[value='0']").prop("disabled",true, "selected",false);
+                $('#products').trigger("chosen:updated");
+            }
+        });
+        $('#servicename').html(selectedSvc);
+        $(tbody).insertBefore("#prodSuggestFooter");
+        disableOutsideClick();
+        $('#productSuggest').modal('show');
     }
 
     $("#AT").change(function(){
