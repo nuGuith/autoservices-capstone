@@ -151,11 +151,6 @@ class SampleController extends Controller
         ->first();
 
     $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
-
-    /*$personnel = DB::table('personnel_header')
-      ->where('personnelid',$joborder->PersonnelID)
-      ->select(DB::table('personnel_header')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"))
-      ->first();*/
     
     $mechanic = DB::table('personnel_job as pj')
       ->join('personnel_job_performed as pjp', 'pj.PersonnelJobID', '=', 'pjp.PersonnelJobID')

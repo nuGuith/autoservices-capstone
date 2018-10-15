@@ -166,26 +166,15 @@
         
         var startDate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
         var endDate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
-            
+
+        alert(startDate);
+        alert(endDate);
+
         if (endDate == startDate)
             $('#reportdate').text(""+start.format('MMMM D, YYYY'));
         else
             $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
     }
-
-    $('#reportrange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    }, cb);
-
-    cb(start, end);
 
     $.ajax({
         type: "GET",
@@ -206,6 +195,19 @@
                 ]
             });
     });
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
 });
 </script>
 

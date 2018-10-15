@@ -71,7 +71,7 @@ class ReportsController extends Controller
   {
     $joborders = DB::table('job_order as jo')
       ->where('jo.isActive', 1)
-      ->select('jo.JobOrderID', 'jo.TotalAmountDue', DB::raw('DATE(jo.Agreement_Timestamp) as JODate'))
+      ->select('jo.JobOrderID', DB::raw('DATE(jo.Agreement_Timestamp) as JODate, jo.TotalAmountDue + jo.DiscountedAmount as JOGross'))
       ->get();
 
     $serviceperformed = DB::table('service_performed as sp')
@@ -97,12 +97,12 @@ class ReportsController extends Controller
     $producttotal = DB::table('product_used as pu')
       ->join('job_order as jo', 'pu.JobOrderID', '=', 'jo.JobOrderID')
       ->where(['pu.isActive'=>1, 'isCustomerProvided'=>0])
-      ->select(DB::raw('SUM(pu.SubTotal) as ProductTotalPrice'))
+      ->select(DB::raw('SUM(pu.QuantityUsed * pu.SubTotal) as ProductTotalPrice'))
       ->get();
 
     $totals = DB::table('job_order')
       ->where('isActive', 1)
-      ->select(DB::raw('SUM(TotalAmountDue) as gross'))
+      ->select(DB::raw('SUM(TotalAmountDue + DiscountedAmount) as gross'))
       ->get();
       
     return view('reports.jobordersales_report', compact('joborders', 'serviceperformed', 'productused', 'servicetotal', 'producttotal', 'totals'));
@@ -139,12 +139,12 @@ class ReportsController extends Controller
   {
     $sales = DB::table('job_order')
       ->where('isActive', 1)
-      ->select('JobOrderID', 'DiscountedAmount', 'TotalAmountDue', DB::raw('DATE(Agreement_Timestamp) as JODate, TotalAmountDue-DiscountedAmount as disc'))
+      ->select('JobOrderID', 'DiscountedAmount', 'TotalAmountDue', DB::raw('DATE(Agreement_Timestamp) as JODate, TotalAmountDue + DiscountedAmount as GrandTotal, TotalAmountDue-DiscountedAmount as disc'))
       ->get();
 
     $totalsales = DB::table('job_order')
       ->where('isActive', 1)
-      ->select(DB::raw('SUM(TotalAmountDue) as sales'))
+      ->select(DB::raw('SUM(TotalAmountDue+DiscountedAmount) as sales'))
       ->get();
 
     return view('reports.sales_report', compact('sales', 'totalsales'));

@@ -89,47 +89,47 @@
                                 </td>
                                 <td>JO000{{ $joborder->JobOrderID }}</td>
                                 <td>
-                                    <!--@foreach($serviceperformed as $service)-->
-                                        <!--@if($joborder->JobOrderID == $service->JobOrderID)-->
+                                    @foreach($serviceperformed as $service)
+                                        @if($joborder->JobOrderID == $service->JobOrderID)
                                             <?php
                                                 $amount = $service->ServiceTotalPrice;
                                                 $value = 0.00;
                                                 $format = number_format($value, 2, ".", "");
 
-                                                if(($amount)==0)
+                                                if(($amount)==0||($amount)==null)
                                                     echo "Php"." ".$format;
                                                 else
                                                     echo "Php"." ".$amount;
                                             ?>
-                                        <!--@endif-->
-                                    <!--@endforeach-->        
+                                        @endif
+                                    @endforeach        
                                     </td>
                                     <td>
-                                        <!--@foreach($productused as $product)-->
-                                            <!--@if($joborder->JobOrderID == $product->JobOrderID)-->
+                                        @foreach($productused as $product)
+                                            @if($joborder->JobOrderID == $product->JobOrderID)
                                                 <?php
                                                     $amount = $product->ProductTotalPrice;
                                                     $value = 0.00;
                                                     $format = number_format($value, 2, ".", "");
 
-                                                    if(($amount)==0)
-                                                        echo "Php"." ".$format;
-                                                    else
+                                                    if(($amount)!=0||($amount)!=null)
                                                         echo "Php"." ".$amount;
+                                                    else
+                                                        echo "Php"." ".$format;
                                                 ?>
-                                            <!--@endif-->
-                                        <!--@endforeach-->
+                                            @endif
+                                        @endforeach
                                     </td>
                                 <td id="sales">
                                     <?php
-                                        $amount = $joborder->TotalAmountDue;
+                                        $amount = $joborder->JOGross;
                                         $value = 0.00;
                                         $format = number_format($value, 2, ".", "");
 
-                                        if(($amount)==0)
-                                            echo "Php"." ".$format;
-                                        else
+                                        if(($amount)!=0||($amount)!=null)
                                             echo "Php"." ".$amount;
+                                        else
+                                            echo "Php"." ".$format;
                                     ?>
                                 </td>
                             </tr>

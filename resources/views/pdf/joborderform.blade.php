@@ -134,10 +134,19 @@ input{
 </table>
 <hr>
 <div style="margin-left: 400px;">
-    <span>TOTAL LABOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}</span><br>
-    <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
-    <span>LESS *% of disc* DISCOUNT:</span><br>
-    <span>TOTAL AMOUNT DUE:</span>
+    <span>TOTAL LABOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $laborcost->Labor }}</span><br>
+    <span>TOTAL PRODUCT COST:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php&nbsp;{{ $product->ProductCost }}</span><br>
+    <span>
+        LESS {{ $joborder->Discount->DiscountRate }}% DISCOUNT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php
+        <?php
+            $total = $joborder->TotalAmountDue;
+            $discamount = $joborder->DiscountedAmount;
+
+            $disc = $total - $discamount;
+            echo $disc;
+        ?>
+    </span><br>
+    <span>TOTAL AMOUNT DUE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Php {{ $joborder->TotalAmountDue }}</span>
 </div>
 <br><br>
 
