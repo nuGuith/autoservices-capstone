@@ -375,12 +375,12 @@
                                 &nbsp; Estimate Report
                             </a>
                         </li>
-                        <li {!! (Request::is('inspection_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
+                        <!--<li {!! (Request::is('inspection_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/inspection_report')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>
                                 &nbsp; Inspection Report
                             </a>
-                        </li>
+                        </li>-->
                         <li {!! (Request::is('joborder_report')  ? 'class="active"' : '') !!} style="border-radius: 4px;">
                             <a href="{{url('/joborder_report')}}" style="padding-left:10%; padding-right: 10%;">
                                 <i class="fa fa-angle-right"></i>

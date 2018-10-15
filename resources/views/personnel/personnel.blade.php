@@ -469,7 +469,7 @@
                  document.getElementById('edate').value = data['per'][0]['Birthday'];
                  document.getElementById('ephones').value = data['per'][0]['ContactNo'];
                  document.getElementById('eemail').value = data['per'][0]['EmailAddress'];
-                 // document.getElementById('eimage').value = data['per'][0]['image'];
+                 //document.getElementById('eimage').value = data['per'][0]['image'];
 
                  for(var x=0;x<data.job.length;x++)
                  {

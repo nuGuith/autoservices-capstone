@@ -219,10 +219,10 @@
                                                     <p class="m-t-25">
                                                         <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
                                                             <option disabled selected>Choose Duration Mode</option>
-                                                            <option value="Day">Day(s)</option>
-                                                            <option value="Week">Week(s)</option>
-                                                            <option value="Month">Month(s)</option>
-                                                            <option value="Year">Year(s)</option>
+                                                            <option value="Days">Day(s)</option>
+                                                            <option value="Weeks">Week(s)</option>
+                                                            <option value="Months">Month(s)</option>
+                                                            <option value="Years">Year(s)</option>
                                                         </select>
                                                     </p>
                                                 </div>
@@ -358,10 +358,10 @@
                                                     <p class="m-t-25">
                                                         <select id="durationmodeedit" name="durationmodeedit" class=" form-control chzn-select m-t-10">
                                                             <option>Choose Product Unit</option>
-                                                            <option value="Day">Day(s)</option>
-                                                            <option value="Week">Week(s)</option>
-                                                            <option value="Month">Month(s)</option>
-                                                            <option value="Year">Year(s)</option>
+                                                            <option value="Days">Day(s)</option>
+                                                            <option value="Weeks">Week(s)</option>
+                                                            <option value="Months">Month(s)</option>
+                                                            <option value="Years">Year(s)</option>
                                                         </select>
                                                     </p>
                                                 </div>

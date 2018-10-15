@@ -26,18 +26,18 @@ class MechanicSkillsController extends Controller
       $view = DB::table('personnel_skill as ps')
            ->JOIN('personnel_header as ph','ps.PersonnelID','=','ph.PersonnelID')
            ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
-           ->JOIN('skill_header as sh','ps.SkillID','=','sh.SkillID')
+           ->JOIN('service_category as sh','ps.SkillID','=','sh.ServiceCategoryID')
            ->WHERE('pj.JobDescriptionID', 5)
            ->get();
 
-      $skill = DB::table('skill_header')
-              ->SELECT('SkillID','Skill','isActive')
+      $skill = DB::table('service_category')
+              ->SELECT('ServiceCategoryID','ServiceCategoryName','isActive')
               ->WHERE('isActive',1)
               ->GET();
 
       $perskill = DB::table('personnel_skill as ps')
             ->LEFTJOIN('personnel_header as ph','ps.PersonnelID','=','ph.PersonnelID')
-            ->LEFTJOIN('skill_header as sh','ps.SkillID','=','sh.SkillID')
+            ->LEFTJOIN('service_category as sh','ps.SkillID','=','sh.ServiceCategoryID')
             ->WHERE(['ps.isActive'=>1, 'sh.isActive'=>1])
             ->get();
 
@@ -114,7 +114,7 @@ class MechanicSkillsController extends Controller
       ->get();
 
       $ps = DB::table('personnel_skill as ps')
-      ->LEFTJOIN('skill_header as sh','ps.SkillID','=','sh.SkillId')
+      ->LEFTJOIN('service_category as sh','ps.SkillID','=','sh.ServiceCategoryID')
       ->WHERE('ps.isActive',1)
       ->WHERE('PersonnelID',Input::get('id'))
       ->get();

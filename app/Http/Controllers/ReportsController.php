@@ -26,8 +26,9 @@ class ReportsController extends Controller
       ->get();
 
     $joborder = DB::table('job_order as jo')
-      ->join('estimate as e', 'e.EstimateID', '=', 'jo.EstimateID')
+      ->join('estimate as e', 'jo.EstimateID', '=', 'e.EstimateID')
       ->where('jo.isActive', 1)
+      ->groupby('jo.EstimateID')
       ->select('JobOrderID', 'jo.EstimateID')
       ->get();
 
@@ -57,14 +58,10 @@ class ReportsController extends Controller
 
   public function joborder(Request $request)
   {
-    $startdate = $request->startdate;
-    $enddate = $request->enddate;
-
     $jos = DB::table('job_order as jo')
       ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
       ->where(['jo.isActive' => 1, 'jo.Status'=>'Finalized'])
-      ->whereBetween('jo.created_at', [$startdate, $enddate])
       ->select('jo.JobOrderID', 'jo.TotalAmountDue', 'a.PlateNo', 'c.LastName', 'c.FirstName', DB::raw('DATE(jo.created_at) AS JODate'))
       ->get();
 
@@ -114,8 +111,13 @@ class ReportsController extends Controller
 
   public function backjob()
   {
-    
-    return view('reports.backjob_report');
+    $backjobs = DB::table('job_order_backjob as bj')
+      ->join('job_order as jo', 'bj.JobOrderID', '=', 'jo.JobOrderID')
+      ->where('bj.isActive', 1)
+      ->select('bj.JobOrderID', 'Cost', DB::raw('DATE(bj.created_at) as BJDate'))
+      ->get();
+
+    return view('reports.backjob_report', compact('backjobs'));
   }
 
   public function sales()

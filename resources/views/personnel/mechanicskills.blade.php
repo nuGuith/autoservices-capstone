@@ -86,7 +86,7 @@
                                                 <ul style="padding-left: 1.7em;">
                                                     @foreach($perskill as $ps)
                                                         @if($ps->PersonnelID == $pj->PersonnelID)
-                                                            <li>{{$ps->Skill}}</li>
+                                                            <li>{{$ps->ServiceCategoryName}}</li>
                                                         @endif
                                                     @endforeach
                                                 </ul>
@@ -145,7 +145,7 @@
                                                         <select class="form-control chzn-select" id="product" name="product"  tabindex="3" multiple="">
                                                             <option disabled>Choose Skills</option>
                                                             @foreach($skill as $askill)
-                                                                <option value="{{$askill->SkillID}}">{{$askill->Skill}}</option>
+                                                                <option value="{{$askill->ServiceCategoryID}}">{{$askill->ServiceCategoryName}}</option>
                                                             @endforeach
                                                         </select>
                                                         <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="product"></span>
@@ -209,7 +209,7 @@
                                                     <select class="form-control chzn-select" id="eproduct" name="eproduct" tabindex="3" multiple="" onchange="eprod()">
                                                         <option disabled>Choose Skills</option>
                                                         @foreach($skill as $eskill)
-                                                            <option value="{{$eskill->SkillID}}">{{$eskill->Skill}}</option>
+                                                            <option value="{{$eskill->ServiceCategoryID}}">{{$eskill->ServiceCategoryName}}</option>
                                                         @endforeach
                                                     </select>
                                                     <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="eproduct"></span>
@@ -390,7 +390,6 @@
                            });
 
 
-
            });
 
            function deletepj(id){
@@ -421,10 +420,6 @@
                            {
                             location.reload();
                            }
-
-
-
-
              });
 
            });
@@ -455,15 +450,7 @@
                 // alert(darr);
 
              }
-
-
-
            }
-
-
-
-
-
 </script>
 
 

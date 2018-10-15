@@ -221,10 +221,10 @@
                                                                     <div class="form-group">
                                                                         <select id="durationmode" name="durationmode" class=" form-control chzn-select m-t-10">
                                                                             <option disabled selected>Please choose</option>
-                                                                            <option value="Day">Day(s)</option>
-                                                                            <option value="Week">Week(s)</option>
-                                                                            <option value="Month">Month(s)</option>
-                                                                            <option value="Year">Year(s)</option>
+                                                                            <option value="Days">Day(s)</option>
+                                                                            <option value="Weeks">Week(s)</option>
+                                                                            <option value="Months">Month(s)</option>
+                                                                            <option value="Years">Year(s)</option>
                                                                         </select>
                                                                         <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="durationmode"></span>
                                                                     </div>

@@ -27,29 +27,29 @@
     <!-- end of plugin styles -->
 
         <!-- CONTENT -->
-<div id="content" class="bg-container">
-    <header class="head">
-        <div class="main-bar">
-            <div class="row" style = "height: 47px;">
-                <div class="col-6">
-                    <h4 class="m-t-15">
-                        <i class="fa fa-rotate-left"></i>
-                            Backjob Report
-                    </h4>
-                </div>
-                    <div class="col-sm-6 col-12"  >
-                        <ol  class="breadcrumb float-right">
-                            <li class="breadcrumb-item " >
-                                <a href="/estimate_report">
-                                    <i class="fa fa-file" data-pack="default" data-tags=""></i>
+        <div id="content" class="bg-container">
+            <header class="head">
+                <div class="main-bar">
+                    <div class="row" style = "height: 47px;">
+                        <div class="col-6">
+                            <h4 class="m-t-15">
+                                <i class="fa fa-rotate-left"></i>
                                     Backjob Report
-                                </a>
-                            </li>
-                        </ol>
+                            </h4>
+                        </div>
+                            <div class="col-sm-6 col-12"  >
+                                <ol  class="breadcrumb float-right">
+                                    <li class="breadcrumb-item " >
+                                        <a href="/estimate_report">
+                                            <i class="fa fa-file" data-pack="default" data-tags=""></i>
+                                            Backjob Report
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
                     </div>
-            </div>
-        </div>
-    </header>
+                </div>
+            </header>
             <div class="outer">
                 <div class="inner bg-container">
                     <div class="card">
@@ -59,53 +59,52 @@
                                 <h4 id="reportdate"></h3>
                             </div>
                         </div>
-                            <div class="card-block m-t-5" id="user_body">
-                                <div class="col-lg-4 input_field_sections">
-                                    <form>
-                                        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
-                                            <i class="fa fa-calendar"></i>&nbsp;
-                                            <span></span> 
-                                            <i class="fa fa-caret-down"></i>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="card-block m-t-0">
-                                    <div class="table-toolbar">
-                                        <div class="btn-group">
-                                            <div class="btn-group float-right users_grid_tools">
-                                                <div class="tools"></div>
-                                            </div>
+                        <div class="card-block m-t-5" id="user_body">
+                            <div class="col-lg-4 input_field_sections">
+                                <form>
+                                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 75%">
+                                        <i class="fa fa-calendar"></i>&nbsp;
+                                        <span></span> 
+                                        <i class="fa fa-caret-down"></i>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-block m-t-0">
+                                <div class="table-toolbar">
+                                    <div class="btn-group">
+                                        <div class="btn-group float-right users_grid_tools">
+                                            <div class="tools"></div>
                                         </div>
                                     </div>
-                                <div>
-
-                                <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 12%;"><b>JOB ORDER ID</b></th>
-                                            <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>SERVICES AND PRODUCTS</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>DATE</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>TOTAL</b></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                </div>
+                            <div>
+                            <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>JOB ORDER ID</b></th>
+                                        <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>SERVICES AND PRODUCTS</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>DATE</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>TOTAL</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($backjobs as $backjob)
                                         <tr>
+                                            <td>JO000{{ $backjob->JobOrderID }}</td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>
+                                                <?php
+                                                    $date = date('F d, Y', strtotime($backjob->BJDate));
+                                                    echo $date;
+                                                ?>
+                                            </td>
+                                            <td>Php {{ $backjob->Cost }}</td>
                                         </tr>
-                                        <tr role="row" class="even">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                    <!-- FOOTER 
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- FOOTER 
                         <div class="card-footer bg-black disabled">
                             <div class="examples transitions m-t-5 pull-right">
                                 <div class="btn-group">
@@ -115,12 +114,12 @@
                                 </div>
                             </div>
                         </div>
-                    FOOTER -->
+                        FOOTER -->
                     </div>
                 </div>
             </div>
                     <!-- /.inner -->
-</div>
+        </div>
                 <!-- /.outer -->
         <!--END CONTENT -->
 
