@@ -56,12 +56,12 @@ class ReportsController extends Controller
     return view('reports.inspection_report', compact('inspections', 'inspects'));
   }
 
-  public function joborder(Request $request)
+  public function joborder()
   {
     $jos = DB::table('job_order as jo')
       ->join('automobile as a', 'jo.AutomobileID', '=', 'a.AutomobileID')
       ->join('customer as c', 'a.CustomerID', '=', 'c.CustomerID')
-      ->where(['jo.isActive' => 1, 'jo.Status'=>'Finalized'])
+      ->where(['jo.isActive' => 1, 'jo.Status'=>'Finished'])
       ->select('jo.JobOrderID', 'jo.TotalAmountDue', 'a.PlateNo', 'c.LastName', 'c.FirstName', DB::raw('DATE(jo.created_at) AS JODate'))
       ->get();
 
@@ -114,10 +114,26 @@ class ReportsController extends Controller
     $backjobs = DB::table('job_order_backjob as bj')
       ->join('job_order as jo', 'bj.JobOrderID', '=', 'jo.JobOrderID')
       ->where('bj.isActive', 1)
-      ->select('bj.JobOrderID', 'Cost', DB::raw('DATE(bj.created_at) as BJDate'))
+      ->select('BackJobID', 'bj.JobOrderID', 'Cost', DB::raw('DATE(bj.created_at) as BJDate'))
+      ->get();
+    
+    $services = DB::table('service_backjob as sb')
+      ->join('job_order_backjob as jobj', 'sb.BackJobID', '=', 'jobj.BackJobID')
+      ->join('service_performed as sp', 'sb.ServicePerformedID', '=', 'sp.ServicePerformedID')
+      ->join('service as s', 'sp.ServiceID', 's.ServiceID')
+      ->select('sb.*', 'jobj.*', 'sp.*', 's.*')
       ->get();
 
-    return view('reports.backjob_report', compact('backjobs'));
+    $products = DB::table('product_backjob as pb')
+      ->join('job_order_backjob as jobj', 'pb.BackJobID', '=', 'jobj.BackJobID')
+      ->join('product_used as pu', 'pb.ProductUsedID', '=', 'pu.ProductUsedID')
+      ->join('product as p', 'pb.ProductID', '=', 'p.ProductID')
+      ->join('product_brand as pbr', 'pbr.ProductBrandID', '=', 'p.ProductBrandID')
+      ->join('product_unit_type as put', 'put.ProductUnitTypeID', '=', 'p.ProductUnitTypeID')
+      ->select('pb.*', 'pu.*', 'p.*', 'pbr.BrandName', 'p.Size', 'put.Unit')
+      ->get();
+
+    return view('reports.backjob_report', compact('backjobs', 'services', 'products'));
   }
 
   public function sales()
