@@ -139,24 +139,20 @@ input{
     <span>LESS *% of disc* DISCOUNT:</span><br>
     <span>TOTAL AMOUNT DUE:</span>
 </div>
-<br>
+<br><br>
 
 <table style="width:100%;">
     <tbody>
         <tr>
-            <td>
-                <ins>
-                    
-                </ins>
-            </td>
-            <td><ins>Guesshee Almario</ins></td>
-            <td><ins>Guesshee Almario<ins></td>
-            <td><ins>Guesshee Almario<ins></td>
+            <td><ins>{{ $sa->FirstName }} {{ $sa->MiddleName }} {{ $sa->LastName }}</ins></td>
+            <td><ins>{{ $qa->FirstName }} {{ $qa->MiddleName }} {{ $qa->LastName }}</ins></td>
+            <td><ins>{{ $inventory->FirstName }} {{ $inventory->MiddleName }} {{ $inventory->LastName }}<ins></td>
+            <td><ins>{{ $mechanic->FirstName }} {{ $inventory->MiddleName }} {{ $mechanic->LastName }}<ins></td>
         </tr>
         <tr>
             <td><b>Service Advisor</b></td>
             <td><b>Quality Analyst</b></td>
-            <td><b>Inventory</b></td>
+            <td><b>Inventory Manager</b></td>
             <td><b>Mechanic</b></td>
         </tr>
     </tbody>
@@ -166,11 +162,11 @@ input{
     <p><i> I hereby and agree to pay for the above repair work done on my vehicle, including all parts and materials necessary to perform the services. In the event that the costs of the repair are not paid within (60) sixty days from the date of the notice of completion hereof. I hereby authorize JPR AUTOPRECISION SERVICES to sell my vehicle at public auction and apply the proceeds or part thereof to the cost of the repairs and products, and the excess, if any, shall be turned over to me. </i></p>
 
     <p> RECEIVED THE ABOVE VEHICLE IN GOOD ORDER AND CONDITION AND THAT THE REPAIRS HAVE BEEN MADE TO MY ENTIRE SATISFACTION.<p>
-</div>
+</div><br>
 
 <div class="row">
     <div class="col-complaints">
-        &nbsp;
+        <span style="align:center; padding-left:100px">{{ $customer->FullName }}</span>
         <hr style="width:250px">
         <span style="padding-left:90px"> Signature over printed name <span>
     </div>

@@ -27,7 +27,8 @@ class MechanicSkillsController extends Controller
            ->JOIN('personnel_header as ph','ps.PersonnelID','=','ph.PersonnelID')
            ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
            ->JOIN('service_category as sh','ps.SkillID','=','sh.ServiceCategoryID')
-           ->WHERE('pj.JobDescriptionID', 5)
+           ->JOIN('job_description as jd', 'pj.JobDescriptionID', '=', 'jd.JobDescriptionID')
+           ->WHERE('jd.JobDescriptionID', "Mechanic")
            ->get();
 
       $skill = DB::table('service_category')
@@ -43,8 +44,9 @@ class MechanicSkillsController extends Controller
 
       $personnel = DB::table('personnel_skill as ps')
            ->JOIN('personnel_header as ph','ph.PersonnelID','=','ps.PersonnelID')
-            ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
-            ->WHERE('pj.JobDescriptionID', 5)
+           ->JOIN('personnel_job as pj','pj.PersonnelID','=','ps.PersonnelID')
+           ->JOIN('job_description as jd', 'pj.JobDescriptionID', '=', 'jd.JobDescriptionID')
+           ->WHERE('jd.JobDescription', "Mechanic")
            ->Groupby('ps.PersonnelID')
            ->WHERE('ps.isActive',1)
            ->get();

@@ -87,7 +87,7 @@
                                             <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>PLATE NO.</b></th>
                                             <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>CUSTOMER NAME</b></th>
                                             <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>DATE</b></th>
-                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b></b></th>
+                                            <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 30%;"><b>JOB ORDER ID</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,7 +105,7 @@
                                                 <td>
                                                     @foreach($joborder as $jo) 
                                                         @if($jo->EstimateID==$estimate->EstimateID)
-                                                            <i>PROCEEDED TO JOB ORDER</i>
+                                                            JO000{{ $jo->JobOrderID }}
                                                         @endif
                                                     @endforeach
                                                 </td>

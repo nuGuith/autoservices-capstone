@@ -67,7 +67,14 @@
 <col width="150">
     <tr>
       <td colspan="2"><b>JOB ORDER ID:&nbsp;&nbsp;&nbsp;JO000{{ $joborder->JobOrderID }}</b></td>
-      <td colspan="2"><b>Job Order End Date:&nbsp;&nbsp;&nbsp;bfs</b></td>
+      <td colspan="2">
+        <b>Job Order End Date:&nbsp;&nbsp;
+            <?php
+                $date = $joborder->Release_Timestamp;
+                echo date('M d, Y', strtotime($date));
+            ?>
+        </b>
+    </td>
     </tr>
 
     <tr>
@@ -91,22 +98,47 @@
                 @endforeach
             </ol>
         </td>
-        <td colspan="3"><i> Start of warranty is based on the end date of the job order </i>
+        <td colspan="3"><i>&nbsp;Start of warranty is based on the end date of the job order </i>
             <ol>
                 @foreach($serviceperformed as $sp)
                     <li>
                         <?php
                             $duration = $sp->WarrantyDuration;
+                            $mode = $sp->WarrantyDurationMode;
                             $mileage = $sp->WarrantyMileage;
 
+                            $date = $joborder->Release_Timestamp;
+
                             if(($duration != 0 || $duration != null)&&($mileage != 0 || $mileage != null))
-                                echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode . "/" . $sp->WarrantyMileage . "km";
+                                echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode . "/" . $sp->WarrantyMileage . "km" . " - Expiry Date: ";
                             elseif(($duration != 0 || $duration != null)&&($mileage == 0 || $mileage == null))
-                                echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode;
+                                echo $sp->WarrantyDuration . " " . $sp->WarrantyDurationMode . " ";
                             elseif(($duration == 0 || $duration == null)&&($mileage != 0 || $mileage != null))
                                 echo $sp->WarrantyMileage ."km";
                             else
                                 echo("N/A");
+                            
+                            if($mode=="Days")
+                            {
+                                $days = date('M d, Y', strtotime("+ {$duration} days", strtotime($date)));
+                                echo date('M d, Y', strtotime($days));
+                            }
+                            elseif($mode=="Weeks")
+                            {
+                                $days = date('M d, Y', strtotime("+ {$duration} weeks", strtotime($date)));
+                                echo date('M d, Y', strtotime($days));
+                            }
+                            elseif($mode=="Months")
+                            {
+                                $days = date('M d, Y', strtotime("+ {$duration} months", strtotime($date)));
+                                echo date('M d, Y', strtotime($days));
+                            }
+                            elseif($mode=="Years")
+                            {
+                                $days = date('M d, Y', strtotime("+ {$duration} years", strtotime($date)));
+                                echo date('M d, Y', strtotime($days));
+                            }
+
                         ?>
                     </li>
                 @endforeach
@@ -126,7 +158,7 @@
                 @endforeach
             </ol>
         </td>
-        <td colspan="3"><i> Start of warranty is based on the end date of the job order </i>
+        <td colspan="3"><i>&nbsp;Start of warranty is based on the end date of the job order </i>
             <ol>
                 @foreach($productused as $pu)
                     @foreach($serviceperformed as $sp)
@@ -135,10 +167,34 @@
                                 <?php
                                     $duration = $pu->WarrantyDuration;
                                     
-                                    if($duration == 0 || $duration == null)
-                                        echo("N/A");
+                                    if($duration != 0 || $duration != null)
+                                        echo $pu->WarrantyDuration . " " . $pu->WarrantyDurationMode . " - Expiry Date: ";
                                     else
-                                        echo $pu->WarrantyDuration . " " . $pu->WarrantyDurationMode;
+                                        echo("N/A");
+
+
+                                    if($mode=="Days"||$mode=="days")
+                                    {
+                                        $days = date('M d, Y', strtotime("+ {$duration} days", strtotime($date)));
+                                        echo date('M d, Y', strtotime($days));
+                                    }
+                                    elseif($mode=="Weeks"||$mode=="weeks")
+                                    {
+                                        $days = date('M d, Y', strtotime("+ {$duration} weeks", strtotime($date)));
+                                        echo date('M d, Y', strtotime($days));
+                                    }
+                                    elseif($mode=="Months"||$mode=="months")
+                                    {
+                                        $days = date('M d, Y', strtotime("+ {$duration} months", strtotime($date)));
+                                        echo date('M d, Y', strtotime($days));
+                                    }
+                                    elseif($mode=="Years"||$mode=="years")
+                                    {
+                                        $days = date('M d, Y', strtotime("+ {$duration} years", strtotime($date)));
+                                        echo date('M d, Y', strtotime($days));
+                                    }
+                                    elseif($mode==NULL)
+                                        echo("");
                                 ?>
                             </li>
                         @endif

@@ -28,7 +28,6 @@ class ReportsController extends Controller
     $joborder = DB::table('job_order as jo')
       ->join('estimate as e', 'jo.EstimateID', '=', 'e.EstimateID')
       ->where('jo.isActive', 1)
-      ->groupby('jo.EstimateID')
       ->select('JobOrderID', 'jo.EstimateID')
       ->get();
 
