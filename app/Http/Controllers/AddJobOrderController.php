@@ -141,6 +141,11 @@ class AddJobOrderController extends Controller
             ->where('isActive', 1)
             ->pluck('packagename', 'packageid');
 
+        $vat = DB::table('tax')
+            ->where('isActive', 1)
+            ->groupBy('taxid')
+            ->orderBy('taxid', 'desc')
+            ->first();
 
         $estimateids->prepend('Please choose an Estimate ID',0);
         $inspectionids->prepend('Please choose an Inspection ID',0);
@@ -178,7 +183,7 @@ class AddJobOrderController extends Controller
         
         //dd(compact('estimate', 'customer', 'automobile', 'serviceperformed', 'products'));
         //return response()->json(compact('estimate', 'customer', 'automobile', 'service_performed', 'product_used'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'promos','packages', 'estimate', 'automobile'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'promos','packages', 'estimate', 'automobile', 'vat'));
     }
 
     
@@ -294,6 +299,12 @@ class AddJobOrderController extends Controller
             ->select('pu.*', 'pr.*', DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"))
             ->get();
 
+        $vat = DB::table('tax')
+            ->where('isActive', 1)
+            ->groupBy('taxid')
+            ->orderBy('taxid', 'desc')
+            ->first();
+
         $estimateids->prepend('Please choose an Estimate ID',0);
         $inspectionids->prepend('Please choose an Inspection ID',0);
         $customerids->prepend('Please select a customer',0);
@@ -313,7 +324,7 @@ class AddJobOrderController extends Controller
         $currentRoute = Route::currentRouteName();
 
         //dd(compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile', 'currentRoute'));
-        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute'));
+        return view ('joborder.addjoborder', compact('inspectionids','estimateids', 'customerids', 'automobiles', 'automobile_models', 'mechanic', 'serviceadvisor', 'qualityanalyst', 'inventorymanager', 'service_bays','discounts','services','products','promos','packages','estimate', 'customer', 'automobile','serviceperformed', 'productused', 'currentRoute', 'vat'));
     }
 
     /**
@@ -711,6 +722,53 @@ class AddJobOrderController extends Controller
             ->select('discountname','discountrate')
             ->first();
         return response()->json(compact('discount'));
+    }
+
+    public function toArray()
+    {
+        return array_map(function ($value) {
+            return $value instanceof Arrayable ? $value->toArray() : $value;
+        }, $this->items);
+    }
+
+    public function getPromoDetails($id)
+    {
+        $serviceinclusions = DB::table('promo_header as pm')
+            ->join('promo_service_inclusions as psi', 'pm.promoid', '=', 'psi.promoid')
+            ->join('service as svc', 'psi.serviceid', '=', 'svc.serviceid')
+            ->select('svc.servicename')
+            ->get();
+        /* $serviceinclusions = array_map(function ($value) {
+            return (array)$value;
+        }, $serviceinclusions);*/
+        /* $serviceinclusions = json_decode(json_encode($serviceinclusions), true);
+        $serviceinclusions = implode("\n", (array)$serviceinclusions); */ 
+        $productinclusions = DB::table('promo_header as pm')
+            ->join('promo_product_inclusions as ppi', 'pm.promoid', '=', 'ppi.promoid')
+            ->join('product as pr', 'ppi.productid', '=', 'pr.productid')
+            ->select('pr.productname')
+            ->get();
+        /* $productinclusions = array_map(function ($value) {
+            return (array)$value;
+        }, $productinclusions->productname); 
+        $productinclusions = json_decode(json_encode($productinclusions), true);
+        $productinclusions = implode("\n", $productinclusions); */
+        $promo = DB::table('promo_header')
+            ->where(['promoid' => $id, 'isActive' => 1])
+            ->select('promoname','price', DB::raw('1 as serviceinclusions'), DB::raw('1 as productinclusions'))
+            ->first();
+        $promo->serviceinclusions = $serviceinclusions;
+        $promo->productinclusions = $productinclusions;
+        return response()->json(compact('promo'));
+    }
+
+    public function getPackageDetails($id)
+    {
+        $package = DB::table('package_header')
+            ->where(['packageid' => $id, 'isActive' => 1])
+            ->select('packagename','price')
+            ->first();
+        return response()->json(compact('package'));
     }
 
     public function getServiceDetails($id)

@@ -432,7 +432,7 @@
                     <!-- END -->
                             <div class="card-footer bg-black">
                                <div class="examples transitions m-t-5 pull-right">
-                                    <button onclick="window.location='{{ url("/backjob") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/inspect"><i class="fa fa-arrow-left" >
+                                    <button type="button" onclick="window.location='{{ url("/backjob") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/backjob"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  
                                     <button class="btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;" type="button"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                 </div>
@@ -448,8 +448,12 @@
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
 <script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
 <!-- end of plugin scripts -->
 
+<!--Page level scripts-->
+<script type="text/javascript" src="{{URL::asset('js/pages/radio_checkbox.js')}}"></script>
 <!-- global scripts animation-->
 <script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
 <script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
@@ -469,7 +473,7 @@ $(document).ready(function(){
     $('#joborders option[value="0"]').prop("disabled", true);
     $('#customers option[value="0"]').prop("disabled", true);
     $('#automobiles option[value="0"]').prop("disabled", true);
-    var joborderID = 0, ctr = 0, selectedCtr = 0;
+    var joborderID = 0, ctr = 0, selectedCtr = 0, currMileage = 0;
 
     $('#moveTo2').on('click', function(){
         selectedCtr = 0
@@ -558,7 +562,7 @@ $(document).ready(function(){
         
         var svcCount = Object.keys(data.serviceperformed).length;
         var prodCount = Object.keys(data.productused).length;
-        var pid, sid, ServiceID, ServiceName, ServicePerformedID, CategoryID, CategoryName, LaborCost, EstimatedTime, hasWarranty;
+        var pid, sid, ServiceID, ServiceName, ServicePerformedID, CategoryID, CategoryName, LaborCost, EstimatedTime, hasWarranty, WarrantyPeriod;
         var tbody = $("<tbody>");
         var cols = "";
         var newServiceRow;
@@ -572,6 +576,7 @@ $(document).ready(function(){
             CategoryName = data.serviceperformed[i].ServiceCategoryName;
             LaborCost = data.serviceperformed[i].LaborCost;
             EstimatedTime = data.serviceperformed[i].EstimatedTime;
+            WarrantyPeriod = data.serviceperformed[i].warrantyperiod;
             hasWarranty = data.serviceperformed[i].hasWarranty;
             if(hasWarranty) ServiceName = "<del>" + ServiceName + "</del>";
 
@@ -583,7 +588,10 @@ $(document).ready(function(){
             cols += '<td  style="border-right:none !important"><input type="hidden" name="personnelperformed[]"><select id="personnelperformed" name="personnelperformed[]" class="form-control chzn-select" style="width:110px;">@foreach($mechanic as $id => $name)<option value="{{$id}}">{{$name}}</option> @endforeach</select></td>';
             cols += '<td style="border-right:none !important"><input type="hidden" style="width:60px;" id="unitprice" class="form-control" value="'+ LaborCost +'"></td>';
             cols += '<td style="border-right:none !important"><input type="text" style="width:80px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="'+ LaborCost +'" readonly></td>';
-            cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
+            if(!hasWarranty)
+                cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True" data-toggle="tooltip" data-placement="top" title="This service is within warranty." data-trigger="hover"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
+            else
+                cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" name="include[]" type="checkbox" value="True" disabled data-toggle="tooltip" data-placement="top" title="Warranty expired on: '+WarrantyPeriod+'." data-trigger="hover"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';
                     
             newServiceRow.append(cols);
             tbody.append(newServiceRow);
@@ -598,18 +606,26 @@ $(document).ready(function(){
                     Quantity = data.productused[j].Quantity;
                     Price = data.productused[j].Price;
                     SubTotal = data.productused[j].SubTotal;
+                    WarrantyPeriod = data.productused[j].warrantyperiod;
                     hasWarranty = data.productused[j].hasWarranty;
+                    if(hasWarranty) ProductName = "<del>" + ProductName + "</del>";
 
                     newProductRow = $("<tr class='product' data-productid='"+ ProductID +"' id='svc"+ ServiceID +"'>");
                     cols = "";
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ ProductID +'"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="'+ ProductUsedID +'"><input type="hidden" style="width:50px; text-align:right;" name="prodservperf[]" placeholder="" class="form-control" value="'+ ServicePerformedID +'"></td>';
-                    cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control"></td>';
+                    if(!hasWarranty)
+                        cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control"></td>';
+                    else
+                        cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control" readonly></td>';
                     cols += '<td style="border-right:none !important"><span style="color:red">Product:</span><br>'+ ProductName +'</td>';
                     cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" placeholder="Labor" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><a></a></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px; text-align: right" id="unitprice" name="unitprice[]" readonly placeholder=".00" value="'+ Price +'" class="form-control"></td>';
                     cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="totalprice" name="totalprice[]" placeholder=".00" class="form-control" value="'+ SubTotal +'"></td>';
-                    cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true"></center></td>';
+                    if(!hasWarranty)
+                        cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true" data-toggle="tooltip" data-placement="top" title="This product is within warranty." data-trigger="hover"></center></td>';
+                    else
+                        cols += '<td style="border-left:none !important"><center><input class="product" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="tag" type="checkbox" value="true" disabled data-toggle="tooltip" data-placement="top" title="Warranty expired on: '+WarrantyPeriod+'." data-trigger="hover"></center></td>';
 
                     newProductRow.append(cols);
                     tbody.append(newProductRow);
@@ -648,7 +664,7 @@ $(document).ready(function(){
             else{
                 //select all products included in this service
                 $('table tr td input[type=checkbox]').each( function() {
-                    if ((this.id) == "tag" && $(this).data('serviceid') == id && $(this).attr('class') == "product") 
+                    if ((this.id) == "tag" && $(this).data('serviceid') == id && $(this).attr('class') == "product" && this.disabled == false) 
                         $(this).prop("checked", true);
                     if ((this.id) == "quantity" && $(this).data('serviceid') == id)
                         $(this).prop("readonly", false);

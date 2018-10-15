@@ -530,6 +530,7 @@
                                                     <h5 style="padding-top:5px;">Total Product Cost:</h5>
                                                     <h5 style="padding-top:5px;">Total Labor Cost (Service):</h5>
                                                     <h5 style="padding-top:5px;">Grand Total:</h5>
+                                                    <h5 style="padding-top:5px;">Value Added Tax ({{$vat->Tax}}% VAT):</h5>
                                                     <h5 style="padding-top:5px;">Less Discount:</h5>
                                                     <h5 style="padding-top:5px;">Total Amount Due:</h5>
                                                 </div>
@@ -539,9 +540,11 @@
                                                     <h5 id="totalprodsales" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     <h5 id="totallaborcost" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     <h5 id="grandtotal" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                    <h5 id="vatamount" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     <h5 id="lessdiscount" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                     <h5 id="totalamountdue" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                 </div>
+                                                <input id="vatRate" type="hidden" value="{{$vat->Tax}}">
                                                 <input id="discountedamt" type="hidden" name="discountedamt">
                                                 <input id="totalamtdue" type="hidden" name="totalamtdue">
                                             </th>
@@ -1036,7 +1039,7 @@ $(document).keypress(function(e) {
 
 $(document).ready(function () {
 
-    var estimateID, inspectID, packageID, promoID;
+    var estimateID, inspectID, packageID = null, promoID = null;
     var nah;
     var routeID = null;
     var servicePrices = [];
@@ -1062,6 +1065,7 @@ $(document).ready(function () {
     var filterTag = new Array();
     var filterSwitch = true;
     var okay = false;
+    var discountID = null;
 
     $("#estimates option[value='0']").prop("disabled",true);
     $("#customers option[value='0']").prop("disabled",true);
@@ -1401,6 +1405,13 @@ $(document).ready(function () {
         });
     }
 
+    function applyVat(){
+        var vatRate = $('#vatRate').val();
+        var vatAmount = ( parseFloat(grandTotal) / 100 ) * parseFloat(vatRate);
+        $('#vatamount').html("+ PHP " + parseFloat(vatAmount).toFixed(2));
+        grandTotal += parseFloat(vatAmount);
+    }
+
     function getGrandTotal(){
         grandTotal = 0;
         var qty, price, total, laborcost = 0, productsales = 0;
@@ -1428,6 +1439,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        applyVat();
         $("#totalamountdue").html("PHP <span style='color:red;'>" + parseFloat(grandTotal).toFixed(2) + "</span> ");
         $('#totalamtdue').val(grandTotal);
         getDiscountedPrice();
@@ -1464,6 +1476,7 @@ $(document).ready(function () {
         $("#totalprodsales").html("PHP " + parseFloat(productsales).toFixed(2));
         $("#totallaborcost").html("PHP " + parseFloat(laborcost).toFixed(2));
         $("#grandtotal").html("PHP " + parseFloat(grandTotal).toFixed(2));
+        applyVat();
         $("#totalamountdue").html("PHP <span style='color:red;'>" + parseFloat(grandTotal).toFixed(2) + "</span> ");
         $('#totalamtdue').val(grandTotal);
         getDiscountedPrice();
@@ -2483,32 +2496,47 @@ $(document).ready(function () {
     
 	$("#discounts").change(function () {
 		var selectedID = $(this).val();
-        var discountName = $("#discounts option:selected").text();
-
-        $.ajax({
-            type: "GET",
-            url: "/addjoborder/"+selectedID+"/getDiscountDetails",
-            dataType: "JSON",
-            async: false,
-            success: function(data){
-                var newDiscountRow = $('<tr id="discount">');
-                var cols = "";
-                
-                cols += '<td style="border-right:none !important"></td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
-                cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>'+discountName+' </td>';
-                cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
-                cols += '<td style="border-right:none !important"><a></a></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" data-rate="'+data.discount.discountrate+'" value="'+ data.discount.discountrate +'%"></td>';
-                cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="discountamt" name="discountamt" placeholder=".00" class="form-control"></td>';
-                cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-                newDiscountRow.append(cols);
-                $(newDiscountRow).insertBefore("#footer");
-            }
-	    });
+        var discountName = $("option:selected", this).text();
+        
+            $.ajax({
+                type: "GET",
+                url: "/addjoborder/"+selectedID+"/getDiscountDetails",
+                dataType: "JSON",
+                async: false,
+                success: function(data){
+                    var newDiscountRow = $('<tr id="discount">');
+                    var cols = "";
+                    
+                    cols += '<td style="border-right:none !important"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
+                    cols += '<td style="border-right:none !important"><span style="color:red">Discount:</span><br>'+discountName+' </td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><a></a></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:60px;text-align: right" id="discountrate" name="discountrate" placeholder="20%" class="form-control" data-rate="'+data.discount.discountrate+'" value="'+ data.discount.discountrate +'%"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:80px;text-align: right" id="discountamt" name="discountamt" placeholder=".00" class="form-control"></td>';
+                    cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
+                    newDiscountRow.append(cols);
+                    if(discountID == null)
+                        $(newDiscountRow).insertBefore("#footer");
+                    else
+                        $('tr#discount').replaceWith(newDiscountRow);
+                    $('.btnDel').on('click', function(){
+                        $(this).closest("tr").remove();
+                        discountID = null;
+                        $("#discounts").val(0);
+                        $("#discounts option").prop("disabled", false).trigger("chosen:updated");
+                        $('#discounts [value="0"]').prop("disabled", true).trigger('chosen:updated');
+                        getDiscountedPrice();
+                    });
+                }
+            });
+            $(this).val(0);
+            $(this).prop("disabled", false);
+            $('option[value="0"]', this).prop("disabled", true);
+            $('option[value="'+selectedID+'"]', this).prop("disabled", true).trigger('chosen:updated');
             getDiscountedPrice();
-
-    }); 
+            discountID = selectedID;
+    });
 
     function getDiscountedPrice(){
         discountRate = $("#discountrate").data('rate');
@@ -2519,78 +2547,96 @@ $(document).ready(function () {
         totalAmtDue = totalAmtDue.toFixed(2);
         if (!(isNaN(totalAmtDue))){
             $("#discountamt").val(discountedAmt);
-            $("#lessdiscount").html("- PHP " + discountedAmt);
+            $("#lessdiscount").html("- PHP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + discountedAmt);
             $("#discountedamt").val(totalAmtDue);
         }
-            $("#totalamountdue").html("PHP <span style='color:red;'>" + totalAmtDue + "</span> ");
+            $("#totalamountdue").html("PHP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:red;'>" + totalAmtDue + "</span> ");
             $("#totalamtdue").val(grandTotal);
     }
     
 	$("#promos").change(function () {
 		var selectedID = $(this).val();
-        var newPromoRow = $('<tr id="promo">');
+        var promoName = $("option:selected", this).text();
         var cols = "";
 
-        if (promoID == null){
-            cols += '<td style="border-right:none !important"></td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
-            cols += '<td style="border-right:none !important"><span style="color:red">Promo:</span><br>Summer Promo </td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="unitprice" placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="price " placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-            newPromoRow.append(cols);
-            $("#itemsTable").append(newPromoRow);
-        }
-        else {
-            newPromoRow = $('<tr id="promo">');
-            cols = "";
-            cols += '<td style="border-right:none !important"></td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
-            cols += '<td style="border-right:none !important"><span style="color:red">Promo:</span><br>Ultimate Change Oil Promo </td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="unitprice" placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="price " placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-            newPromoRow.append(cols);
-            $("tr#promo").replaceWith(newPromoRow);
-        }
+        $.ajax({
+                type: "GET",
+                url: "/addjoborder/"+selectedID+"/getPromoDetails",
+                dataType: "JSON",
+                async: false,
+                success: function(data){
+                    var newPromoRow = $('<tr id="promo">');
+                    cols += '<td style="border-right:none !important"><span style="color:red">Promo:&nbsp;</span>'+promoName+'<br>'+data.promo.serviceinclusions[0].servicename+'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" id="quantity" readonly class="form-control hidden" value="1"></td>';
+                    cols += '<td style="border-right:none !important"><br>'+data.promo.productinclusions[0].productname+'<br>'+data.promo.productinclusions[1].productname+'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><a></a></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right"  placeholder=".00" id="unitprice" class="form-control" value="'+data.promo.price+'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" placeholder=".00" class="form-control" value="'+data.promo.price+'"></td>';
+                    cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
+                    newPromoRow.append(cols);
+                    if (promoID == null)
+                        $("#itemsTable").append(newPromoRow);
+                    else 
+                        $("tr#promo").replaceWith(newPromoRow);
+                    $('.btnDel').on('click', function(){
+                        $(this).closest("tr").remove();
+                        promoID = null;
+                        $("#promos").val(0);
+                        $("#promos option").prop("disabled", false).trigger("chosen:updated");
+                        $('#promos [value="0"]').prop("disabled", true).trigger('chosen:updated');
+                        getGrandTotalNoQty();
+                    });
+                }
+            });
+        getGrandTotalNoQty();
+        $(this).val(0);
+        $('option', this).prop("disabled", false);
+        $('option[value="0"]', this).prop("disabled", true);
+        $('option[value="'+selectedID+'"]', this).prop("disabled", true).trigger('chosen:updated');
         promoID = selectedID;
 	});
 
 	$("#packages").change(function () {
 		var selectedID = $(this).val();
-        var newPackageRow = $('<tr id="package">');
+        var packageName = $("option:selected", this).text();
         var cols = "";
 
-        if (packageID == null){
-            cols += '<td style="border-right:none !important"></td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
-            cols += '<td style="border-right:none !important"><span style="color:red">Package:</span><br>Summer Package </td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="unitprice" placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="price " placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-            newPackageRow.append(cols);
-            $("#itemsTable").append(newPackageRow);
-        }
-        else {
-            var newPackageRow = $('<tr id="package">');
-            var cols = "";
-            cols += '<td style="border-right:none !important"></td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" placeholder="" readonly class="form-control hidden"></td>';
-            cols += '<td style="border-right:none !important"><span style="color:red">Package:</span><br>Ultimate Change Oil Package</td>';
-            cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><a></a></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="unitprice" placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" name="price " placeholder=".00" class="form-control"></td>';
-            cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
-            newPackageRow.append(cols);
-            $("tr#package").replaceWith(newPackageRow);
-        }
+        $.ajax({
+                type: "GET",
+                url: "/addjoborder/"+selectedID+"/getPackageDetails",
+                dataType: "JSON",
+                async: false,
+                success: function(data){
+                    var newPackageRow = $('<tr id="package">');
+                    cols += '<td style="border-right:none !important"><span style="color:red">Package:</span><br>'+packageName+'</td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:55px;" id="quantity" readonly class="form-control hidden" value="1"></td>';
+                    cols += '<td style="border-right:none !important"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px;" placeholder="Labor" class="form-control"></td>';
+                    cols += '<td style="border-right:none !important"><a></a></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" placeholder=".00" class="form-control" id="unitprice" value="'+data.package.price+'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="text" readonly style="width:50px;text-align: right" id="totalprice" placeholder=".00" class="form-control" value="'+data.package.price+'"></td>';
+                    cols += '<td style="border-left:none !important"><button type="button" id=" " class="btnDel btn btn-danger hvr-float-shadow" ><i class="fa fa-trash text-white"></i></button></td>';
+                    newPackageRow.append(cols);
+                    if (packageID == null)
+                        $("#itemsTable").append(newPackageRow);
+                    else
+                        $("tr#package").replaceWith(newPackageRow);
+                    $('.btnDel').on('click', function(){
+                        $(this).closest("tr").remove();
+                        packageID = null;
+                        $("#packages").val(0);
+                        $("#packages option").prop("disabled", false).trigger("chosen:updated");
+                        $('#packages [value="0"]').prop("disabled", true).trigger('chosen:updated');
+                        getGrandTotalNoQty();
+                    });
+                }
+            });
+        getGrandTotalNoQty();
+        $(this).val(0);
+        $('option', this).prop("disabled", false);
+        $('option[value="0"]', this).prop("disabled", true);
+        $('option[value="'+selectedID+'"]', this).prop("disabled", true).trigger('chosen:updated');
         packageID = selectedID;
 	});
 
