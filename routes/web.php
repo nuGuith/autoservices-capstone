@@ -283,12 +283,9 @@ Route::get('/queries', 'QueriesController@index');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
 Route::get('/report-sales', 'PDFController@sales');
 Route::get('/report-netsales', 'PDFController@netsales');
-<<<<<<< HEAD
-=======
 
 //Utilities
 Route::resource('/utilities','UtilitiesController');
 Route::POST('/picutilities','UtilitiesController@perph');
 Route::GET('/retutilities','UtilitiesController@show');
 Route::POST('/editutilities','UtilitiesController@edit');
->>>>>>> guesshee-backup
