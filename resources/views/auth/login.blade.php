@@ -16,7 +16,7 @@
       </div>
       <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style='min-width: 320px;'>
     
-    <img style='width: 350px; height: auto; margin-top:-40px; margin-bottom:5%;' src="/img/logo.jpg" alt=""><br>
+    <a href="/home"><img style='width: 350px; height: auto; margin-top:-40px; margin-bottom:5%;' src="/img/logo.jpg" alt=""></a><br>
     <label style="color:#070707; font-size:20px; font-weight:light;">Login</label><br><br>
     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}

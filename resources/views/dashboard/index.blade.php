@@ -91,25 +91,7 @@
                             <h4 style="color:black;">Pending Job Orders</h4>
                         </div>                                         
                     </div>
-                </div>                
-                <!-- CARD:BACK JOB-->
-                <div class="col-lg-4">
-                    <div class="icon_align bg-white widget_border m-t-15" style="border-color: black">
-                        <div class="float-right progress_icon">
-                            <span class="fa-stack fa-sm ">
-                                <!-- <i class="fa fa-circle fa-stack-2x" style="color: #DCDCDC"></i>
-                                <i class="fa fa-rotate-left fa-stack-1x fa-inverse text-success"></i> -->
-                                <button class="button-circle button-wrapper bts adv_cust_mod_btn fadein fa fa-rotate-left fa-stack-1x fa-inverse text-success"
-                                    data-toggle="modal" data-target="#modal-1">
-                                </button>
-                           </span>
-                        </div>
-                        <div class="text-left">
-                            <h1 id="widget_count3" style="color: green ">{{$count_pending}}</h1>
-                            <h4 style="color:black;">Pending Job Orders</h4>
-                        </div>                                         
-                    </div>
-                </div>                
+                </div>               
                 <!-- CARD:BACK JOB-->
                 <div class="col-lg-4">
                     <div class="icon_align bg-white widget_border m-t-15" style="border-color: black">
@@ -187,7 +169,7 @@
                                         <td>  
                                             <div class="examples transitions m-t-5">
                                                 <!--VIEW BUTTON-->
-                                                <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background="#00C0EF" data-color="white" target="_blank" href="/updatejoborder/{{$jo->JobOrderID}}" >
+                                                <a class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background="#00C0EF" data-color="white" target="_blank" data-tipso="View progress" href="/updatejoborder/{{$jo->JobOrderID}}" >
                                                 <i class="fa fa-eye text-white"></i>
                                                 </a>
                                             </div>

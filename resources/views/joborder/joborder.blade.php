@@ -12,6 +12,8 @@
     <link type="text/css" rel="stylesheet" href="vendors/themify/css/themify-icons.css" />
 
     <link type="text/css" rel="stylesheet" href="vendors/tooltipster/css/tooltipster.bundle.min.css">
+<link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
+<link type="text/css" rel="stylesheet" href="vendors/switchery/css/switchery.min.css" />
     <link type="text/css" rel="stylesheet" href="vendors/tipso/css/tipso.min.css">
 
     <!-- end of plugin styles -->
