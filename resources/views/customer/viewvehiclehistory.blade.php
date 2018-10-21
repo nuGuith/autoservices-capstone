@@ -36,15 +36,15 @@
                     <div class="col-6">
                         <h4 class="m-t-15">
                             <i class="fa fa-info"></i>
-                            &nbsp;Vehicle Information
+                            &nbsp;Vehicle History
                         </h4>
                     </div>
                     <div class="col-sm-6 col-12"  >
                         <ol  class="breadcrumb float-right">
                             <li class="breadcrumb-item " >
-                                <a href="/vehicleinformation">
+                                <a href="/customerinformation">
                                     <i class="fa fa-info" data-pack="default" data-tags=""></i>
-                                    &nbsp;Vehicle Information
+                                    &nbsp;Customer Information
                                 </a>
                             </li>
                             <li class="active breadcrumb-item">&nbsp;Vehicle History</li>
@@ -123,12 +123,38 @@
                                                 <td>
                                                     <ul style="padding-left: 1.2em;">
                                                         <li>Plate No: {{ $automobile->PlateNo }}</li>
+                                                        <li>Make: {{ $automobile-> Make }}</li>
                                                         <li>Model: {{ $automobile->Model }} {{ $automobile->Year }}</li>
+                                                        <li>Transmission: {{ $automobile->Transmission }}</li>
+                                                        <li>Color: {{ $automobile-> Color }}</li>
                                                         <li>Chassis No: {{ $automobile->ChassisNo }}</li>
+
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                    <button type="button" id="viewBtn" onclick="showHistory({{$automobile->AutomobileID}});" data-automobileid="{{$automobile->AutomobileID}}" class="btn btn-outline-info tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View"><i class="fa fa-refresh text-green"></i></button>   
+                                                    <!-- <button onclick="window.location='{{ url("/viewJob") }}'" class="btn btn-primary hvr-float-shadow adv_cust_mod_btn gray tipso_bounceIn" data-tipso="Job Order " data-background=" #6495ED">
+                                                    <i class="fa fa-gear" ></i>
+                                                    </button>
+                                                    <button onclick="window.location='{{ url("/viewEstimates") }}'" class="btn btn-danger hvr-float-shadow adv_cust_mod_btn gray tipso_bounceIn"  data-tipso="Estimates" data-background=" #FF4D4D">
+                                                    <i class="fa fa-file-text" ></i>
+                                                    </button>
+                                                    <button type="button" id="updateBtn1"  class="btn btn-success tipso_bounceIn" data-background=" #008C62" data-color="white" data-tipso="Back Job"  data-toggle="modal" data-href="#responsive" href="#viewModal">
+                                                        <i class="fa fa-rotate-left text-green"></i>
+                                                    </button> -->
+                                                    <button class="btn btn-primary adv_cust_mod_btn fadein tipso_bounceIn"
+                                                    data-tipso="Job Orders" data-background=" #6495ED" data-toggle="modal" data-target="#modal-3" data-id="{{$automobile->AutomobileID}}">
+                                                    <i class="fa fa-gear"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger adv_cust_mod_btn fadein tipso_bounceIn"
+                                                    data-tipso="Estimates" data-background=" #FF4D4D"
+                                                    data-toggle="modal" data-target="#modal-2">
+                                                    <i class="fa fa-file-text"></i>
+                                                    </button>
+                                                    <button class="btn btn-success adv_cust_mod_btn fadein tipso_bounceIn"
+                                                    data-tipso="Back Jobs" data-background="#008C62"
+                                                    data-toggle="modal" data-target="#modal-1">
+                                                    <i class="fa fa-rotate-left text-green"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <!--example for service -->
@@ -141,188 +167,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- START VIEW MODAL -->
-                        <div class="modal fade in " id="viewModal" tabindex="-3" role="dialog" aria-hidden="false">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-info">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h4 class="modal-title text-white">
-                                            <i class="fa fa-eye"></i>
-                                            &nbsp;View Vehicle History
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-lg-5 m-t-10">
-                                                <div class="card">                                   
-                                                    <div class="card-block">
-                                                       <!--START OTHER INFORMATION-->
-                                                        <h4 class ="m-t-15">Vehicle Information</h2>
-                                                        <hr style="margin-top: 10px; border: 2px solid #6699cc">
-                                                        <div class="row m-t-15">
-                                                            <div class="col-lg-12 m-t-5">
-                                                                <h5>
-                                                                    <span style="color:gray">Plate No.:</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <h5 class="plateno"></h5>
-                                                                </h5>
-                                                            </div>
-                                                            <div class="col-lg-12 m-t-10">
-                                                                <h5>
-                                                                    <span style="color:gray">Chassis No.:</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </h5>
-                                                            </div>
-                                                            <div class="col-lg-12 m-t-10">
-                                                                <h5>
-                                                                    <span style="color:gray">Make:</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </h5>               
-                                                            </div>
-                                                            <div class="col-lg-12 m-t-10">
-                                                                <h5>
-                                                                    <span style="color:gray">Model:</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </h5>
-                                                            </div>
-                                                            <div class="col-lg-12 m-t-10">
-                                                                <h5>
-                                                                    <span style="color:gray">Transmission:</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </h5>
-                                                            </div>
-                                                            <div class="col-lg-12 m-t-10">
-                                                                <h5>
-                                                                    <span style="color:gray">Color:</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </h5>
-                                                            </div>           
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 m-t-25">
-                                                <!--START JOB ORDER PROGRESS DETAIL-->
-                                                <h4 class="m-t-15">Job Order History Details</h4>                
-                                                <hr style="margin-top: 10px; border: 2px solid #ffb74d  ">
-                                                <div class="row m-t-15">
-                                                    <h5 class="m-t-5 m-l-20" style="display: inline">Notes: </h5>
-                                                    <div class="col-lg-4">
-                                                        <ul style="padding-left: 1.2em;">
-                                                            <li style ="color:blue">Service Rendered</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <ul style="padding-left: 1.2em;">
-                                                            <li style ="color:red">Unrendered Service in Estimate</li>    
-                                                        </ul>
-                                                    </div>
-                                                </div> 
-                                                <!--Accordion: Payment Details -->
-                                                <div class="row m-t-5">
-                                                    <div class="col-lg-12">
-                                                        <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-                                                            <div class="card">
-                                                                <div class="card-header" role="tab" id="headingOne">
-                                                                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="" aria-controls="collapseOne" active="false">
-                                                                        <!--Lablel: balance -->
-                                                                        <h5 class="">
-                                                                            <i class="fa fa-angle-down rotate-icon pull-right"></i>
-                                                                            <span style="color:gray" id="joID">
-                                                                                <i style="padding-left: 270px;"></i>
-                                                                                <b> September 7, 2018</b>
-                                                                            </span>
-                                                                        </h5>
-                                                                    </a>
-                                                                </div>                                            
-                                                                <!-- accordion body -->
-                                                                <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
-                                                                    <div class="card-body" style="padding-left:15px; padding-right: 15px; ">
-                                                                        <!--Lable: Overl All Total -->
-                                                                        <div class="row " style="padding-bottom:0px">  
-                                                                            <div class="col-lg-12">
-                                                                                <!--Lable: Overl All Total -->
-                                                                                <div class="row m-t-20">  
-                                                                                    <div class="col-lg-6">
-                                                                                        <h5>
-                                                                                            <span style="color:gray">Mileage:</span>
-                                                                                             &nbsp;&nbsp;1500 km
-                                                                                        </h5>
-                                                                                    </div>
-                                                                                    <!-- <div class="col-lg-6">
-                                                                                        <h5><span style="color:gray">Mileage:
-                                                                                        </span>&nbsp;&nbsp;1500 km</h5>
-                                                                                    </div>  -->                  
-                                                                                </div>
-                                                                                <div class="row m-t-15">  
-                                                                                    <div class="col-lg-12">
-                                                                                        <table class="table table-bordered table-hover dataTable no-footer " id="sample_6" role="grid" aria-describedby="sample_6_info" style="top:5px;" >
-                                                                                            <thead>
-                                                                                                <tr class="trrow">
-                                                                                                    <th>Service</th>
-                                                                                                    <th>Product</th>   
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                <tr role="row">
-                                                                                                    <!--Column: Service-->
-                                                                                                    <td style ="color:blue">
-                                                                                                        Change Oil
-                                                                                                    </td>
-                                                                                                    <!--Column: Product-->
-                                                                                                    <td>
-                                                                                                        <ul style="padding-left: 1.2em;">
-                                                                                                            <li style ="color:blue">Dunlop 1.5mL x 4 pc</li>
-                                                                                                        </ul>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr role="row">
-                                                                                                    <!--Column: Service-->
-                                                                                                    <td style ="color:red">
-                                                                                                        Change Oil
-                                                                                                    </td>
-                                                                                                    <!--Column: Product-->
-                                                                                                    <td>
-                                                                                                        <ul style="padding-left: 1.2em;">
-                                                                                                            <li style ="color:red">Dunlop 1.5mL x 4 pc</li>
-                                                                                                        </ul>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </tbody>  
-                                                                                        </table>
-                                                                                    </div>                      
-                                                                                </div>
-                                                                                <div class="row m-t-10 m-b-20">  
-                                                                                    <div class="col-lg-12">
-                                                                                        <h5>
-                                                                                            <span style="color:gray">Remarks:</span>
-                                                                                            &nbsp;&nbsp;The quick brown fox jumpover the lazy dog.
-                                                                                        </h5>
-                                                                                    </div>               
-                                                                                </div>
-                                                                            </div>                         
-                                                                        </div>    
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>      
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer m-t-10">
-                                        <div class="examples transitions m-t-5">
-                                            <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <!-- END EXAMPLE TABLE PORTLET-->
-                    <!--Button: Back, SAVe-->
+                    <!--Button: Back-->
                     <div class="card-footer bg-black disabled m-t-15">
                         <div class="examples transitions m-t-5 pull-right">
                             <button onclick="window.location='{{ url("/customerinformation") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/customerinformation">
@@ -334,6 +180,171 @@
                 </div>
             </div>
         </div>
+
+        <!-- BACK JOB -->
+        <div class="modal" tabindex="-1" id="modal-1" role="dialog"
+                     aria-labelledby="modalLabelfade" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <h4 class="modal-title text-white" id="modalLabelfade">Back Job</h4>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-bordered table-hover dataTable no-footer" id="backjob" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Back Job ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Job Order ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Vehicle</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Status</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 50%;"><b>Time</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($showbackjob as $backjob)
+                                    <tr role="row" class="even">
+                                        <td class="center">{{$backjob->BackJobID}}</td>
+                                        <td class="center">{{$backjob->JobOrderID}}</td>
+                                        <td class="center">
+                                        @foreach($automobiles as $automobile)
+                                            @foreach($showjoborder as $joborder)
+                                                @if($backjob->JobOrderID == $joborder->JobOrderID)
+                                                    @if($joborder->AutomobileID == $automobile->AutomobileID)
+                                                        {{$automobile->PlateNo}}
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                        </td>
+                                        <td>{{$backjob->Status}}</td>
+                                        <td></td>
+                                        <td>  
+                                            <div class="examples transitions m-t-5">
+                                                <!--VIEW BUTTON-->
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/updatejoborder/" >
+                                                <i class="fa fa-eye text-white"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn  btn-success" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- BACK JOB -->
+            <!--JOB ORDERS -->
+                <div class="modal" tabindex="-1" id="modal-3" role="dialog"
+                     aria-labelledby="modalLabelfade" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h4 class="modal-title text-white" id="modalLabelfade">Job Orders</h4>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-bordered table-hover dataTable no-footer" id="joborder" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Job Order ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Start Date</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>End Date</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Status</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($showjoborder as $jo)
+                                    <tr role="row" class="even">
+                                        <td class="center">
+                                            JO00{{$jo->JobOrderID}}
+                                        </td>
+                                        <td class="center">
+                                            {{$jo->JobStartDate}}
+                                        </td>
+                                        <td class="center">
+                                            {{$jo->JobEndDate}}
+                                        </td>
+                                        <td>{{$jo->Status}}</td>
+                                        <td>  
+                                            <div class="examples transitions m-t-5">
+                                                <!--VIEW BUTTON-->
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/viewjoborder/{{$jo->JobOrderID}}" >
+                                                <i class="fa fa-eye text-white"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- JOB ORDERS -->
+        <!--ESTIMATES -->
+                <div class="modal" tabindex="-1" id="modal-2" role="dialog"
+                     aria-labelledby="modalLabelfade" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h4 class="modal-title text-white" id="modalLabelfade">Estimates</h4>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-bordered table-hover dataTable no-footer" id="estimate" role="grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Date</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Estimate ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Job Order ID</b></th>
+                                        <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 20%;"><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($showestimate as $estimate)
+                                    <tr role="row" class="even">
+                                        <td class="center">
+                                        {{$estimate->created_at}}
+                                        </td>
+                                        <td class="center">
+                                        {{$estimate->EstimateID}}
+                                        </td>
+                                        <td>
+                                        @foreach($showjoborder as $joborder)
+                                            @if($estimate->EstimateID == $joborder->EstimateID)
+                                                {{$joborder->JobOrderID}}
+                                            @endif
+                                        @endforeach
+                                        </td>
+                                        <td>  
+                                            <div class="examples transitions m-t-5">
+                                                <!--VIEW BUTTON-->
+                                                <a class="btn btn-primary hvr-float-shadow" data-background="#00C0EF" data-color="white" target="_blank" href="/viewestimates/{{$estimate->EstimateID}}" >
+                                                <i class="fa fa-eye text-white"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- ESTIMATES -->
         <!-- /.inner -->
     </div>
         <!-- /.outer -->
@@ -357,7 +368,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
-<script>
+<!-- <script>
      function showHistory(automobileid){
         $.ajax({
             type: "GET",
@@ -369,7 +380,35 @@
         });
         $('#viewModal').modal('show');
     }
+</script> -->
+
+<script>
+$(document).ready(function() {
+    $('#joborder').DataTable({});
+} );
+
 </script>
 
+<script>
+$(document).ready(function() {
+    $('#estimate').DataTable({});
+} );
+
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#backjob').DataTable({});
+} );
+</script>
+
+<script>
+$(document).ready(function(){
+    $('modal-3').on('click', '.AutomobileID', function(){
+        document.getElementById("AutomobileID").value = $(this).attr('data-id');
+        console.log($(this).attr('data-id'));
+    });
+});
+</script>
 
 @stop
