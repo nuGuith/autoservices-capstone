@@ -319,6 +319,7 @@
                                                             <h5 id="totalprodsales" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                             <h5 id="totallaborcost" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
                                                             <h5 id="totalamountdue" style="padding-top:5px;">PHP&nbsp;&nbsp;&nbsp;<span style="color:red">&nbsp;&nbsp;&nbsp;0.00</span></h5>
+                                                            <input type="hidden" id="totalamtdue" name="totalamtdue">
                                                         </div>
                                                     </td>
                                                     <td>
@@ -475,7 +476,7 @@
                                <div class="examples transitions m-t-5 pull-right">
                                     <button type="button" onclick="window.location='{{ url("/backjob") }}'" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn gray"  href="/backjob"><i class="fa fa-arrow-left" >
                                     </i>&nbsp;Back</button>  
-                                    <button class="btn btn-success source success_clr m-l-0 hvr-float-shadow adv_cust_mod_btn" style ="width: 80px;" type="button"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
+                                    <button id="btnSave" class="btn btn-success" style ="width: 80px;" type="button"><i class="fa fa-save text-white" ></i>&nbsp; Save</button>
                                 </div>
                             </div>
                     {!!Form::close()!!}
@@ -512,9 +513,28 @@
 <script>
 $(document).ready(function(){
     $('#joborders option[value="0"]').prop("disabled", true);
+    $('#services option[value="0"]').prop("disabled", true);
     $('#customers option[value="0"]').prop("disabled", true);
     $('#automobiles option[value="0"]').prop("disabled", true);
     var joborderID = 0, ctr = 0, selectedCtr = 0, currMileage = 0;
+
+    $('#btnSave').on('click', function(){
+        var formData = $('#backjobForm').serialize();
+        //alert(formData);
+        $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: '/addbackjob',
+                data: formData,
+                type: 'POST',
+                success: function(data) {
+                    alert("Success.");
+                    window.location.href = "/backjob";
+                },
+                fail: function(data) {
+                    alert("Failed to save data.");
+                }
+            });
+    });
 
     $('#moveTo2').on('click', function(){
         selectedCtr = 0
@@ -649,7 +669,7 @@ $(document).ready(function(){
             if(!hasWarranty) ServiceName = "<del>" + ServiceName + "</del>";
 
             newServiceRow = $("<tr class='service' id='"+ ServiceID +"' name='"+ ServicePerformedID +"' data-servicecategoryid='"+ CategoryID +"'  data-servicecategoryname='"+ CategoryName +"'>");
-            cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ ServiceName +'<br><input type="hidden" id="'+ ServicePerformedID +'" name="serviceperformed[]" value="'+ ServicePerformedID +'"><input type="hidden" id="include" name="include[]" value="True"></td>';
+            cols += '<td style="border-right:none !important"> <span style="color:red">Service:</span><br>'+ ServiceName +'<br><input type="hidden" id="'+ ServicePerformedID +'" name="serviceperformed[]" value="'+ ServicePerformedID +'"><input type="hidden"  name="parentservice[]" value="'+ ServiceID +'"><input type="hidden" id="include" name="include[]" value="True"></td>';
             cols += '<td style="border-right:none !important"><a></a></td>';
             cols += '<td style="border-right:none !important"></td>';
             cols += '<td style="border-right:none !important"><input type="text" style="width:75px; text-align:right;" id="laborcost" name="labor" placeholder="Labor" class="form-control" value="'+ LaborCost +'" readonly></td>';
@@ -680,7 +700,7 @@ $(document).ready(function(){
 
                     newProductRow = $("<tr class='product' data-productid='"+ ProductID +"' id='svc"+ ServiceID +"'>");
                     cols = "";
-                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ ProductID +'"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="'+ ProductUsedID +'"><input type="hidden" style="width:50px; text-align:right;" name="prodservperf[]" placeholder="" class="form-control" value="'+ ServicePerformedID +'"></td>';
+                    cols += '<td style="border-right:none !important"><input type="hidden" style="width:50px; text-align:right;" name="product[]" placeholder="" class="form-control" value="'+ ProductID +'"><input type="hidden" style="width:50px; text-align:right;" name="productused[]" placeholder="" class="form-control" value="'+ ProductUsedID +'"><input type="hidden" style="width:50px; text-align:right;" name="serviceperformedid[]" placeholder="" class="form-control" value="'+ ServicePerformedID +'"></td>';
                     if(!hasWarranty)
                         cols += '<td style="border-right:none !important"><input type="number" min="1" style="width:55px;text-align:center;" id="quantity" name="quantity[]" placeholder="Quantity" value="'+ Quantity +'" data-serviceid="'+ ServiceID +'" class="form-control" readonly></td>';
                     else

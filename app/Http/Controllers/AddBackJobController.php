@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\JobOrder;
+use App\BackJob;
 use App\Estimate;
 use App\Customer;
 use App\Automobile;
+use App\ServiceBackjob;
 use App\ServiceBay;
 use App\PersonnelHeader;
 use App\Inspection;
@@ -126,9 +128,59 @@ class AddBackJobController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
+        BackJob::create([
+            'JobOrderID' => ($request->joborderid),
+            'ServiceBayID' => ($request->servicebayid),
+            'UserID' => 1,
+            'Status' => "Pending",
+            'Cost' => ($request->totalamtdue)
+        ]);
 
+        $backjob = BackJob::orderBy('backjobid', 'desc')->first();
+
+        $services = $request->serviceperformed;
+        $parentservice = $request->parentservice;
+        $products = $request->product;
+        $productused = $request->productused;
+        $quantity = $request->quantity;
+        $untprice = $request->unitprice;
+        $laborcost = $request->laborcost;
+        $serviceid= $request->serviceperformedid;
+
+        //if (is_array($services) || is_object($services))
+        foreach($services as $svckey=>$service){
+            
+            $subTotal = 0;
+            /* $svcprc = DB::table('service_price')->where(['ServiceID' => $service, 'ModelID' => $request->modelid])->first(); */
+            ServiceBackjob::create([
+                    'ServicePerformedID' => $service,
+                    'BackJobID' => $backjob->BackJobID,
+                    'Cost' => (float) $laborcost[$svckey]
+                ]);
+            
+            $svcperf = DB::table('service_backjob')->orderBy('servicebackjobid', 'desc')->first();
+
+            foreach($serviceid as $key=>$svcid){
+                if ($serviceid[$key] == $parentservice[$svckey]){
+                    if ($quantity[$key] < 1 || $quantity[$key] == null || is_nan($quantity[$key]))
+                        $quantity[$key] = 1;
+                        
+                    $subTotal = (float) $untprice[$key] * (float) $quantity[$key];
+                    ProductBackJob::create([
+                        'BackJobID' => $request->BackJobID,
+                        'ProductUsedID' => $productused[$key],
+                        'ServicePerformedID' => $serviceid[$key],
+                        'Quantity' => $quantity[$key],
+                        'Cost' => $subTotal
+                    ]);
+                }
+            }
+        }
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Record saved successfully!',
+        );
+        return response()->json(compact('response'));
     }
 
     /**

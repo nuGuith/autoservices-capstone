@@ -1199,17 +1199,53 @@ $(document).ready(function () {
         $('table tr').each( function() { if ($(this).attr('class') == 'service') ++serviceCtr; });
     }
 
+    $("#btnJustSave").on("click", function (e) {
+
+    /* $('table select').each(function(){
+        $(this).prop("disabled", false);
+    }); */
+    $('#automobile_models').prop("disabled", false);
+    $('#plateno').prop("disabled", false);
+
+    var formData = $('#jobForm').serialize();
+    //alert(formData);
+    //alert(estimateID);
+
+    if(routeID == 0 || routeID == null){
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: '/addjoborder',
+            data: formData,
+            type: 'POST',
+            success: function(data) { 
+                $('#automobile_models').prop("disabled", true);
+                $('#plateno').prop("disabled", true);    
+                /* alert("Yey."); */
+                routeID = 1;
+                window.location.href = '/joborder';
+            },
+            fail: function(data) {
+                alert("Failed to save data.");
+            }
+        });
+    }
+    else{
+        window.location.href = "/joborder";
+    }
+    });
+
+
 
     $("#btnSaveProceed").on("click", function (e) {
 
-        $('table select').each(function(){
+        /* $('table select').each(function(){
             $(this).prop("disabled", false);
-        });
+        }); */
         $('#automobile_models').prop("disabled", false);
         $('#plateno').prop("disabled", false);
 
         var formData = $('#jobForm').serialize();
-        alert(formData);
+        //alert(formData);
         //alert(estimateID);
 
         if(routeID == 0 || routeID == null){
@@ -1221,10 +1257,10 @@ $(document).ready(function () {
                 success: function(data) { 
                     $('#automobile_models').prop("disabled", true);
                     $('#plateno').prop("disabled", true);    
-                    alert("Yey.");
+                    /* alert("Yey."); */
                     routeID = 1;
                     redirect = data.newRoute;
-                    window.location.href = "/joborder";
+                    window.location.href = redirect;
                 },
                 fail: function(data) {
                     alert("Failed to save data.");
@@ -1393,7 +1429,7 @@ $(document).ready(function () {
         $('table td select').each(function(){
             if ($(this).attr('id') == 'personnelperformed'){ 
                 $(this).chosen();
-                $(this).prop("disabled", true);
+                //$(this).prop("disabled", true);
                 $("#personnelperformed option[value='0']").prop("disabled", true);
                 if(selectedMechIndex > 0){
                     $(this).val(mechanicID);
@@ -1652,7 +1688,7 @@ $(document).ready(function () {
             cols += '<td style="border-right:none !important"><a></a></td>';
             cols += '<td style="border-right:none !important"></td>';
             cols += '<td style="border-right:none !important"><input type="text" style="width:75px; text-align:right;" id="laborcost" name="labor" placeholder="Labor" class="form-control" value="'+ LaborCost +'" readonly></td>';
-            cols += '<td  style="border-right:none !important"><input type="hidden" name="personnelperformed[]"><select id="personnelperformed" name="personnelperformed[]" class="form-control chzn-select" style="width:110px;">@foreach($mechanic as $id => $name)<option value="{{$id}}">{{$name}}</option> @endforeach</select></td>';
+            cols += '<td  style="border-right:none !important"><select id="personnelperformed" name="personnelperformed[]" class="form-control chzn-select" style="width:110px;">@foreach($mechanic as $id => $name)<option value="{{$id}}">{{$name}}</option> @endforeach</select></td>';
             cols += '<td style="border-right:none !important"><input type="hidden" style="width:60px;" id="unitprice" class="form-control" value="'+ LaborCost +'"></td>';
             cols += '<td style="border-right:none !important"><input type="text" style="width:80px;text-align: right"  id="totalprice" name="laborcost[]" placeholder=".00" class="form-control" value="'+ LaborCost +'" readonly></td>';
             cols += '<td style="border-left:none !important"><center><input class="service" style="-webkit-transform: scale(1.7);" data-serviceid="'+ ServiceID +'" id="svcInclude" name="include[]" type="checkbox" checked="true" value="True"><button type="button" id="svc" name="'+ EstimatedTime +'" class="btnDel btn btn-danger hvr-float-shadow" style="display:none;"></button></td>';

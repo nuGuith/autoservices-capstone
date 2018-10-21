@@ -56,7 +56,7 @@
         <!-- .navbar -->
         <nav class="navbar navbar-static-top" style="bottom: 2px">
             <div class="container-fluid m-0" >
-            <a class="navbar-brand float-left text-center " href="{{URL::asset('/')}}" style="margin-top: 2px;">
+                <a class="navbar-brand float-left text-center " href="{{URL::asset('/home')}}" style="margin-top: 2px;">
                     <div class="row">&nbsp;&nbsp;&nbsp;<i class="fa fa-car text-white"></i><h4 class="text-white">&nbsp;&nbsp;JPR AUTOPRECISION </h4></div>
                 </a>
                 <div class="menu">
@@ -80,18 +80,18 @@
                         <div class="user-settings no-bg">
 
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown"> 
-                                <img src="{{URL::asset('/img/user-admin.png')}}" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;Admin&nbsp;</strong>
+                                <img src="{{URL::asset('/img/user-admin.png')}}" class=" media-object img-thumbnail admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>&nbsp;&nbsp;{{ auth()->user()->name }}&nbsp;</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
 
                             <div class="dropdown-menu admire_admin">
                                 <a class="dropdown-item title" href="">
-                                    Admin</a>
+                                Admin/ {{ auth()->user()->name }}</a>
                                 <a class="dropdown-item" href="{{URL::asset('edit_user.html')}}"><i class="fa fa-cogs"></i>
                                     Account Settings</a>
                                 <a class="dropdown-item" href="{{URL::asset('lockscreen.htm')}}l"><i class="fa fa-lock"></i>
                                     Lock Screen</a>
-                                <a class="dropdown-item" href="{{URL::asset('login.html')}}"><i class="fa fa-sign-out"></i>
+                                <a class="dropdown-item" href="{{route('logout')}}"><i class="fa fa-sign-out"></i>
                                     Log Out</a>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                     <a class="user-link" href="">
                         <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture"
                              src="{{URL::asset('img/user-admin.png')}}">
-                        <p class="text-white user-info"><big>WELCOME,&nbsp;&nbsp;Admin!</big></p>
+                        <p class="text-white user-info"><big>WELCOME,&nbsp;</big>&nbsp;{{ auth()->user()->name }}!</p>
                     </a>
                 </div>
                 <br>
@@ -133,8 +133,8 @@
                 <!-- #menu -->
                 <!-- #menu -->
             <ul id="menu" class="bg-blue dker">
-                <li {!! (Request::is('/') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
-                    <a href="/" style="padding-left:10%; padding-right: 10%;">
+                <li {!! (Request::is('/home') ? 'class="active"' : '') !!} style="border-radius: 4px; margin: 0% 5% 0%;">
+                    <a href="/home" style="padding-left:10%; padding-right: 10%;">
                         <i class="fa fa-home"></i>
                         <span class="link-title">&nbsp;Dashboard</span>
                     </a>

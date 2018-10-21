@@ -7,11 +7,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\JobOrder;
+use App\Customer;
+use App\Automobile;
+use App\ServiceBay;
+use App\ServicePerformed;
+use App\ProductsUsed;
 use Validator;
 use Session;
 use Redirect;
-use Tables;
-use DateTables;
 
 class UpdateBackJobController extends Controller
 {
@@ -20,10 +24,65 @@ class UpdateBackJobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-       
-        return view ('backjob.updatebackjob');
+        $joborder = DB::table('job_order_backjob as bj')
+            ->join('job_order as jo', 'bj.joborderid', '=', 'jo.joborderid')
+            ->where(['bj.backjobid' => $id, 'bj.isActive' => 1])
+            ->first();
+        $customer = DB::table('customer')
+                    ->where('customerid',$joborder->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->first();
+        $model = Automobile::findOrFail($joborder->AutomobileID);
+        
+        $automobile = DB::table('automobile_model AS md')
+                    ->where('md.ModelID', $model->ModelID)
+                    ->join('automobile_make AS mk', 'md.makeid', '=', 'mk.makeid')
+                    ->join('automobile AS auto', 'md.modelid', '=', 'auto.modelid')
+                    ->select('mk.Make', 'md.Model', 'auto.CustomerID', 'auto.Transmission', 'auto.PlateNo', 'auto.Mileage', 'auto.ChassisNo')
+                    ->first();
+        $customer = DB::table('customer')
+                    ->where('customerid', $model->CustomerID)
+                    ->select(DB::table('customer')->raw("CONCAT(firstname, middlename, lastname)  AS FullName"), 'ContactNo','CompleteAddress', 'EmailAddress', 'PWD_SC_No')
+                    ->first();
+        $servicebay = ServiceBay::findOrFail($joborder->ServiceBayID);
+
+        $serviceperformed = DB::table('service_performed AS sp')
+            ->join('service AS svc', 'sp.serviceid', '=', 'svc.serviceid')
+            ->where(['sp.joborderid' => $id, 'sp.isActive' => 1])
+            ->select('sp.*', 'svc.*')
+            ->get();
+        
+        $stepcounts =  DB::table('service AS svc')
+            ->leftJoin('service_steps AS ss', 'svc.serviceid', '=', 'ss.serviceid')
+            ->where(['svc.isActive' => 1 ])
+            ->groupBy('ss.serviceid')
+            ->select('svc.serviceid', DB::raw('count(ss.step) as StepCount'))
+            ->get();
+
+        $productused = DB::table('product_used AS pu')
+            ->join('product as pr', 'pu.productid', '=', 'pr.productid')
+            ->where(['estimateid' => $joborder->EstimateID, 'pu.isActive' => 1])
+            ->select('pu.*', 'pr.*')
+            ->get();
+
+        $payments = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+
+            ->select('p.*', 'jo.totalamountdue')
+            ->get();
+
+        $totals = DB::table('payment as p')
+            ->join('job_order as jo', 'p.joborderid', '=', 'jo.joborderid')
+            ->select(DB::table('payment')->raw("SUM(totalpayment) as total"))
+            ->where(['p.isActive' => 1, 'p.joborderid' => $id])
+            ->get();
+
+        //dd(compact('joborder','customer','automobile','servicebay', 'serviceperformed', 'stepcounts', 'productused', 'payments', 'totals'));
+
+        return view ('backjob.updatebackjob',compact('joborder','customer','automobile','servicebay', 'serviceperformed', 'stepcounts', 'productused', 'payments', 'totals'));
     }
 
     /**
@@ -69,6 +128,24 @@ class UpdateBackJobController extends Controller
         
     }
 
+    public function getSteps($id)
+    {
+        $steps = DB::table('service_steps')
+            ->where(['serviceid' => $id,'isActive' => 1 ])
+            ->get();
+        $service = DB::table('service')->where('serviceid', $id)->first();
+        return response()->json(compact('steps', 'service'));
+    }
+
+    public function getProducts($id)
+    {
+        $productused = DB::table('product as pr')
+            ->join('product_used as pu', 'pr.productid', '=', 'pu.productid')
+            ->where(['pu.serviceperformedid' => $id,'pu.isActive' => 1 ])
+            ->get();
+        return response()->json(compact('productused'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -81,6 +158,74 @@ class UpdateBackJobController extends Controller
        
     }
 
+    public function updateJob(Request $request)
+    {
+        try{
+            DB::table('service_performed')
+                ->where('serviceperformedid', $request->serviceperformedid)
+                ->update(['CurrentStep' => $request->updatestep, 'EndDate' => $request->enddate]);
+            
+            $productusedid = $request->productusedid;
+            $quantityused = $request->quantityused;
+
+            foreach($productusedid as $key=>$pu){
+                if(!(is_null($quantityused[$key]))){
+                    DB::table('product_used')
+                        ->where('productusedid', $productusedid[$key])
+                        ->update(['quantityused' => $quantityused[$key]]);
+                }
+            }
+
+        }catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
+
+    public function setStartDate(Request $request){
+        try{
+            DB::table('service_performed')
+                ->where('serviceperformedid', $request->serviceperformedid)
+                ->update(['startdate' => date('Y-m-d H:i:s')]);
+        }catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
+
+    public function updateJobOrder(Request $request)
+    {
+        try{
+            DB::table('job_order')
+                ->where('joborderid', $request->joborderid)
+                ->update(['Status' => ($request->jobstatus), 'JobStartDate' => ($request->jobstartdate)]);
+        }catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
+
+    public function resetJobOrder(Request $request){
+        try{
+            JobOrder::where('JobOrderID', $request->joborderid)
+                ->update(['Status' => 'Pending', 'JobStartDate' => null, 'JobEndDate' => null]);
+            ServicePerformed::where('JobOrderID', $request->joborderid)
+                ->update(['CurrentStep' => 0, 'StartDate' => null, 'EndDate' => null]);
+            ProductsUsed::where('joborderid', $request->joborderid)
+                ->update(['quantityused' => 0]);
+        }catch(\Illuminate\Database\QueryException $e){
+            DB::rollBack();
+            $errors = $e->getMessage();
+            return response()->json(compact('errors'));
+        }
+        return response()->json(compact('response'));
+    }
     /**
      * Remove the specified resource from storage.
      *

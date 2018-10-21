@@ -1,21 +1,29 @@
 @extends('layout.master') <!-- Include MAster PAge -->
 @section('Title','Job Order Report') <!-- Page Title -->
 @section('content')
+<link type="text/css" rel="stylesheet" href="{{ asset('vendors/sweetalert/css/sweetalert2.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/sweet_alert.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/sweetalert/css/sweetalert2.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/sweet_alert.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/animate/css/animate.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/hover/css/hover-min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/wow/css/animate.css') }}"/>
 
-    <link type="text/css" rel="stylesheet" href="vendors/animate/css/animate.min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/hover/css/hover-min.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/wow/css/animate.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/tooltipster/css/tooltipster.bundle.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/tipso/css/tipso.min.css') }}">
 
-    <link type="text/css" rel="stylesheet" href="vendors/tooltipster/css/tooltipster.bundle.min.css">
-    <link type="text/css" rel="stylesheet" href="vendors/tipso/css/tipso.min.css">
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/animations.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/portlet.css') }}"/>
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/animate/css/animate.min.css') }}" />
+
+    <!--plugin syles-->
+    <link type="text/css" rel="stylesheet" href="vendors/inputlimiter/css/jquery.inputlimiter.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/jquery-tagsinput/css/jquery.tagsinput.css" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendors/daterangepicker/css/daterangepicker.css')}}" />
+    <link type="text/css" rel="stylesheet" href="vendors/datepicker/css/bootstrap-datepicker.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/bootstrap-switch/css/bootstrap-switch.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendors/jasny-bootstrap/css/jasny-bootstrap.min.css" />
     <!-- end of plugin styles -->
-    <link type="text/css" rel="stylesheet" href="css/pages/animations.css"/>
-    <link type="text/css" rel="stylesheet" href="css/pages/portlet.css"/>
-    <link type="text/css" rel="stylesheet" href="vendors/daterangepicker/css/daterangepicker.css" />
 
         <!-- CONTENT -->
 <div id="content" class="bg-container">
@@ -106,31 +114,32 @@
 
 
 <!-- global scripts sweet alerts-->
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
-<script type="text/javascript" src="vendors/sweetalert/js/sweetalert2.min.js"></script>
-<script type="text/javascript" src="js/pages/sweet_alerts.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/components.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/sweetalert/js/sweetalert2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/sweet_alerts.js') }}"></script>
 <!-- end of plugin scripts -->
 
 <!-- global scripts animation-->
-<script type="text/javascript" src="vendors/snabbt/js/snabbt.min.js"></script>
-<script type="text/javascript" src="vendors/wow/js/wow.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendors/snabbt/js/snabbt.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/wow/js/wow.min.js') }}"></script>
 <!-- end of plugin scripts -->
 <script>
     new WOW().init();
 </script>
 
-<script type="text/javascript" src="vendors/tooltipster/js/tooltipster.bundle.min.js"></script>
-<script type="text/javascript" src="vendors/tipso/js/tipso.min.js"></script>
-<script type="text/javascript" src="js/pages/tooltips.js"></script>
+<script type="text/javascript" src="{{ asset('vendors/tooltipster/js/tooltipster.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/tipso/js/tipso.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/tooltips.js') }}"></script>
 
 
 <!-- global scripts modals-->
-<script type="text/javascript" src="js/pages/modals.js"></script>
+<script type="text/javascript" src="{{ asset('js/pages/modals.js') }}"></script>
 <!--End of global scripts-->
 
-<script type="text/javascript" src="js/components.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="{{URL::asset('vendors/switchery/js/switchery.min.js')}}"></script>
+<script type="text/javascript" src="js/pages/radio_checkbox.js"></script>
 <!-- end of global scripts-->
 <!-- plugin scripts -->
 <script type="text/javascript" src="vendors/jquery.uniform/js/jquery.uniform.js"></script>
@@ -154,6 +163,7 @@
 <!--end of plugin scripts-->
 <script type="text/javascript" src="js/form.js"></script>
 <script type="text/javascript" src="js/pages/datetime_piker.js"></script>
+<script type ="text/javascript" src="vendors/moment/js/moment.min.js"></script>
 
 <script>
     $(function() {
@@ -164,37 +174,15 @@
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         
-        var startDate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
-        var endDate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
-
-        alert(startDate);
-        alert(endDate);
-
-        if (endDate == startDate)
+        var startdate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var enddate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            
+        if (enddate == startdate)
             $('#reportdate').text(""+start.format('MMMM D, YYYY'));
         else
             $('#reportdate').text(""+start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY'));
     }
 
-    $.ajax({
-        type: "GET",
-        url: "/joborder",
-        data: {
-            'startDate' :  startDate,
-            'endDate' : endDate
-        }
-        }).done(function(data) {
-            var table = $('#editable_table').DataTable({        
-                "aaData": data,
-                destroy: true,
-                "columns": [
-                    { "data" : "JobOrderID" },
-                    { "data" : "FirstName" },
-                    { "data" : "JODate" },
-                    { "data" : "TotalAmountDue" }  
-                ]
-            });
-    });
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
@@ -206,8 +194,9 @@
         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
-
+    
     cb(start, end);
+
 });
 </script>
 

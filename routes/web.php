@@ -10,14 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Auth::routes();
 
-
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
+Route::group(['middleware'=>['auth', 'Role:10']], function () {
 //Dashboard
-Route::get('/','DashboardIndexController@index');
+Route::get('/home','DashboardIndexController@index');
 
 //Maintenance - Vehicle Type
 Route::resource('vehicletype','VehicleTypeController');
@@ -290,3 +288,9 @@ Route::get('/queries', 'QueriesController@index');
 Route::get('/report-jobordersales', 'PDFController@jobordersales');
 Route::get('/report-sales', 'PDFController@sales');
 Route::get('/report-netsales', 'PDFController@netsales');
+
+});
+
+Route::get('/', function () {
+    return view('auth.login');
+});

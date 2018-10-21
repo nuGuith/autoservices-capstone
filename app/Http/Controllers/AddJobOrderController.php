@@ -488,11 +488,9 @@ class AddJobOrderController extends Controller
                 
                 $services = $request->service;
                 $temp  = $request->personnelperformed;
-                $ctr = 0;
                 foreach($temp as $key=>$t)
                     if(!(is_null($t))){
-                        $personnelperf[$ctr] = $temp[$key];
-                        ++$ctr;
+                        $personnelperf[] = $temp[$key];
                     }
 
                 $products = $request->product;
@@ -554,7 +552,7 @@ class AddJobOrderController extends Controller
             }
 
             DB::commit();
-            $newRoute = "/joborder";
+            $newRoute = "/updatejoborder/" . $jo->JobOrderID;
         }catch(\Illuminate\Database\QueryException $e){
             DB::rollBack();
             $err = $e->getMessage();
@@ -566,7 +564,7 @@ class AddJobOrderController extends Controller
             'msg' => 'Record saved successfully!',
         );
         //return redirect('/joborder');
-        return response()->json(compact('response'));
+        return response()->json(compact('response', 'newRoute'));
     }
 
     /**

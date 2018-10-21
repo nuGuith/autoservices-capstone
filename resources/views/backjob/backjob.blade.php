@@ -75,7 +75,6 @@
                                             <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                                 <thead>
                                                     <tr role="row">
-                                                        
                                                         <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 15%;"><b>Back Job ID</b></th>
                                                         <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1" style="width: 25%;"><b>Job Order ID</b></th>
                                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1" style="width: 35%;"><b>Customer and Vehicle Information</b></th>
@@ -83,29 +82,27 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach($backjob as $bj)
                                                     <tr role="row" class="even">
-                                                        
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td>BJ000{{$bj->BackJobID}}</td>
+                                                        <td>JO000{{$bj->JobOrderID}}</td>
                                                         <td>
                                                             <ul align="left">
-                                                                <li>Customer Name:</li>
-                                                                <li>Plate Number:</li>
+                                                                <li>Customer Name: {{$bj->fullname}}</li>
+                                                                <li>Plate Number: {{$bj->plateno}}</li>
                                                             <ul>
                                                         </td>
                                                         <td>
                                                         <!--VIEW BUTTON-->
-                                                        <button class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View" onclick="window.location.href='/viewbackjob'"  ><i class="fa fa-eye text-white"></i></button>
-
+                                                        <button class="btn btn-primary hvr-float-shadow tipso_bounceIn" data-background=" #6495ED" data-color="white" data-tipso="View" onclick="window.location.href='/viewbackjob/{{$bj->BackJobID}}'"><i class="fa fa-eye text-white"></i></button>
 
                                                         <!--UPDATE BUTTON-->
-                                                        <button class="btn btn-info hvr-float-shadow  tipso_bounceIn" style ="width:;"data-background="blue" data-color="white" data-tipso="Update" onclick="window.location.href='/updatebackjob'"><i class="fa fa-refresh text-white"></i>
+                                                        <button class="btn btn-info hvr-float-shadow  tipso_bounceIn" style ="width:;"data-background="blue" data-color="white" data-tipso="Update" onclick="window.location.href='/updatebackjob/{{$bj->BackJobID}}'"><i class="fa fa-refresh text-white"></i>
                                                         </button>
                                                         
                                                         <!--EDIT BUTTON-->
-                                                        <button name = '' class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" onclick="window.location.href='/editbackjob'"><i class="fa fa-pencil text-white"></i>
+                                                        <button name = '' class="btn btn-success hvr-float-shadow adv_cust_mod_btn tipso_bounceIn" data-background="#3CB371" data-color="white" data-tipso="Edit" onclick="window.location.href='/editbackjob/{{$bj->BackJobID}}'"><i class="fa fa-pencil text-white"></i>
                                                         </button>
-
 
                                                         <!--DELETE BUTTON-->
                                                         <button name = '' class="btn btn-danger hvr-float-shadow warning confirm tipso_bounceIn" onclick="del(this.name);" data-toggle="modal" data-href="#responsive" href="#deleteModal" data-background="#FA8072" data-color="white" data-tipso="Delete"><i class="fa fa-trash text-white"></i>
@@ -114,8 +111,7 @@
                                                         </div>
                                                         </td>
                                                     </tr>
-
-                                                
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>

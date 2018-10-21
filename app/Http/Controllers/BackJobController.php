@@ -22,8 +22,13 @@ class BackJobController extends Controller
      */
     public function index()
     {
-       
-        return view ('backjob.backjob');
+        $backjob = DB::table('job_order_backjob as bj')
+            ->join('job_order as jo', 'bj.joborderid', '=', 'jo.joborderid')
+            ->join('automobile as au', 'jo.automobileid', '=', 'au.automobileid')
+            ->join('customer as cs', 'au.customerid', '=', 'cs.customerid')
+            ->select('au.plateno', 'bj.*', DB::raw("CONCAT(cs.FirstName, ' ', cs.MiddleName, ' ', cs.LastName) as fullname"))
+            ->get();
+        return view ('backjob.backjob', compact('backjob'));
     }
 
     /**

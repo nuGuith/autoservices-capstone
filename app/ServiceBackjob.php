@@ -11,19 +11,11 @@ class ServiceBackjob extends Model
     protected $primaryKey = 'servicebackjobid';
     protected $fillable = [
         'ServicePerformedID',
-        'ServiceWarrantyID',
-        'DateTime',
+        'BackJobID',
+        'PersonnelPerformedID',
         'Cost',
         'Note',
         'isActive'
     ];
-
-    public function serviceperformed() {
-        return $this->belongsTo('App\ServicePerformed','ServicePerformedID');
-    }
-
-    public function servicewarranty() {
-        return $this->hasOne('App\ServiceWarranty','ServiceWarrantyID');
-    }
 
 }

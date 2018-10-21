@@ -67,6 +67,8 @@ class AddEstimatesController extends Controller
 
         $services = Service::orderBy('serviceid', 'desc')
             ->where('isActive', 1)
+            ->groupBy('servicename')
+            ->distinct('servicename')
             ->pluck('servicename', 'serviceid');
 
         $products = Product::orderBy('productid', 'desc')
@@ -300,10 +302,13 @@ class AddEstimatesController extends Controller
 
     public function getProductDetails($id)
     {
-        $product = DB::table('product')
-                    ->where(['productid' => $id, 'isActive' => 1])
-                    ->select('productname','price')
-                    ->first();
+        $product = DB::table('product as pr')
+            ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
+            ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
+            ->join('product_service AS ps', 'pr.productid', 'ps.productid')
+            ->where(['pr.productid' => $id, 'pr.isActive' => 1])
+            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS productname"), 'pr.productid', 'pr.price')
+            ->first();
         return response()->json(compact('product'));
     }
 
