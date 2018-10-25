@@ -293,7 +293,7 @@ class AddEstimatesController extends Controller
             ->join('product_service AS ps', 'pr.productid', 'ps.productid')
             ->orderBy('pr.productid', 'desc')
             ->where(['ps.serviceid' => $id, 'pr.isActive' => 1])
-            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS productname"), 'pr.productid', 'pr.price')
+            ->select(DB::raw("CONCAT('(', pr.partnumber, ') ', pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS productname"), 'pr.productid', 'pr.price')
             ->groupBy('pr.productid')
             ->distinct('pr.productid')
             ->get();
@@ -307,7 +307,7 @@ class AddEstimatesController extends Controller
             ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->join('product_service AS ps', 'pr.productid', 'ps.productid')
             ->where(['pr.productid' => $id, 'pr.isActive' => 1])
-            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS productname"), 'pr.productid', 'pr.price')
+            ->select(DB::raw("CONCAT('(', pr.partnumber, ') ', pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS productname"), 'pr.productid', 'pr.price')
             ->first();
         return response()->json(compact('product'));
     }

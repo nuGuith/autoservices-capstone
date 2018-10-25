@@ -21,6 +21,7 @@ class Product extends Model
         'size',
         'warrantydurationmode',
         'warrantyduration',
+        'warrantymileage',
         'isActive'
     ];
 

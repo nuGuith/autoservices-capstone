@@ -75,8 +75,8 @@
                             <table class="table table-bordered table-hover table-advance dataTable no-footer" id="editable_table" role="grid">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting wid-25" style="width: 25px;"><b>Product Name</b></th>
-                                        <th class="sorting wid-20" style="width: 25px;"><b>Product Type</b></th>
+                                        <th class="sorting wid-25" style="width: 25px;"><b>Part Number</b></th>
+                                        <th class="sorting wid-20" style="width: 25px;"><b>Product Name</b></th>
                                         <th class="sorting wid-20" style="width: 25px;"><b>Product Brand</b></th>
                                         <th class="sorting wid-20" style="width: 25px;"><b>Size</b></th>
                                         <th class="sorting wid-10"  style="width: 15px;"><b>Price</b></th>
@@ -87,8 +87,8 @@
                                 <tbody>
                                     <tr>
                                     @foreach($product as $product)
+                                        <td class="center">{{$product->PartNumber}}</td>
                                         <td>{{$product->ProductName}}</td>
-                                        <td class="center">{{$product->ProductTypeName}}</td>
                                         <td>{{$product->BrandName}}</td>
                                         <td>{{$product->Size}} {{$product->UnitTypeName}}</td>
                                         <td>{{$product->Price}}</td>
@@ -123,9 +123,8 @@
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
 
-                    <!--EDIT MODAL -->
-                    <form method = "POST" action = "/addproduct" id="addprod">
-                        {!! csrf_field() !!}
+                    <!-- ADD MODAL -->
+                    {!! Form::open(array('id' => 'addForm', 'url' => '/addproduct', 'action' => 'ProductController@store', 'method' => 'POST')) !!}
                         <div class="modal fade in " id="addModal" tabindex="-1" role="dialog" aria-hidden="false">
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
@@ -138,55 +137,79 @@
                                     </div>
                                     <div class="modal-body" style="padding-left: 47px;">
                                         <div class="form-group row m-t-5">
-                                            <div class="col-md-11">
-                                                <h5>Product Name: <span style="color: red">*</span></h5>
-                                                <input id="productname" name="productname" type="text" placeholder="Product Name" maxlength="255" class="form-control m-t-10">
+                                            <div id="show-errors" class="col-md-11">
+                                                @if ($errors->add->any())
+                                                    <div class="alert alert-danger">
+                                                        <ul>
+                                                            @foreach ($errors->add->all() as $error)
+                                                                <li>{{ $error }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    <br>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-group row m-t-5">
                                             <div class="col-md-11">
+                                                <h5>Part Number: <span style="color: red">*</span></h5>
+                                                <input id="phones" name="partnumber" type="text" placeholder="Part Number" maxlength="13" class="form-control m-t-10" data-inputmask='"mask": "9 999 999 999"' data-mask value="{{Input::old('partnumber')}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row m-t-5">
+                                            <div class="col-md-11">
+                                                <h5>Product Name: <span style="color: red">*</span></h5>
+                                                <input id="productname" name="productname" type="text" placeholder="Product Name" maxlength="255" class="form-control m-t-10" value="{{Input::old('productname')}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row m-t-5">
+                                            <div class="col-md-5">
+                                                <h5>Brand: <span style="color: red">*</span></h5>
+                                                <p class="m-t-10"></p>
+                                                <select id="brand" name="brand" class=" form-control chzn-select m-t-10">
+                                                    <option disabled selected>Choose Brand</option>
+                                                    @foreach($prodbrand as $key=>$val)
+                                                    @if (Input::old('brand') == $key)
+                                                        <option value="{{ $key }}" selected>{{ $val }}</option>
+                                                    @else
+                                                        <option value="{{ $key }}">{{ $val }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                                <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="brand"></span>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <h5>Product Type: <span style="color: red">*</span></h5>
                                                 <p class="m-t-10"></p>
                                                 <select id="producttype" name="producttype" class=" form-control chzn-select m-t-10" required="">
                                                     <option disabled selected>Choose Product Type</option>
-                                                    @foreach($prodtype as $prodtype)
-                                                    {
-                                                        <option value="{{$prodtype->ProductTypeID}}">{{$prodtype->ProductTypeName}}</option>
-                                                    }
+                                                    @foreach($prodtype as $key=>$val)
+                                                    @if (Input::old('producttype') == $key)
+                                                        <option value="{{ $key }}" selected>{{ $val }}</option>
+                                                    @else
+                                                        <option value="{{ $key }}">{{ $val }}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                                 <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="producttype"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group row m-t-5">
-                                            <div class="col-md-11">
-                                                <h5>Brand: <span style="color: red">*</span></h5>
-                                                <p class="m-t-10"></p>
-                                                <select id="brand" name="brand" class=" form-control chzn-select m-t-10">
-                                                    <option disabled selected>Choose Brand</option>
-                                                    @foreach($prodbrand as $prodbrand)
-                                                    {
-                                                        <option value="{{$prodbrand->ProductBrandID}}">{{$prodbrand->BrandName}}</option>
-                                                    }
-                                                    @endforeach
-                                                </select>
-                                                <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="brand"></span>
-                                            </div>
-                                        </div>
                                         <div class="row m-t-5">
-                                            <div class="form-group col-md-6">
-                                                <h5>Size: <span style="color: red">*</span></h5>
-                                                <input type="number" min="0" step="0.01" id="size" name="size" placeholder="Size" class="form-control m-t-10"/>
-                                            </div>
                                             <div class="form-group col-md-5">
+                                                <h5>Size: <span style="color: red">*</span></h5>
+                                                <input type="number" min="0" step="0.01" id="size" name="size" placeholder="Size" class="form-control m-t-10" value="{{Input::old('size')}}">
+                                            </div>
+                                            <div class="form-group col-md-6">
                                                 <h5>Unit: <span style="color: red">*</span></h5>
                                                 <div class="m-t-10"></div>
                                                     <select id="unit" name="unit" class=" form-control chzn-select m-t-10">
                                                         <option disabled selected>Choose Product Unit</option>
-                                                        @foreach($produnittype as $produnittype)
-                                                        {
-                                                            <option value="{{$produnittype->ProductUnitTypeID}}">{{$produnittype->UnitTypeName}}</option>
-                                                        }
+                                                        @foreach($produnittype as $key=>$val)
+                                                        @if (Input::old('unit') == $key)
+                                                            <option value="{{ $key }}" selected>{{ $val }}</option>
+                                                        @else
+                                                            <option value="{{ $key }}">{{ $val }}</option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                     <span class="form-control-feedback bv-no-label" aria-hidden="true" data-bv-icon-for="unit"></span>
@@ -195,24 +218,23 @@
                                             <div class="form-group row m-t-5">
                                                 <div class="col-md-11">
                                                     <h5>Price: <span style="color: red">*</span></h5>
-                                                    <input type="number" step="0.01" min="0" id="price" name="price" placeholder="Price"class="form-control m-t-10"/>
+                                                    <input type="number" step="0.01" min="0" id="price" name="price" placeholder="Price"class="form-control m-t-10" value="{{Input::old('price')}}">
                                                 </div>
                                             </div>
                                             <div class="row m-t-5">
                                                 <div class="col-md-11">
                                                     <h5>Description: <span style="color: red"></span></h5>
                                                     <p>
-                                                        <input type="text" id="description" name="description" placeholder="Description"class="form-control m-t-10"/>
+                                                        <input type="text" id="description" name="description" placeholder="Description"class="form-control m-t-10" value="{{Input::old('description')}}">
                                                     </p>
                                                 <!--  <input id="serviceid" name="serviceid" type="hidden" value=null> -->
                                                 </div>
                                             </div>
-                                            <br>
                                             <div class="row m-t-5">
                                                 <div class="col-md-6">
                                                     <h5>Warranty: <span style="color: red"></span></h5>
                                                     <p>
-                                                        <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10"/>
+                                                        <input type="text" id="warranty" name="warranty" placeholder="Warranty" class="form-control m-t-10" value="{{Input::old('warranty')}}">
                                                     </p>
                                                 </div>
                                                 <div class="col-md-5">
@@ -230,20 +252,8 @@
                                             <div class="form-group row m-t-5">
                                                 <div class="col-md-11">
                                                     <h5>Warranty(mileage): <span style="color: red"></span></h5>
-                                                    <input type="number" id="warrantymileage" name="warrantymileage" placeholder="Mileage" class="form-control m-t-10"/>
+                                                    <input type="number" id="warrantymileage" name="warrantymileage" placeholder="Mileage" class="form-control m-t-10" value="{{Input::old('warrantymileage')}}">
                                                 </div>
-                                            </div>
-                                            <div id="show-errors">
-                                                @if ($errors->update->any())
-                                                    <div class="alert alert-danger">
-                                                        <ul>
-                                                            @foreach ($errors->update->all() as $error)
-                                                                <li>{{ $error }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                    <br>
-                                                @endif
                                             </div>
                                         </div>
                                         <!--Button: Close and Save -->
@@ -252,7 +262,7 @@
                                                 <button type="button" data-dismiss="modal" class="btn btn-secondary hvr-float-shadow adv_cust_mod_btn">Close</button>
                                             </div>
                                             <div class="examples transitions m-t-5">
-                                                <button type="submit"  class="btn btn-success  source success_clr m-l-10 hvr-float-shadow adv_cust_mod_btn" ><i class="fa fa-save text-white" form ="addprod"></i>&nbsp; Save
+                                                <button type="button" class="btn btn-success warning source cancel_add m-l-10" ><i class="fa fa-save text-white" data-dismiss="modal"></i>&nbsp; Save
                                                 </button>
                                             </div>
                                         </div>
@@ -260,9 +270,9 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- END EDIT MODAL -->
+                        <!-- END ADD MODAL -->
 
-                        <!--EDIT MODAL -->
+                        <!-- EDIT MODAL -->
                         <form method = "POST" action = "/updateproduct" id="updateprod">
                             {!! csrf_field() !!}
                             <div class="modal fade in " id="editModal" tabindex="-1" role="dialog" aria-hidden="false">
@@ -275,8 +285,14 @@
                                                 &nbsp;Edit Product
                                             </h4>
                                         </div>
-                                        <input type = "text" name="ProductIDedit" id ="ProductIDedit" hidden=""> </input>
+                                        <input type = "text" name="ProductIDedit" id ="ProductIDedit" hidden="">
                                         <div class="modal-body" style="padding-left: 47px;">
+                                            <div class="form-group row m-t-5">
+                                                <div class="col-md-11">
+                                                    <h5>Part Number: <span style="color: red">*</span></h5>
+                                                    <input id="phones" name="partnumberedit" type="text" placeholder="Part Number" maxlength="13" class="form-control m-t-10" data-inputmask='"mask": "9 999 999 999"' data-mask value="{{Input::old('partnumber')}}">
+                                                </div>
+                                            </div>
                                             <div class="form-group row m-t-5">
                                                 <div class="col-md-11">
                                                     <h5>Product Name: <span style="color: red">*</span></h5>
@@ -507,6 +523,7 @@
         // alert(data['product'][0]['ProductBrandID']);
         // alert(data['product'][0]['ProductBrandID'])
         $('#ProductIDedit').val(data['product'][0]['ProductID']);
+        $('input[name="partnumberedit"]').val(data['product'][0]['PartNumber']);
         $('#productnameedit').val(data['product'][0]['ProductName']);
         $('#sizeedit').val(data['product'][0]['Size']);
         $('#priceedit').val(data['product'][0]['Price']);

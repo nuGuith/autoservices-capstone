@@ -50,7 +50,7 @@ Route::patch('/productunittype', 'ProductUnitTypeController@delete');
 
 //Maintenance - Product
 Route::get('/product', 'ProductController@index');
-Route::post('/addproduct', 'ProductController@create');
+Route::post('/addproduct', 'ProductController@store');
 Route::get('/RetrieveProduct', 'ProductController@edit');
 Route::post('/updateproduct', 'ProductController@update');
 Route::post('/deleteproduct', 'ProductController@delete');

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
-use App\product;
+use App\Product;
 use Validator;
 use Session;
 use Redirect;
@@ -33,19 +33,16 @@ class ProductController extends Controller
     		->get();
 
     	$prodtype = DB::table('product_type')
-    		->select('*')
     		->where('isActive', '1')
-    		->get();
+    		->pluck('producttypename', 'producttypeid');
 
     	$prodbrand = DB::table('product_brand')
-    		->select('*')
     		->where('isActive', '1')
-    		->get();
+    		->pluck('brandname', 'productbrandid');
 
     	$produnittype = DB::table('product_unit_type')
-			->select('*')
     		->where('isActive', '1')
-    		->get();
+    		->pluck( 'unittypename', 'productunittypeid');
 
     	$prodtype2 = DB::table('product_type')
     		->select('*')
@@ -76,6 +73,7 @@ class ProductController extends Controller
     {
         //
       $productname = $product->input('productname');
+      $partnumber  = $product->input('partnumber');
   		$producttype = $product->input('producttype');
   		$brand       = $product->input('brand');
   		$size        = $product->input('size');
@@ -89,8 +87,19 @@ class ProductController extends Controller
 
   		$date        = date('Y-m-d h:i:s');
 
-		$data = array('ProductTypeID'=>$producttype, 'ProductBrandID'=>$brand, 'ProductUnitTypeID'=>$unit, 'ProductName'=>$productname,
-                  'Description'=>$description, 'Price'=>$price, 'Size'=>$size,'WarrantyDuration'=>$war,'WarrantyDurationMode'=>$WDM, 'WarrantyMileage'=>$mil);
+		$data = array(
+      'ProductTypeID'=>$producttype,
+      'ProductBrandID'=>$brand,
+      'ProductUnitTypeID'=>$unit,
+      'ProductName'=>$productname,
+      'PartNumber'=> $partnumber,
+      'Description'=>$description,
+      'Price'=>$price,
+      'Size'=>$size,
+      'WarrantyDuration'=>$war,
+      'WarrantyDurationMode'=>$WDM,
+      'WarrantyMileage'=>$mil
+    );
 
 		DB::table('product')->insert($data);
 
@@ -110,7 +119,63 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+      $niceNames = [
+          'partnumber' => 'Part Number',
+          'productname' => 'Product Name',
+          'producttype' => 'Product Type',
+          'brand' => 'Product Brand',
+          'size' => 'Size',
+          'unit' => 'Unit',
+          'price' => 'Price'
+      ];
+      $messages = [
+          'required' => 'The :attribute is required',
+          'unique' => 'The :attribute is already taken',
+          'max' => 'The :attribute has over the required maximum length.',
+          'regex' => 'You cannot input special characters' 
+      ];
 
+      $validation = Validator::make($request->all(), [
+          'partnumber' => ['bail', 'required', 'unique:product', 'max:13', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
+          'productname' => ['bail', 'required', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
+          'producttype' => ['bail', 'required', 'max:50', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
+          'brand' => ['bail', 'required', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
+          'size' => ['bail', 'required', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
+          'unit' => ['bail', 'required','regex:/^[^~`!$@#*_={}|\;<>,.?]+/'],
+          'price' => ['bail', 'required', 'regex:/^[^~`!$@#*_={}|\;<>,.?]+/']
+          ], $niceNames);
+      
+      $validation->setAttributeNames($niceNames);
+      if ($validation->fails()){
+          return redirect('product')
+              ->withErrors($validation, 'add')
+              ->withInput();
+      }
+      else{
+          try{
+          DB::beginTransaction();
+          Product::create([
+              'partnumber' => trim($request->partnumber),
+              'productname' => trim($request->productname),
+              'producttypeid' => trim($request->producttype),
+              'productbrandid' => trim($request->brand),
+              'price' => trim($request->price),
+              'size' => trim($request->size),
+              'warrantydurationmode' => trim($request->warranty),
+              'warrantyduration' => trim($request->durationmode),
+              'warrantymileage' => trim($request->warrantymileage)
+          ]);
+          DB::commit();
+          }catch(\Illuminate\Database\QueryException $e){
+                  DB::rollBack();
+                  $err = $e->getMessage();
+                  return redirect('product')
+                      ->withErrors($err, 'add')
+                      ->withInput();
+          }
+          $request->session()->flash('success', 'Record successfully added');
+          return redirect('product');
+      }
     }
 
     /**

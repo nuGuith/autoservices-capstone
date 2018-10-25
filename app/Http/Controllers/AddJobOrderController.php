@@ -130,7 +130,7 @@ class AddJobOrderController extends Controller
             ->join('product_unit_type as pt', 'p.productunittypeid', '=', 'pt.productunittypeid')
             ->orderBy('p.productid', 'desc')
             ->where('p.isActive', 1)
-            ->select(DB::raw("CONCAT(pb.brandname, ' ', p.productname, ' ', p.size, pt.unit) AS fullproductname"), 'p.productid')
+            ->select(DB::raw("CONCAT('(', pr.partnumber, ') ',pb.brandname, ' ', p.productname, ' ', p.size, pt.unit) AS fullproductname"), 'p.productid')
             ->pluck('fullproductname', 'p.productid');
 
         $promos = PromoHeader::orderBy('promoid', 'desc')
@@ -296,7 +296,7 @@ class AddJobOrderController extends Controller
             ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
             ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->where(['estimateid' => $id, 'pu.isActive' => 1])
-            ->select('pu.*', 'pr.*', DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"))
+            ->select('pu.*', 'pr.*', DB::raw("CONCAT('(', pr.partnumber, ') ', pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"))
             ->get();
 
         $vat = DB::table('tax')
@@ -708,7 +708,7 @@ class AddJobOrderController extends Controller
             ->join('product_brand as pb', 'pr.productbrandid', '=', 'pb.productbrandid')
             ->join('product_unit_type as pt', 'pr.productunittypeid', '=', 'pt.productunittypeid')
             ->where(['pr.productid' => $id, 'pr.isActive' => 1])
-            ->select(DB::raw("CONCAT(pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"), 'pr.price')
+            ->select(DB::raw("CONCAT('(', pr.partnumber, ') ', pb.brandname, ' ', pr.productname, ' ', pr.size, pt.unit) AS fullproductname"), 'pr.price')
             ->first();
         return response()->json(compact('product'));
     }
